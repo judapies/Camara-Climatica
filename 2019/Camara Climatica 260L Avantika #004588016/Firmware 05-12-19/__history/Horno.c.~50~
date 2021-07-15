@@ -1,0 +1,1271 @@
+#include <18F4685.h>
+#device adc=10
+#fuses HS,WDT8192,NOPROTECT,NOLVP,NODEBUG,NOSTVREN,NOPUT,NOCPD,NOWRT,NOIESO,NOFCMEN,NOPBADEN,NOWRTC,NOWRTB,NOEBTR,NOEBTRB,NOCPB,NOXINST,NOLPT1OSC,NOMCLR
+#use delay(clock=20000000)
+#use rs232(baud=9600, xmit=PIN_C6, rcv=PIN_C7, bits=8, parity=N)
+#include <DS1302.c>
+#include <math.h>
+
+// Definición de teclado - NO
+#define   UP            !input(PIN_B0)
+#define   DOWN          !input(PIN_B1)
+#define   RIGHT         !input(PIN_B2)
+#define   LEFT          !input(PIN_B3)
+
+#define   DOOR          !input(PIN_B4)
+#define   TERM          !input(PIN_B5)
+#define   LEVEL         !input(PIN_B6)
+
+
+// Definición de Salidas
+#define   Buzzer_on         output_bit(PIN_D7,1)
+#define   Buzzer_off        output_bit(PIN_D7,0)
+#define   SSR_on            output_bit(PIN_C0,1)
+#define   SSR_off           output_bit(PIN_C0,0)
+#define   SSR_on            output_bit(PIN_C1,1)
+#define   SSR_off           output_bit(PIN_C1,0)
+#define   SSR_on            output_bit(PIN_C2,1)
+#define   SSR_off           output_bit(PIN_C2,0)
+#define   Rele1_on          output_bit(PIN_C3,1)
+#define   Rele1_off         output_bit(PIN_C3,0)
+#define   Rele2_on          output_bit(PIN_D0,1)
+#define   Rele2_off         output_bit(PIN_D0,0)
+#define   Rele3_on          output_bit(PIN_D1,1)
+#define   Rele3_off         output_bit(PIN_D1,0)
+#define   Rele4_on          output_bit(PIN_D2,1)
+#define   Rele4_off         output_bit(PIN_D2,0)
+#define   Rele5_on          output_bit(PIN_D3,1)
+#define   Rele5_off         output_bit(PIN_D3,0)
+#define   Rele6_on          output_bit(PIN_C4,1)
+#define   Rele6_off         output_bit(PIN_C4,0)
+#define   Rele7_on          output_bit(PIN_C5,1)
+#define   Rele7_off         output_bit(PIN_C5,0)
+
+//#define OFF 0
+//#define ON  1
+#define RX_BUFFER_SIZE  10
+char Rx_Buffer[RX_BUFFER_SIZE+1];
+char Rx_Buffer2[RX_BUFFER_SIZE+1];
+char RX_Wr_Index=0;
+
+//Comunicacion//------------------------
+//byte txbuf[0X20];
+byte SlaveA0Tx[0X20];
+byte dato=0;            //Contendrá la información a enviar o recibir
+byte direccion=0;       //Contendrá la dirección del esclavo en el bus I2C
+byte posicion=0;        //Contendrá la posición en el buffer de memoria del esclavo donde se almacenará o de donde se recuperará el dato
+//byte ByteConfig1=0,ByteConfig2=0,ByteConfig3=0;
+
+/* Tabla de Modulos, Primera Fila Año Regular y el siguiente año Bisiesto
+E   F   M   A   M   J   J   A   S   O   N   D
+0   3   3   6   1   4   6   2   5   0   3   5
+0   3   4   0   2   5   0   3   6   1   4   6
+*/
+int8 Regular[12]={0,3,3,6,1,4,6,2,5,0,3,5};
+int8 Bisiesto[12]={0,3,4,0,2,5,0,3,6,1,4,6};
+
+float promedio[90]={0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0};
+float X[2]={0.0,0.0};
+short Desconectado=0;
+short Flanco=0,Flanco1=0,Flanco2=0,Infinito=0,Finalizo=0,flag_clear=0;
+int8 h=0,l=0,Ajuste=0,Ajusten=0,MediaMovil=10,tiemporecta=0,flag_ganancia=0,Velocidad=3,Lectura2=0,Enfria=0,Controlando=0,Ajusto=10;
+short visual=1,Lectura=0,flag_ajuste=0,flag_ajuste2=0;
+short flag_clear2=0,flag_clear3=0,flag_tiempocalentamiento=0,flag_display=0,flag_setpoint=0;
+int8 y=0,tiemporeset=0,n=0;
+int8 Menu=0, unidad=1,i=0,Pausa=0,TiempoControl=0;
+int8 Opcion=1,tiempo_esterilizacion=0,tiempo_secado=0,decimal=0,entero=0,Dato_Exitoso=0,MenuAntt=0;
+int16 tiempos=0,tiempos3=0,tiempoctrl=0,tinicio=0,tiempocalentamiento=0,tiemposetpoint=0,Tp=0,Tc=0;
+float Potencia=0.0,Tpulsomin=0.0,Gananciamax=0.0;
+signed int  Testerilizacion[4]={0,0,0,0};   // Tiempo transcurrido
+signed int  Testerilizacionp[4]={0,0,0,0};   // Tiempo transcurrido
+signed int  Contrasena[4]={0,0,0,0};      // Contrasena de 4 digitos
+signed int  Password[4]={0,0,0,0};        // Contrasena Almacenada de 4 digitos
+float V0=0.0,Tciclo=10.0,Tpulso=0.0,error=0.0,Prom=0.0,Temperature=0.0,tmp=0.0,Ganancia=2.0,GananciaR=2.0,desvio=0.2,Coeficiente=44.5,Pt=0.0;
+float Aumento=0.0,Temperatura=0.0,Saturacion=10.0,TpulsoMax=0.0,Setpoint=0,Temperatura1=0,Temperatura2=0,Temperatura3=0,Temporal=0.0;
+
+int8 Year=18,Mes=9,Dia=13,Hora=0,Minuto=0,Segundo=0,dow=0,cicloVisualizado=0,cicloVisto=0,NivelVacio=25,Atmosferica=75,PulsoPositivo=10,PulsosVacio=0;
+int8 YearTx=0,MesTx=0,DiaTx=0,HoraTx=0,MinutoTx=0,SegundoTx=0,dowTx=0,SetTime=0,Imprime=0,CicloLibre=0,Pulsos=0,j=0,codigoUsuario=0,codigoUsuarioant=0;
+
+typedef struct{
+   char Letra[30];
+}MENUU;
+
+MENUU Menus;
+
+#include "Funciones.h"
+
+#int_rda HIGH
+void serial_rx_isr(){
+   Dato2=fgetc();
+   if(Dato2==0x65){//Inicio Comunicacion
+      Inicio=1;
+      RX_Wr_Index =0;
+   }
+   
+   if(Inicio==1){
+      Rx_Buffer2[RX_Wr_Index] = Dato2;
+      RX_Wr_Index++;
+   }
+   if(RX_Wr_Index >= RX_BUFFER_SIZE){
+      RX_Wr_Index =0;
+      Inicio=0;
+   }
+
+   if(RX_Wr_Index==0){
+      if(Rx_Buffer2[0]==0x65 && Rx_Buffer2[1]==0xff && Rx_Buffer2[2]==0xff && Rx_Buffer2[8]==0x00 && Rx_Buffer2[9]==0xff ){
+         Dato_Exitoso=5;
+      }else{
+         Dato_Exitoso=10;
+      }
+   }
+   
+   if(Menu==20)
+     Buzzer_on;
+}
+
+#int_TIMER1
+void temp1s(void){
+   set_timer1(40536);
+   tiempos++;
+   tiempos3++;
+   tiempoctrl++;
+   
+   if(tiempos3>=200)
+   {
+      Lectura2=1;
+   }
+   
+   if(Controlando==1){
+      if(tiempoctrl<Tp) // Si el tiempo es menor o igual al tiempo de control se enciende la resistencia de lo contrario se apaga.
+      {
+         SSR_on;
+      }
+      else         
+      {
+         SSR_off;
+      }
+      
+      if(tiempoctrl>=Tc) // Si el tiempo de control es mayor al tiempo de ciclo se reinicia tiempo de control
+      {
+         tiempoctrl=0;
+      } // tiempoctrl incrementa una unidad cada 5ms, por eso se dividen los tiempos por 0.005.
+   }
+    
+   if(tiempos>=200)  // 12000 para que incremente cada minuto, 200para que incremente cada segundo.
+   {tiempos=0;Lectura=1;tiemporeset++;TiempoControl++;tiemporecta++;
+   
+      if(flag_setpoint==1)
+         tiemposetpoint++;
+         
+      if(tiempo_esterilizacion==1)
+      {               
+         tinicio++;
+      }
+      
+      if(flag_tiempocalentamiento==1)
+      {
+         tiempocalentamiento++;
+      }
+   }        
+}
+
+void main()
+{
+   delay_ms(1000);   
+   Buzzer_off;
+   SSR_off;
+   Rele1_off;
+   Rele2_off;
+   ConfiguraInterrupciones();
+   LeeEEPROM();
+   LimitaValores();
+   printf("page Bienvenida");
+   SendDataDisplay();
+   printf("bkcmd=0");
+   SendDataDisplay();
+   delay_ms(3500); 
+   
+   while(true)
+   {
+      rtc_get_date(Dia,Mes,Year,dow);
+      rtc_get_time(Hora,Minuto,Segundo);
+      LeeDisplay();
+      restart_wdt();
+
+      if(Lectura2==1){
+         Temperatura=Leer_Sensor(MediaMovil);
+         Lectura2=0;
+      }
+   
+//_--------------------------------------------------------------------------------------------------------------------------------------------------------
+   if(Menu==240){ //Menu de Bienvenida.
+      printf("bkcmd=0");
+      SendDataDisplay();
+      delay_ms(1500);
+      printf("page Usuarios");
+      SendDataDisplay();
+      ApagaSalidas();
+   }
+//_--------------------------------------------------------------------------------------------------------------------------------------------------------
+
+//_--------------------------------------------------------------------------------------------------------------------------------------------------------
+    if(Menu==0){ //Menu de Contraseña de acceso.
+      //ApagaSalidas();
+      entro=OFF;
+      
+      if(RX_Buffer[4]==0x11){//11
+         if(TipoClave!=0){
+            printf("page Principal");
+            SendDataDisplay();
+            PantallaPrincipal=0;
+         }
+      }
+      
+      if(TipoClave==3){
+         printf("titulo.txt=\"Clave Nueva\"");
+         SendDataDisplay();
+         printf("doevents");
+         SendDataDisplay();
+      }else if(TipoClave==2){
+         printf("titulo.txt=\"Clave Actual\"");
+         SendDataDisplay();
+         printf("doevents");
+         SendDataDisplay();
+      }else if(TipoClave==1){
+         printf("titulo.txt=\"Clave Tecnico\"");
+         SendDataDisplay();
+         printf("doevents");
+         SendDataDisplay();
+      }else if(TipoClave==0){
+         printf("titulo.txt=\"Ingrese Contraseña\"");
+         SendDataDisplay();
+      }
+      
+      if(RX_Buffer[3]==0x0f){//0f, recibe caracteres ingresados desde el Display
+         if(TipoClave==0){
+            if(RX_Buffer[4]==0x33&&RX_Buffer[5]==0x38&&RX_Buffer[6]==0x39&&RX_Buffer[7]==0x32){ // Si Ingresa clave para reset general del sistema.
+               write_eeprom(10,0);delay_ms(20);write_eeprom(11,0);delay_ms(20);// Reestablece a contraseña de Fabrica y reinicia Programa.
+               write_eeprom(12,0);delay_ms(20);write_eeprom(13,0);delay_ms(20);
+               reset_cpu();
+            }
+            if(RX_Buffer[4]>=0x30 && RX_Buffer[5]>=0x30 && RX_Buffer[6]>=0x30 && RX_Buffer[7]>=0x30
+            && RX_Buffer[4]<=0x39 && RX_Buffer[5]<=0x39 && RX_Buffer[6]<=0x39 && RX_Buffer[7]<=0x39){
+            if((RX_Buffer[4]==Password[0]+0x30)&&(RX_Buffer[5]==Password[1]+0x30)&&(RX_Buffer[6]==Password[2]+0x30)&&(RX_Buffer[7]==Password[3]+0x30)){
+                  printf("page ClaveCorrecta");
+                  SendDataDisplay();
+                  RX_Buffer[3]=0x00;RX_Buffer2[3]=0x00;  
+               }else{
+                  printf("page ClaveBad");
+                  SendDataDisplay();
+                  RX_Buffer[3]=0x00;RX_Buffer2[3]=0x00;  
+               } 
+            }
+         }else if(TipoClave==1){
+            if(RX_Buffer[4]==0x34&&RX_Buffer[5]==0x34&&RX_Buffer[6]==0x34&&RX_Buffer[7]==0x34){ // Si Ingresa clave de Servicio Tecnico
+               printf("page Config");
+               SendDataDisplay();
+            }else{
+               printf("page Principal");
+               SendDataDisplay();
+            }
+         }else if(TipoClave==2){
+            if(RX_Buffer[4]>=0x30 && RX_Buffer[5]>=0x30 && RX_Buffer[6]>=0x30 && RX_Buffer[7]>=0x30
+            && RX_Buffer[4]<=0x39 && RX_Buffer[5]<=0x39 && RX_Buffer[6]<=0x39 && RX_Buffer[7]<=0x39){
+            if((RX_Buffer[4]==Password[0]+0x30)&&(RX_Buffer[5]==Password[1]+0x30)&&(RX_Buffer[6]==Password[2]+0x30)&&(RX_Buffer[7]==Password[3]+0x30)){
+               printf("page Clave");
+               SendDataDisplay();
+               printf("titulo.txt=\"Clave Nueva\"");
+               SendDataDisplay();
+               TipoClave=3;
+               RX_Buffer[3]=0x00;
+               RX_Buffer2[3]=0x00;
+            }else{
+               printf("page Principal");
+               SendDataDisplay();
+               RX_Buffer[3]=0x00;
+               RX_Buffer2[3]=0x00;
+            } 
+            }
+         }else if(TipoClave==3){
+            printf("titulo.txt=\"Clave Nueva\"");
+            SendDataDisplay();
+            printf("page Principal");
+            SendDataDisplay();
+            if(!GuardaEEPROM){
+               write_eeprom(10,RX_Buffer[4]-0x30);delay_ms(20);write_eeprom(11,RX_Buffer[5]-0x30);delay_ms(20);
+               write_eeprom(12,RX_Buffer[6]-0x30);delay_ms(20);write_eeprom(13,RX_Buffer[7]-0x30);delay_ms(20);
+               GuardaEEPROM=ON;
+            }
+            RX_Buffer[3]=0x00;
+            RX_Buffer2[3]=0x00;
+         }
+      }
+    }
+//_--------------------------------------------------------------------------------------------------------------------------------------------------------       
+
+//_--------------------------------------------------------------------------------------------------------------------------------------------------------
+      if(Menu==2){ //Menu de Tiempo de Duraciòn
+         printf("fecha.txt=\"Fecha:%02u/%02u/20%02u    Hora: %02u:%02u:%02u\"",Dia,Mes,Year,Hora,Minuto,Segundo);
+         SendDataDisplay();
+         if(RX_Buffer[4]==0x0a){//Selecciono Minutos
+            Minutos=OFF;
+            Horas=ON;
+         }
+         
+         if(RX_Buffer[4]==0x0b){//Selecciono Segundos
+            Minutos=ON;
+            Horas=OFF;
+         }           
+         
+         if(RX_Buffer[4]==0x11 || LEFT){//Selecciono Regresar
+            delay_ms(200);
+            if(RX_Buffer[4]==0x11 || LEFT){
+               Minutos=OFF;
+               Horas=OFF;
+               printf("page Principal");
+               SendDataDisplay();  
+               if(!GuardaEEPROM){
+                  write_eeprom(0,mEstp);
+                  delay_ms(10);
+                  write_eeprom(1,hEstp);
+                  delay_ms(10);
+                  mEst=mEstp;
+                  sEst=sEstp;
+                  if((mEstp==0)&&(hEstp==0))
+                     Infinito=1;
+                  else
+                     Infinito=0;
+                  GuardaEEPROM=ON;
+               }
+            }
+         }
+         
+         if(RIGHT){
+            delay_ms(200);
+            if(RIGHT){
+               if(!Segundos){
+                  Minutos=ON;
+                  Horass=OFF;
+                  printf("tsecest.pco=65535");
+                  SendDataDisplay();  
+                  printf("tminest.pco=0");
+                  SendDataDisplay();  
+               }else if(!Minutos){
+                  Minutos=OFF;
+                  Horas=ON;
+                  printf("tsecest.pco=0");
+                  SendDataDisplay();  
+                  printf("tminest.pco=65535");
+                  SendDataDisplay();  
+               }
+            }
+         }
+         
+         if(UP){
+            delay_ms(200);
+            if(UP){
+               if(Minutos){
+                  mEstp++;
+               }
+               if(Horas){
+                  hEstp++;
+               }    
+            }
+         }
+         
+         if(DOWN){
+            delay_ms(200);
+            if(DOWN){
+               if(Minutos && mEstp>0){
+                  mEstp--;
+               }
+               if(Horas){
+                  hEstp--;
+               }    
+            }
+         }
+         
+         if(RX_Buffer[4]==0x0c || RX_Buffer[4]==0x0d){//Tecla arriba Oprimida
+            if(Minutos){
+               mEstp++;
+            }
+            if(Horas){
+               hEstp++;
+            }  
+            RX_Buffer[4]=0x00;  
+            RX_Buffer2[4]=0x00;
+         }
+         
+         if(RX_Buffer[4]==0x0f || RX_Buffer[4]==0x0e){//Tecla abajo oprimida
+            if(Minutos && mEstp>0){
+               mEstp--;
+            }
+            if(Horas){
+               hEstp--;
+            }
+            RX_Buffer[4]=0x00;  
+            RX_Buffer2[4]=0x00;
+         }
+         
+         if(hEstp>99)hEstp=1;
+         if(mEstp>59)mEstp=0;
+            
+         printf("tminest.txt=\"%02u\"",hEstp);
+         SendDataDisplay();
+         printf("tsecest.txt=\"%02u\"",mEstp);
+         SendDataDisplay();
+    }
+//_--------------------------------------------------------------------------------------------------------------------------------------------------------       
+
+//_--------------------------------------------------------------------------------------------------------------------------------------------------------
+    if(Menu==3){ //Menu de Temperatura
+      printf("fecha.txt=\"Fecha:%02u/%02u/20%02u    Hora: %02u:%02u:%02u\"",Dia,Mes,Year,Hora,Minuto,Segundo);
+      SendDataDisplay();
+         if(Setpoint<0.0)
+            Setpoint=60.0;
+         if(Setpoint>60.0)
+            Setpoint=0.0;
+         
+         if(RX_Buffer[4]==0x11 || LEFT){//Selecciono Regresar
+            Segundos=OFF;
+            Minutos=OFF;
+            printf("page Principal");
+            SendDataDisplay();  
+            if(!GuardaEEPROM){
+               write_eeprom(80,(int8)Setpoint);
+               write_eeprom(81,extraeDecimal(Setpoint));
+               delay_ms(10);
+               GuardaEEPROM=ON;
+            }
+            if(Setpoint<Temperatura){
+               Enfria=1;
+               Ganancia=GananciaR*(Setpoint/44.5);
+               //Ganancia=4;
+            }else{
+               Enfria=0;
+               Ganancia=GananciaR*(Setpoint/44.5);
+               Gananciamax=(0.21)*Setpoint;
+            }
+         }
+         
+         if(UP){
+            delay_ms(200);
+            if(UP){
+               Setpoint+=0.1;
+            }
+         }
+         
+         if(DOWN){
+            delay_ms(200);
+            if(DOWN){
+               Setpoint-=0.1;
+            }
+         }
+         
+         if(RX_Buffer[4]==0x0d){//Tecla Arriba Oprimida
+            Setpoint++;
+            RX_Buffer[4]=0x00;  
+            RX_Buffer2[4]=0x00;            
+         }
+         
+         if(RX_Buffer[4]==0x0c){//Tecla Abajo Oprimida
+            Setpoint--;
+            RX_Buffer[4]=0x00;
+            RX_Buffer2[4]=0x00;                        
+         }
+      printf("tsettem.txt=\"%2.1f\"",Setpoint);
+      SendDataDisplay();
+    }
+//_--------------------------------------------------------------------------------------------------------------------------------------------------------       
+
+//_--------------------------------------------------------------------------------------------------------------------------------------------------------      
+      if(Menu==7){ //Menu de Configuración de Fecha y Hora
+         if(RX_Buffer[4]==0x0a){//Selecciono Hora
+            Opcion=4;
+         }
+         
+         if(RX_Buffer[4]==0x0b){//Selecciono Minuto
+            Opcion=5;
+         }
+         
+         if(RX_Buffer[4]==0x0c){//Selecciono Dia
+            Opcion=1;
+         }
+         
+         if(RX_Buffer[4]==0x0d){//Selecciono Hora
+            Opcion=2;
+         }
+         
+         if(RX_Buffer[4]==0x0e){//Selecciono Year
+            Opcion=3;
+         }
+         
+         if(RIGHT){
+            delay_ms(200);
+            if(RIGHT){
+               Opcion++;
+            }
+         }
+         if(Opcion>5)
+            Opcion=1;
+         if(Opcion<1)
+            Opcion=5;
+            
+         if(RX_Buffer[4]==0x11 || LEFT){//Selecciono Regresar
+            printf("page Principal");
+            SendDataDisplay();  
+            PantallaPrincipal=0;
+            Op=OFF;
+            Op2=OFF;
+            
+            if(esBisiesto(YearTx))
+               Modulo=Bisiesto[MesTx];
+            else
+               Modulo=Regular[MesTx];
+         
+            dowTx=((YearTx-1)%7+((YearTx-1)/4-3*((YearTx-1)/100+1)/4)%7+Modulo+DiaTx%7)%7;
+            rtc_set_datetime(DiaTx,MesTx,YearTx,dowTx,HoraTx,MinutoTx);
+         }
+         
+         if((RX_Buffer[4]==0x2a)|| UP){//Tecla Arriba Oprimida
+            delay_ms(200);
+            if((RX_Buffer[4]==0x2a)|| UP){   
+               if(Opcion==1){
+                  if(MesTx==2){
+                     if(esBisiesto(YearTx)){
+                        if(DiaTx<29)
+                           DiaTx++;
+                        else
+                           DiaTx=1;   
+                     }else{
+                        if(DiaTx<28)
+                           DiaTx++;
+                        else
+                           DiaTx=1;   
+                     }
+                  }else{
+                     if(MesTx<=7){
+                        if(MesTx % 2 ==0){
+                           if(DiaTx<30)
+                              DiaTx++;    
+                           else
+                              DiaTx=1;   
+                        }else{
+                           if(DiaTx<31)
+                              DiaTx++;    
+                           else
+                              DiaTx=1;   
+                        }    
+                     }else{
+                        if(MesTx % 2 ==0){
+                           if(DiaTx<31)
+                              DiaTx++;  
+                           else
+                              DiaTx=1;
+                        }else{
+                           if(DiaTx<30)
+                              DiaTx++;    
+                           else
+                              DiaTx=1;
+                        }    
+                     }
+                  }
+               }else if(Opcion==2){
+                  if(MesTx<12)
+                     MesTx++;
+                  else
+                     MesTx=1;
+               }else if(Opcion==3){
+                  if(YearTx<99)
+                     YearTx++;
+                  else 
+                     YearTx=0;
+               }else if(Opcion==4){
+                  if(HoraTx<24)
+                     HoraTx++;
+                  else
+                     HoraTx=0;
+               }else if(Opcion==5){
+                  if(MinutoTx<59)
+                     MinutoTx++;
+                  else
+                     MinutoTx=0;
+               }
+               RX_Buffer[4]=0x00;
+               RX_Buffer2[4]=0x00;
+            }
+         }
+         
+         if(RX_Buffer[4]==0x2b || DOWN){//Tecla Abajo Oprimida
+            delay_ms(200);
+            if(RX_Buffer[4]==0x2b || DOWN){   
+               if(Opcion==1){
+                  if(DiaTx>0)
+                     DiaTx--;
+               }else if(Opcion==2){
+                  if(MesTx>1)
+                     MesTx--;
+                  else
+                     MesTx=12;
+               }else if(Opcion==3){
+                  if(YearTx>0)
+                     YearTx--;
+                  else
+                     YearTx=99;
+               }else if(Opcion==4){
+                  if(HoraTx>0)
+                     HoraTx--;
+                  else
+                     HoraTx=23;
+               }else if(Opcion==5){
+                  if(MinutoTx>0)
+                     MinutoTx--;
+                  else
+                     MinutoTx=59;
+               }
+               RX_Buffer[4]=0x00;
+               RX_Buffer2[4]=0x00;
+            }
+         }
+      
+      printf("thora.txt=\"%02u\"",HoraTx);
+      SendDataDisplay();
+      printf("tminutos.txt=\"%02u\"",MinutoTx);
+      SendDataDisplay();
+      printf("tdia.txt=\"%02u\"",DiaTx);
+      SendDataDisplay();
+      printf("tmes.txt=\"%02u\"",MesTx);
+      SendDataDisplay();
+      printf("tyear.txt=\"%02u\"",YearTx);
+      SendDataDisplay();
+      LimitaDia();  
+    }
+//_--------------------------------------------------------------------------------------------------------------------------------------------------------       
+
+//_--------------------------------------------------------------------------------------------------------------------------------------------------------      
+    if(Menu==15){//Menu de Clave Correcta
+      if(!entro){
+         delay_ms(2000);
+         entro=ON;
+      }
+      printf("page MenuPrincipal");
+      SendDataDisplay();
+   }
+//_--------------------------------------------------------------------------------------------------------------------------------------------------------      
+
+//_--------------------------------------------------------------------------------------------------------------------------------------------------------      
+    if(Menu==16){//Menu de Clave InCorrecta
+      if(!entro){
+         delay_ms(2000);
+         entro=ON;
+      }
+      printf("page Clave");
+      SendDataDisplay();
+   }
+//_--------------------------------------------------------------------------------------------------------------------------------------------------------      
+
+//_--------------------------------------------------------------------------------------------------------------------------------------------------------
+      if(Menu==20){ //Menu de Funcionamiento
+      
+      // Muestra imagen de fondo en Display GLCD
+      glcd_imagen(5);
+
+      if(UP && DOWN)//Si oprime hacia abajo
+      {
+         glcd_init(ON);flag_display=!flag_display;         
+      }
+
+      if(!TERM && !DOOR && !Finalizo){
+         if(Enfria==1){      
+            if(Temperatura<=Setpoint+0.5 && Temperatura>=Setpoint-0.5){
+               glcd_rect(0, 55, 127, 63, YES, OFF);
+               strcpy(Menus.Letra,"Status:Controlando");
+               displayMenu(Menus.Letra,0,55,2,1);
+               if(!Infinito)
+                  tiempo_esterilizacion=1;
+               else
+                  tiempo_esterilizacion=0;
+               Controla();
+               flag_tiempocalentamiento=0;
+            }else if(Temperatura<Setpoint-0.5){
+               Enfria=0;
+               Ganancia=GananciaR*(Setpoint/44.5);
+               Gananciamax=(0.21)*Setpoint;
+               SSR_off;
+               Controlando=0;
+            }else{
+               flag_tiempocalentamiento=0;
+               glcd_rect(0, 55, 127, 63, YES, OFF);
+               strcpy(Menus.Letra,"Status:Enfriando");
+               displayMenu(Menus.Letra,0,55,2,1);
+               tiempo_esterilizacion=0;
+               Controla();
+            }
+         }else{  
+            if(Temperatura>=Setpoint-0.5 && Temperatura<=Setpoint+0.5){
+               glcd_rect(0, 55, 127, 63, YES, OFF);
+               strcpy(Menus.Letra,"Status:Controlando");
+               displayMenu(Menus.Letra,0,55,2,1);
+               if(!Infinito)
+                  tiempo_esterilizacion=1;
+               else
+                  tiempo_esterilizacion=0;   
+               Controla();
+               flag_tiempocalentamiento=0;
+            }else if(Temperatura>Setpoint+0.5){
+               Enfria=1;
+               Ganancia=GananciaR*(Setpoint/44.5);
+               SSR_off;
+               Controlando=0;
+            }else{
+               flag_tiempocalentamiento=1;
+               glcd_rect(0, 55, 127, 63, YES, OFF);
+               strcpy(Menus.Letra,"Status:Calentando");
+               displayMenu(Menus.Letra,0,55,2,1);
+               tiempo_esterilizacion=0;
+               Controla();
+            }
+         }
+      }
+      
+      if(DOOR){
+         Controlando=0;
+         flag_tiempocalentamiento=0;
+         Ganancia=GananciaR*(Setpoint/44.5);
+         glcd_rect(0, 55, 127, 63, YES, OFF);
+         tiempo_esterilizacion=0;
+         SSR_off;
+         Tpulso=0.0;
+         flag_clear2=1;
+         flag_ganancia=0;
+         strcpy(Menus.Letra,"Status:Puerta Abierta");
+         displayMenu(Menus.Letra,0,55,2,1);
+      }else{
+         if(flag_clear2==1){
+            glcd_rect(0, 55, 127, 63, YES, OFF);
+            flag_clear2=0;
+         }
+      }
+      
+      if(TERM){
+         Controlando=0;
+         flag_tiempocalentamiento=0;
+         if(flag_clear3==0){
+            glcd_rect(0, 55, 127, 63, YES, OFF);
+            tiempo_esterilizacion=0;
+            SSR_off;
+            Tpulso=0.0;
+            flag_clear3=1;
+            flag_ganancia=0;
+         }
+         strcpy(Menus.Letra,"Status:Alarma 01");
+         displayMenu(Menus.Letra,0,55,2,1);
+         Ganancia=GananciaR*(Setpoint/44.5);
+         Buzzer_on;
+         delay_ms(1000);
+         Buzzer_off;
+         delay_ms(1000);
+      }else{
+         if(flag_clear3==1){
+            glcd_rect(0, 55, 127, 63, YES, OFF);
+            flag_clear3=0;
+         }
+      }   
+        
+      if(Lectura==1)// Utilizado para visualizar la lectura de la temperatura
+      {                   
+         Lectura=0;
+         Potencia=(100.0/Tciclo)*Tpulso; 
+ //----------------Muestra Temperatura--------------------------
+         if(V0<180 || V0>1000)
+         {
+            glcd_rect(15, 29, 69, 45, YES, OFF);
+            strcpy(Menus.Letra,"-----");displayMenu(Menus.Letra,15,29,2,2);
+            Desconectado=1;
+         }
+         else
+         {
+            if(Desconectado==1)
+            {
+               Desconectado=0;
+               delay_ms(2000);
+               for(i=0;i<80;i++)
+               {
+                  Temperatura=Leer_Sensor(80);
+               }
+            }
+            displayT(Temperatura,15,29,2);
+         }
+         glcd_circle(74,30,2,NO,ON);
+         strcpy(Menus.Letra,"C");displayMenu(Menus.Letra,75,30,2,2);
+         
+         displayT(Setpoint,30,45,1);
+         glcd_circle(55,47,1,NO,ON);
+         strcpy(Menus.Letra,"C");displayMenu(Menus.Letra,58,45,2,1);
+         strcpy(Menus.Letra,"Temp:");displayMenu(Menus.Letra,0,45,2,1); 
+         
+         displayTiempo(Potencia,97,42,3,1);strcpy(Menus.Letra,"%");displayMenu(Menus.Letra,115,42,2,1);
+         
+         if(flag_display==1)
+            displayTiempo(Ganancia,66,45,3,1);
+            //displayTemperatura(Prom,97,13,0,1);
+            //displayT(Tpulsomin,60,46,1);
+         else
+            glcd_rect(66, 45, 88, 52, YES, OFF);
+         
+         // Muestra Valor de esterilizacion Programado.
+         displayTiempo(Testerilizacion[3],20,2,0,2);displayTiempo(Testerilizacion[2],33,2,0,2);
+         strcpy(Menus.Letra,":");displayMenu(Menus.Letra,46,2,2,2); 
+         displayTiempo(Testerilizacion[1],55,2,0,2);displayTiempo(Testerilizacion[0],68,2,0,2);
+         
+         // Muestra Valor de esterilizacion actual.
+         strcpy(Menus.Letra,"Time:");displayMenu(Menus.Letra,0,18,2,1); 
+         displayTiempo(Testerilizacionp[3],30,18,0,1);displayTiempo(Testerilizacionp[2],36,18,0,1);
+         strcpy(Menus.Letra,":");displayMenu(Menus.Letra,42,18,2,1); 
+         displayTiempo(Testerilizacionp[1],48,18,0,1);displayTiempo(Testerilizacionp[0],54,18,0,1);
+         strcpy(Menus.Letra,"(H:M)");displayMenu(Menus.Letra,60,18,2,1); 
+         
+         glcd_rect(0, 0, 89, 27, NO, ON);
+         glcd_rect(0, 27, 89, 54, NO, ON);
+      } 
+      
+      // Si cumplio el tiempo de esterilización, Muestre ciclo finalizado y detenga control de temperatura.
+      if((Testerilizacionp[0]>0)||(Testerilizacionp[1]>0)||(Testerilizacionp[2]>0)||(Testerilizacionp[3]>0)){
+         CuentaTiempo();  
+         if((Testerilizacion[0]>=Testerilizacionp[0])&&(Testerilizacion[1]>=Testerilizacionp[1])&&(Testerilizacion[2]>=Testerilizacionp[2])&&(Testerilizacion[3]>=Testerilizacionp[3]) && tiempo_esterilizacion==1){
+            if(flag_clear==0){
+               glcd_fillScreen(OFF);
+               //glcd_rect(0, 55, 127, 63, YES, OFF);
+               tiempo_esterilizacion=0;
+               Pausa=2;
+               flag_clear=1;
+               SSR_off;
+               Controlando=0;
+               Tpulso=0.0;
+               flag_ganancia=0;
+               Finalizo=1;
+            }
+            strcpy(Menus.Letra,"Status:Finalizado");
+            displayMenu(Menus.Letra,0,55,2,1);
+         }
+      }
+       
+      if(Finalizo){
+         strcpy(Menus.Letra,"Status:Finalizado");
+         displayMenu(Menus.Letra,0,55,2,1);
+         SSR_off;         
+         Controlando=0;
+         Tpulso=0.0;
+         tiempo_esterilizacion=0;
+      }
+    }
+//_--------------------------------------------------------------------------------------------------------------------------------------------------------       
+
+//_--------------------------------------------------------------------------------------------------------------------------------------------------------
+      if(Menu==100){ //Menu de Configuración de Parametros de Control
+     
+      if(Opcion2>14)
+         Opcion2=1;
+      if(Opcion2<1)
+         Opcion2=14;
+      
+      if(Opcion2==1){
+         printf("Config.t2c.txt=\"Proporcional\"");
+         SendDataDisplay();      
+         printf("t3c.txt=\"%2.0f\"",Ganancia);
+         SendDataDisplay();
+         if(RX_Buffer[4]==0x0a || UP){//Tecla Arriba Oprimida
+            delay_ms(20);
+            if(RX_Buffer[4]==0x0a || UP){
+               Ganancia+=1.0;
+               RX_Buffer[4]=0x00;  
+               RX_Buffer2[4]=0x00;            
+            }
+         }
+            
+         if(RX_Buffer[4]==0x0b || DOWN){//Tecla Abajo Oprimida
+            delay_ms(20);
+            if(RX_Buffer[4]==0x0b || DOWN){
+               Ganancia-=1.0;
+               RX_Buffer[4]=0x00;
+               RX_Buffer2[4]=0x00;            
+            }
+         }
+         
+         if(Ganancia>20)
+            Ganancia=1;
+         if(Ganancia<1)
+            Ganancia=20;
+      }else if(Opcion2==2){
+         printf("Config.t2c.txt=\"Derivativo\"");
+         SendDataDisplay();      
+         printf("t3c.txt=\"%u\"",Derivativo);
+         SendDataDisplay();
+         if(RX_Buffer[4]==0x0a || UP){//Tecla Arriba Oprimida
+            delay_ms(20);
+            if(RX_Buffer[4]==0x0a || UP){
+               Derivativo++;
+               RX_Buffer[4]=0x00;  
+               RX_Buffer2[4]=0x00;                           
+            }
+         }
+            
+         if(RX_Buffer[4]==0x0b || DOWN){//Tecla Abajo Oprimida
+            delay_ms(20);
+            if(RX_Buffer[4]==0x0b || DOWN){
+               Derivativo--;
+               RX_Buffer[4]=0x00;
+               RX_Buffer2[4]=0x00;                           
+            }
+         }
+         
+         if(Derivativo>80)
+            Derivativo=1;
+         if(Derivativo<1)
+            Derivativo=80;
+      }else if(Opcion2==3){
+         printf("Config.t2c.txt=\"Integral\"");
+         SendDataDisplay();      
+         printf("t3c.txt=\"%u\"",Integral);
+         SendDataDisplay();
+         if(RX_Buffer[4]==0x0a || UP){//Tecla Arriba Oprimida
+            delay_ms(20);
+            if(RX_Buffer[4]==0x0a || UP){
+               Integral++;
+               RX_Buffer[4]=0x00;  
+               RX_Buffer2[4]=0x00;            
+            }
+         }
+            
+         if(RX_Buffer[4]==0x0b || DOWN){//Tecla Abajo Oprimida
+            delay_ms(20);
+            if(RX_Buffer[4]==0x0b || DOWN){
+               Integral--;
+               RX_Buffer[4]=0x00;
+               RX_Buffer2[4]=0x00;                           
+            }
+         }
+         
+         if(Integral>4)
+            Integral=1;
+         if(Integral<1)
+            Integral=4;
+      }else if(Opcion2==4){
+         printf("Config.t2c.txt=\"Tciclo\"");
+         SendDataDisplay();      
+         printf("t3c.txt=\"%2.0f\"",Tciclo);
+         SendDataDisplay();
+         if(RX_Buffer[4]==0x0a || UP){//Tecla Arriba Oprimida
+            delay_ms(20);
+            if(RX_Buffer[4]==0x0a || UP){
+               Tciclo+=1.0;
+               RX_Buffer[4]=0x00;  
+               RX_Buffer2[4]=0x00;            
+            }
+         }
+            
+         if(RX_Buffer[4]==0x0b || DOWN){//Tecla Abajo Oprimida
+            delay_ms(20);
+            if(RX_Buffer[4]==0x0b || DOWN){
+               Tciclo-=1.0;
+               RX_Buffer[4]=0x00;
+               RX_Buffer2[4]=0x00;            
+            }
+         }
+         
+         if(Tciclo>20)
+            Tciclo=5;
+         if(Tciclo<5)
+            Tciclo=20;
+      }else if(Opcion2==5){
+         printf("Config.t2c.txt=\"Ajuste +\"");
+         SendDataDisplay();      
+         printf("t3c.txt=\"%u\"",Sensor[0].Ajuste);
+         SendDataDisplay();
+         if(RX_Buffer[4]==0x0a || UP){//Tecla Arriba Oprimida
+            delay_ms(20);
+            if(RX_Buffer[4]==0x0a || UP){
+               if(Sensor[0].Ajuste<40)
+                  Sensor[0].Ajuste++;
+               RX_Buffer[4]=0x00;  
+               RX_Buffer2[4]=0x00;            
+            }
+         }
+            
+         if(RX_Buffer[4]==0x0b || DOWN){//Tecla Abajo Oprimida
+            delay_ms(20);
+            if(RX_Buffer[4]==0x0b || DOWN){
+               if(Sensor[0].Ajuste>0)
+                  Sensor[0].Ajuste--;
+               RX_Buffer[4]=0x00;
+               RX_Buffer2[4]=0x00;            
+            }
+         }
+      }else if(Opcion2==6){
+         printf("Config.t2c.txt=\"Ajuste -\"");
+         SendDataDisplay();      
+         printf("t3c.txt=\"%u\"",Sensor[0].Ajusten);
+         SendDataDisplay();
+         if(RX_Buffer[4]==0x0a || UP){//Tecla Arriba Oprimida
+            delay_ms(20);
+            if(RX_Buffer[4]==0x0a || UP){
+               if(Sensor[0].Ajusten<40)
+                  Sensor[0].Ajusten++;
+               RX_Buffer[4]=0x00;  
+               RX_Buffer2[4]=0x00;            
+            }         
+         }
+            
+         if(RX_Buffer[4]==0x0b || DOWN){//Tecla Abajo Oprimida
+            delay_ms(20);
+            if(RX_Buffer[4]==0x0b || DOWN){
+               if(Sensor[0].Ajusten>0)
+                  Sensor[0].Ajusten--;
+               RX_Buffer[4]=0x00;
+               RX_Buffer2[4]=0x00;            
+            }
+         }
+      }else if(Opcion2==7){
+         printf("Config.t2c.txt=\"Ajuste2 +\"");
+         SendDataDisplay();      
+         printf("t3c.txt=\"%u\"",Sensor[1].Ajuste);
+         SendDataDisplay();
+         if(RX_Buffer[4]==0x0a || UP){//Tecla Arriba Oprimida
+            delay_ms(20);
+            if(RX_Buffer[4]==0x0a || UP){
+               if(Sensor[1].Ajuste<40)
+                  Sensor[1].Ajuste++;
+               RX_Buffer[4]=0x00;  
+               RX_Buffer2[4]=0x00;            
+            }
+         }
+            
+         if(RX_Buffer[4]==0x0b || DOWN){//Tecla Abajo Oprimida
+            delay_ms(20);
+            if(RX_Buffer[4]==0x0b || DOWN){
+               if(Sensor[1].Ajuste>0)
+                  Sensor[1].Ajuste--;
+               RX_Buffer[4]=0x00;
+               RX_Buffer2[4]=0x00;            
+            }           
+         }
+      }else if(Opcion2==8){
+         printf("Config.t2c.txt=\"Ajuste2 -\"");
+         SendDataDisplay();      
+         printf("t3c.txt=\"%u\"",Sensor[1].Ajusten);
+         SendDataDisplay();
+         if(RX_Buffer[4]==0x0a || UP){//Tecla Arriba Oprimida
+            delay_ms(20);
+            if(RX_Buffer[4]==0x0a || UP){
+               if(Sensor[1].Ajusten<40)
+                  Sensor[1].Ajusten++;
+               RX_Buffer[4]=0x00;  
+               RX_Buffer2[4]=0x00;            
+            }
+         }
+            
+         if(RX_Buffer[4]==0x0b || DOWN){//Tecla Abajo Oprimida
+            delay_ms(20);
+            if(RX_Buffer[4]==0x0b || DOWN){
+               if(Sensor[1].Ajusten>0)
+                  Sensor[1].Ajusten--;
+               RX_Buffer[4]=0x00;
+               RX_Buffer2[4]=0x00;            
+            }
+         }
+      }else if(Opcion2==9){
+         printf("Config.t2c.txt=\"Media\"");
+         SendDataDisplay();      
+         printf("t3c.txt=\"%u\"",MediaMovil);
+         SendDataDisplay();
+         if(RX_Buffer[4]==0x0a || UP){//Tecla Arriba Oprimida
+            delay_ms(20);
+            if(RX_Buffer[4]==0x0a || UP){
+               if(MediaMovil<80)
+                  MediaMovil++;
+               RX_Buffer[4]=0x00;  
+               RX_Buffer2[4]=0x00;            
+            }
+         }
+            
+         if(RX_Buffer[4]==0x0b || DOWN){//Tecla Abajo Oprimida
+            delay_ms(20);
+            if(RX_Buffer[4]==0x0b || DOWN){
+               if(MediaMovil>10)
+                  MediaMovil--;
+               RX_Buffer[4]=0x00;
+               RX_Buffer2[4]=0x00;            
+            }            
+         }
+      }else if(Opcion2==10){
+         printf("Config.t2c.txt=\"RPT100B\"");
+         SendDataDisplay();      
+         printf("t3c.txt=\"%2.1f\"",Sensor[0].RPT100);
+         SendDataDisplay();
+         if(RX_Buffer[4]==0x0a || UP){//Tecla Arriba Oprimida
+            delay_ms(20);
+            if(RX_Buffer[4]==0x0a || UP){
+               if(Sensor[0].RPT100<2.0)
+                  Sensor[0].RPT100+=0.1;
+               RX_Buffer[4]=0x00;  
+               RX_Buffer2[4]=0x00;            
+            }
+         }
+            
+         if(RX_Buffer[4]==0x0b || DOWN){//Tecla Abajo Oprimida
+            delay_ms(20);
+            if(RX_Buffer[4]==0x0b || DOWN){
+               if(Sensor[0].RPT100>0.0)
+                  Sensor[0].RPT100-=0.1;
+               RX_Buffer[4]=0x00;
+               RX_Buffer2[4]=0x00;            
+            }
+         }
+      }else if(Opcion2==11){
+         printf("Config.t2c.txt=\"RPT100B 2\"");
+         SendDataDisplay();      
+         printf("t3c.txt=\"%2.1f\"",Sensor[1].RPT100);
+         SendDataDisplay();
+         if(RX_Buffer[4]==0x0a || UP){//Tecla Arriba Oprimida
+            delay_ms(20);
+            if(RX_Buffer[4]==0x0a || UP){
+               if(Sensor[1].RPT100<2.0)
+                  Sensor[1].RPT100+=0.1;
+               RX_Buffer[4]=0x00;  
+               RX_Buffer2[4]=0x00;            
+            }
+         }
+            
+         if(RX_Buffer[4]==0x0b || DOWN){//Tecla Abajo Oprimida
+            delay_ms(20);
+            if(RX_Buffer[4]==0x0b || DOWN){
+               if(Sensor[1].RPT100>0.0)
+                  Sensor[1].RPT100-=0.1;
+               RX_Buffer[4]=0x00;
+               RX_Buffer2[4]=0x00;            
+            }
+         }
+      }else if(Opcion2==12){
+         printf("Config.t2c.txt=\"Ciclos\"");
+         SendDataDisplay();      
+         printf("t3c.txt=\"%05Lu\"",Ciclos);
+         SendDataDisplay();
+      }else if(Opcion2==13){
+         printf("Config.t2c.txt=\"Atmosferica\"");
+         SendDataDisplay();      
+         printf("t3c.txt=\"%03u\"",Atmosferica);
+         SendDataDisplay();
+         if(RX_Buffer[4]==0x0a || UP){//Tecla Arriba Oprimida
+            delay_ms(20);
+            if(RX_Buffer[4]==0x0a || UP){
+               if(Atmosferica<100)
+                  ++Atmosferica;
+               RX_Buffer[4]=0x00;  
+               RX_Buffer2[4]=0x00;            
+            }
+         }
+            
+         if(RX_Buffer[4]==0x0b || DOWN){//Tecla Abajo Oprimida
+            delay_ms(20);
+            if(RX_Buffer[4]==0x0b || DOWN){
+               if(Atmosferica>50)
+                  --Atmosferica;
+               RX_Buffer[4]=0x00;
+               RX_Buffer2[4]=0x00;            
+            }
+         }
+      }else if(Opcion2==14){
+         printf("Config.t2c.txt=\"T. Apertura\"");
+         SendDataDisplay();      
+         printf("t3c.txt=\"%03u\"",Tapertura);
+         SendDataDisplay();
+         if(RX_Buffer[4]==0x0a || UP){//Tecla Arriba Oprimida
+            delay_ms(20);
+            if(RX_Buffer[4]==0x0a || UP){
+               if(Tapertura<100)
+                  ++Tapertura;
+               RX_Buffer[4]=0x00;  
+               RX_Buffer2[4]=0x00;            
+            }
+         }
+            
+         if(RX_Buffer[4]==0x0b || DOWN){//Tecla Abajo Oprimida
+            delay_ms(20);
+            if(RX_Buffer[4]==0x0b || DOWN){
+               if(Tapertura>50)
+                  --Tapertura;
+               RX_Buffer[4]=0x00;
+               RX_Buffer2[4]=0x00;            
+            }
+         }
+      }
+      
+      if(RX_Buffer[4]==0x0c || LEFT){//Tecla Izquierda Oprimida
+         delay_ms(20);
+         if(RX_Buffer[4]==0x0c || LEFT){
+            Opcion2++;
+            RX_Buffer[4]=0x00;  
+            RX_Buffer2[4]=0x00;            
+         }
+      }
+         
+      if(RX_Buffer[4]==0x0d || RIGHT){//Tecla Derecha Oprimida
+         delay_ms(20);
+         if(RX_Buffer[4]==0x0d || RIGHT){
+            Opcion2--;
+            RX_Buffer[4]=0x00;
+            RX_Buffer2[4]=0x00;            
+         }
+      }
+      
+      if(RX_Buffer[4]==0x11 || (RIGHT && LEFT)){//Tecla Regresar
+         delay_ms(20);
+         if(RX_Buffer[4]==0x11 || (RIGHT && LEFT)){
+            if(!GuardaEEPROM){
+               write_eeprom(18,(int8)Integral);
+               delay_ms(10);
+               write_eeprom(19,(int8)Derivativo);
+               delay_ms(10);
+               write_eeprom(20,(int8)Ganancia);
+               delay_ms(10);
+               write_eeprom(21,Sensor[0].Ajuste);
+               delay_ms(10);
+               write_eeprom(22,Sensor[0].Ajusten);
+               delay_ms(10);
+               write_eeprom(23,Sensor[1].Ajuste);
+               delay_ms(10);
+               write_eeprom(24,Sensor[1].Ajusten);
+               delay_ms(10);
+               write_eeprom(25,(int8)MediaMovil);
+               delay_ms(10);
+               write_eeprom(26,(int8)Tciclo);
+               delay_ms(10);
+               write_eeprom(28,(int8)Sensor[0].RPT100);
+               delay_ms(10);
+               Temporal=Sensor[0].RPT100-((int8)Sensor[0].RPT100);
+               Temporal=Temporal*10;
+               write_eeprom(27,(int8)Temporal);
+               delay_ms(10);
+               write_eeprom(30,(int8)Sensor[1].RPT100);
+               delay_ms(10);
+               Temporal=Sensor[1].RPT100-((int8)Sensor[1].RPT100);
+               Temporal=Temporal*10;
+               write_eeprom(29,(int8)Temporal);
+               delay_ms(10);
+               write_eeprom(31,Atmosferica);
+               delay_ms(10);
+               write_eeprom(32,Tapertura);
+               delay_ms(10);
+               GuardaEEPROM=ON;
+            }
+            printf("page MenuPrincipal");
+            SendDataDisplay();
+         }
+      }
+      printf("fecha.txt=\"Fecha:%02u/%02u/20%02u    Hora: %02u:%02u\"",Dia,Mes,Year,Hora,Minuto);
+      SendDataDisplay(); 
+    }
+//_--------------------------------------------------------------------------------------------------------------------------------------------------------       
+      
+   }
+}

@@ -1,0 +1,3346 @@
+ARM GAS  C:\Users\JPELEC~1\AppData\Local\Temp\ccSdZhaR.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"coldJnTemp.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.global	__aeabi_f2iz
+  20              		.global	__aeabi_i2f
+  21              		.global	__aeabi_fsub
+  22              		.global	__aeabi_fmul
+  23              		.section	.text.extraeDecimal,"ax",%progbits
+  24              		.align	2
+  25              		.global	extraeDecimal
+  26              		.thumb
+  27              		.thumb_func
+  28              		.type	extraeDecimal, %function
+  29              	extraeDecimal:
+  30              	.LFB64:
+  31              		.file 1 "coldJnTemp.c"
+   1:coldJnTemp.c  **** /******************************************************************************
+   2:coldJnTemp.c  **** * File Name: coldJnTemp.c
+   3:coldJnTemp.c  **** *  Version 1.0
+   4:coldJnTemp.c  **** *
+   5:coldJnTemp.c  **** * Description:
+   6:coldJnTemp.c  **** *  This file contains the code to measure cold junction temperature
+   7:coldJnTemp.c  **** *
+   8:coldJnTemp.c  **** * Note:
+   9:coldJnTemp.c  **** *
+  10:coldJnTemp.c  **** ********************************************************************************
+  11:coldJnTemp.c  **** * Copyright (2018), Cypress Semiconductor Corporation. All Rights Reserved.
+  12:coldJnTemp.c  **** ********************************************************************************
+  13:coldJnTemp.c  **** * This software is owned by Cypress Semiconductor Corporation (Cypress)
+  14:coldJnTemp.c  **** * and is protected by and subject to worldwide patent protection (United
+  15:coldJnTemp.c  **** * States and foreign), United States copyright laws and international treaty
+  16:coldJnTemp.c  **** * provisions. Cypress hereby grants to licensee a personal, non-exclusive,
+  17:coldJnTemp.c  **** * non-transferable license to copy, use, modify, create derivative works of,
+  18:coldJnTemp.c  **** * and compile the Cypress Source Code and derivative works for the sole
+  19:coldJnTemp.c  **** * purpose of creating custom software in support of licensee product to be
+  20:coldJnTemp.c  **** * used only in conjunction with a Cypress integrated circuit as specified in
+  21:coldJnTemp.c  **** * the applicable agreement. Any reproduction, modification, translation,
+  22:coldJnTemp.c  **** * compilation, or representation of this software except as specified above 
+  23:coldJnTemp.c  **** * is prohibited without the express written permission of Cypress.
+  24:coldJnTemp.c  **** *
+  25:coldJnTemp.c  **** * Disclaimer: CYPRESS MAKES NO WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, WITH 
+  26:coldJnTemp.c  **** * REGARD TO THIS MATERIAL, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
+ARM GAS  C:\Users\JPELEC~1\AppData\Local\Temp\ccSdZhaR.s 			page 2
+
+
+  27:coldJnTemp.c  **** * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+  28:coldJnTemp.c  **** * Cypress reserves the right to make changes without further notice to the 
+  29:coldJnTemp.c  **** * materials described herein. Cypress does not assume any liability arising out 
+  30:coldJnTemp.c  **** * of the application or use of any product or circuit described herein. Cypress 
+  31:coldJnTemp.c  **** * does not authorize its products for use as critical components in life-support 
+  32:coldJnTemp.c  **** * systems where a malfunction or failure may reasonably be expected to result in 
+  33:coldJnTemp.c  **** * significant injury to the user. The inclusion of Cypress' product in a life-
+  34:coldJnTemp.c  **** * support systems application implies that the manufacturer assumes all risk of 
+  35:coldJnTemp.c  **** * such use and in doing so indemnifies Cypress against all charges. 
+  36:coldJnTemp.c  **** *
+  37:coldJnTemp.c  **** * Use of this Software may be limited by and subject to the applicable Cypress
+  38:coldJnTemp.c  **** * software license agreement. 
+  39:coldJnTemp.c  **** *******************************************************************************/
+  40:coldJnTemp.c  **** #include <main.h>
+  41:coldJnTemp.c  **** 
+  42:coldJnTemp.c  **** extern volatile uint8 CJSelectFlag;
+  43:coldJnTemp.c  **** uint8 i;
+  44:coldJnTemp.c  **** uint8 l2,h2;
+  45:coldJnTemp.c  **** uint16 Prom;
+  46:coldJnTemp.c  **** uint16 promedio2[20];
+  47:coldJnTemp.c  **** 
+  48:coldJnTemp.c  **** uint8 extraeDecimal(float data){
+  32              		.loc 1 48 0
+  33              		.cfi_startproc
+  34              		@ args = 0, pretend = 0, frame = 0
+  35              		@ frame_needed = 0, uses_anonymous_args = 0
+  36              	.LVL0:
+  37 0000 10B5     		push	{r4, lr}
+  38              		.cfi_def_cfa_offset 8
+  39              		.cfi_offset 4, -8
+  40              		.cfi_offset 14, -4
+  41 0002 0446     		mov	r4, r0
+  42              	.LVL1:
+  49:coldJnTemp.c  ****    float entero=0;
+  50:coldJnTemp.c  ****    float tmp=0.0;
+  51:coldJnTemp.c  ****    
+  52:coldJnTemp.c  ****    entero=(int8)data;
+  43              		.loc 1 52 0
+  44 0004 FFF7FEFF 		bl	__aeabi_f2iz
+  45              	.LVL2:
+  46 0008 40B2     		sxtb	r0, r0
+  47 000a FFF7FEFF 		bl	__aeabi_i2f
+  48              	.LVL3:
+  53:coldJnTemp.c  ****    tmp=(data-entero)*10;
+  49              		.loc 1 53 0
+  50 000e 0146     		mov	r1, r0
+  51 0010 2046     		mov	r0, r4
+  52              	.LVL4:
+  53 0012 FFF7FEFF 		bl	__aeabi_fsub
+  54              	.LVL5:
+  55 0016 0349     		ldr	r1, .L3
+  56 0018 FFF7FEFF 		bl	__aeabi_fmul
+  57              	.LVL6:
+  54:coldJnTemp.c  ****    return (int8)tmp;
+  58              		.loc 1 54 0
+  59 001c FFF7FEFF 		bl	__aeabi_f2iz
+  60              	.LVL7:
+ARM GAS  C:\Users\JPELEC~1\AppData\Local\Temp\ccSdZhaR.s 			page 3
+
+
+  55:coldJnTemp.c  **** }
+  61              		.loc 1 55 0
+  62 0020 C0B2     		uxtb	r0, r0
+  63 0022 10BD     		pop	{r4, pc}
+  64              	.LVL8:
+  65              	.L4:
+  66              		.align	2
+  67              	.L3:
+  68 0024 00002041 		.word	1092616192
+  69              		.cfi_endproc
+  70              	.LFE64:
+  71              		.size	extraeDecimal, .-extraeDecimal
+  72              		.global	__aeabi_ui2f
+  73              		.global	__aeabi_fdiv
+  74              		.section	.text.inttofloat,"ax",%progbits
+  75              		.align	2
+  76              		.global	inttofloat
+  77              		.thumb
+  78              		.thumb_func
+  79              		.type	inttofloat, %function
+  80              	inttofloat:
+  81              	.LFB65:
+  56:coldJnTemp.c  **** 
+  57:coldJnTemp.c  **** float inttofloat(uint8 decimal){
+  82              		.loc 1 57 0
+  83              		.cfi_startproc
+  84              		@ args = 0, pretend = 0, frame = 0
+  85              		@ frame_needed = 0, uses_anonymous_args = 0
+  86              	.LVL9:
+  87 0000 08B5     		push	{r3, lr}
+  88              		.cfi_def_cfa_offset 8
+  89              		.cfi_offset 3, -8
+  90              		.cfi_offset 14, -4
+  58:coldJnTemp.c  ****    float tmp;
+  59:coldJnTemp.c  ****    tmp=decimal;
+  91              		.loc 1 59 0
+  92 0002 FFF7FEFF 		bl	__aeabi_ui2f
+  93              	.LVL10:
+  60:coldJnTemp.c  ****    return tmp/10;
+  94              		.loc 1 60 0
+  95 0006 0249     		ldr	r1, .L7
+  96 0008 FFF7FEFF 		bl	__aeabi_fdiv
+  97              	.LVL11:
+  61:coldJnTemp.c  **** }
+  98              		.loc 1 61 0
+  99 000c 08BD     		pop	{r3, pc}
+ 100              	.L8:
+ 101 000e 00BF     		.align	2
+ 102              	.L7:
+ 103 0010 00002041 		.word	1092616192
+ 104              		.cfi_endproc
+ 105              	.LFE65:
+ 106              		.size	inttofloat, .-inttofloat
+ 107              		.section	.text.convert8,"ax",%progbits
+ 108              		.align	2
+ 109              		.global	convert8
+ 110              		.thumb
+ARM GAS  C:\Users\JPELEC~1\AppData\Local\Temp\ccSdZhaR.s 			page 4
+
+
+ 111              		.thumb_func
+ 112              		.type	convert8, %function
+ 113              	convert8:
+ 114              	.LFB66:
+  62:coldJnTemp.c  **** 
+  63:coldJnTemp.c  **** uint8 convert8(uint16 data,uint8 nible){
+ 115              		.loc 1 63 0
+ 116              		.cfi_startproc
+ 117              		@ args = 0, pretend = 0, frame = 0
+ 118              		@ frame_needed = 0, uses_anonymous_args = 0
+ 119              		@ link register save eliminated.
+ 120              	.LVL12:
+  64:coldJnTemp.c  ****     uint8 dato=0;
+  65:coldJnTemp.c  ****     if(nible==0){
+ 121              		.loc 1 65 0
+ 122 0000 09B9     		cbnz	r1, .L10
+  66:coldJnTemp.c  ****         dato=(uint8)data;   
+ 123              		.loc 1 66 0
+ 124 0002 C0B2     		uxtb	r0, r0
+ 125              	.LVL13:
+ 126 0004 7047     		bx	lr
+ 127              	.LVL14:
+ 128              	.L10:
+  67:coldJnTemp.c  ****     }else if(nible==1){
+ 129              		.loc 1 67 0
+ 130 0006 0129     		cmp	r1, #1
+ 131 0008 01D1     		bne	.L12
+  68:coldJnTemp.c  ****         dato=data>>8;
+ 132              		.loc 1 68 0
+ 133 000a 000A     		lsrs	r0, r0, #8
+ 134              	.LVL15:
+ 135 000c 7047     		bx	lr
+ 136              	.LVL16:
+ 137              	.L12:
+  64:coldJnTemp.c  ****     if(nible==0){
+ 138              		.loc 1 64 0
+ 139 000e 0020     		movs	r0, #0
+ 140              	.LVL17:
+  69:coldJnTemp.c  ****     }
+  70:coldJnTemp.c  ****     return dato;
+  71:coldJnTemp.c  **** }
+ 141              		.loc 1 71 0
+ 142 0010 7047     		bx	lr
+ 143              		.cfi_endproc
+ 144              	.LFE66:
+ 145              		.size	convert8, .-convert8
+ 146 0012 00BF     		.section	.text.convert16,"ax",%progbits
+ 147              		.align	2
+ 148              		.global	convert16
+ 149              		.thumb
+ 150              		.thumb_func
+ 151              		.type	convert16, %function
+ 152              	convert16:
+ 153              	.LFB67:
+  72:coldJnTemp.c  **** 
+  73:coldJnTemp.c  **** uint16 convert16(uint8 nibleh,uint8 niblel){
+ 154              		.loc 1 73 0
+ARM GAS  C:\Users\JPELEC~1\AppData\Local\Temp\ccSdZhaR.s 			page 5
+
+
+ 155              		.cfi_startproc
+ 156              		@ args = 0, pretend = 0, frame = 0
+ 157              		@ frame_needed = 0, uses_anonymous_args = 0
+ 158              		@ link register save eliminated.
+ 159              	.LVL18:
+  74:coldJnTemp.c  ****     uint16 temp,var;
+  75:coldJnTemp.c  ****     temp=(uint16)nibleh;
+  76:coldJnTemp.c  ****     var=temp<<8 | (uint16)niblel;
+  77:coldJnTemp.c  ****     return var;
+  78:coldJnTemp.c  **** }
+ 160              		.loc 1 78 0
+ 161 0000 41EA0020 		orr	r0, r1, r0, lsl #8
+ 162              	.LVL19:
+ 163 0004 7047     		bx	lr
+ 164              		.cfi_endproc
+ 165              	.LFE67:
+ 166              		.size	convert16, .-convert16
+ 167              		.global	__aeabi_fcmpgt
+ 168              		.global	__aeabi_fcmplt
+ 169              		.global	__aeabi_i2d
+ 170              		.global	__aeabi_dcmpgt
+ 171 0006 00BF     		.section	.text.leeEEPROM,"ax",%progbits
+ 172              		.align	2
+ 173              		.global	leeEEPROM
+ 174              		.thumb
+ 175              		.thumb_func
+ 176              		.type	leeEEPROM, %function
+ 177              	leeEEPROM:
+ 178              	.LFB68:
+  79:coldJnTemp.c  **** 
+  80:coldJnTemp.c  **** void leeEEPROM(){
+ 179              		.loc 1 80 0
+ 180              		.cfi_startproc
+ 181              		@ args = 0, pretend = 0, frame = 0
+ 182              		@ frame_needed = 0, uses_anonymous_args = 0
+ 183 0000 2DE9F047 		push	{r4, r5, r6, r7, r8, r9, r10, lr}
+ 184              		.cfi_def_cfa_offset 32
+ 185              		.cfi_offset 4, -32
+ 186              		.cfi_offset 5, -28
+ 187              		.cfi_offset 6, -24
+ 188              		.cfi_offset 7, -20
+ 189              		.cfi_offset 8, -16
+ 190              		.cfi_offset 9, -12
+ 191              		.cfi_offset 10, -8
+ 192              		.cfi_offset 14, -4
+  81:coldJnTemp.c  ****     uint8 n;
+  82:coldJnTemp.c  ****     Password[0]=EEPROM_ReadByte(0);CyDelay(5);  
+ 193              		.loc 1 82 0
+ 194 0004 0020     		movs	r0, #0
+ 195 0006 FFF7FEFF 		bl	EEPROM_ReadByte
+ 196              	.LVL20:
+ 197 000a 7E4C     		ldr	r4, .L40
+ 198 000c 2070     		strb	r0, [r4]
+ 199 000e 0520     		movs	r0, #5
+ 200 0010 FFF7FEFF 		bl	CyDelay
+ 201              	.LVL21:
+  83:coldJnTemp.c  ****     Password[1]=EEPROM_ReadByte(1);CyDelay(5);
+ARM GAS  C:\Users\JPELEC~1\AppData\Local\Temp\ccSdZhaR.s 			page 6
+
+
+ 202              		.loc 1 83 0
+ 203 0014 0120     		movs	r0, #1
+ 204 0016 FFF7FEFF 		bl	EEPROM_ReadByte
+ 205              	.LVL22:
+ 206 001a 6070     		strb	r0, [r4, #1]
+ 207 001c 0520     		movs	r0, #5
+ 208 001e FFF7FEFF 		bl	CyDelay
+ 209              	.LVL23:
+  84:coldJnTemp.c  ****     Password[2]=EEPROM_ReadByte(2);CyDelay(5);
+ 210              		.loc 1 84 0
+ 211 0022 0220     		movs	r0, #2
+ 212 0024 FFF7FEFF 		bl	EEPROM_ReadByte
+ 213              	.LVL24:
+ 214 0028 A070     		strb	r0, [r4, #2]
+ 215 002a 0520     		movs	r0, #5
+ 216 002c FFF7FEFF 		bl	CyDelay
+ 217              	.LVL25:
+  85:coldJnTemp.c  ****     Password[3]=EEPROM_ReadByte(3);CyDelay(5);
+ 218              		.loc 1 85 0
+ 219 0030 0320     		movs	r0, #3
+ 220 0032 FFF7FEFF 		bl	EEPROM_ReadByte
+ 221              	.LVL26:
+ 222 0036 E070     		strb	r0, [r4, #3]
+ 223 0038 0520     		movs	r0, #5
+ 224 003a FFF7FEFF 		bl	CyDelay
+ 225              	.LVL27:
+  86:coldJnTemp.c  ****     
+  87:coldJnTemp.c  ****     Ganancia=EEPROM_ReadByte(30);CyDelay(5);
+ 226              		.loc 1 87 0
+ 227 003e 1E20     		movs	r0, #30
+ 228 0040 FFF7FEFF 		bl	EEPROM_ReadByte
+ 229              	.LVL28:
+ 230 0044 FFF7FEFF 		bl	__aeabi_ui2f
+ 231              	.LVL29:
+ 232 0048 6F4B     		ldr	r3, .L40+4
+ 233 004a 1860     		str	r0, [r3]	@ float
+ 234 004c 0520     		movs	r0, #5
+ 235 004e FFF7FEFF 		bl	CyDelay
+ 236              	.LVL30:
+  88:coldJnTemp.c  ****     Derivativo=EEPROM_ReadByte(31);CyDelay(5);
+ 237              		.loc 1 88 0
+ 238 0052 1F20     		movs	r0, #31
+ 239 0054 FFF7FEFF 		bl	EEPROM_ReadByte
+ 240              	.LVL31:
+ 241 0058 6C4B     		ldr	r3, .L40+8
+ 242 005a 1870     		strb	r0, [r3]
+ 243 005c 0520     		movs	r0, #5
+ 244 005e FFF7FEFF 		bl	CyDelay
+ 245              	.LVL32:
+  89:coldJnTemp.c  ****     Integral=EEPROM_ReadByte(32);CyDelay(5);
+ 246              		.loc 1 89 0
+ 247 0062 2020     		movs	r0, #32
+ 248 0064 FFF7FEFF 		bl	EEPROM_ReadByte
+ 249              	.LVL33:
+ 250 0068 694B     		ldr	r3, .L40+12
+ 251 006a 1870     		strb	r0, [r3]
+ 252 006c 0520     		movs	r0, #5
+ARM GAS  C:\Users\JPELEC~1\AppData\Local\Temp\ccSdZhaR.s 			page 7
+
+
+ 253 006e FFF7FEFF 		bl	CyDelay
+ 254              	.LVL34:
+  90:coldJnTemp.c  ****     Tciclo=EEPROM_ReadByte(33);CyDelay(5);
+ 255              		.loc 1 90 0
+ 256 0072 2120     		movs	r0, #33
+ 257 0074 FFF7FEFF 		bl	EEPROM_ReadByte
+ 258              	.LVL35:
+ 259 0078 664B     		ldr	r3, .L40+16
+ 260 007a 1870     		strb	r0, [r3]
+ 261 007c 0520     		movs	r0, #5
+ 262 007e FFF7FEFF 		bl	CyDelay
+ 263              	.LVL36:
+  91:coldJnTemp.c  ****     Ajuste=EEPROM_ReadByte(34);CyDelay(5);
+ 264              		.loc 1 91 0
+ 265 0082 2220     		movs	r0, #34
+ 266 0084 FFF7FEFF 		bl	EEPROM_ReadByte
+ 267              	.LVL37:
+ 268 0088 634B     		ldr	r3, .L40+20
+ 269 008a 1870     		strb	r0, [r3]
+ 270 008c 0520     		movs	r0, #5
+ 271 008e FFF7FEFF 		bl	CyDelay
+ 272              	.LVL38:
+  92:coldJnTemp.c  ****     Ajusten=EEPROM_ReadByte(35);CyDelay(5);
+ 273              		.loc 1 92 0
+ 274 0092 2320     		movs	r0, #35
+ 275 0094 FFF7FEFF 		bl	EEPROM_ReadByte
+ 276              	.LVL39:
+ 277 0098 604B     		ldr	r3, .L40+24
+ 278 009a 1870     		strb	r0, [r3]
+ 279 009c 0520     		movs	r0, #5
+ 280 009e FFF7FEFF 		bl	CyDelay
+ 281              	.LVL40:
+  93:coldJnTemp.c  ****     MediaMovil=EEPROM_ReadByte(36);CyDelay(5);
+ 282              		.loc 1 93 0
+ 283 00a2 2420     		movs	r0, #36
+ 284 00a4 FFF7FEFF 		bl	EEPROM_ReadByte
+ 285              	.LVL41:
+ 286 00a8 5D4B     		ldr	r3, .L40+28
+ 287 00aa 1870     		strb	r0, [r3]
+ 288 00ac 0520     		movs	r0, #5
+ 289 00ae FFF7FEFF 		bl	CyDelay
+ 290              	.LVL42:
+  94:coldJnTemp.c  ****     
+  95:coldJnTemp.c  ****     if(Password[0]>9){
+ 291              		.loc 1 95 0
+ 292 00b2 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 293 00b4 092B     		cmp	r3, #9
+ 294 00b6 07D9     		bls	.L15
+  96:coldJnTemp.c  ****         Password[0]=0;
+ 295              		.loc 1 96 0
+ 296 00b8 0020     		movs	r0, #0
+ 297 00ba 2070     		strb	r0, [r4]
+  97:coldJnTemp.c  ****         EEPROM_WriteByte(0,0);CyDelay(20);
+ 298              		.loc 1 97 0
+ 299 00bc 0146     		mov	r1, r0
+ 300 00be FFF7FEFF 		bl	EEPROM_WriteByte
+ 301              	.LVL43:
+ARM GAS  C:\Users\JPELEC~1\AppData\Local\Temp\ccSdZhaR.s 			page 8
+
+
+ 302 00c2 1420     		movs	r0, #20
+ 303 00c4 FFF7FEFF 		bl	CyDelay
+ 304              	.LVL44:
+ 305              	.L15:
+  98:coldJnTemp.c  ****     }
+  99:coldJnTemp.c  ****     if(Password[1]>9){
+ 306              		.loc 1 99 0
+ 307 00c8 4E4B     		ldr	r3, .L40
+ 308 00ca 5B78     		ldrb	r3, [r3, #1]	@ zero_extendqisi2
+ 309 00cc 092B     		cmp	r3, #9
+ 310 00ce 08D9     		bls	.L16
+ 100:coldJnTemp.c  ****         Password[1]=0;
+ 311              		.loc 1 100 0
+ 312 00d0 0020     		movs	r0, #0
+ 313 00d2 4C4B     		ldr	r3, .L40
+ 314 00d4 5870     		strb	r0, [r3, #1]
+ 101:coldJnTemp.c  ****         EEPROM_WriteByte(0,1);CyDelay(20);
+ 315              		.loc 1 101 0
+ 316 00d6 0121     		movs	r1, #1
+ 317 00d8 FFF7FEFF 		bl	EEPROM_WriteByte
+ 318              	.LVL45:
+ 319 00dc 1420     		movs	r0, #20
+ 320 00de FFF7FEFF 		bl	CyDelay
+ 321              	.LVL46:
+ 322              	.L16:
+ 102:coldJnTemp.c  ****     }
+ 103:coldJnTemp.c  ****     if(Password[2]>9){
+ 323              		.loc 1 103 0
+ 324 00e2 484B     		ldr	r3, .L40
+ 325 00e4 9B78     		ldrb	r3, [r3, #2]	@ zero_extendqisi2
+ 326 00e6 092B     		cmp	r3, #9
+ 327 00e8 08D9     		bls	.L17
+ 104:coldJnTemp.c  ****         Password[2]=0;
+ 328              		.loc 1 104 0
+ 329 00ea 0020     		movs	r0, #0
+ 330 00ec 454B     		ldr	r3, .L40
+ 331 00ee 9870     		strb	r0, [r3, #2]
+ 105:coldJnTemp.c  ****         EEPROM_WriteByte(0,2);CyDelay(20);
+ 332              		.loc 1 105 0
+ 333 00f0 0221     		movs	r1, #2
+ 334 00f2 FFF7FEFF 		bl	EEPROM_WriteByte
+ 335              	.LVL47:
+ 336 00f6 1420     		movs	r0, #20
+ 337 00f8 FFF7FEFF 		bl	CyDelay
+ 338              	.LVL48:
+ 339              	.L17:
+ 106:coldJnTemp.c  ****     }
+ 107:coldJnTemp.c  ****     if(Password[3]>9){
+ 340              		.loc 1 107 0
+ 341 00fc 414B     		ldr	r3, .L40
+ 342 00fe DB78     		ldrb	r3, [r3, #3]	@ zero_extendqisi2
+ 343 0100 092B     		cmp	r3, #9
+ 344 0102 08D9     		bls	.L18
+ 108:coldJnTemp.c  ****         Password[3]=0;
+ 345              		.loc 1 108 0
+ 346 0104 0020     		movs	r0, #0
+ 347 0106 3F4B     		ldr	r3, .L40
+ARM GAS  C:\Users\JPELEC~1\AppData\Local\Temp\ccSdZhaR.s 			page 9
+
+
+ 348 0108 D870     		strb	r0, [r3, #3]
+ 109:coldJnTemp.c  ****         EEPROM_WriteByte(0,3);CyDelay(20);
+ 349              		.loc 1 109 0
+ 350 010a 0321     		movs	r1, #3
+ 351 010c FFF7FEFF 		bl	EEPROM_WriteByte
+ 352              	.LVL49:
+ 353 0110 1420     		movs	r0, #20
+ 354 0112 FFF7FEFF 		bl	CyDelay
+ 355              	.LVL50:
+ 356              	.L18:
+ 110:coldJnTemp.c  ****     }
+ 111:coldJnTemp.c  ****     if(Ganancia>10 || Ganancia<1){
+ 357              		.loc 1 111 0
+ 358 0116 3C4B     		ldr	r3, .L40+4
+ 359 0118 1C68     		ldr	r4, [r3]	@ float
+ 360 011a 4249     		ldr	r1, .L40+32
+ 361 011c 2046     		mov	r0, r4
+ 362 011e FFF7FEFF 		bl	__aeabi_fcmpgt
+ 363              	.LVL51:
+ 364 0122 28B9     		cbnz	r0, .L19
+ 365              		.loc 1 111 0 is_stmt 0 discriminator 1
+ 366 0124 4FF07E51 		mov	r1, #1065353216
+ 367 0128 2046     		mov	r0, r4
+ 368 012a FFF7FEFF 		bl	__aeabi_fcmplt
+ 369              	.LVL52:
+ 370 012e 48B1     		cbz	r0, .L20
+ 371              	.L19:
+ 112:coldJnTemp.c  ****         Ganancia=3;    
+ 372              		.loc 1 112 0 is_stmt 1
+ 373 0130 3D4A     		ldr	r2, .L40+36
+ 374 0132 354B     		ldr	r3, .L40+4
+ 375 0134 1A60     		str	r2, [r3]	@ float
+ 113:coldJnTemp.c  ****         EEPROM_WriteByte(3,30);CyDelay(20);
+ 376              		.loc 1 113 0
+ 377 0136 1E21     		movs	r1, #30
+ 378 0138 0320     		movs	r0, #3
+ 379 013a FFF7FEFF 		bl	EEPROM_WriteByte
+ 380              	.LVL53:
+ 381 013e 1420     		movs	r0, #20
+ 382 0140 FFF7FEFF 		bl	CyDelay
+ 383              	.LVL54:
+ 384              	.L20:
+ 114:coldJnTemp.c  ****     }
+ 115:coldJnTemp.c  ****     
+ 116:coldJnTemp.c  ****     if(Derivativo>80 || Derivativo<5){
+ 385              		.loc 1 116 0
+ 386 0144 314B     		ldr	r3, .L40+8
+ 387 0146 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 388 0148 053B     		subs	r3, r3, #5
+ 389 014a DBB2     		uxtb	r3, r3
+ 390 014c 4B2B     		cmp	r3, #75
+ 391 014e 08D9     		bls	.L22
+ 117:coldJnTemp.c  ****         Derivativo=5;    
+ 392              		.loc 1 117 0
+ 393 0150 0520     		movs	r0, #5
+ 394 0152 2E4B     		ldr	r3, .L40+8
+ 395 0154 1870     		strb	r0, [r3]
+ARM GAS  C:\Users\JPELEC~1\AppData\Local\Temp\ccSdZhaR.s 			page 10
+
+
+ 118:coldJnTemp.c  ****         EEPROM_WriteByte(5,31);CyDelay(20);
+ 396              		.loc 1 118 0
+ 397 0156 1F21     		movs	r1, #31
+ 398 0158 FFF7FEFF 		bl	EEPROM_WriteByte
+ 399              	.LVL55:
+ 400 015c 1420     		movs	r0, #20
+ 401 015e FFF7FEFF 		bl	CyDelay
+ 402              	.LVL56:
+ 403              	.L22:
+ 119:coldJnTemp.c  ****     }
+ 120:coldJnTemp.c  ****     if(Integral>4 || Integral<1){
+ 404              		.loc 1 120 0
+ 405 0162 2B4B     		ldr	r3, .L40+12
+ 406 0164 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 407 0166 013B     		subs	r3, r3, #1
+ 408 0168 DBB2     		uxtb	r3, r3
+ 409 016a 032B     		cmp	r3, #3
+ 410 016c 08D9     		bls	.L23
+ 121:coldJnTemp.c  ****         Integral=1;    
+ 411              		.loc 1 121 0
+ 412 016e 0120     		movs	r0, #1
+ 413 0170 274B     		ldr	r3, .L40+12
+ 414 0172 1870     		strb	r0, [r3]
+ 122:coldJnTemp.c  ****         EEPROM_WriteByte(1,32);CyDelay(20);
+ 415              		.loc 1 122 0
+ 416 0174 2021     		movs	r1, #32
+ 417 0176 FFF7FEFF 		bl	EEPROM_WriteByte
+ 418              	.LVL57:
+ 419 017a 1420     		movs	r0, #20
+ 420 017c FFF7FEFF 		bl	CyDelay
+ 421              	.LVL58:
+ 422              	.L23:
+ 123:coldJnTemp.c  ****     }
+ 124:coldJnTemp.c  ****     if(Tciclo>10 || Tciclo<1){
+ 423              		.loc 1 124 0
+ 424 0180 244B     		ldr	r3, .L40+16
+ 425 0182 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 426 0184 013B     		subs	r3, r3, #1
+ 427 0186 DBB2     		uxtb	r3, r3
+ 428 0188 092B     		cmp	r3, #9
+ 429 018a 08D9     		bls	.L24
+ 125:coldJnTemp.c  ****         Tciclo=10;    
+ 430              		.loc 1 125 0
+ 431 018c 0A20     		movs	r0, #10
+ 432 018e 214B     		ldr	r3, .L40+16
+ 433 0190 1870     		strb	r0, [r3]
+ 126:coldJnTemp.c  ****         EEPROM_WriteByte(10,33);CyDelay(20);
+ 434              		.loc 1 126 0
+ 435 0192 2121     		movs	r1, #33
+ 436 0194 FFF7FEFF 		bl	EEPROM_WriteByte
+ 437              	.LVL59:
+ 438 0198 1420     		movs	r0, #20
+ 439 019a FFF7FEFF 		bl	CyDelay
+ 440              	.LVL60:
+ 441              	.L24:
+ 127:coldJnTemp.c  ****     }
+ 128:coldJnTemp.c  ****     if(Ajuste>50){
+ARM GAS  C:\Users\JPELEC~1\AppData\Local\Temp\ccSdZhaR.s 			page 11
+
+
+ 442              		.loc 1 128 0
+ 443 019e 1E4B     		ldr	r3, .L40+20
+ 444 01a0 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 445 01a2 322B     		cmp	r3, #50
+ 446 01a4 08D9     		bls	.L25
+ 129:coldJnTemp.c  ****         Ajuste=0;    
+ 447              		.loc 1 129 0
+ 448 01a6 0020     		movs	r0, #0
+ 449 01a8 1B4B     		ldr	r3, .L40+20
+ 450 01aa 1870     		strb	r0, [r3]
+ 130:coldJnTemp.c  ****         EEPROM_WriteByte(0,34);CyDelay(20);
+ 451              		.loc 1 130 0
+ 452 01ac 2221     		movs	r1, #34
+ 453 01ae FFF7FEFF 		bl	EEPROM_WriteByte
+ 454              	.LVL61:
+ 455 01b2 1420     		movs	r0, #20
+ 456 01b4 FFF7FEFF 		bl	CyDelay
+ 457              	.LVL62:
+ 458              	.L25:
+ 131:coldJnTemp.c  ****     }
+ 132:coldJnTemp.c  ****     if(Ajusten>50){
+ 459              		.loc 1 132 0
+ 460 01b8 184B     		ldr	r3, .L40+24
+ 461 01ba 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 462 01bc 322B     		cmp	r3, #50
+ 463 01be 08D9     		bls	.L26
+ 133:coldJnTemp.c  ****         Ajusten=0;    
+ 464              		.loc 1 133 0
+ 465 01c0 0020     		movs	r0, #0
+ 466 01c2 164B     		ldr	r3, .L40+24
+ 467 01c4 1870     		strb	r0, [r3]
+ 134:coldJnTemp.c  ****         EEPROM_WriteByte(0,35);CyDelay(20);
+ 468              		.loc 1 134 0
+ 469 01c6 2321     		movs	r1, #35
+ 470 01c8 FFF7FEFF 		bl	EEPROM_WriteByte
+ 471              	.LVL63:
+ 472 01cc 1420     		movs	r0, #20
+ 473 01ce FFF7FEFF 		bl	CyDelay
+ 474              	.LVL64:
+ 475              	.L26:
+ 135:coldJnTemp.c  ****     }
+ 136:coldJnTemp.c  ****     if(MediaMovil>40 || MediaMovil<1){
+ 476              		.loc 1 136 0
+ 477 01d2 134B     		ldr	r3, .L40+28
+ 478 01d4 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 479 01d6 013B     		subs	r3, r3, #1
+ 480 01d8 DBB2     		uxtb	r3, r3
+ 481 01da 272B     		cmp	r3, #39
+ 482 01dc 08D9     		bls	.L27
+ 137:coldJnTemp.c  ****         MediaMovil=10;    
+ 483              		.loc 1 137 0
+ 484 01de 0A20     		movs	r0, #10
+ 485 01e0 0F4B     		ldr	r3, .L40+28
+ 486 01e2 1870     		strb	r0, [r3]
+ 138:coldJnTemp.c  ****         EEPROM_WriteByte(10,36);CyDelay(20);
+ 487              		.loc 1 138 0
+ 488 01e4 2421     		movs	r1, #36
+ARM GAS  C:\Users\JPELEC~1\AppData\Local\Temp\ccSdZhaR.s 			page 12
+
+
+ 489 01e6 FFF7FEFF 		bl	EEPROM_WriteByte
+ 490              	.LVL65:
+ 491 01ea 1420     		movs	r0, #20
+ 492 01ec FFF7FEFF 		bl	CyDelay
+ 493              	.LVL66:
+ 494              	.L27:
+ 139:coldJnTemp.c  ****     }
+ 140:coldJnTemp.c  ****     GananciaIn=Ganancia;
+ 495              		.loc 1 140 0
+ 496 01f0 054B     		ldr	r3, .L40+4
+ 497 01f2 1A68     		ldr	r2, [r3]	@ float
+ 498 01f4 0D4B     		ldr	r3, .L40+40
+ 499 01f6 1A60     		str	r2, [r3]	@ float
+ 500              	.LVL67:
+ 141:coldJnTemp.c  ****     for(n=0;n<5;n++){
+ 501              		.loc 1 141 0
+ 502 01f8 0024     		movs	r4, #0
+ 503 01fa B3E0     		b	.L28
+ 504              	.LVL68:
+ 505              	.L36:
+ 142:coldJnTemp.c  ****         for(i=0;i<10;i++){
+ 506              		.loc 1 142 0
+ 507 01fc 0022     		movs	r2, #0
+ 508 01fe 0C4B     		ldr	r3, .L40+44
+ 509 0200 1A70     		strb	r2, [r3]
+ 510 0202 A8E0     		b	.L29
+ 511              	.L41:
+ 512              		.align	2
+ 513              	.L40:
+ 514 0204 00000000 		.word	Password
+ 515 0208 00000000 		.word	Ganancia
+ 516 020c 00000000 		.word	Derivativo
+ 517 0210 00000000 		.word	Integral
+ 518 0214 00000000 		.word	Tciclo
+ 519 0218 00000000 		.word	Ajuste
+ 520 021c 00000000 		.word	Ajusten
+ 521 0220 00000000 		.word	MediaMovil
+ 522 0224 00002041 		.word	1092616192
+ 523 0228 00004040 		.word	1077936128
+ 524 022c 00000000 		.word	GananciaIn
+ 525 0230 00000000 		.word	i
+ 526              	.L35:
+ 143:coldJnTemp.c  ****             Programas[n].rampas[i].TemperaturaInt=EEPROM_ReadByte(100+(n*50)+(i*5)); 
+ 527              		.loc 1 143 0
+ 528 0234 2746     		mov	r7, r4
+ 529 0236 04EB8403 		add	r3, r4, r4, lsl #2
+ 530 023a 03EB8303 		add	r3, r3, r3, lsl #2
+ 531 023e 4FEA430A 		lsl	r10, r3, #1
+ 532 0242 1FFA8AFA 		uxth	r10, r10
+ 533 0246 06EB8600 		add	r0, r6, r6, lsl #2
+ 534 024a 5044     		add	r0, r0, r10
+ 535 024c 6430     		adds	r0, r0, #100
+ 536 024e 80B2     		uxth	r0, r0
+ 537 0250 FFF7FEFF 		bl	EEPROM_ReadByte
+ 538              	.LVL69:
+ 539 0254 DFF82081 		ldr	r8, .L42+8
+ 540 0258 A500     		lsls	r5, r4, #2
+ARM GAS  C:\Users\JPELEC~1\AppData\Local\Temp\ccSdZhaR.s 			page 13
+
+
+ 541 025a 2A19     		adds	r2, r5, r4
+ 542 025c 9300     		lsls	r3, r2, #2
+ 543 025e 3344     		add	r3, r3, r6
+ 544 0260 08EBC303 		add	r3, r8, r3, lsl #3
+ 545 0264 5870     		strb	r0, [r3, #1]
+ 144:coldJnTemp.c  ****             Programas[n].rampas[i].TemperaturaDec=EEPROM_ReadByte(101+(n*50)+(i*5)); 
+ 546              		.loc 1 144 0
+ 547 0266 DFF81891 		ldr	r9, .L42+16
+ 548 026a 99F80060 		ldrb	r6, [r9]	@ zero_extendqisi2
+ 549 026e 06EB8600 		add	r0, r6, r6, lsl #2
+ 550 0272 5044     		add	r0, r0, r10
+ 551 0274 6530     		adds	r0, r0, #101
+ 552 0276 80B2     		uxth	r0, r0
+ 553 0278 FFF7FEFF 		bl	EEPROM_ReadByte
+ 554              	.LVL70:
+ 555 027c 2A19     		adds	r2, r5, r4
+ 556 027e 9300     		lsls	r3, r2, #2
+ 557 0280 1E44     		add	r6, r6, r3
+ 558 0282 08F83600 		strb	r0, [r8, r6, lsl #3]
+ 145:coldJnTemp.c  ****             Programas[n].rampas[i].Horas=EEPROM_ReadByte(103+(n*50)+(i*5)); 
+ 559              		.loc 1 145 0
+ 560 0286 99F80060 		ldrb	r6, [r9]	@ zero_extendqisi2
+ 561 028a 06EB8600 		add	r0, r6, r6, lsl #2
+ 562 028e 5044     		add	r0, r0, r10
+ 563 0290 6730     		adds	r0, r0, #103
+ 564 0292 80B2     		uxth	r0, r0
+ 565 0294 FFF7FEFF 		bl	EEPROM_ReadByte
+ 566              	.LVL71:
+ 567 0298 2A19     		adds	r2, r5, r4
+ 568 029a 9300     		lsls	r3, r2, #2
+ 569 029c 1E44     		add	r6, r6, r3
+ 570 029e 08EBC606 		add	r6, r8, r6, lsl #3
+ 571 02a2 F070     		strb	r0, [r6, #3]
+ 146:coldJnTemp.c  ****             Programas[n].rampas[i].Minutos=EEPROM_ReadByte(104+(n*50)+(i*5)); 
+ 572              		.loc 1 146 0
+ 573 02a4 99F80060 		ldrb	r6, [r9]	@ zero_extendqisi2
+ 574 02a8 06EB8600 		add	r0, r6, r6, lsl #2
+ 575 02ac 5044     		add	r0, r0, r10
+ 576 02ae 6830     		adds	r0, r0, #104
+ 577 02b0 80B2     		uxth	r0, r0
+ 578 02b2 FFF7FEFF 		bl	EEPROM_ReadByte
+ 579              	.LVL72:
+ 580 02b6 2A19     		adds	r2, r5, r4
+ 581 02b8 9300     		lsls	r3, r2, #2
+ 582 02ba 1E44     		add	r6, r6, r3
+ 583 02bc 08EBC606 		add	r6, r8, r6, lsl #3
+ 584 02c0 3071     		strb	r0, [r6, #4]
+ 147:coldJnTemp.c  ****                
+ 148:coldJnTemp.c  ****             Programas[n].rampas[i].Temperatura=convert16(Programas[n].rampas[i].TemperaturaDec,Prog
+ 585              		.loc 1 148 0
+ 586 02c2 99F80060 		ldrb	r6, [r9]	@ zero_extendqisi2
+ 587 02c6 3344     		add	r3, r3, r6
+ 588 02c8 08EBC305 		add	r5, r8, r3, lsl #3
+ 589 02cc 6978     		ldrb	r1, [r5, #1]	@ zero_extendqisi2
+ 590 02ce 18F83300 		ldrb	r0, [r8, r3, lsl #3]	@ zero_extendqisi2
+ 591 02d2 FFF7FEFF 		bl	convert16
+ 592              	.LVL73:
+ARM GAS  C:\Users\JPELEC~1\AppData\Local\Temp\ccSdZhaR.s 			page 14
+
+
+ 593 02d6 E880     		strh	r0, [r5, #6]	@ movhi
+ 149:coldJnTemp.c  ****             if(Programas[n].rampas[i].Temperatura>1200)Programas[n].rampas[i].Temperatura=10;
+ 594              		.loc 1 149 0
+ 595 02d8 B0F5966F 		cmp	r0, #1200
+ 596 02dc 07D9     		bls	.L30
+ 597              		.loc 1 149 0 is_stmt 0 discriminator 1
+ 598 02de 04EB8402 		add	r2, r4, r4, lsl #2
+ 599 02e2 9300     		lsls	r3, r2, #2
+ 600 02e4 3344     		add	r3, r3, r6
+ 601 02e6 08EBC303 		add	r3, r8, r3, lsl #3
+ 602 02ea 0A22     		movs	r2, #10
+ 603 02ec DA80     		strh	r2, [r3, #6]	@ movhi
+ 604              	.L30:
+ 150:coldJnTemp.c  ****             if(Programas[n].rampas[i].Horas>99.0)Programas[n].rampas[i].Horas=10.0;
+ 605              		.loc 1 150 0 is_stmt 1
+ 606 02ee 07EB8702 		add	r2, r7, r7, lsl #2
+ 607 02f2 9300     		lsls	r3, r2, #2
+ 608 02f4 3344     		add	r3, r3, r6
+ 609 02f6 204A     		ldr	r2, .L42+8
+ 610 02f8 02EBC303 		add	r3, r2, r3, lsl #3
+ 611 02fc D878     		ldrb	r0, [r3, #3]	@ zero_extendqisi2
+ 612 02fe FFF7FEFF 		bl	__aeabi_i2d
+ 613              	.LVL74:
+ 614 0302 1BA3     		adr	r3, .L42
+ 615 0304 D3E90023 		ldrd	r2, [r3]
+ 616 0308 FFF7FEFF 		bl	__aeabi_dcmpgt
+ 617              	.LVL75:
+ 618 030c 40B1     		cbz	r0, .L31
+ 619              		.loc 1 150 0 is_stmt 0 discriminator 1
+ 620 030e 07EB8702 		add	r2, r7, r7, lsl #2
+ 621 0312 9300     		lsls	r3, r2, #2
+ 622 0314 3344     		add	r3, r3, r6
+ 623 0316 184A     		ldr	r2, .L42+8
+ 624 0318 02EBC303 		add	r3, r2, r3, lsl #3
+ 625 031c 0A22     		movs	r2, #10
+ 626 031e DA70     		strb	r2, [r3, #3]
+ 627              	.L31:
+ 151:coldJnTemp.c  ****             if(Programas[n].rampas[i].Minutos>59.0)Programas[n].rampas[i].Minutos=10.0;
+ 628              		.loc 1 151 0 is_stmt 1
+ 629 0320 07EB8702 		add	r2, r7, r7, lsl #2
+ 630 0324 9300     		lsls	r3, r2, #2
+ 631 0326 3344     		add	r3, r3, r6
+ 632 0328 134A     		ldr	r2, .L42+8
+ 633 032a 02EBC303 		add	r3, r2, r3, lsl #3
+ 634 032e 1879     		ldrb	r0, [r3, #4]	@ zero_extendqisi2
+ 635 0330 FFF7FEFF 		bl	__aeabi_i2d
+ 636              	.LVL76:
+ 637 0334 0022     		movs	r2, #0
+ 638 0336 114B     		ldr	r3, .L42+12
+ 639 0338 FFF7FEFF 		bl	__aeabi_dcmpgt
+ 640              	.LVL77:
+ 641 033c 40B1     		cbz	r0, .L33
+ 642              		.loc 1 151 0 is_stmt 0 discriminator 1
+ 643 033e 07EB8707 		add	r7, r7, r7, lsl #2
+ 644 0342 BB00     		lsls	r3, r7, #2
+ 645 0344 3344     		add	r3, r3, r6
+ 646 0346 0C4A     		ldr	r2, .L42+8
+ARM GAS  C:\Users\JPELEC~1\AppData\Local\Temp\ccSdZhaR.s 			page 15
+
+
+ 647 0348 02EBC303 		add	r3, r2, r3, lsl #3
+ 648 034c 0A22     		movs	r2, #10
+ 649 034e 1A71     		strb	r2, [r3, #4]
+ 650              	.L33:
+ 142:coldJnTemp.c  ****             Programas[n].rampas[i].TemperaturaInt=EEPROM_ReadByte(100+(n*50)+(i*5)); 
+ 651              		.loc 1 142 0 is_stmt 1 discriminator 2
+ 652 0350 0136     		adds	r6, r6, #1
+ 653 0352 0B4B     		ldr	r3, .L42+16
+ 654 0354 1E70     		strb	r6, [r3]
+ 655              	.L29:
+ 142:coldJnTemp.c  ****             Programas[n].rampas[i].TemperaturaInt=EEPROM_ReadByte(100+(n*50)+(i*5)); 
+ 656              		.loc 1 142 0 is_stmt 0 discriminator 1
+ 657 0356 0A4B     		ldr	r3, .L42+16
+ 658 0358 1E78     		ldrb	r6, [r3]	@ zero_extendqisi2
+ 659 035a 092E     		cmp	r6, #9
+ 660 035c 7FF66AAF 		bls	.L35
+ 141:coldJnTemp.c  ****         for(i=0;i<10;i++){
+ 661              		.loc 1 141 0 is_stmt 1 discriminator 2
+ 662 0360 0134     		adds	r4, r4, #1
+ 663              	.LVL78:
+ 664 0362 E4B2     		uxtb	r4, r4
+ 665              	.LVL79:
+ 666              	.L28:
+ 141:coldJnTemp.c  ****         for(i=0;i<10;i++){
+ 667              		.loc 1 141 0 is_stmt 0 discriminator 1
+ 668 0364 042C     		cmp	r4, #4
+ 669 0366 7FF649AF 		bls	.L36
+ 152:coldJnTemp.c  ****         }
+ 153:coldJnTemp.c  ****     }
+ 154:coldJnTemp.c  **** }
+ 670              		.loc 1 154 0 is_stmt 1
+ 671 036a BDE8F087 		pop	{r4, r5, r6, r7, r8, r9, r10, pc}
+ 672              	.LVL80:
+ 673              	.L43:
+ 674 036e 00BF     		.align	3
+ 675              	.L42:
+ 676 0370 00000000 		.word	0
+ 677 0374 00C05840 		.word	1079558144
+ 678 0378 00000000 		.word	Programas
+ 679 037c 00804D40 		.word	1078820864
+ 680 0380 00000000 		.word	i
+ 681              		.cfi_endproc
+ 682              	.LFE68:
+ 683              		.size	leeEEPROM, .-leeEEPROM
+ 684              		.section	.text.MeasureColdJnSensorTemp,"ax",%progbits
+ 685              		.align	2
+ 686              		.global	MeasureColdJnSensorTemp
+ 687              		.thumb
+ 688              		.thumb_func
+ 689              		.type	MeasureColdJnSensorTemp, %function
+ 690              	MeasureColdJnSensorTemp:
+ 691              	.LFB69:
+ 155:coldJnTemp.c  **** 
+ 156:coldJnTemp.c  **** /*******************************************************************************
+ 157:coldJnTemp.c  **** *  Function Name: MeasureColdJnSensorTemp
+ 158:coldJnTemp.c  **** ********************************************************************************
+ 159:coldJnTemp.c  **** * Summary:
+ARM GAS  C:\Users\JPELEC~1\AppData\Local\Temp\ccSdZhaR.s 			page 16
+
+
+ 160:coldJnTemp.c  **** *  This function is used to select cold junction temperature sensor which is used 
+ 161:coldJnTemp.c  **** *  as cold junction compensation for thermocouple. The selection is made based on 
+ 162:coldJnTemp.c  **** *  the value of CJSelectFlag
+ 163:coldJnTemp.c  **** *
+ 164:coldJnTemp.c  **** * Parameters:  
+ 165:coldJnTemp.c  **** * void:
+ 166:coldJnTemp.c  **** *
+ 167:coldJnTemp.c  **** * Return: 
+ 168:coldJnTemp.c  **** * Temperature in °C
+ 169:coldJnTemp.c  **** *
+ 170:coldJnTemp.c  **** * Theory:
+ 171:coldJnTemp.c  **** *
+ 172:coldJnTemp.c  **** * Side Effects:
+ 173:coldJnTemp.c  **** * None
+ 174:coldJnTemp.c  **** *******************************************************************************/
+ 175:coldJnTemp.c  **** int32 MeasureColdJnSensorTemp(void)
+ 176:coldJnTemp.c  **** {
+ 692              		.loc 1 176 0
+ 693              		.cfi_startproc
+ 694              		@ args = 0, pretend = 0, frame = 0
+ 695              		@ frame_needed = 0, uses_anonymous_args = 0
+ 696 0000 08B5     		push	{r3, lr}
+ 697              		.cfi_def_cfa_offset 8
+ 698              		.cfi_offset 3, -8
+ 699              		.cfi_offset 14, -4
+ 700              	.LVL81:
+ 177:coldJnTemp.c  ****     /* Cold Jn temperature is measured using either DS600 IC or Thermistor SW2
+ 178:coldJnTemp.c  ****         controls the selection*/
+ 179:coldJnTemp.c  ****     uint16 lm35;
+ 180:coldJnTemp.c  ****         /* Show ADC2 result on LCD*/
+ 181:coldJnTemp.c  ****         lm35=0;
+ 182:coldJnTemp.c  ****         if(dataReady != 0u)
+ 701              		.loc 1 182 0
+ 702 0002 1C4B     		ldr	r3, .L51
+ 703 0004 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 704 0006 002B     		cmp	r3, #0
+ 705 0008 2ED0     		beq	.L49
+ 183:coldJnTemp.c  ****         {
+ 184:coldJnTemp.c  ****             Prom=ADC_SAR_CountsTo_mVolts(result);
+ 706              		.loc 1 184 0
+ 707 000a 1B4B     		ldr	r3, .L51+4
+ 708 000c B3F90000 		ldrsh	r0, [r3]
+ 709 0010 FFF7FEFF 		bl	ADC_SAR_CountsTo_mVolts
+ 710              	.LVL82:
+ 711 0014 80B2     		uxth	r0, r0
+ 712 0016 194B     		ldr	r3, .L51+8
+ 713 0018 1880     		strh	r0, [r3]	@ movhi
+ 185:coldJnTemp.c  ****             if(l2>(10-1))
+ 714              		.loc 1 185 0
+ 715 001a 194B     		ldr	r3, .L51+12
+ 716 001c 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 717 001e 092B     		cmp	r3, #9
+ 718 0020 02D9     		bls	.L46
+ 186:coldJnTemp.c  ****                l2=0;
+ 719              		.loc 1 186 0
+ 720 0022 0022     		movs	r2, #0
+ 721 0024 164B     		ldr	r3, .L51+12
+ARM GAS  C:\Users\JPELEC~1\AppData\Local\Temp\ccSdZhaR.s 			page 17
+
+
+ 722 0026 1A70     		strb	r2, [r3]
+ 723              	.L46:
+ 187:coldJnTemp.c  **** 
+ 188:coldJnTemp.c  ****             promedio2[l2]=Prom;l2++;
+ 724              		.loc 1 188 0
+ 725 0028 154A     		ldr	r2, .L51+12
+ 726 002a 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 727 002c 1549     		ldr	r1, .L51+16
+ 728 002e 21F81300 		strh	r0, [r1, r3, lsl #1]	@ movhi
+ 729 0032 0133     		adds	r3, r3, #1
+ 730 0034 1370     		strb	r3, [r2]
+ 189:coldJnTemp.c  ****                  
+ 190:coldJnTemp.c  ****             for(h2=0;h2<10;h2++){
+ 731              		.loc 1 190 0
+ 732 0036 0023     		movs	r3, #0
+ 733 0038 134A     		ldr	r2, .L51+20
+ 734 003a 1370     		strb	r3, [r2]
+ 735 003c 07E0     		b	.L47
+ 736              	.LVL83:
+ 737              	.L48:
+ 191:coldJnTemp.c  ****                 lm35+=promedio2[h2];
+ 738              		.loc 1 191 0 discriminator 3
+ 739 003e 1149     		ldr	r1, .L51+16
+ 740 0040 31F81210 		ldrh	r1, [r1, r2, lsl #1]
+ 741 0044 0B44     		add	r3, r3, r1
+ 742              	.LVL84:
+ 743 0046 9BB2     		uxth	r3, r3
+ 744              	.LVL85:
+ 190:coldJnTemp.c  ****                 lm35+=promedio2[h2];
+ 745              		.loc 1 190 0 discriminator 3
+ 746 0048 0132     		adds	r2, r2, #1
+ 747 004a 0F49     		ldr	r1, .L51+20
+ 748 004c 0A70     		strb	r2, [r1]
+ 749              	.LVL86:
+ 750              	.L47:
+ 190:coldJnTemp.c  ****                 lm35+=promedio2[h2];
+ 751              		.loc 1 190 0 is_stmt 0 discriminator 1
+ 752 004e 0E4A     		ldr	r2, .L51+20
+ 753 0050 1278     		ldrb	r2, [r2]	@ zero_extendqisi2
+ 754 0052 092A     		cmp	r2, #9
+ 755 0054 F3D9     		bls	.L48
+ 192:coldJnTemp.c  ****             } 
+ 193:coldJnTemp.c  ****             lm35=lm35/10; 
+ 756              		.loc 1 193 0 is_stmt 1
+ 757 0056 0D4A     		ldr	r2, .L51+24
+ 758 0058 A2FB0323 		umull	r2, r3, r2, r3
+ 759              	.LVL87:
+ 760 005c C3F3CF03 		ubfx	r3, r3, #3, #16
+ 761              	.LVL88:
+ 194:coldJnTemp.c  ****             dataReady = 0u;
+ 762              		.loc 1 194 0
+ 763 0060 0021     		movs	r1, #0
+ 764 0062 044A     		ldr	r2, .L51
+ 765 0064 1170     		strb	r1, [r2]
+ 766 0066 00E0     		b	.L45
+ 767              	.LVL89:
+ 768              	.L49:
+ARM GAS  C:\Users\JPELEC~1\AppData\Local\Temp\ccSdZhaR.s 			page 18
+
+
+ 181:coldJnTemp.c  ****         if(dataReady != 0u)
+ 769              		.loc 1 181 0
+ 770 0068 0023     		movs	r3, #0
+ 771              	.LVL90:
+ 772              	.L45:
+ 195:coldJnTemp.c  ****         }
+ 196:coldJnTemp.c  ****     
+ 197:coldJnTemp.c  **** 	return lm35*10;
+ 773              		.loc 1 197 0
+ 774 006a 03EB8303 		add	r3, r3, r3, lsl #2
+ 775              	.LVL91:
+ 776 006e 5800     		lsls	r0, r3, #1
+ 198:coldJnTemp.c  **** }
+ 777              		.loc 1 198 0
+ 778 0070 08BD     		pop	{r3, pc}
+ 779              	.L52:
+ 780 0072 00BF     		.align	2
+ 781              	.L51:
+ 782 0074 00000000 		.word	dataReady
+ 783 0078 00000000 		.word	result
+ 784 007c 00000000 		.word	Prom
+ 785 0080 00000000 		.word	l2
+ 786 0084 00000000 		.word	promedio2
+ 787 0088 00000000 		.word	h2
+ 788 008c CDCCCCCC 		.word	-858993459
+ 789              		.cfi_endproc
+ 790              	.LFE69:
+ 791              		.size	MeasureColdJnSensorTemp, .-MeasureColdJnSensorTemp
+ 792              		.section	.text.MeasureICTemp,"ax",%progbits
+ 793              		.align	2
+ 794              		.global	MeasureICTemp
+ 795              		.thumb
+ 796              		.thumb_func
+ 797              		.type	MeasureICTemp, %function
+ 798              	MeasureICTemp:
+ 799              	.LFB70:
+ 199:coldJnTemp.c  **** 
+ 200:coldJnTemp.c  **** /*******************************************************************************
+ 201:coldJnTemp.c  **** *  Function Name: MeasureICTemp
+ 202:coldJnTemp.c  **** ********************************************************************************
+ 203:coldJnTemp.c  **** * Summary:
+ 204:coldJnTemp.c  **** *  This function is used to measure the DS600 IC temperature which is used as
+ 205:coldJnTemp.c  **** *  cold junction compensation for thermocouple.
+ 206:coldJnTemp.c  **** *
+ 207:coldJnTemp.c  **** * Parameters:  
+ 208:coldJnTemp.c  **** * void:
+ 209:coldJnTemp.c  **** *
+ 210:coldJnTemp.c  **** * Return: 
+ 211:coldJnTemp.c  **** * int32: Temperature in °C
+ 212:coldJnTemp.c  **** *
+ 213:coldJnTemp.c  **** * Theory:
+ 214:coldJnTemp.c  **** * Cold Junction IC DS600 has temperature coefficient of 6.45mV/°C with 
+ 215:coldJnTemp.c  **** * 509mv offset at 25°C.
+ 216:coldJnTemp.c  **** * Analog voltage output from IC is converted to temperature as follows:
+ 217:coldJnTemp.c  **** * Temp = (Vout - 509mV)/6.45mV
+ 218:coldJnTemp.c  **** *
+ 219:coldJnTemp.c  **** * Side Effects:
+ARM GAS  C:\Users\JPELEC~1\AppData\Local\Temp\ccSdZhaR.s 			page 19
+
+
+ 220:coldJnTemp.c  **** * None
+ 221:coldJnTemp.c  **** *******************************************************************************/
+ 222:coldJnTemp.c  **** int32 MeasureICTemp(void)
+ 223:coldJnTemp.c  **** {
+ 800              		.loc 1 223 0
+ 801              		.cfi_startproc
+ 802              		@ args = 0, pretend = 0, frame = 0
+ 803              		@ frame_needed = 0, uses_anonymous_args = 0
+ 804              		@ link register save eliminated.
+ 224:coldJnTemp.c  ****   	/* Cold junction IC ADC count measurement*/
+ 225:coldJnTemp.c  ****     int32 ICResult;
+ 226:coldJnTemp.c  ****    
+ 227:coldJnTemp.c  ****     /* Cold Junction micro volts converted from ADC reading */
+ 228:coldJnTemp.c  ****     int32 ICUVolts;
+ 229:coldJnTemp.c  ****     
+ 230:coldJnTemp.c  ****     /* Cold Jn temperature measured using DS600 */
+ 231:coldJnTemp.c  ****     int32 ICTemp;
+ 232:coldJnTemp.c  **** 	
+ 233:coldJnTemp.c  **** 	/* Variable used to calculate VSSA ground reference voltage */
+ 234:coldJnTemp.c  ****     int32 offset;
+ 235:coldJnTemp.c  ****     
+ 236:coldJnTemp.c  ****     
+ 237:coldJnTemp.c  ****     /* Measure cold junction temperature in Celsius from parameters from the DS600 
+ 238:coldJnTemp.c  **** 	 * Temp Sensor 509 mV at 0 degrees C, divided by 6.45 mV per degree C. The macros
+ 239:coldJnTemp.c  **** 	 * (SCALING, VOLTAGE_PER_DEGREE and ZERO_DEGREE_OFFSET_VOLTAGE have been 
+ 240:coldJnTemp.c  **** 	 * manipulated such that the resultant temperature is in 100th of a degree Celsius*/
+ 241:coldJnTemp.c  ****     
+ 242:coldJnTemp.c  **** 	ICTemp = ((ICUVolts - ZERO_DEGREE_OFFSET_VOLTAGE) * SCALING) / VOLTAGE_PER_DEGREE;
+ 805              		.loc 1 242 0
+ 806 0000 034B     		ldr	r3, .L54
+ 807 0002 0448     		ldr	r0, .L54+4
+ 808 0004 80FB0320 		smull	r2, r0, r0, r3
+ 809 0008 DB17     		asrs	r3, r3, #31
+ 810              	.LVL92:
+ 243:coldJnTemp.c  **** 
+ 244:coldJnTemp.c  ****     return ICTemp;
+ 245:coldJnTemp.c  **** }
+ 811              		.loc 1 245 0
+ 812 000a C3EB2020 		rsb	r0, r3, r0, asr #8
+ 813              	.LVL93:
+ 814 000e 7047     		bx	lr
+ 815              	.L55:
+ 816              		.align	2
+ 817              	.L54:
+ 818 0010 3055B2FF 		.word	-5090000
+ 819 0014 07309B65 		.word	1704669191
+ 820              		.cfi_endproc
+ 821              	.LFE70:
+ 822              		.size	MeasureICTemp, .-MeasureICTemp
+ 823              		.comm	promedio2,40,4
+ 824              		.comm	Prom,2,2
+ 825              		.comm	h2,1,1
+ 826              		.comm	l2,1,1
+ 827              		.comm	i,1,1
+ 828              		.comm	Programas,800,4
+ 829              		.text
+ 830              	.Letext0:
+ARM GAS  C:\Users\JPELEC~1\AppData\Local\Temp\ccSdZhaR.s 			page 20
+
+
+ 831              		.file 2 "c:\\program files\\cypress\\psoc creator\\4.3\\psoc creator\\import\\gnu\\arm\\5.4.1\\arm
+ 832              		.file 3 "c:\\program files\\cypress\\psoc creator\\4.3\\psoc creator\\import\\gnu\\arm\\5.4.1\\arm
+ 833              		.file 4 "Generated_Source\\PSoC5/cytypes.h"
+ 834              		.file 5 "./main.h"
+ 835              		.file 6 "Generated_Source\\PSoC5/core_cm3.h"
+ 836              		.file 7 "Generated_Source\\PSoC5/EEPROM.h"
+ 837              		.file 8 "Generated_Source\\PSoC5/CyLib.h"
+ 838              		.file 9 "Generated_Source\\PSoC5/ADC_SAR.h"
+ 839              		.section	.debug_info,"",%progbits
+ 840              	.Ldebug_info0:
+ 841 0000 62080000 		.4byte	0x862
+ 842 0004 0400     		.2byte	0x4
+ 843 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 844 000a 04       		.byte	0x4
+ 845 000b 01       		.uleb128 0x1
+ 846 000c A4020000 		.4byte	.LASF67
+ 847 0010 0C       		.byte	0xc
+ 848 0011 59020000 		.4byte	.LASF68
+ 849 0015 DB000000 		.4byte	.LASF69
+ 850 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 851 001d 00000000 		.4byte	0
+ 852 0021 00000000 		.4byte	.Ldebug_line0
+ 853 0025 02       		.uleb128 0x2
+ 854 0026 04       		.byte	0x4
+ 855 0027 04       		.byte	0x4
+ 856 0028 BD000000 		.4byte	.LASF0
+ 857 002c 02       		.uleb128 0x2
+ 858 002d 01       		.byte	0x1
+ 859 002e 06       		.byte	0x6
+ 860 002f 65010000 		.4byte	.LASF1
+ 861 0033 02       		.uleb128 0x2
+ 862 0034 01       		.byte	0x1
+ 863 0035 08       		.byte	0x8
+ 864 0036 57010000 		.4byte	.LASF2
+ 865 003a 02       		.uleb128 0x2
+ 866 003b 02       		.byte	0x2
+ 867 003c 05       		.byte	0x5
+ 868 003d 57000000 		.4byte	.LASF3
+ 869 0041 02       		.uleb128 0x2
+ 870 0042 02       		.byte	0x2
+ 871 0043 07       		.byte	0x7
+ 872 0044 B2010000 		.4byte	.LASF4
+ 873 0048 03       		.uleb128 0x3
+ 874 0049 4F020000 		.4byte	.LASF10
+ 875 004d 02       		.byte	0x2
+ 876 004e 3F       		.byte	0x3f
+ 877 004f 53000000 		.4byte	0x53
+ 878 0053 02       		.uleb128 0x2
+ 879 0054 04       		.byte	0x4
+ 880 0055 05       		.byte	0x5
+ 881 0056 FB000000 		.4byte	.LASF5
+ 882 005a 02       		.uleb128 0x2
+ 883 005b 04       		.byte	0x4
+ 884 005c 07       		.byte	0x7
+ 885 005d 0C020000 		.4byte	.LASF6
+ 886 0061 02       		.uleb128 0x2
+ 887 0062 08       		.byte	0x8
+ARM GAS  C:\Users\JPELEC~1\AppData\Local\Temp\ccSdZhaR.s 			page 21
+
+
+ 888 0063 05       		.byte	0x5
+ 889 0064 C8000000 		.4byte	.LASF7
+ 890 0068 02       		.uleb128 0x2
+ 891 0069 08       		.byte	0x8
+ 892 006a 07       		.byte	0x7
+ 893 006b 7A010000 		.4byte	.LASF8
+ 894 006f 04       		.uleb128 0x4
+ 895 0070 04       		.byte	0x4
+ 896 0071 05       		.byte	0x5
+ 897 0072 696E7400 		.ascii	"int\000"
+ 898 0076 02       		.uleb128 0x2
+ 899 0077 04       		.byte	0x4
+ 900 0078 07       		.byte	0x7
+ 901 0079 A5010000 		.4byte	.LASF9
+ 902 007d 03       		.uleb128 0x3
+ 903 007e D8010000 		.4byte	.LASF11
+ 904 0082 03       		.byte	0x3
+ 905 0083 2C       		.byte	0x2c
+ 906 0084 48000000 		.4byte	0x48
+ 907 0088 05       		.uleb128 0x5
+ 908 0089 B2000000 		.4byte	.LASF12
+ 909 008d 04       		.byte	0x4
+ 910 008e 9201     		.2byte	0x192
+ 911 0090 33000000 		.4byte	0x33
+ 912 0094 05       		.uleb128 0x5
+ 913 0095 9C000000 		.4byte	.LASF13
+ 914 0099 04       		.byte	0x4
+ 915 009a 9301     		.2byte	0x193
+ 916 009c 41000000 		.4byte	0x41
+ 917 00a0 05       		.uleb128 0x5
+ 918 00a1 D6000000 		.4byte	.LASF14
+ 919 00a5 04       		.byte	0x4
+ 920 00a6 9501     		.2byte	0x195
+ 921 00a8 2C000000 		.4byte	0x2c
+ 922 00ac 05       		.uleb128 0x5
+ 923 00ad 1E020000 		.4byte	.LASF15
+ 924 00b1 04       		.byte	0x4
+ 925 00b2 9701     		.2byte	0x197
+ 926 00b4 53000000 		.4byte	0x53
+ 927 00b8 02       		.uleb128 0x2
+ 928 00b9 08       		.byte	0x8
+ 929 00ba 04       		.byte	0x4
+ 930 00bb 8F000000 		.4byte	.LASF16
+ 931 00bf 02       		.uleb128 0x2
+ 932 00c0 01       		.byte	0x1
+ 933 00c1 08       		.byte	0x8
+ 934 00c2 C5010000 		.4byte	.LASF17
+ 935 00c6 02       		.uleb128 0x2
+ 936 00c7 08       		.byte	0x8
+ 937 00c8 04       		.byte	0x4
+ 938 00c9 4B010000 		.4byte	.LASF18
+ 939 00cd 02       		.uleb128 0x2
+ 940 00ce 04       		.byte	0x4
+ 941 00cf 07       		.byte	0x7
+ 942 00d0 61000000 		.4byte	.LASF19
+ 943 00d4 06       		.uleb128 0x6
+ 944 00d5 08       		.byte	0x8
+ARM GAS  C:\Users\JPELEC~1\AppData\Local\Temp\ccSdZhaR.s 			page 22
+
+
+ 945 00d6 05       		.byte	0x5
+ 946 00d7 4D       		.byte	0x4d
+ 947 00d8 25010000 		.4byte	0x125
+ 948 00dc 07       		.uleb128 0x7
+ 949 00dd 2E010000 		.4byte	.LASF20
+ 950 00e1 05       		.byte	0x5
+ 951 00e2 4E       		.byte	0x4e
+ 952 00e3 88000000 		.4byte	0x88
+ 953 00e7 00       		.byte	0
+ 954 00e8 07       		.uleb128 0x7
+ 955 00e9 A3000000 		.4byte	.LASF21
+ 956 00ed 05       		.byte	0x5
+ 957 00ee 4F       		.byte	0x4f
+ 958 00ef 88000000 		.4byte	0x88
+ 959 00f3 01       		.byte	0x1
+ 960 00f4 07       		.uleb128 0x7
+ 961 00f5 1F010000 		.4byte	.LASF22
+ 962 00f9 05       		.byte	0x5
+ 963 00fa 50       		.byte	0x50
+ 964 00fb A0000000 		.4byte	0xa0
+ 965 00ff 02       		.byte	0x2
+ 966 0100 07       		.uleb128 0x7
+ 967 0101 96000000 		.4byte	.LASF23
+ 968 0105 05       		.byte	0x5
+ 969 0106 51       		.byte	0x51
+ 970 0107 88000000 		.4byte	0x88
+ 971 010b 03       		.byte	0x3
+ 972 010c 07       		.uleb128 0x7
+ 973 010d 6A000000 		.4byte	.LASF24
+ 974 0111 05       		.byte	0x5
+ 975 0112 52       		.byte	0x52
+ 976 0113 88000000 		.4byte	0x88
+ 977 0117 04       		.byte	0x4
+ 978 0118 07       		.uleb128 0x7
+ 979 0119 73020000 		.4byte	.LASF25
+ 980 011d 05       		.byte	0x5
+ 981 011e 53       		.byte	0x53
+ 982 011f 94000000 		.4byte	0x94
+ 983 0123 06       		.byte	0x6
+ 984 0124 00       		.byte	0
+ 985 0125 03       		.uleb128 0x3
+ 986 0126 CA010000 		.4byte	.LASF26
+ 987 012a 05       		.byte	0x5
+ 988 012b 54       		.byte	0x54
+ 989 012c D4000000 		.4byte	0xd4
+ 990 0130 06       		.uleb128 0x6
+ 991 0131 A0       		.byte	0xa0
+ 992 0132 05       		.byte	0x5
+ 993 0133 57       		.byte	0x57
+ 994 0134 45010000 		.4byte	0x145
+ 995 0138 07       		.uleb128 0x7
+ 996 0139 EE010000 		.4byte	.LASF27
+ 997 013d 05       		.byte	0x5
+ 998 013e 58       		.byte	0x58
+ 999 013f 45010000 		.4byte	0x145
+ 1000 0143 00       		.byte	0
+ 1001 0144 00       		.byte	0
+ARM GAS  C:\Users\JPELEC~1\AppData\Local\Temp\ccSdZhaR.s 			page 23
+
+
+ 1002 0145 08       		.uleb128 0x8
+ 1003 0146 25010000 		.4byte	0x125
+ 1004 014a 55010000 		.4byte	0x155
+ 1005 014e 09       		.uleb128 0x9
+ 1006 014f CD000000 		.4byte	0xcd
+ 1007 0153 13       		.byte	0x13
+ 1008 0154 00       		.byte	0
+ 1009 0155 03       		.uleb128 0x3
+ 1010 0156 8F020000 		.4byte	.LASF28
+ 1011 015a 05       		.byte	0x5
+ 1012 015b 59       		.byte	0x59
+ 1013 015c 30010000 		.4byte	0x130
+ 1014 0160 0A       		.uleb128 0xa
+ 1015 0161 41020000 		.4byte	.LASF30
+ 1016 0165 01       		.byte	0x1
+ 1017 0166 30       		.byte	0x30
+ 1018 0167 88000000 		.4byte	0x88
+ 1019 016b 00000000 		.4byte	.LFB64
+ 1020 016f 28000000 		.4byte	.LFE64-.LFB64
+ 1021 0173 01       		.uleb128 0x1
+ 1022 0174 9C       		.byte	0x9c
+ 1023 0175 A7010000 		.4byte	0x1a7
+ 1024 0179 0B       		.uleb128 0xb
+ 1025 017a FF010000 		.4byte	.LASF32
+ 1026 017e 01       		.byte	0x1
+ 1027 017f 30       		.byte	0x30
+ 1028 0180 25000000 		.4byte	0x25
+ 1029 0184 00000000 		.4byte	.LLST0
+ 1030 0188 0C       		.uleb128 0xc
+ 1031 0189 44010000 		.4byte	.LASF29
+ 1032 018d 01       		.byte	0x1
+ 1033 018e 31       		.byte	0x31
+ 1034 018f 25000000 		.4byte	0x25
+ 1035 0193 2E000000 		.4byte	.LLST1
+ 1036 0197 0D       		.uleb128 0xd
+ 1037 0198 746D7000 		.ascii	"tmp\000"
+ 1038 019c 01       		.byte	0x1
+ 1039 019d 32       		.byte	0x32
+ 1040 019e 25000000 		.4byte	0x25
+ 1041 01a2 5C000000 		.4byte	.LLST2
+ 1042 01a6 00       		.byte	0
+ 1043 01a7 0A       		.uleb128 0xa
+ 1044 01a8 84000000 		.4byte	.LASF31
+ 1045 01ac 01       		.byte	0x1
+ 1046 01ad 39       		.byte	0x39
+ 1047 01ae 25000000 		.4byte	0x25
+ 1048 01b2 00000000 		.4byte	.LFB65
+ 1049 01b6 14000000 		.4byte	.LFE65-.LFB65
+ 1050 01ba 01       		.uleb128 0x1
+ 1051 01bb 9C       		.byte	0x9c
+ 1052 01bc DF010000 		.4byte	0x1df
+ 1053 01c0 0B       		.uleb128 0xb
+ 1054 01c1 04020000 		.4byte	.LASF33
+ 1055 01c5 01       		.byte	0x1
+ 1056 01c6 39       		.byte	0x39
+ 1057 01c7 88000000 		.4byte	0x88
+ 1058 01cb 7F000000 		.4byte	.LLST3
+ARM GAS  C:\Users\JPELEC~1\AppData\Local\Temp\ccSdZhaR.s 			page 24
+
+
+ 1059 01cf 0D       		.uleb128 0xd
+ 1060 01d0 746D7000 		.ascii	"tmp\000"
+ 1061 01d4 01       		.byte	0x1
+ 1062 01d5 3A       		.byte	0x3a
+ 1063 01d6 25000000 		.4byte	0x25
+ 1064 01da A0000000 		.4byte	.LLST4
+ 1065 01de 00       		.byte	0
+ 1066 01df 0E       		.uleb128 0xe
+ 1067 01e0 1B000000 		.4byte	.LASF34
+ 1068 01e4 01       		.byte	0x1
+ 1069 01e5 3F       		.byte	0x3f
+ 1070 01e6 88000000 		.4byte	0x88
+ 1071 01ea 00000000 		.4byte	.LFB66
+ 1072 01ee 12000000 		.4byte	.LFE66-.LFB66
+ 1073 01f2 01       		.uleb128 0x1
+ 1074 01f3 9C       		.byte	0x9c
+ 1075 01f4 24020000 		.4byte	0x224
+ 1076 01f8 0B       		.uleb128 0xb
+ 1077 01f9 FF010000 		.4byte	.LASF32
+ 1078 01fd 01       		.byte	0x1
+ 1079 01fe 3F       		.byte	0x3f
+ 1080 01ff 94000000 		.4byte	0x94
+ 1081 0203 B3000000 		.4byte	.LLST5
+ 1082 0207 0F       		.uleb128 0xf
+ 1083 0208 89020000 		.4byte	.LASF35
+ 1084 020c 01       		.byte	0x1
+ 1085 020d 3F       		.byte	0x3f
+ 1086 020e 88000000 		.4byte	0x88
+ 1087 0212 01       		.uleb128 0x1
+ 1088 0213 51       		.byte	0x51
+ 1089 0214 0C       		.uleb128 0xc
+ 1090 0215 24020000 		.4byte	.LASF36
+ 1091 0219 01       		.byte	0x1
+ 1092 021a 40       		.byte	0x40
+ 1093 021b 88000000 		.4byte	0x88
+ 1094 021f 06010000 		.4byte	.LLST6
+ 1095 0223 00       		.byte	0
+ 1096 0224 0E       		.uleb128 0xe
+ 1097 0225 91010000 		.4byte	.LASF37
+ 1098 0229 01       		.byte	0x1
+ 1099 022a 49       		.byte	0x49
+ 1100 022b 94000000 		.4byte	0x94
+ 1101 022f 00000000 		.4byte	.LFB67
+ 1102 0233 06000000 		.4byte	.LFE67-.LFB67
+ 1103 0237 01       		.uleb128 0x1
+ 1104 0238 9C       		.byte	0x9c
+ 1105 0239 78020000 		.4byte	0x278
+ 1106 023d 0B       		.uleb128 0xb
+ 1107 023e E0010000 		.4byte	.LASF38
+ 1108 0242 01       		.byte	0x1
+ 1109 0243 49       		.byte	0x49
+ 1110 0244 88000000 		.4byte	0x88
+ 1111 0248 53010000 		.4byte	.LLST7
+ 1112 024c 0F       		.uleb128 0xf
+ 1113 024d E7010000 		.4byte	.LASF39
+ 1114 0251 01       		.byte	0x1
+ 1115 0252 49       		.byte	0x49
+ARM GAS  C:\Users\JPELEC~1\AppData\Local\Temp\ccSdZhaR.s 			page 25
+
+
+ 1116 0253 88000000 		.4byte	0x88
+ 1117 0257 01       		.uleb128 0x1
+ 1118 0258 51       		.byte	0x51
+ 1119 0259 0C       		.uleb128 0xc
+ 1120 025a C3000000 		.4byte	.LASF40
+ 1121 025e 01       		.byte	0x1
+ 1122 025f 4A       		.byte	0x4a
+ 1123 0260 94000000 		.4byte	0x94
+ 1124 0264 74010000 		.4byte	.LLST8
+ 1125 0268 0D       		.uleb128 0xd
+ 1126 0269 76617200 		.ascii	"var\000"
+ 1127 026d 01       		.byte	0x1
+ 1128 026e 4A       		.byte	0x4a
+ 1129 026f 94000000 		.4byte	0x94
+ 1130 0273 9D010000 		.4byte	.LLST9
+ 1131 0277 00       		.byte	0
+ 1132 0278 10       		.uleb128 0x10
+ 1133 0279 7F020000 		.4byte	.LASF70
+ 1134 027d 01       		.byte	0x1
+ 1135 027e 50       		.byte	0x50
+ 1136 027f 00000000 		.4byte	.LFB68
+ 1137 0283 84030000 		.4byte	.LFE68-.LFB68
+ 1138 0287 01       		.uleb128 0x1
+ 1139 0288 9C       		.byte	0x9c
+ 1140 0289 A1060000 		.4byte	0x6a1
+ 1141 028d 0D       		.uleb128 0xd
+ 1142 028e 6E00     		.ascii	"n\000"
+ 1143 0290 01       		.byte	0x1
+ 1144 0291 51       		.byte	0x51
+ 1145 0292 88000000 		.4byte	0x88
+ 1146 0296 B7010000 		.4byte	.LLST10
+ 1147 029a 11       		.uleb128 0x11
+ 1148 029b 0A000000 		.4byte	.LVL20
+ 1149 029f 39080000 		.4byte	0x839
+ 1150 02a3 AD020000 		.4byte	0x2ad
+ 1151 02a7 12       		.uleb128 0x12
+ 1152 02a8 01       		.uleb128 0x1
+ 1153 02a9 50       		.byte	0x50
+ 1154 02aa 01       		.uleb128 0x1
+ 1155 02ab 30       		.byte	0x30
+ 1156 02ac 00       		.byte	0
+ 1157 02ad 11       		.uleb128 0x11
+ 1158 02ae 14000000 		.4byte	.LVL21
+ 1159 02b2 44080000 		.4byte	0x844
+ 1160 02b6 C0020000 		.4byte	0x2c0
+ 1161 02ba 12       		.uleb128 0x12
+ 1162 02bb 01       		.uleb128 0x1
+ 1163 02bc 50       		.byte	0x50
+ 1164 02bd 01       		.uleb128 0x1
+ 1165 02be 35       		.byte	0x35
+ 1166 02bf 00       		.byte	0
+ 1167 02c0 11       		.uleb128 0x11
+ 1168 02c1 1A000000 		.4byte	.LVL22
+ 1169 02c5 39080000 		.4byte	0x839
+ 1170 02c9 D3020000 		.4byte	0x2d3
+ 1171 02cd 12       		.uleb128 0x12
+ 1172 02ce 01       		.uleb128 0x1
+ARM GAS  C:\Users\JPELEC~1\AppData\Local\Temp\ccSdZhaR.s 			page 26
+
+
+ 1173 02cf 50       		.byte	0x50
+ 1174 02d0 01       		.uleb128 0x1
+ 1175 02d1 31       		.byte	0x31
+ 1176 02d2 00       		.byte	0
+ 1177 02d3 11       		.uleb128 0x11
+ 1178 02d4 22000000 		.4byte	.LVL23
+ 1179 02d8 44080000 		.4byte	0x844
+ 1180 02dc E6020000 		.4byte	0x2e6
+ 1181 02e0 12       		.uleb128 0x12
+ 1182 02e1 01       		.uleb128 0x1
+ 1183 02e2 50       		.byte	0x50
+ 1184 02e3 01       		.uleb128 0x1
+ 1185 02e4 35       		.byte	0x35
+ 1186 02e5 00       		.byte	0
+ 1187 02e6 11       		.uleb128 0x11
+ 1188 02e7 28000000 		.4byte	.LVL24
+ 1189 02eb 39080000 		.4byte	0x839
+ 1190 02ef F9020000 		.4byte	0x2f9
+ 1191 02f3 12       		.uleb128 0x12
+ 1192 02f4 01       		.uleb128 0x1
+ 1193 02f5 50       		.byte	0x50
+ 1194 02f6 01       		.uleb128 0x1
+ 1195 02f7 32       		.byte	0x32
+ 1196 02f8 00       		.byte	0
+ 1197 02f9 11       		.uleb128 0x11
+ 1198 02fa 30000000 		.4byte	.LVL25
+ 1199 02fe 44080000 		.4byte	0x844
+ 1200 0302 0C030000 		.4byte	0x30c
+ 1201 0306 12       		.uleb128 0x12
+ 1202 0307 01       		.uleb128 0x1
+ 1203 0308 50       		.byte	0x50
+ 1204 0309 01       		.uleb128 0x1
+ 1205 030a 35       		.byte	0x35
+ 1206 030b 00       		.byte	0
+ 1207 030c 11       		.uleb128 0x11
+ 1208 030d 36000000 		.4byte	.LVL26
+ 1209 0311 39080000 		.4byte	0x839
+ 1210 0315 1F030000 		.4byte	0x31f
+ 1211 0319 12       		.uleb128 0x12
+ 1212 031a 01       		.uleb128 0x1
+ 1213 031b 50       		.byte	0x50
+ 1214 031c 01       		.uleb128 0x1
+ 1215 031d 33       		.byte	0x33
+ 1216 031e 00       		.byte	0
+ 1217 031f 11       		.uleb128 0x11
+ 1218 0320 3E000000 		.4byte	.LVL27
+ 1219 0324 44080000 		.4byte	0x844
+ 1220 0328 32030000 		.4byte	0x332
+ 1221 032c 12       		.uleb128 0x12
+ 1222 032d 01       		.uleb128 0x1
+ 1223 032e 50       		.byte	0x50
+ 1224 032f 01       		.uleb128 0x1
+ 1225 0330 35       		.byte	0x35
+ 1226 0331 00       		.byte	0
+ 1227 0332 11       		.uleb128 0x11
+ 1228 0333 44000000 		.4byte	.LVL28
+ 1229 0337 39080000 		.4byte	0x839
+ARM GAS  C:\Users\JPELEC~1\AppData\Local\Temp\ccSdZhaR.s 			page 27
+
+
+ 1230 033b 45030000 		.4byte	0x345
+ 1231 033f 12       		.uleb128 0x12
+ 1232 0340 01       		.uleb128 0x1
+ 1233 0341 50       		.byte	0x50
+ 1234 0342 01       		.uleb128 0x1
+ 1235 0343 4E       		.byte	0x4e
+ 1236 0344 00       		.byte	0
+ 1237 0345 11       		.uleb128 0x11
+ 1238 0346 52000000 		.4byte	.LVL30
+ 1239 034a 44080000 		.4byte	0x844
+ 1240 034e 58030000 		.4byte	0x358
+ 1241 0352 12       		.uleb128 0x12
+ 1242 0353 01       		.uleb128 0x1
+ 1243 0354 50       		.byte	0x50
+ 1244 0355 01       		.uleb128 0x1
+ 1245 0356 35       		.byte	0x35
+ 1246 0357 00       		.byte	0
+ 1247 0358 11       		.uleb128 0x11
+ 1248 0359 58000000 		.4byte	.LVL31
+ 1249 035d 39080000 		.4byte	0x839
+ 1250 0361 6B030000 		.4byte	0x36b
+ 1251 0365 12       		.uleb128 0x12
+ 1252 0366 01       		.uleb128 0x1
+ 1253 0367 50       		.byte	0x50
+ 1254 0368 01       		.uleb128 0x1
+ 1255 0369 4F       		.byte	0x4f
+ 1256 036a 00       		.byte	0
+ 1257 036b 11       		.uleb128 0x11
+ 1258 036c 62000000 		.4byte	.LVL32
+ 1259 0370 44080000 		.4byte	0x844
+ 1260 0374 7E030000 		.4byte	0x37e
+ 1261 0378 12       		.uleb128 0x12
+ 1262 0379 01       		.uleb128 0x1
+ 1263 037a 50       		.byte	0x50
+ 1264 037b 01       		.uleb128 0x1
+ 1265 037c 35       		.byte	0x35
+ 1266 037d 00       		.byte	0
+ 1267 037e 11       		.uleb128 0x11
+ 1268 037f 68000000 		.4byte	.LVL33
+ 1269 0383 39080000 		.4byte	0x839
+ 1270 0387 92030000 		.4byte	0x392
+ 1271 038b 12       		.uleb128 0x12
+ 1272 038c 01       		.uleb128 0x1
+ 1273 038d 50       		.byte	0x50
+ 1274 038e 02       		.uleb128 0x2
+ 1275 038f 08       		.byte	0x8
+ 1276 0390 20       		.byte	0x20
+ 1277 0391 00       		.byte	0
+ 1278 0392 11       		.uleb128 0x11
+ 1279 0393 72000000 		.4byte	.LVL34
+ 1280 0397 44080000 		.4byte	0x844
+ 1281 039b A5030000 		.4byte	0x3a5
+ 1282 039f 12       		.uleb128 0x12
+ 1283 03a0 01       		.uleb128 0x1
+ 1284 03a1 50       		.byte	0x50
+ 1285 03a2 01       		.uleb128 0x1
+ 1286 03a3 35       		.byte	0x35
+ARM GAS  C:\Users\JPELEC~1\AppData\Local\Temp\ccSdZhaR.s 			page 28
+
+
+ 1287 03a4 00       		.byte	0
+ 1288 03a5 11       		.uleb128 0x11
+ 1289 03a6 78000000 		.4byte	.LVL35
+ 1290 03aa 39080000 		.4byte	0x839
+ 1291 03ae B9030000 		.4byte	0x3b9
+ 1292 03b2 12       		.uleb128 0x12
+ 1293 03b3 01       		.uleb128 0x1
+ 1294 03b4 50       		.byte	0x50
+ 1295 03b5 02       		.uleb128 0x2
+ 1296 03b6 08       		.byte	0x8
+ 1297 03b7 21       		.byte	0x21
+ 1298 03b8 00       		.byte	0
+ 1299 03b9 11       		.uleb128 0x11
+ 1300 03ba 82000000 		.4byte	.LVL36
+ 1301 03be 44080000 		.4byte	0x844
+ 1302 03c2 CC030000 		.4byte	0x3cc
+ 1303 03c6 12       		.uleb128 0x12
+ 1304 03c7 01       		.uleb128 0x1
+ 1305 03c8 50       		.byte	0x50
+ 1306 03c9 01       		.uleb128 0x1
+ 1307 03ca 35       		.byte	0x35
+ 1308 03cb 00       		.byte	0
+ 1309 03cc 11       		.uleb128 0x11
+ 1310 03cd 88000000 		.4byte	.LVL37
+ 1311 03d1 39080000 		.4byte	0x839
+ 1312 03d5 E0030000 		.4byte	0x3e0
+ 1313 03d9 12       		.uleb128 0x12
+ 1314 03da 01       		.uleb128 0x1
+ 1315 03db 50       		.byte	0x50
+ 1316 03dc 02       		.uleb128 0x2
+ 1317 03dd 08       		.byte	0x8
+ 1318 03de 22       		.byte	0x22
+ 1319 03df 00       		.byte	0
+ 1320 03e0 11       		.uleb128 0x11
+ 1321 03e1 92000000 		.4byte	.LVL38
+ 1322 03e5 44080000 		.4byte	0x844
+ 1323 03e9 F3030000 		.4byte	0x3f3
+ 1324 03ed 12       		.uleb128 0x12
+ 1325 03ee 01       		.uleb128 0x1
+ 1326 03ef 50       		.byte	0x50
+ 1327 03f0 01       		.uleb128 0x1
+ 1328 03f1 35       		.byte	0x35
+ 1329 03f2 00       		.byte	0
+ 1330 03f3 11       		.uleb128 0x11
+ 1331 03f4 98000000 		.4byte	.LVL39
+ 1332 03f8 39080000 		.4byte	0x839
+ 1333 03fc 07040000 		.4byte	0x407
+ 1334 0400 12       		.uleb128 0x12
+ 1335 0401 01       		.uleb128 0x1
+ 1336 0402 50       		.byte	0x50
+ 1337 0403 02       		.uleb128 0x2
+ 1338 0404 08       		.byte	0x8
+ 1339 0405 23       		.byte	0x23
+ 1340 0406 00       		.byte	0
+ 1341 0407 11       		.uleb128 0x11
+ 1342 0408 A2000000 		.4byte	.LVL40
+ 1343 040c 44080000 		.4byte	0x844
+ARM GAS  C:\Users\JPELEC~1\AppData\Local\Temp\ccSdZhaR.s 			page 29
+
+
+ 1344 0410 1A040000 		.4byte	0x41a
+ 1345 0414 12       		.uleb128 0x12
+ 1346 0415 01       		.uleb128 0x1
+ 1347 0416 50       		.byte	0x50
+ 1348 0417 01       		.uleb128 0x1
+ 1349 0418 35       		.byte	0x35
+ 1350 0419 00       		.byte	0
+ 1351 041a 11       		.uleb128 0x11
+ 1352 041b A8000000 		.4byte	.LVL41
+ 1353 041f 39080000 		.4byte	0x839
+ 1354 0423 2E040000 		.4byte	0x42e
+ 1355 0427 12       		.uleb128 0x12
+ 1356 0428 01       		.uleb128 0x1
+ 1357 0429 50       		.byte	0x50
+ 1358 042a 02       		.uleb128 0x2
+ 1359 042b 08       		.byte	0x8
+ 1360 042c 24       		.byte	0x24
+ 1361 042d 00       		.byte	0
+ 1362 042e 11       		.uleb128 0x11
+ 1363 042f B2000000 		.4byte	.LVL42
+ 1364 0433 44080000 		.4byte	0x844
+ 1365 0437 41040000 		.4byte	0x441
+ 1366 043b 12       		.uleb128 0x12
+ 1367 043c 01       		.uleb128 0x1
+ 1368 043d 50       		.byte	0x50
+ 1369 043e 01       		.uleb128 0x1
+ 1370 043f 35       		.byte	0x35
+ 1371 0440 00       		.byte	0
+ 1372 0441 11       		.uleb128 0x11
+ 1373 0442 C2000000 		.4byte	.LVL43
+ 1374 0446 4F080000 		.4byte	0x84f
+ 1375 044a 59040000 		.4byte	0x459
+ 1376 044e 12       		.uleb128 0x12
+ 1377 044f 01       		.uleb128 0x1
+ 1378 0450 50       		.byte	0x50
+ 1379 0451 01       		.uleb128 0x1
+ 1380 0452 30       		.byte	0x30
+ 1381 0453 12       		.uleb128 0x12
+ 1382 0454 01       		.uleb128 0x1
+ 1383 0455 51       		.byte	0x51
+ 1384 0456 01       		.uleb128 0x1
+ 1385 0457 30       		.byte	0x30
+ 1386 0458 00       		.byte	0
+ 1387 0459 11       		.uleb128 0x11
+ 1388 045a C8000000 		.4byte	.LVL44
+ 1389 045e 44080000 		.4byte	0x844
+ 1390 0462 6C040000 		.4byte	0x46c
+ 1391 0466 12       		.uleb128 0x12
+ 1392 0467 01       		.uleb128 0x1
+ 1393 0468 50       		.byte	0x50
+ 1394 0469 01       		.uleb128 0x1
+ 1395 046a 44       		.byte	0x44
+ 1396 046b 00       		.byte	0
+ 1397 046c 11       		.uleb128 0x11
+ 1398 046d DC000000 		.4byte	.LVL45
+ 1399 0471 4F080000 		.4byte	0x84f
+ 1400 0475 84040000 		.4byte	0x484
+ARM GAS  C:\Users\JPELEC~1\AppData\Local\Temp\ccSdZhaR.s 			page 30
+
+
+ 1401 0479 12       		.uleb128 0x12
+ 1402 047a 01       		.uleb128 0x1
+ 1403 047b 50       		.byte	0x50
+ 1404 047c 01       		.uleb128 0x1
+ 1405 047d 30       		.byte	0x30
+ 1406 047e 12       		.uleb128 0x12
+ 1407 047f 01       		.uleb128 0x1
+ 1408 0480 51       		.byte	0x51
+ 1409 0481 01       		.uleb128 0x1
+ 1410 0482 31       		.byte	0x31
+ 1411 0483 00       		.byte	0
+ 1412 0484 11       		.uleb128 0x11
+ 1413 0485 E2000000 		.4byte	.LVL46
+ 1414 0489 44080000 		.4byte	0x844
+ 1415 048d 97040000 		.4byte	0x497
+ 1416 0491 12       		.uleb128 0x12
+ 1417 0492 01       		.uleb128 0x1
+ 1418 0493 50       		.byte	0x50
+ 1419 0494 01       		.uleb128 0x1
+ 1420 0495 44       		.byte	0x44
+ 1421 0496 00       		.byte	0
+ 1422 0497 11       		.uleb128 0x11
+ 1423 0498 F6000000 		.4byte	.LVL47
+ 1424 049c 4F080000 		.4byte	0x84f
+ 1425 04a0 AF040000 		.4byte	0x4af
+ 1426 04a4 12       		.uleb128 0x12
+ 1427 04a5 01       		.uleb128 0x1
+ 1428 04a6 50       		.byte	0x50
+ 1429 04a7 01       		.uleb128 0x1
+ 1430 04a8 30       		.byte	0x30
+ 1431 04a9 12       		.uleb128 0x12
+ 1432 04aa 01       		.uleb128 0x1
+ 1433 04ab 51       		.byte	0x51
+ 1434 04ac 01       		.uleb128 0x1
+ 1435 04ad 32       		.byte	0x32
+ 1436 04ae 00       		.byte	0
+ 1437 04af 11       		.uleb128 0x11
+ 1438 04b0 FC000000 		.4byte	.LVL48
+ 1439 04b4 44080000 		.4byte	0x844
+ 1440 04b8 C2040000 		.4byte	0x4c2
+ 1441 04bc 12       		.uleb128 0x12
+ 1442 04bd 01       		.uleb128 0x1
+ 1443 04be 50       		.byte	0x50
+ 1444 04bf 01       		.uleb128 0x1
+ 1445 04c0 44       		.byte	0x44
+ 1446 04c1 00       		.byte	0
+ 1447 04c2 11       		.uleb128 0x11
+ 1448 04c3 10010000 		.4byte	.LVL49
+ 1449 04c7 4F080000 		.4byte	0x84f
+ 1450 04cb DA040000 		.4byte	0x4da
+ 1451 04cf 12       		.uleb128 0x12
+ 1452 04d0 01       		.uleb128 0x1
+ 1453 04d1 50       		.byte	0x50
+ 1454 04d2 01       		.uleb128 0x1
+ 1455 04d3 30       		.byte	0x30
+ 1456 04d4 12       		.uleb128 0x12
+ 1457 04d5 01       		.uleb128 0x1
+ARM GAS  C:\Users\JPELEC~1\AppData\Local\Temp\ccSdZhaR.s 			page 31
+
+
+ 1458 04d6 51       		.byte	0x51
+ 1459 04d7 01       		.uleb128 0x1
+ 1460 04d8 33       		.byte	0x33
+ 1461 04d9 00       		.byte	0
+ 1462 04da 11       		.uleb128 0x11
+ 1463 04db 16010000 		.4byte	.LVL50
+ 1464 04df 44080000 		.4byte	0x844
+ 1465 04e3 ED040000 		.4byte	0x4ed
+ 1466 04e7 12       		.uleb128 0x12
+ 1467 04e8 01       		.uleb128 0x1
+ 1468 04e9 50       		.byte	0x50
+ 1469 04ea 01       		.uleb128 0x1
+ 1470 04eb 44       		.byte	0x44
+ 1471 04ec 00       		.byte	0
+ 1472 04ed 11       		.uleb128 0x11
+ 1473 04ee 3E010000 		.4byte	.LVL53
+ 1474 04f2 4F080000 		.4byte	0x84f
+ 1475 04f6 05050000 		.4byte	0x505
+ 1476 04fa 12       		.uleb128 0x12
+ 1477 04fb 01       		.uleb128 0x1
+ 1478 04fc 50       		.byte	0x50
+ 1479 04fd 01       		.uleb128 0x1
+ 1480 04fe 33       		.byte	0x33
+ 1481 04ff 12       		.uleb128 0x12
+ 1482 0500 01       		.uleb128 0x1
+ 1483 0501 51       		.byte	0x51
+ 1484 0502 01       		.uleb128 0x1
+ 1485 0503 4E       		.byte	0x4e
+ 1486 0504 00       		.byte	0
+ 1487 0505 11       		.uleb128 0x11
+ 1488 0506 44010000 		.4byte	.LVL54
+ 1489 050a 44080000 		.4byte	0x844
+ 1490 050e 18050000 		.4byte	0x518
+ 1491 0512 12       		.uleb128 0x12
+ 1492 0513 01       		.uleb128 0x1
+ 1493 0514 50       		.byte	0x50
+ 1494 0515 01       		.uleb128 0x1
+ 1495 0516 44       		.byte	0x44
+ 1496 0517 00       		.byte	0
+ 1497 0518 11       		.uleb128 0x11
+ 1498 0519 5C010000 		.4byte	.LVL55
+ 1499 051d 4F080000 		.4byte	0x84f
+ 1500 0521 30050000 		.4byte	0x530
+ 1501 0525 12       		.uleb128 0x12
+ 1502 0526 01       		.uleb128 0x1
+ 1503 0527 50       		.byte	0x50
+ 1504 0528 01       		.uleb128 0x1
+ 1505 0529 35       		.byte	0x35
+ 1506 052a 12       		.uleb128 0x12
+ 1507 052b 01       		.uleb128 0x1
+ 1508 052c 51       		.byte	0x51
+ 1509 052d 01       		.uleb128 0x1
+ 1510 052e 4F       		.byte	0x4f
+ 1511 052f 00       		.byte	0
+ 1512 0530 11       		.uleb128 0x11
+ 1513 0531 62010000 		.4byte	.LVL56
+ 1514 0535 44080000 		.4byte	0x844
+ARM GAS  C:\Users\JPELEC~1\AppData\Local\Temp\ccSdZhaR.s 			page 32
+
+
+ 1515 0539 43050000 		.4byte	0x543
+ 1516 053d 12       		.uleb128 0x12
+ 1517 053e 01       		.uleb128 0x1
+ 1518 053f 50       		.byte	0x50
+ 1519 0540 01       		.uleb128 0x1
+ 1520 0541 44       		.byte	0x44
+ 1521 0542 00       		.byte	0
+ 1522 0543 11       		.uleb128 0x11
+ 1523 0544 7A010000 		.4byte	.LVL57
+ 1524 0548 4F080000 		.4byte	0x84f
+ 1525 054c 5C050000 		.4byte	0x55c
+ 1526 0550 12       		.uleb128 0x12
+ 1527 0551 01       		.uleb128 0x1
+ 1528 0552 50       		.byte	0x50
+ 1529 0553 01       		.uleb128 0x1
+ 1530 0554 31       		.byte	0x31
+ 1531 0555 12       		.uleb128 0x12
+ 1532 0556 01       		.uleb128 0x1
+ 1533 0557 51       		.byte	0x51
+ 1534 0558 02       		.uleb128 0x2
+ 1535 0559 08       		.byte	0x8
+ 1536 055a 20       		.byte	0x20
+ 1537 055b 00       		.byte	0
+ 1538 055c 11       		.uleb128 0x11
+ 1539 055d 80010000 		.4byte	.LVL58
+ 1540 0561 44080000 		.4byte	0x844
+ 1541 0565 6F050000 		.4byte	0x56f
+ 1542 0569 12       		.uleb128 0x12
+ 1543 056a 01       		.uleb128 0x1
+ 1544 056b 50       		.byte	0x50
+ 1545 056c 01       		.uleb128 0x1
+ 1546 056d 44       		.byte	0x44
+ 1547 056e 00       		.byte	0
+ 1548 056f 11       		.uleb128 0x11
+ 1549 0570 98010000 		.4byte	.LVL59
+ 1550 0574 4F080000 		.4byte	0x84f
+ 1551 0578 88050000 		.4byte	0x588
+ 1552 057c 12       		.uleb128 0x12
+ 1553 057d 01       		.uleb128 0x1
+ 1554 057e 50       		.byte	0x50
+ 1555 057f 01       		.uleb128 0x1
+ 1556 0580 3A       		.byte	0x3a
+ 1557 0581 12       		.uleb128 0x12
+ 1558 0582 01       		.uleb128 0x1
+ 1559 0583 51       		.byte	0x51
+ 1560 0584 02       		.uleb128 0x2
+ 1561 0585 08       		.byte	0x8
+ 1562 0586 21       		.byte	0x21
+ 1563 0587 00       		.byte	0
+ 1564 0588 11       		.uleb128 0x11
+ 1565 0589 9E010000 		.4byte	.LVL60
+ 1566 058d 44080000 		.4byte	0x844
+ 1567 0591 9B050000 		.4byte	0x59b
+ 1568 0595 12       		.uleb128 0x12
+ 1569 0596 01       		.uleb128 0x1
+ 1570 0597 50       		.byte	0x50
+ 1571 0598 01       		.uleb128 0x1
+ARM GAS  C:\Users\JPELEC~1\AppData\Local\Temp\ccSdZhaR.s 			page 33
+
+
+ 1572 0599 44       		.byte	0x44
+ 1573 059a 00       		.byte	0
+ 1574 059b 11       		.uleb128 0x11
+ 1575 059c B2010000 		.4byte	.LVL61
+ 1576 05a0 4F080000 		.4byte	0x84f
+ 1577 05a4 B4050000 		.4byte	0x5b4
+ 1578 05a8 12       		.uleb128 0x12
+ 1579 05a9 01       		.uleb128 0x1
+ 1580 05aa 50       		.byte	0x50
+ 1581 05ab 01       		.uleb128 0x1
+ 1582 05ac 30       		.byte	0x30
+ 1583 05ad 12       		.uleb128 0x12
+ 1584 05ae 01       		.uleb128 0x1
+ 1585 05af 51       		.byte	0x51
+ 1586 05b0 02       		.uleb128 0x2
+ 1587 05b1 08       		.byte	0x8
+ 1588 05b2 22       		.byte	0x22
+ 1589 05b3 00       		.byte	0
+ 1590 05b4 11       		.uleb128 0x11
+ 1591 05b5 B8010000 		.4byte	.LVL62
+ 1592 05b9 44080000 		.4byte	0x844
+ 1593 05bd C7050000 		.4byte	0x5c7
+ 1594 05c1 12       		.uleb128 0x12
+ 1595 05c2 01       		.uleb128 0x1
+ 1596 05c3 50       		.byte	0x50
+ 1597 05c4 01       		.uleb128 0x1
+ 1598 05c5 44       		.byte	0x44
+ 1599 05c6 00       		.byte	0
+ 1600 05c7 11       		.uleb128 0x11
+ 1601 05c8 CC010000 		.4byte	.LVL63
+ 1602 05cc 4F080000 		.4byte	0x84f
+ 1603 05d0 E0050000 		.4byte	0x5e0
+ 1604 05d4 12       		.uleb128 0x12
+ 1605 05d5 01       		.uleb128 0x1
+ 1606 05d6 50       		.byte	0x50
+ 1607 05d7 01       		.uleb128 0x1
+ 1608 05d8 30       		.byte	0x30
+ 1609 05d9 12       		.uleb128 0x12
+ 1610 05da 01       		.uleb128 0x1
+ 1611 05db 51       		.byte	0x51
+ 1612 05dc 02       		.uleb128 0x2
+ 1613 05dd 08       		.byte	0x8
+ 1614 05de 23       		.byte	0x23
+ 1615 05df 00       		.byte	0
+ 1616 05e0 11       		.uleb128 0x11
+ 1617 05e1 D2010000 		.4byte	.LVL64
+ 1618 05e5 44080000 		.4byte	0x844
+ 1619 05e9 F3050000 		.4byte	0x5f3
+ 1620 05ed 12       		.uleb128 0x12
+ 1621 05ee 01       		.uleb128 0x1
+ 1622 05ef 50       		.byte	0x50
+ 1623 05f0 01       		.uleb128 0x1
+ 1624 05f1 44       		.byte	0x44
+ 1625 05f2 00       		.byte	0
+ 1626 05f3 11       		.uleb128 0x11
+ 1627 05f4 EA010000 		.4byte	.LVL65
+ 1628 05f8 4F080000 		.4byte	0x84f
+ARM GAS  C:\Users\JPELEC~1\AppData\Local\Temp\ccSdZhaR.s 			page 34
+
+
+ 1629 05fc 0C060000 		.4byte	0x60c
+ 1630 0600 12       		.uleb128 0x12
+ 1631 0601 01       		.uleb128 0x1
+ 1632 0602 50       		.byte	0x50
+ 1633 0603 01       		.uleb128 0x1
+ 1634 0604 3A       		.byte	0x3a
+ 1635 0605 12       		.uleb128 0x12
+ 1636 0606 01       		.uleb128 0x1
+ 1637 0607 51       		.byte	0x51
+ 1638 0608 02       		.uleb128 0x2
+ 1639 0609 08       		.byte	0x8
+ 1640 060a 24       		.byte	0x24
+ 1641 060b 00       		.byte	0
+ 1642 060c 11       		.uleb128 0x11
+ 1643 060d F0010000 		.4byte	.LVL66
+ 1644 0611 44080000 		.4byte	0x844
+ 1645 0615 1F060000 		.4byte	0x61f
+ 1646 0619 12       		.uleb128 0x12
+ 1647 061a 01       		.uleb128 0x1
+ 1648 061b 50       		.byte	0x50
+ 1649 061c 01       		.uleb128 0x1
+ 1650 061d 44       		.byte	0x44
+ 1651 061e 00       		.byte	0
+ 1652 061f 11       		.uleb128 0x11
+ 1653 0620 54020000 		.4byte	.LVL69
+ 1654 0624 39080000 		.4byte	0x839
+ 1655 0628 3D060000 		.4byte	0x63d
+ 1656 062c 12       		.uleb128 0x12
+ 1657 062d 01       		.uleb128 0x1
+ 1658 062e 50       		.byte	0x50
+ 1659 062f 0C       		.uleb128 0xc
+ 1660 0630 76       		.byte	0x76
+ 1661 0631 00       		.sleb128 0
+ 1662 0632 32       		.byte	0x32
+ 1663 0633 24       		.byte	0x24
+ 1664 0634 76       		.byte	0x76
+ 1665 0635 00       		.sleb128 0
+ 1666 0636 22       		.byte	0x22
+ 1667 0637 7A       		.byte	0x7a
+ 1668 0638 00       		.sleb128 0
+ 1669 0639 22       		.byte	0x22
+ 1670 063a 23       		.byte	0x23
+ 1671 063b 64       		.uleb128 0x64
+ 1672 063c 00       		.byte	0
+ 1673 063d 11       		.uleb128 0x11
+ 1674 063e 7C020000 		.4byte	.LVL70
+ 1675 0642 39080000 		.4byte	0x839
+ 1676 0646 5B060000 		.4byte	0x65b
+ 1677 064a 12       		.uleb128 0x12
+ 1678 064b 01       		.uleb128 0x1
+ 1679 064c 50       		.byte	0x50
+ 1680 064d 0C       		.uleb128 0xc
+ 1681 064e 76       		.byte	0x76
+ 1682 064f 00       		.sleb128 0
+ 1683 0650 32       		.byte	0x32
+ 1684 0651 24       		.byte	0x24
+ 1685 0652 76       		.byte	0x76
+ARM GAS  C:\Users\JPELEC~1\AppData\Local\Temp\ccSdZhaR.s 			page 35
+
+
+ 1686 0653 00       		.sleb128 0
+ 1687 0654 22       		.byte	0x22
+ 1688 0655 7A       		.byte	0x7a
+ 1689 0656 00       		.sleb128 0
+ 1690 0657 22       		.byte	0x22
+ 1691 0658 23       		.byte	0x23
+ 1692 0659 65       		.uleb128 0x65
+ 1693 065a 00       		.byte	0
+ 1694 065b 11       		.uleb128 0x11
+ 1695 065c 98020000 		.4byte	.LVL71
+ 1696 0660 39080000 		.4byte	0x839
+ 1697 0664 79060000 		.4byte	0x679
+ 1698 0668 12       		.uleb128 0x12
+ 1699 0669 01       		.uleb128 0x1
+ 1700 066a 50       		.byte	0x50
+ 1701 066b 0C       		.uleb128 0xc
+ 1702 066c 76       		.byte	0x76
+ 1703 066d 00       		.sleb128 0
+ 1704 066e 32       		.byte	0x32
+ 1705 066f 24       		.byte	0x24
+ 1706 0670 76       		.byte	0x76
+ 1707 0671 00       		.sleb128 0
+ 1708 0672 22       		.byte	0x22
+ 1709 0673 7A       		.byte	0x7a
+ 1710 0674 00       		.sleb128 0
+ 1711 0675 22       		.byte	0x22
+ 1712 0676 23       		.byte	0x23
+ 1713 0677 67       		.uleb128 0x67
+ 1714 0678 00       		.byte	0
+ 1715 0679 11       		.uleb128 0x11
+ 1716 067a B6020000 		.4byte	.LVL72
+ 1717 067e 39080000 		.4byte	0x839
+ 1718 0682 97060000 		.4byte	0x697
+ 1719 0686 12       		.uleb128 0x12
+ 1720 0687 01       		.uleb128 0x1
+ 1721 0688 50       		.byte	0x50
+ 1722 0689 0C       		.uleb128 0xc
+ 1723 068a 76       		.byte	0x76
+ 1724 068b 00       		.sleb128 0
+ 1725 068c 32       		.byte	0x32
+ 1726 068d 24       		.byte	0x24
+ 1727 068e 76       		.byte	0x76
+ 1728 068f 00       		.sleb128 0
+ 1729 0690 22       		.byte	0x22
+ 1730 0691 7A       		.byte	0x7a
+ 1731 0692 00       		.sleb128 0
+ 1732 0693 22       		.byte	0x22
+ 1733 0694 23       		.byte	0x23
+ 1734 0695 68       		.uleb128 0x68
+ 1735 0696 00       		.byte	0
+ 1736 0697 13       		.uleb128 0x13
+ 1737 0698 D6020000 		.4byte	.LVL73
+ 1738 069c 24020000 		.4byte	0x224
+ 1739 06a0 00       		.byte	0
+ 1740 06a1 0E       		.uleb128 0xe
+ 1741 06a2 2F000000 		.4byte	.LASF41
+ 1742 06a6 01       		.byte	0x1
+ARM GAS  C:\Users\JPELEC~1\AppData\Local\Temp\ccSdZhaR.s 			page 36
+
+
+ 1743 06a7 AF       		.byte	0xaf
+ 1744 06a8 AC000000 		.4byte	0xac
+ 1745 06ac 00000000 		.4byte	.LFB69
+ 1746 06b0 90000000 		.4byte	.LFE69-.LFB69
+ 1747 06b4 01       		.uleb128 0x1
+ 1748 06b5 9C       		.byte	0x9c
+ 1749 06b6 D3060000 		.4byte	0x6d3
+ 1750 06ba 0C       		.uleb128 0xc
+ 1751 06bb 6E020000 		.4byte	.LASF42
+ 1752 06bf 01       		.byte	0x1
+ 1753 06c0 B3       		.byte	0xb3
+ 1754 06c1 94000000 		.4byte	0x94
+ 1755 06c5 E1010000 		.4byte	.LLST11
+ 1756 06c9 13       		.uleb128 0x13
+ 1757 06ca 14000000 		.4byte	.LVL82
+ 1758 06ce 5A080000 		.4byte	0x85a
+ 1759 06d2 00       		.byte	0
+ 1760 06d3 0E       		.uleb128 0xe
+ 1761 06d4 29020000 		.4byte	.LASF43
+ 1762 06d8 01       		.byte	0x1
+ 1763 06d9 DE       		.byte	0xde
+ 1764 06da AC000000 		.4byte	0xac
+ 1765 06de 00000000 		.4byte	.LFB70
+ 1766 06e2 18000000 		.4byte	.LFE70-.LFB70
+ 1767 06e6 01       		.uleb128 0x1
+ 1768 06e7 9C       		.byte	0x9c
+ 1769 06e8 1D070000 		.4byte	0x71d
+ 1770 06ec 14       		.uleb128 0x14
+ 1771 06ed 71010000 		.4byte	.LASF44
+ 1772 06f1 01       		.byte	0x1
+ 1773 06f2 E1       		.byte	0xe1
+ 1774 06f3 AC000000 		.4byte	0xac
+ 1775 06f7 14       		.uleb128 0x14
+ 1776 06f8 07000000 		.4byte	.LASF45
+ 1777 06fc 01       		.byte	0x1
+ 1778 06fd E4       		.byte	0xe4
+ 1779 06fe AC000000 		.4byte	0xac
+ 1780 0702 0C       		.uleb128 0xc
+ 1781 0703 3D010000 		.4byte	.LASF46
+ 1782 0707 01       		.byte	0x1
+ 1783 0708 E7       		.byte	0xe7
+ 1784 0709 AC000000 		.4byte	0xac
+ 1785 070d 2D020000 		.4byte	.LLST12
+ 1786 0711 14       		.uleb128 0x14
+ 1787 0712 0F010000 		.4byte	.LASF47
+ 1788 0716 01       		.byte	0x1
+ 1789 0717 EA       		.byte	0xea
+ 1790 0718 AC000000 		.4byte	0xac
+ 1791 071c 00       		.byte	0
+ 1792 071d 15       		.uleb128 0x15
+ 1793 071e 97020000 		.4byte	.LASF48
+ 1794 0722 06       		.byte	0x6
+ 1795 0723 1207     		.2byte	0x712
+ 1796 0725 29070000 		.4byte	0x729
+ 1797 0729 16       		.uleb128 0x16
+ 1798 072a 7D000000 		.4byte	0x7d
+ 1799 072e 08       		.uleb128 0x8
+ARM GAS  C:\Users\JPELEC~1\AppData\Local\Temp\ccSdZhaR.s 			page 37
+
+
+ 1800 072f 88000000 		.4byte	0x88
+ 1801 0733 3E070000 		.4byte	0x73e
+ 1802 0737 09       		.uleb128 0x9
+ 1803 0738 CD000000 		.4byte	0xcd
+ 1804 073c 03       		.byte	0x3
+ 1805 073d 00       		.byte	0
+ 1806 073e 17       		.uleb128 0x17
+ 1807 073f 7B000000 		.4byte	.LASF49
+ 1808 0743 05       		.byte	0x5
+ 1809 0744 48       		.byte	0x48
+ 1810 0745 2E070000 		.4byte	0x72e
+ 1811 0749 17       		.uleb128 0x17
+ 1812 074a 04010000 		.4byte	.LASF50
+ 1813 074e 05       		.byte	0x5
+ 1814 074f 49       		.byte	0x49
+ 1815 0750 88000000 		.4byte	0x88
+ 1816 0754 17       		.uleb128 0x17
+ 1817 0755 16010000 		.4byte	.LASF51
+ 1818 0759 05       		.byte	0x5
+ 1819 075a 49       		.byte	0x49
+ 1820 075b 88000000 		.4byte	0x88
+ 1821 075f 17       		.uleb128 0x17
+ 1822 0760 10000000 		.4byte	.LASF52
+ 1823 0764 05       		.byte	0x5
+ 1824 0765 49       		.byte	0x49
+ 1825 0766 88000000 		.4byte	0x88
+ 1826 076a 17       		.uleb128 0x17
+ 1827 076b 4B030000 		.4byte	.LASF53
+ 1828 076f 05       		.byte	0x5
+ 1829 0770 49       		.byte	0x49
+ 1830 0771 88000000 		.4byte	0x88
+ 1831 0775 17       		.uleb128 0x17
+ 1832 0776 27010000 		.4byte	.LASF54
+ 1833 077a 05       		.byte	0x5
+ 1834 077b 49       		.byte	0x49
+ 1835 077c 88000000 		.4byte	0x88
+ 1836 0780 17       		.uleb128 0x17
+ 1837 0781 66020000 		.4byte	.LASF55
+ 1838 0785 05       		.byte	0x5
+ 1839 0786 49       		.byte	0x49
+ 1840 0787 88000000 		.4byte	0x88
+ 1841 078b 17       		.uleb128 0x17
+ 1842 078c F5010000 		.4byte	.LASF56
+ 1843 0790 05       		.byte	0x5
+ 1844 0791 49       		.byte	0x49
+ 1845 0792 88000000 		.4byte	0x88
+ 1846 0796 17       		.uleb128 0x17
+ 1847 0797 72000000 		.4byte	.LASF57
+ 1848 079b 05       		.byte	0x5
+ 1849 079c 4A       		.byte	0x4a
+ 1850 079d 25000000 		.4byte	0x25
+ 1851 07a1 17       		.uleb128 0x17
+ 1852 07a2 24000000 		.4byte	.LASF58
+ 1853 07a6 05       		.byte	0x5
+ 1854 07a7 4A       		.byte	0x4a
+ 1855 07a8 25000000 		.4byte	0x25
+ 1856 07ac 17       		.uleb128 0x17
+ARM GAS  C:\Users\JPELEC~1\AppData\Local\Temp\ccSdZhaR.s 			page 38
+
+
+ 1857 07ad 00000000 		.4byte	.LASF59
+ 1858 07b1 05       		.byte	0x5
+ 1859 07b2 4B       		.byte	0x4b
+ 1860 07b3 94000000 		.4byte	0x94
+ 1861 07b7 08       		.uleb128 0x8
+ 1862 07b8 55010000 		.4byte	0x155
+ 1863 07bc C7070000 		.4byte	0x7c7
+ 1864 07c0 09       		.uleb128 0x9
+ 1865 07c1 CD000000 		.4byte	0xcd
+ 1866 07c5 04       		.byte	0x4
+ 1867 07c6 00       		.byte	0
+ 1868 07c7 18       		.uleb128 0x18
+ 1869 07c8 9B010000 		.4byte	.LASF60
+ 1870 07cc 05       		.byte	0x5
+ 1871 07cd 5A       		.byte	0x5a
+ 1872 07ce B7070000 		.4byte	0x7b7
+ 1873 07d2 05       		.uleb128 0x5
+ 1874 07d3 03       		.byte	0x3
+ 1875 07d4 00000000 		.4byte	Programas
+ 1876 07d8 19       		.uleb128 0x19
+ 1877 07d9 6900     		.ascii	"i\000"
+ 1878 07db 01       		.byte	0x1
+ 1879 07dc 2B       		.byte	0x2b
+ 1880 07dd 88000000 		.4byte	0x88
+ 1881 07e1 05       		.uleb128 0x5
+ 1882 07e2 03       		.byte	0x3
+ 1883 07e3 00000000 		.4byte	i
+ 1884 07e7 19       		.uleb128 0x19
+ 1885 07e8 6C3200   		.ascii	"l2\000"
+ 1886 07eb 01       		.byte	0x1
+ 1887 07ec 2C       		.byte	0x2c
+ 1888 07ed 88000000 		.4byte	0x88
+ 1889 07f1 05       		.uleb128 0x5
+ 1890 07f2 03       		.byte	0x3
+ 1891 07f3 00000000 		.4byte	l2
+ 1892 07f7 19       		.uleb128 0x19
+ 1893 07f8 683200   		.ascii	"h2\000"
+ 1894 07fb 01       		.byte	0x1
+ 1895 07fc 2C       		.byte	0x2c
+ 1896 07fd 88000000 		.4byte	0x88
+ 1897 0801 05       		.uleb128 0x5
+ 1898 0802 03       		.byte	0x3
+ 1899 0803 00000000 		.4byte	h2
+ 1900 0807 18       		.uleb128 0x18
+ 1901 0808 B8000000 		.4byte	.LASF61
+ 1902 080c 01       		.byte	0x1
+ 1903 080d 2D       		.byte	0x2d
+ 1904 080e 94000000 		.4byte	0x94
+ 1905 0812 05       		.uleb128 0x5
+ 1906 0813 03       		.byte	0x3
+ 1907 0814 00000000 		.4byte	Prom
+ 1908 0818 08       		.uleb128 0x8
+ 1909 0819 94000000 		.4byte	0x94
+ 1910 081d 28080000 		.4byte	0x828
+ 1911 0821 09       		.uleb128 0x9
+ 1912 0822 CD000000 		.4byte	0xcd
+ 1913 0826 13       		.byte	0x13
+ARM GAS  C:\Users\JPELEC~1\AppData\Local\Temp\ccSdZhaR.s 			page 39
+
+
+ 1914 0827 00       		.byte	0
+ 1915 0828 18       		.uleb128 0x18
+ 1916 0829 37020000 		.4byte	.LASF62
+ 1917 082d 01       		.byte	0x1
+ 1918 082e 2E       		.byte	0x2e
+ 1919 082f 18080000 		.4byte	0x818
+ 1920 0833 05       		.uleb128 0x5
+ 1921 0834 03       		.byte	0x3
+ 1922 0835 00000000 		.4byte	promedio2
+ 1923 0839 1A       		.uleb128 0x1a
+ 1924 083a 47000000 		.4byte	.LASF63
+ 1925 083e 47000000 		.4byte	.LASF63
+ 1926 0842 07       		.byte	0x7
+ 1927 0843 23       		.byte	0x23
+ 1928 0844 1A       		.uleb128 0x1a
+ 1929 0845 32030000 		.4byte	.LASF64
+ 1930 0849 32030000 		.4byte	.LASF64
+ 1931 084d 08       		.byte	0x8
+ 1932 084e 76       		.byte	0x76
+ 1933 084f 1A       		.uleb128 0x1a
+ 1934 0850 3A030000 		.4byte	.LASF65
+ 1935 0854 3A030000 		.4byte	.LASF65
+ 1936 0858 07       		.byte	0x7
+ 1937 0859 21       		.byte	0x21
+ 1938 085a 1A       		.uleb128 0x1a
+ 1939 085b 52030000 		.4byte	.LASF66
+ 1940 085f 52030000 		.4byte	.LASF66
+ 1941 0863 09       		.byte	0x9
+ 1942 0864 3F       		.byte	0x3f
+ 1943 0865 00       		.byte	0
+ 1944              		.section	.debug_abbrev,"",%progbits
+ 1945              	.Ldebug_abbrev0:
+ 1946 0000 01       		.uleb128 0x1
+ 1947 0001 11       		.uleb128 0x11
+ 1948 0002 01       		.byte	0x1
+ 1949 0003 25       		.uleb128 0x25
+ 1950 0004 0E       		.uleb128 0xe
+ 1951 0005 13       		.uleb128 0x13
+ 1952 0006 0B       		.uleb128 0xb
+ 1953 0007 03       		.uleb128 0x3
+ 1954 0008 0E       		.uleb128 0xe
+ 1955 0009 1B       		.uleb128 0x1b
+ 1956 000a 0E       		.uleb128 0xe
+ 1957 000b 55       		.uleb128 0x55
+ 1958 000c 17       		.uleb128 0x17
+ 1959 000d 11       		.uleb128 0x11
+ 1960 000e 01       		.uleb128 0x1
+ 1961 000f 10       		.uleb128 0x10
+ 1962 0010 17       		.uleb128 0x17
+ 1963 0011 00       		.byte	0
+ 1964 0012 00       		.byte	0
+ 1965 0013 02       		.uleb128 0x2
+ 1966 0014 24       		.uleb128 0x24
+ 1967 0015 00       		.byte	0
+ 1968 0016 0B       		.uleb128 0xb
+ 1969 0017 0B       		.uleb128 0xb
+ 1970 0018 3E       		.uleb128 0x3e
+ARM GAS  C:\Users\JPELEC~1\AppData\Local\Temp\ccSdZhaR.s 			page 40
+
+
+ 1971 0019 0B       		.uleb128 0xb
+ 1972 001a 03       		.uleb128 0x3
+ 1973 001b 0E       		.uleb128 0xe
+ 1974 001c 00       		.byte	0
+ 1975 001d 00       		.byte	0
+ 1976 001e 03       		.uleb128 0x3
+ 1977 001f 16       		.uleb128 0x16
+ 1978 0020 00       		.byte	0
+ 1979 0021 03       		.uleb128 0x3
+ 1980 0022 0E       		.uleb128 0xe
+ 1981 0023 3A       		.uleb128 0x3a
+ 1982 0024 0B       		.uleb128 0xb
+ 1983 0025 3B       		.uleb128 0x3b
+ 1984 0026 0B       		.uleb128 0xb
+ 1985 0027 49       		.uleb128 0x49
+ 1986 0028 13       		.uleb128 0x13
+ 1987 0029 00       		.byte	0
+ 1988 002a 00       		.byte	0
+ 1989 002b 04       		.uleb128 0x4
+ 1990 002c 24       		.uleb128 0x24
+ 1991 002d 00       		.byte	0
+ 1992 002e 0B       		.uleb128 0xb
+ 1993 002f 0B       		.uleb128 0xb
+ 1994 0030 3E       		.uleb128 0x3e
+ 1995 0031 0B       		.uleb128 0xb
+ 1996 0032 03       		.uleb128 0x3
+ 1997 0033 08       		.uleb128 0x8
+ 1998 0034 00       		.byte	0
+ 1999 0035 00       		.byte	0
+ 2000 0036 05       		.uleb128 0x5
+ 2001 0037 16       		.uleb128 0x16
+ 2002 0038 00       		.byte	0
+ 2003 0039 03       		.uleb128 0x3
+ 2004 003a 0E       		.uleb128 0xe
+ 2005 003b 3A       		.uleb128 0x3a
+ 2006 003c 0B       		.uleb128 0xb
+ 2007 003d 3B       		.uleb128 0x3b
+ 2008 003e 05       		.uleb128 0x5
+ 2009 003f 49       		.uleb128 0x49
+ 2010 0040 13       		.uleb128 0x13
+ 2011 0041 00       		.byte	0
+ 2012 0042 00       		.byte	0
+ 2013 0043 06       		.uleb128 0x6
+ 2014 0044 13       		.uleb128 0x13
+ 2015 0045 01       		.byte	0x1
+ 2016 0046 0B       		.uleb128 0xb
+ 2017 0047 0B       		.uleb128 0xb
+ 2018 0048 3A       		.uleb128 0x3a
+ 2019 0049 0B       		.uleb128 0xb
+ 2020 004a 3B       		.uleb128 0x3b
+ 2021 004b 0B       		.uleb128 0xb
+ 2022 004c 01       		.uleb128 0x1
+ 2023 004d 13       		.uleb128 0x13
+ 2024 004e 00       		.byte	0
+ 2025 004f 00       		.byte	0
+ 2026 0050 07       		.uleb128 0x7
+ 2027 0051 0D       		.uleb128 0xd
+ARM GAS  C:\Users\JPELEC~1\AppData\Local\Temp\ccSdZhaR.s 			page 41
+
+
+ 2028 0052 00       		.byte	0
+ 2029 0053 03       		.uleb128 0x3
+ 2030 0054 0E       		.uleb128 0xe
+ 2031 0055 3A       		.uleb128 0x3a
+ 2032 0056 0B       		.uleb128 0xb
+ 2033 0057 3B       		.uleb128 0x3b
+ 2034 0058 0B       		.uleb128 0xb
+ 2035 0059 49       		.uleb128 0x49
+ 2036 005a 13       		.uleb128 0x13
+ 2037 005b 38       		.uleb128 0x38
+ 2038 005c 0B       		.uleb128 0xb
+ 2039 005d 00       		.byte	0
+ 2040 005e 00       		.byte	0
+ 2041 005f 08       		.uleb128 0x8
+ 2042 0060 01       		.uleb128 0x1
+ 2043 0061 01       		.byte	0x1
+ 2044 0062 49       		.uleb128 0x49
+ 2045 0063 13       		.uleb128 0x13
+ 2046 0064 01       		.uleb128 0x1
+ 2047 0065 13       		.uleb128 0x13
+ 2048 0066 00       		.byte	0
+ 2049 0067 00       		.byte	0
+ 2050 0068 09       		.uleb128 0x9
+ 2051 0069 21       		.uleb128 0x21
+ 2052 006a 00       		.byte	0
+ 2053 006b 49       		.uleb128 0x49
+ 2054 006c 13       		.uleb128 0x13
+ 2055 006d 2F       		.uleb128 0x2f
+ 2056 006e 0B       		.uleb128 0xb
+ 2057 006f 00       		.byte	0
+ 2058 0070 00       		.byte	0
+ 2059 0071 0A       		.uleb128 0xa
+ 2060 0072 2E       		.uleb128 0x2e
+ 2061 0073 01       		.byte	0x1
+ 2062 0074 3F       		.uleb128 0x3f
+ 2063 0075 19       		.uleb128 0x19
+ 2064 0076 03       		.uleb128 0x3
+ 2065 0077 0E       		.uleb128 0xe
+ 2066 0078 3A       		.uleb128 0x3a
+ 2067 0079 0B       		.uleb128 0xb
+ 2068 007a 3B       		.uleb128 0x3b
+ 2069 007b 0B       		.uleb128 0xb
+ 2070 007c 27       		.uleb128 0x27
+ 2071 007d 19       		.uleb128 0x19
+ 2072 007e 49       		.uleb128 0x49
+ 2073 007f 13       		.uleb128 0x13
+ 2074 0080 11       		.uleb128 0x11
+ 2075 0081 01       		.uleb128 0x1
+ 2076 0082 12       		.uleb128 0x12
+ 2077 0083 06       		.uleb128 0x6
+ 2078 0084 40       		.uleb128 0x40
+ 2079 0085 18       		.uleb128 0x18
+ 2080 0086 9642     		.uleb128 0x2116
+ 2081 0088 19       		.uleb128 0x19
+ 2082 0089 01       		.uleb128 0x1
+ 2083 008a 13       		.uleb128 0x13
+ 2084 008b 00       		.byte	0
+ARM GAS  C:\Users\JPELEC~1\AppData\Local\Temp\ccSdZhaR.s 			page 42
+
+
+ 2085 008c 00       		.byte	0
+ 2086 008d 0B       		.uleb128 0xb
+ 2087 008e 05       		.uleb128 0x5
+ 2088 008f 00       		.byte	0
+ 2089 0090 03       		.uleb128 0x3
+ 2090 0091 0E       		.uleb128 0xe
+ 2091 0092 3A       		.uleb128 0x3a
+ 2092 0093 0B       		.uleb128 0xb
+ 2093 0094 3B       		.uleb128 0x3b
+ 2094 0095 0B       		.uleb128 0xb
+ 2095 0096 49       		.uleb128 0x49
+ 2096 0097 13       		.uleb128 0x13
+ 2097 0098 02       		.uleb128 0x2
+ 2098 0099 17       		.uleb128 0x17
+ 2099 009a 00       		.byte	0
+ 2100 009b 00       		.byte	0
+ 2101 009c 0C       		.uleb128 0xc
+ 2102 009d 34       		.uleb128 0x34
+ 2103 009e 00       		.byte	0
+ 2104 009f 03       		.uleb128 0x3
+ 2105 00a0 0E       		.uleb128 0xe
+ 2106 00a1 3A       		.uleb128 0x3a
+ 2107 00a2 0B       		.uleb128 0xb
+ 2108 00a3 3B       		.uleb128 0x3b
+ 2109 00a4 0B       		.uleb128 0xb
+ 2110 00a5 49       		.uleb128 0x49
+ 2111 00a6 13       		.uleb128 0x13
+ 2112 00a7 02       		.uleb128 0x2
+ 2113 00a8 17       		.uleb128 0x17
+ 2114 00a9 00       		.byte	0
+ 2115 00aa 00       		.byte	0
+ 2116 00ab 0D       		.uleb128 0xd
+ 2117 00ac 34       		.uleb128 0x34
+ 2118 00ad 00       		.byte	0
+ 2119 00ae 03       		.uleb128 0x3
+ 2120 00af 08       		.uleb128 0x8
+ 2121 00b0 3A       		.uleb128 0x3a
+ 2122 00b1 0B       		.uleb128 0xb
+ 2123 00b2 3B       		.uleb128 0x3b
+ 2124 00b3 0B       		.uleb128 0xb
+ 2125 00b4 49       		.uleb128 0x49
+ 2126 00b5 13       		.uleb128 0x13
+ 2127 00b6 02       		.uleb128 0x2
+ 2128 00b7 17       		.uleb128 0x17
+ 2129 00b8 00       		.byte	0
+ 2130 00b9 00       		.byte	0
+ 2131 00ba 0E       		.uleb128 0xe
+ 2132 00bb 2E       		.uleb128 0x2e
+ 2133 00bc 01       		.byte	0x1
+ 2134 00bd 3F       		.uleb128 0x3f
+ 2135 00be 19       		.uleb128 0x19
+ 2136 00bf 03       		.uleb128 0x3
+ 2137 00c0 0E       		.uleb128 0xe
+ 2138 00c1 3A       		.uleb128 0x3a
+ 2139 00c2 0B       		.uleb128 0xb
+ 2140 00c3 3B       		.uleb128 0x3b
+ 2141 00c4 0B       		.uleb128 0xb
+ARM GAS  C:\Users\JPELEC~1\AppData\Local\Temp\ccSdZhaR.s 			page 43
+
+
+ 2142 00c5 27       		.uleb128 0x27
+ 2143 00c6 19       		.uleb128 0x19
+ 2144 00c7 49       		.uleb128 0x49
+ 2145 00c8 13       		.uleb128 0x13
+ 2146 00c9 11       		.uleb128 0x11
+ 2147 00ca 01       		.uleb128 0x1
+ 2148 00cb 12       		.uleb128 0x12
+ 2149 00cc 06       		.uleb128 0x6
+ 2150 00cd 40       		.uleb128 0x40
+ 2151 00ce 18       		.uleb128 0x18
+ 2152 00cf 9742     		.uleb128 0x2117
+ 2153 00d1 19       		.uleb128 0x19
+ 2154 00d2 01       		.uleb128 0x1
+ 2155 00d3 13       		.uleb128 0x13
+ 2156 00d4 00       		.byte	0
+ 2157 00d5 00       		.byte	0
+ 2158 00d6 0F       		.uleb128 0xf
+ 2159 00d7 05       		.uleb128 0x5
+ 2160 00d8 00       		.byte	0
+ 2161 00d9 03       		.uleb128 0x3
+ 2162 00da 0E       		.uleb128 0xe
+ 2163 00db 3A       		.uleb128 0x3a
+ 2164 00dc 0B       		.uleb128 0xb
+ 2165 00dd 3B       		.uleb128 0x3b
+ 2166 00de 0B       		.uleb128 0xb
+ 2167 00df 49       		.uleb128 0x49
+ 2168 00e0 13       		.uleb128 0x13
+ 2169 00e1 02       		.uleb128 0x2
+ 2170 00e2 18       		.uleb128 0x18
+ 2171 00e3 00       		.byte	0
+ 2172 00e4 00       		.byte	0
+ 2173 00e5 10       		.uleb128 0x10
+ 2174 00e6 2E       		.uleb128 0x2e
+ 2175 00e7 01       		.byte	0x1
+ 2176 00e8 3F       		.uleb128 0x3f
+ 2177 00e9 19       		.uleb128 0x19
+ 2178 00ea 03       		.uleb128 0x3
+ 2179 00eb 0E       		.uleb128 0xe
+ 2180 00ec 3A       		.uleb128 0x3a
+ 2181 00ed 0B       		.uleb128 0xb
+ 2182 00ee 3B       		.uleb128 0x3b
+ 2183 00ef 0B       		.uleb128 0xb
+ 2184 00f0 27       		.uleb128 0x27
+ 2185 00f1 19       		.uleb128 0x19
+ 2186 00f2 11       		.uleb128 0x11
+ 2187 00f3 01       		.uleb128 0x1
+ 2188 00f4 12       		.uleb128 0x12
+ 2189 00f5 06       		.uleb128 0x6
+ 2190 00f6 40       		.uleb128 0x40
+ 2191 00f7 18       		.uleb128 0x18
+ 2192 00f8 9642     		.uleb128 0x2116
+ 2193 00fa 19       		.uleb128 0x19
+ 2194 00fb 01       		.uleb128 0x1
+ 2195 00fc 13       		.uleb128 0x13
+ 2196 00fd 00       		.byte	0
+ 2197 00fe 00       		.byte	0
+ 2198 00ff 11       		.uleb128 0x11
+ARM GAS  C:\Users\JPELEC~1\AppData\Local\Temp\ccSdZhaR.s 			page 44
+
+
+ 2199 0100 898201   		.uleb128 0x4109
+ 2200 0103 01       		.byte	0x1
+ 2201 0104 11       		.uleb128 0x11
+ 2202 0105 01       		.uleb128 0x1
+ 2203 0106 31       		.uleb128 0x31
+ 2204 0107 13       		.uleb128 0x13
+ 2205 0108 01       		.uleb128 0x1
+ 2206 0109 13       		.uleb128 0x13
+ 2207 010a 00       		.byte	0
+ 2208 010b 00       		.byte	0
+ 2209 010c 12       		.uleb128 0x12
+ 2210 010d 8A8201   		.uleb128 0x410a
+ 2211 0110 00       		.byte	0
+ 2212 0111 02       		.uleb128 0x2
+ 2213 0112 18       		.uleb128 0x18
+ 2214 0113 9142     		.uleb128 0x2111
+ 2215 0115 18       		.uleb128 0x18
+ 2216 0116 00       		.byte	0
+ 2217 0117 00       		.byte	0
+ 2218 0118 13       		.uleb128 0x13
+ 2219 0119 898201   		.uleb128 0x4109
+ 2220 011c 00       		.byte	0
+ 2221 011d 11       		.uleb128 0x11
+ 2222 011e 01       		.uleb128 0x1
+ 2223 011f 31       		.uleb128 0x31
+ 2224 0120 13       		.uleb128 0x13
+ 2225 0121 00       		.byte	0
+ 2226 0122 00       		.byte	0
+ 2227 0123 14       		.uleb128 0x14
+ 2228 0124 34       		.uleb128 0x34
+ 2229 0125 00       		.byte	0
+ 2230 0126 03       		.uleb128 0x3
+ 2231 0127 0E       		.uleb128 0xe
+ 2232 0128 3A       		.uleb128 0x3a
+ 2233 0129 0B       		.uleb128 0xb
+ 2234 012a 3B       		.uleb128 0x3b
+ 2235 012b 0B       		.uleb128 0xb
+ 2236 012c 49       		.uleb128 0x49
+ 2237 012d 13       		.uleb128 0x13
+ 2238 012e 00       		.byte	0
+ 2239 012f 00       		.byte	0
+ 2240 0130 15       		.uleb128 0x15
+ 2241 0131 34       		.uleb128 0x34
+ 2242 0132 00       		.byte	0
+ 2243 0133 03       		.uleb128 0x3
+ 2244 0134 0E       		.uleb128 0xe
+ 2245 0135 3A       		.uleb128 0x3a
+ 2246 0136 0B       		.uleb128 0xb
+ 2247 0137 3B       		.uleb128 0x3b
+ 2248 0138 05       		.uleb128 0x5
+ 2249 0139 49       		.uleb128 0x49
+ 2250 013a 13       		.uleb128 0x13
+ 2251 013b 3F       		.uleb128 0x3f
+ 2252 013c 19       		.uleb128 0x19
+ 2253 013d 3C       		.uleb128 0x3c
+ 2254 013e 19       		.uleb128 0x19
+ 2255 013f 00       		.byte	0
+ARM GAS  C:\Users\JPELEC~1\AppData\Local\Temp\ccSdZhaR.s 			page 45
+
+
+ 2256 0140 00       		.byte	0
+ 2257 0141 16       		.uleb128 0x16
+ 2258 0142 35       		.uleb128 0x35
+ 2259 0143 00       		.byte	0
+ 2260 0144 49       		.uleb128 0x49
+ 2261 0145 13       		.uleb128 0x13
+ 2262 0146 00       		.byte	0
+ 2263 0147 00       		.byte	0
+ 2264 0148 17       		.uleb128 0x17
+ 2265 0149 34       		.uleb128 0x34
+ 2266 014a 00       		.byte	0
+ 2267 014b 03       		.uleb128 0x3
+ 2268 014c 0E       		.uleb128 0xe
+ 2269 014d 3A       		.uleb128 0x3a
+ 2270 014e 0B       		.uleb128 0xb
+ 2271 014f 3B       		.uleb128 0x3b
+ 2272 0150 0B       		.uleb128 0xb
+ 2273 0151 49       		.uleb128 0x49
+ 2274 0152 13       		.uleb128 0x13
+ 2275 0153 3F       		.uleb128 0x3f
+ 2276 0154 19       		.uleb128 0x19
+ 2277 0155 3C       		.uleb128 0x3c
+ 2278 0156 19       		.uleb128 0x19
+ 2279 0157 00       		.byte	0
+ 2280 0158 00       		.byte	0
+ 2281 0159 18       		.uleb128 0x18
+ 2282 015a 34       		.uleb128 0x34
+ 2283 015b 00       		.byte	0
+ 2284 015c 03       		.uleb128 0x3
+ 2285 015d 0E       		.uleb128 0xe
+ 2286 015e 3A       		.uleb128 0x3a
+ 2287 015f 0B       		.uleb128 0xb
+ 2288 0160 3B       		.uleb128 0x3b
+ 2289 0161 0B       		.uleb128 0xb
+ 2290 0162 49       		.uleb128 0x49
+ 2291 0163 13       		.uleb128 0x13
+ 2292 0164 3F       		.uleb128 0x3f
+ 2293 0165 19       		.uleb128 0x19
+ 2294 0166 02       		.uleb128 0x2
+ 2295 0167 18       		.uleb128 0x18
+ 2296 0168 00       		.byte	0
+ 2297 0169 00       		.byte	0
+ 2298 016a 19       		.uleb128 0x19
+ 2299 016b 34       		.uleb128 0x34
+ 2300 016c 00       		.byte	0
+ 2301 016d 03       		.uleb128 0x3
+ 2302 016e 08       		.uleb128 0x8
+ 2303 016f 3A       		.uleb128 0x3a
+ 2304 0170 0B       		.uleb128 0xb
+ 2305 0171 3B       		.uleb128 0x3b
+ 2306 0172 0B       		.uleb128 0xb
+ 2307 0173 49       		.uleb128 0x49
+ 2308 0174 13       		.uleb128 0x13
+ 2309 0175 3F       		.uleb128 0x3f
+ 2310 0176 19       		.uleb128 0x19
+ 2311 0177 02       		.uleb128 0x2
+ 2312 0178 18       		.uleb128 0x18
+ARM GAS  C:\Users\JPELEC~1\AppData\Local\Temp\ccSdZhaR.s 			page 46
+
+
+ 2313 0179 00       		.byte	0
+ 2314 017a 00       		.byte	0
+ 2315 017b 1A       		.uleb128 0x1a
+ 2316 017c 2E       		.uleb128 0x2e
+ 2317 017d 00       		.byte	0
+ 2318 017e 3F       		.uleb128 0x3f
+ 2319 017f 19       		.uleb128 0x19
+ 2320 0180 3C       		.uleb128 0x3c
+ 2321 0181 19       		.uleb128 0x19
+ 2322 0182 6E       		.uleb128 0x6e
+ 2323 0183 0E       		.uleb128 0xe
+ 2324 0184 03       		.uleb128 0x3
+ 2325 0185 0E       		.uleb128 0xe
+ 2326 0186 3A       		.uleb128 0x3a
+ 2327 0187 0B       		.uleb128 0xb
+ 2328 0188 3B       		.uleb128 0x3b
+ 2329 0189 0B       		.uleb128 0xb
+ 2330 018a 00       		.byte	0
+ 2331 018b 00       		.byte	0
+ 2332 018c 00       		.byte	0
+ 2333              		.section	.debug_loc,"",%progbits
+ 2334              	.Ldebug_loc0:
+ 2335              	.LLST0:
+ 2336 0000 00000000 		.4byte	.LVL0
+ 2337 0004 07000000 		.4byte	.LVL2-1
+ 2338 0008 0100     		.2byte	0x1
+ 2339 000a 50       		.byte	0x50
+ 2340 000b 07000000 		.4byte	.LVL2-1
+ 2341 000f 24000000 		.4byte	.LVL8
+ 2342 0013 0100     		.2byte	0x1
+ 2343 0015 54       		.byte	0x54
+ 2344 0016 24000000 		.4byte	.LVL8
+ 2345 001a 28000000 		.4byte	.LFE64
+ 2346 001e 0600     		.2byte	0x6
+ 2347 0020 F3       		.byte	0xf3
+ 2348 0021 03       		.uleb128 0x3
+ 2349 0022 F5       		.byte	0xf5
+ 2350 0023 00       		.uleb128 0
+ 2351 0024 25       		.uleb128 0x25
+ 2352 0025 9F       		.byte	0x9f
+ 2353 0026 00000000 		.4byte	0
+ 2354 002a 00000000 		.4byte	0
+ 2355              	.LLST1:
+ 2356 002e 04000000 		.4byte	.LVL1
+ 2357 0032 0E000000 		.4byte	.LVL3
+ 2358 0036 0600     		.2byte	0x6
+ 2359 0038 9E       		.byte	0x9e
+ 2360 0039 04       		.uleb128 0x4
+ 2361 003a 00000000 		.4byte	0
+ 2362 003e 0E000000 		.4byte	.LVL3
+ 2363 0042 12000000 		.4byte	.LVL4
+ 2364 0046 0100     		.2byte	0x1
+ 2365 0048 50       		.byte	0x50
+ 2366 0049 12000000 		.4byte	.LVL4
+ 2367 004d 15000000 		.4byte	.LVL5-1
+ 2368 0051 0100     		.2byte	0x1
+ 2369 0053 51       		.byte	0x51
+ARM GAS  C:\Users\JPELEC~1\AppData\Local\Temp\ccSdZhaR.s 			page 47
+
+
+ 2370 0054 00000000 		.4byte	0
+ 2371 0058 00000000 		.4byte	0
+ 2372              	.LLST2:
+ 2373 005c 04000000 		.4byte	.LVL1
+ 2374 0060 1C000000 		.4byte	.LVL6
+ 2375 0064 0600     		.2byte	0x6
+ 2376 0066 9E       		.byte	0x9e
+ 2377 0067 04       		.uleb128 0x4
+ 2378 0068 00000000 		.4byte	0
+ 2379 006c 1C000000 		.4byte	.LVL6
+ 2380 0070 1F000000 		.4byte	.LVL7-1
+ 2381 0074 0100     		.2byte	0x1
+ 2382 0076 50       		.byte	0x50
+ 2383 0077 00000000 		.4byte	0
+ 2384 007b 00000000 		.4byte	0
+ 2385              	.LLST3:
+ 2386 007f 00000000 		.4byte	.LVL9
+ 2387 0083 05000000 		.4byte	.LVL10-1
+ 2388 0087 0100     		.2byte	0x1
+ 2389 0089 50       		.byte	0x50
+ 2390 008a 05000000 		.4byte	.LVL10-1
+ 2391 008e 14000000 		.4byte	.LFE65
+ 2392 0092 0400     		.2byte	0x4
+ 2393 0094 F3       		.byte	0xf3
+ 2394 0095 01       		.uleb128 0x1
+ 2395 0096 50       		.byte	0x50
+ 2396 0097 9F       		.byte	0x9f
+ 2397 0098 00000000 		.4byte	0
+ 2398 009c 00000000 		.4byte	0
+ 2399              	.LLST4:
+ 2400 00a0 06000000 		.4byte	.LVL10
+ 2401 00a4 0B000000 		.4byte	.LVL11-1
+ 2402 00a8 0100     		.2byte	0x1
+ 2403 00aa 50       		.byte	0x50
+ 2404 00ab 00000000 		.4byte	0
+ 2405 00af 00000000 		.4byte	0
+ 2406              	.LLST5:
+ 2407 00b3 00000000 		.4byte	.LVL12
+ 2408 00b7 04000000 		.4byte	.LVL13
+ 2409 00bb 0100     		.2byte	0x1
+ 2410 00bd 50       		.byte	0x50
+ 2411 00be 04000000 		.4byte	.LVL13
+ 2412 00c2 06000000 		.4byte	.LVL14
+ 2413 00c6 0400     		.2byte	0x4
+ 2414 00c8 F3       		.byte	0xf3
+ 2415 00c9 01       		.uleb128 0x1
+ 2416 00ca 50       		.byte	0x50
+ 2417 00cb 9F       		.byte	0x9f
+ 2418 00cc 06000000 		.4byte	.LVL14
+ 2419 00d0 0C000000 		.4byte	.LVL15
+ 2420 00d4 0100     		.2byte	0x1
+ 2421 00d6 50       		.byte	0x50
+ 2422 00d7 0C000000 		.4byte	.LVL15
+ 2423 00db 0E000000 		.4byte	.LVL16
+ 2424 00df 0400     		.2byte	0x4
+ 2425 00e1 F3       		.byte	0xf3
+ 2426 00e2 01       		.uleb128 0x1
+ARM GAS  C:\Users\JPELEC~1\AppData\Local\Temp\ccSdZhaR.s 			page 48
+
+
+ 2427 00e3 50       		.byte	0x50
+ 2428 00e4 9F       		.byte	0x9f
+ 2429 00e5 0E000000 		.4byte	.LVL16
+ 2430 00e9 10000000 		.4byte	.LVL17
+ 2431 00ed 0100     		.2byte	0x1
+ 2432 00ef 50       		.byte	0x50
+ 2433 00f0 10000000 		.4byte	.LVL17
+ 2434 00f4 12000000 		.4byte	.LFE66
+ 2435 00f8 0400     		.2byte	0x4
+ 2436 00fa F3       		.byte	0xf3
+ 2437 00fb 01       		.uleb128 0x1
+ 2438 00fc 50       		.byte	0x50
+ 2439 00fd 9F       		.byte	0x9f
+ 2440 00fe 00000000 		.4byte	0
+ 2441 0102 00000000 		.4byte	0
+ 2442              	.LLST6:
+ 2443 0106 00000000 		.4byte	.LVL12
+ 2444 010a 04000000 		.4byte	.LVL13
+ 2445 010e 0200     		.2byte	0x2
+ 2446 0110 30       		.byte	0x30
+ 2447 0111 9F       		.byte	0x9f
+ 2448 0112 04000000 		.4byte	.LVL13
+ 2449 0116 06000000 		.4byte	.LVL14
+ 2450 011a 0100     		.2byte	0x1
+ 2451 011c 50       		.byte	0x50
+ 2452 011d 06000000 		.4byte	.LVL14
+ 2453 0121 0C000000 		.4byte	.LVL15
+ 2454 0125 0200     		.2byte	0x2
+ 2455 0127 30       		.byte	0x30
+ 2456 0128 9F       		.byte	0x9f
+ 2457 0129 0C000000 		.4byte	.LVL15
+ 2458 012d 0E000000 		.4byte	.LVL16
+ 2459 0131 0100     		.2byte	0x1
+ 2460 0133 50       		.byte	0x50
+ 2461 0134 0E000000 		.4byte	.LVL16
+ 2462 0138 10000000 		.4byte	.LVL17
+ 2463 013c 0200     		.2byte	0x2
+ 2464 013e 30       		.byte	0x30
+ 2465 013f 9F       		.byte	0x9f
+ 2466 0140 10000000 		.4byte	.LVL17
+ 2467 0144 12000000 		.4byte	.LFE66
+ 2468 0148 0100     		.2byte	0x1
+ 2469 014a 50       		.byte	0x50
+ 2470 014b 00000000 		.4byte	0
+ 2471 014f 00000000 		.4byte	0
+ 2472              	.LLST7:
+ 2473 0153 00000000 		.4byte	.LVL18
+ 2474 0157 04000000 		.4byte	.LVL19
+ 2475 015b 0100     		.2byte	0x1
+ 2476 015d 50       		.byte	0x50
+ 2477 015e 04000000 		.4byte	.LVL19
+ 2478 0162 06000000 		.4byte	.LFE67
+ 2479 0166 0400     		.2byte	0x4
+ 2480 0168 F3       		.byte	0xf3
+ 2481 0169 01       		.uleb128 0x1
+ 2482 016a 50       		.byte	0x50
+ 2483 016b 9F       		.byte	0x9f
+ARM GAS  C:\Users\JPELEC~1\AppData\Local\Temp\ccSdZhaR.s 			page 49
+
+
+ 2484 016c 00000000 		.4byte	0
+ 2485 0170 00000000 		.4byte	0
+ 2486              	.LLST8:
+ 2487 0174 00000000 		.4byte	.LVL18
+ 2488 0178 04000000 		.4byte	.LVL19
+ 2489 017c 0600     		.2byte	0x6
+ 2490 017e 70       		.byte	0x70
+ 2491 017f 00       		.sleb128 0
+ 2492 0180 08       		.byte	0x8
+ 2493 0181 FF       		.byte	0xff
+ 2494 0182 1A       		.byte	0x1a
+ 2495 0183 9F       		.byte	0x9f
+ 2496 0184 04000000 		.4byte	.LVL19
+ 2497 0188 06000000 		.4byte	.LFE67
+ 2498 018c 0700     		.2byte	0x7
+ 2499 018e F3       		.byte	0xf3
+ 2500 018f 01       		.uleb128 0x1
+ 2501 0190 50       		.byte	0x50
+ 2502 0191 08       		.byte	0x8
+ 2503 0192 FF       		.byte	0xff
+ 2504 0193 1A       		.byte	0x1a
+ 2505 0194 9F       		.byte	0x9f
+ 2506 0195 00000000 		.4byte	0
+ 2507 0199 00000000 		.4byte	0
+ 2508              	.LLST9:
+ 2509 019d 00000000 		.4byte	.LVL18
+ 2510 01a1 04000000 		.4byte	.LVL19
+ 2511 01a5 0800     		.2byte	0x8
+ 2512 01a7 70       		.byte	0x70
+ 2513 01a8 00       		.sleb128 0
+ 2514 01a9 38       		.byte	0x38
+ 2515 01aa 24       		.byte	0x24
+ 2516 01ab 71       		.byte	0x71
+ 2517 01ac 00       		.sleb128 0
+ 2518 01ad 21       		.byte	0x21
+ 2519 01ae 9F       		.byte	0x9f
+ 2520 01af 00000000 		.4byte	0
+ 2521 01b3 00000000 		.4byte	0
+ 2522              	.LLST10:
+ 2523 01b7 F8010000 		.4byte	.LVL67
+ 2524 01bb FC010000 		.4byte	.LVL68
+ 2525 01bf 0200     		.2byte	0x2
+ 2526 01c1 30       		.byte	0x30
+ 2527 01c2 9F       		.byte	0x9f
+ 2528 01c3 FC010000 		.4byte	.LVL68
+ 2529 01c7 62030000 		.4byte	.LVL78
+ 2530 01cb 0100     		.2byte	0x1
+ 2531 01cd 54       		.byte	0x54
+ 2532 01ce 64030000 		.4byte	.LVL79
+ 2533 01d2 6E030000 		.4byte	.LVL80
+ 2534 01d6 0100     		.2byte	0x1
+ 2535 01d8 54       		.byte	0x54
+ 2536 01d9 00000000 		.4byte	0
+ 2537 01dd 00000000 		.4byte	0
+ 2538              	.LLST11:
+ 2539 01e1 02000000 		.4byte	.LVL81
+ 2540 01e5 3E000000 		.4byte	.LVL83
+ARM GAS  C:\Users\JPELEC~1\AppData\Local\Temp\ccSdZhaR.s 			page 50
+
+
+ 2541 01e9 0200     		.2byte	0x2
+ 2542 01eb 30       		.byte	0x30
+ 2543 01ec 9F       		.byte	0x9f
+ 2544 01ed 3E000000 		.4byte	.LVL83
+ 2545 01f1 46000000 		.4byte	.LVL84
+ 2546 01f5 0100     		.2byte	0x1
+ 2547 01f7 53       		.byte	0x53
+ 2548 01f8 48000000 		.4byte	.LVL85
+ 2549 01fc 5C000000 		.4byte	.LVL87
+ 2550 0200 0100     		.2byte	0x1
+ 2551 0202 53       		.byte	0x53
+ 2552 0203 60000000 		.4byte	.LVL88
+ 2553 0207 68000000 		.4byte	.LVL89
+ 2554 020b 0100     		.2byte	0x1
+ 2555 020d 53       		.byte	0x53
+ 2556 020e 68000000 		.4byte	.LVL89
+ 2557 0212 6A000000 		.4byte	.LVL90
+ 2558 0216 0200     		.2byte	0x2
+ 2559 0218 30       		.byte	0x30
+ 2560 0219 9F       		.byte	0x9f
+ 2561 021a 6A000000 		.4byte	.LVL90
+ 2562 021e 6E000000 		.4byte	.LVL91
+ 2563 0222 0100     		.2byte	0x1
+ 2564 0224 53       		.byte	0x53
+ 2565 0225 00000000 		.4byte	0
+ 2566 0229 00000000 		.4byte	0
+ 2567              	.LLST12:
+ 2568 022d 0A000000 		.4byte	.LVL92
+ 2569 0231 0E000000 		.4byte	.LVL93
+ 2570 0235 0800     		.2byte	0x8
+ 2571 0237 70       		.byte	0x70
+ 2572 0238 00       		.sleb128 0
+ 2573 0239 38       		.byte	0x38
+ 2574 023a 26       		.byte	0x26
+ 2575 023b 73       		.byte	0x73
+ 2576 023c 00       		.sleb128 0
+ 2577 023d 1C       		.byte	0x1c
+ 2578 023e 9F       		.byte	0x9f
+ 2579 023f 0E000000 		.4byte	.LVL93
+ 2580 0243 18000000 		.4byte	.LFE70
+ 2581 0247 0100     		.2byte	0x1
+ 2582 0249 50       		.byte	0x50
+ 2583 024a 00000000 		.4byte	0
+ 2584 024e 00000000 		.4byte	0
+ 2585              		.section	.debug_aranges,"",%progbits
+ 2586 0000 4C000000 		.4byte	0x4c
+ 2587 0004 0200     		.2byte	0x2
+ 2588 0006 00000000 		.4byte	.Ldebug_info0
+ 2589 000a 04       		.byte	0x4
+ 2590 000b 00       		.byte	0
+ 2591 000c 0000     		.2byte	0
+ 2592 000e 0000     		.2byte	0
+ 2593 0010 00000000 		.4byte	.LFB64
+ 2594 0014 28000000 		.4byte	.LFE64-.LFB64
+ 2595 0018 00000000 		.4byte	.LFB65
+ 2596 001c 14000000 		.4byte	.LFE65-.LFB65
+ 2597 0020 00000000 		.4byte	.LFB66
+ARM GAS  C:\Users\JPELEC~1\AppData\Local\Temp\ccSdZhaR.s 			page 51
+
+
+ 2598 0024 12000000 		.4byte	.LFE66-.LFB66
+ 2599 0028 00000000 		.4byte	.LFB67
+ 2600 002c 06000000 		.4byte	.LFE67-.LFB67
+ 2601 0030 00000000 		.4byte	.LFB68
+ 2602 0034 84030000 		.4byte	.LFE68-.LFB68
+ 2603 0038 00000000 		.4byte	.LFB69
+ 2604 003c 90000000 		.4byte	.LFE69-.LFB69
+ 2605 0040 00000000 		.4byte	.LFB70
+ 2606 0044 18000000 		.4byte	.LFE70-.LFB70
+ 2607 0048 00000000 		.4byte	0
+ 2608 004c 00000000 		.4byte	0
+ 2609              		.section	.debug_ranges,"",%progbits
+ 2610              	.Ldebug_ranges0:
+ 2611 0000 00000000 		.4byte	.LFB64
+ 2612 0004 28000000 		.4byte	.LFE64
+ 2613 0008 00000000 		.4byte	.LFB65
+ 2614 000c 14000000 		.4byte	.LFE65
+ 2615 0010 00000000 		.4byte	.LFB66
+ 2616 0014 12000000 		.4byte	.LFE66
+ 2617 0018 00000000 		.4byte	.LFB67
+ 2618 001c 06000000 		.4byte	.LFE67
+ 2619 0020 00000000 		.4byte	.LFB68
+ 2620 0024 84030000 		.4byte	.LFE68
+ 2621 0028 00000000 		.4byte	.LFB69
+ 2622 002c 90000000 		.4byte	.LFE69
+ 2623 0030 00000000 		.4byte	.LFB70
+ 2624 0034 18000000 		.4byte	.LFE70
+ 2625 0038 00000000 		.4byte	0
+ 2626 003c 00000000 		.4byte	0
+ 2627              		.section	.debug_line,"",%progbits
+ 2628              	.Ldebug_line0:
+ 2629 0000 8D020000 		.section	.debug_str,"MS",%progbits,1
+ 2629      02007601 
+ 2629      00000201 
+ 2629      FB0E0D00 
+ 2629      01010101 
+ 2630              	.LASF59:
+ 2631 0000 72657375 		.ascii	"result\000"
+ 2631      6C7400
+ 2632              	.LASF45:
+ 2633 0007 49435556 		.ascii	"ICUVolts\000"
+ 2633      6F6C7473 
+ 2633      00
+ 2634              	.LASF52:
+ 2635 0010 4D656469 		.ascii	"MediaMovil\000"
+ 2635      614D6F76 
+ 2635      696C00
+ 2636              	.LASF34:
+ 2637 001b 636F6E76 		.ascii	"convert8\000"
+ 2637      65727438 
+ 2637      00
+ 2638              	.LASF58:
+ 2639 0024 47616E61 		.ascii	"GananciaIn\000"
+ 2639      6E636961 
+ 2639      496E00
+ 2640              	.LASF41:
+ 2641 002f 4D656173 		.ascii	"MeasureColdJnSensorTemp\000"
+ARM GAS  C:\Users\JPELEC~1\AppData\Local\Temp\ccSdZhaR.s 			page 52
+
+
+ 2641      75726543 
+ 2641      6F6C644A 
+ 2641      6E53656E 
+ 2641      736F7254 
+ 2642              	.LASF63:
+ 2643 0047 45455052 		.ascii	"EEPROM_ReadByte\000"
+ 2643      4F4D5F52 
+ 2643      65616442 
+ 2643      79746500 
+ 2644              	.LASF3:
+ 2645 0057 73686F72 		.ascii	"short int\000"
+ 2645      7420696E 
+ 2645      7400
+ 2646              	.LASF19:
+ 2647 0061 73697A65 		.ascii	"sizetype\000"
+ 2647      74797065 
+ 2647      00
+ 2648              	.LASF24:
+ 2649 006a 4D696E75 		.ascii	"Minutos\000"
+ 2649      746F7300 
+ 2650              	.LASF57:
+ 2651 0072 47616E61 		.ascii	"Ganancia\000"
+ 2651      6E636961 
+ 2651      00
+ 2652              	.LASF49:
+ 2653 007b 50617373 		.ascii	"Password\000"
+ 2653      776F7264 
+ 2653      00
+ 2654              	.LASF31:
+ 2655 0084 696E7474 		.ascii	"inttofloat\000"
+ 2655      6F666C6F 
+ 2655      617400
+ 2656              	.LASF16:
+ 2657 008f 646F7562 		.ascii	"double\000"
+ 2657      6C6500
+ 2658              	.LASF23:
+ 2659 0096 486F7261 		.ascii	"Horas\000"
+ 2659      7300
+ 2660              	.LASF13:
+ 2661 009c 75696E74 		.ascii	"uint16\000"
+ 2661      313600
+ 2662              	.LASF21:
+ 2663 00a3 54656D70 		.ascii	"TemperaturaInt\000"
+ 2663      65726174 
+ 2663      75726149 
+ 2663      6E7400
+ 2664              	.LASF12:
+ 2665 00b2 75696E74 		.ascii	"uint8\000"
+ 2665      3800
+ 2666              	.LASF61:
+ 2667 00b8 50726F6D 		.ascii	"Prom\000"
+ 2667      00
+ 2668              	.LASF0:
+ 2669 00bd 666C6F61 		.ascii	"float\000"
+ 2669      7400
+ 2670              	.LASF40:
+ 2671 00c3 74656D70 		.ascii	"temp\000"
+ARM GAS  C:\Users\JPELEC~1\AppData\Local\Temp\ccSdZhaR.s 			page 53
+
+
+ 2671      00
+ 2672              	.LASF7:
+ 2673 00c8 6C6F6E67 		.ascii	"long long int\000"
+ 2673      206C6F6E 
+ 2673      6720696E 
+ 2673      7400
+ 2674              	.LASF14:
+ 2675 00d6 696E7438 		.ascii	"int8\000"
+ 2675      00
+ 2676              	.LASF69:
+ 2677 00db 463A5C46 		.ascii	"F:\\Firmware Psoc\\LCD2\\LCD.cydsn\000"
+ 2677      69726D77 
+ 2677      61726520 
+ 2677      50736F63 
+ 2677      5C4C4344 
+ 2678              	.LASF5:
+ 2679 00fb 6C6F6E67 		.ascii	"long int\000"
+ 2679      20696E74 
+ 2679      00
+ 2680              	.LASF50:
+ 2681 0104 44657269 		.ascii	"Derivativo\000"
+ 2681      76617469 
+ 2681      766F00
+ 2682              	.LASF47:
+ 2683 010f 6F666673 		.ascii	"offset\000"
+ 2683      657400
+ 2684              	.LASF51:
+ 2685 0116 496E7465 		.ascii	"Integral\000"
+ 2685      6772616C 
+ 2685      00
+ 2686              	.LASF22:
+ 2687 011f 48756D65 		.ascii	"Humedad\000"
+ 2687      64616400 
+ 2688              	.LASF54:
+ 2689 0127 416A7573 		.ascii	"Ajuste\000"
+ 2689      746500
+ 2690              	.LASF20:
+ 2691 012e 54656D70 		.ascii	"TemperaturaDec\000"
+ 2691      65726174 
+ 2691      75726144 
+ 2691      656300
+ 2692              	.LASF46:
+ 2693 013d 49435465 		.ascii	"ICTemp\000"
+ 2693      6D7000
+ 2694              	.LASF29:
+ 2695 0144 656E7465 		.ascii	"entero\000"
+ 2695      726F00
+ 2696              	.LASF18:
+ 2697 014b 6C6F6E67 		.ascii	"long double\000"
+ 2697      20646F75 
+ 2697      626C6500 
+ 2698              	.LASF2:
+ 2699 0157 756E7369 		.ascii	"unsigned char\000"
+ 2699      676E6564 
+ 2699      20636861 
+ 2699      7200
+ 2700              	.LASF1:
+ARM GAS  C:\Users\JPELEC~1\AppData\Local\Temp\ccSdZhaR.s 			page 54
+
+
+ 2701 0165 7369676E 		.ascii	"signed char\000"
+ 2701      65642063 
+ 2701      68617200 
+ 2702              	.LASF44:
+ 2703 0171 49435265 		.ascii	"ICResult\000"
+ 2703      73756C74 
+ 2703      00
+ 2704              	.LASF8:
+ 2705 017a 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 2705      206C6F6E 
+ 2705      6720756E 
+ 2705      7369676E 
+ 2705      65642069 
+ 2706              	.LASF37:
+ 2707 0191 636F6E76 		.ascii	"convert16\000"
+ 2707      65727431 
+ 2707      3600
+ 2708              	.LASF60:
+ 2709 019b 50726F67 		.ascii	"Programas\000"
+ 2709      72616D61 
+ 2709      7300
+ 2710              	.LASF9:
+ 2711 01a5 756E7369 		.ascii	"unsigned int\000"
+ 2711      676E6564 
+ 2711      20696E74 
+ 2711      00
+ 2712              	.LASF4:
+ 2713 01b2 73686F72 		.ascii	"short unsigned int\000"
+ 2713      7420756E 
+ 2713      7369676E 
+ 2713      65642069 
+ 2713      6E7400
+ 2714              	.LASF17:
+ 2715 01c5 63686172 		.ascii	"char\000"
+ 2715      00
+ 2716              	.LASF26:
+ 2717 01ca 50657273 		.ascii	"Personalizado\000"
+ 2717      6F6E616C 
+ 2717      697A6164 
+ 2717      6F00
+ 2718              	.LASF11:
+ 2719 01d8 696E7433 		.ascii	"int32_t\000"
+ 2719      325F7400 
+ 2720              	.LASF38:
+ 2721 01e0 6E69626C 		.ascii	"nibleh\000"
+ 2721      656800
+ 2722              	.LASF39:
+ 2723 01e7 6E69626C 		.ascii	"niblel\000"
+ 2723      656C00
+ 2724              	.LASF27:
+ 2725 01ee 72616D70 		.ascii	"rampas\000"
+ 2725      617300
+ 2726              	.LASF56:
+ 2727 01f5 64617461 		.ascii	"dataReady\000"
+ 2727      52656164 
+ 2727      7900
+ 2728              	.LASF32:
+ARM GAS  C:\Users\JPELEC~1\AppData\Local\Temp\ccSdZhaR.s 			page 55
+
+
+ 2729 01ff 64617461 		.ascii	"data\000"
+ 2729      00
+ 2730              	.LASF33:
+ 2731 0204 64656369 		.ascii	"decimal\000"
+ 2731      6D616C00 
+ 2732              	.LASF6:
+ 2733 020c 6C6F6E67 		.ascii	"long unsigned int\000"
+ 2733      20756E73 
+ 2733      69676E65 
+ 2733      6420696E 
+ 2733      7400
+ 2734              	.LASF15:
+ 2735 021e 696E7433 		.ascii	"int32\000"
+ 2735      3200
+ 2736              	.LASF36:
+ 2737 0224 6461746F 		.ascii	"dato\000"
+ 2737      00
+ 2738              	.LASF43:
+ 2739 0229 4D656173 		.ascii	"MeasureICTemp\000"
+ 2739      75726549 
+ 2739      4354656D 
+ 2739      7000
+ 2740              	.LASF62:
+ 2741 0237 70726F6D 		.ascii	"promedio2\000"
+ 2741      6564696F 
+ 2741      3200
+ 2742              	.LASF30:
+ 2743 0241 65787472 		.ascii	"extraeDecimal\000"
+ 2743      61654465 
+ 2743      63696D61 
+ 2743      6C00
+ 2744              	.LASF10:
+ 2745 024f 5F5F696E 		.ascii	"__int32_t\000"
+ 2745      7433325F 
+ 2745      7400
+ 2746              	.LASF68:
+ 2747 0259 636F6C64 		.ascii	"coldJnTemp.c\000"
+ 2747      4A6E5465 
+ 2747      6D702E63 
+ 2747      00
+ 2748              	.LASF55:
+ 2749 0266 416A7573 		.ascii	"Ajusten\000"
+ 2749      74656E00 
+ 2750              	.LASF42:
+ 2751 026e 6C6D3335 		.ascii	"lm35\000"
+ 2751      00
+ 2752              	.LASF25:
+ 2753 0273 54656D70 		.ascii	"Temperatura\000"
+ 2753      65726174 
+ 2753      75726100 
+ 2754              	.LASF70:
+ 2755 027f 6C656545 		.ascii	"leeEEPROM\000"
+ 2755      4550524F 
+ 2755      4D00
+ 2756              	.LASF35:
+ 2757 0289 6E69626C 		.ascii	"nible\000"
+ 2757      6500
+ARM GAS  C:\Users\JPELEC~1\AppData\Local\Temp\ccSdZhaR.s 			page 56
+
+
+ 2758              	.LASF28:
+ 2759 028f 50726F67 		.ascii	"Program\000"
+ 2759      72616D00 
+ 2760              	.LASF48:
+ 2761 0297 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 2761      52784275 
+ 2761      66666572 
+ 2761      00
+ 2762              	.LASF67:
+ 2763 02a4 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 2763      43313120 
+ 2763      352E342E 
+ 2763      31203230 
+ 2763      31363036 
+ 2764 02d7 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 2764      20726576 
+ 2764      6973696F 
+ 2764      6E203233 
+ 2764      37373135 
+ 2765 030a 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ 2765      66756E63 
+ 2765      74696F6E 
+ 2765      2D736563 
+ 2765      74696F6E 
+ 2766              	.LASF64:
+ 2767 0332 43794465 		.ascii	"CyDelay\000"
+ 2767      6C617900 
+ 2768              	.LASF65:
+ 2769 033a 45455052 		.ascii	"EEPROM_WriteByte\000"
+ 2769      4F4D5F57 
+ 2769      72697465 
+ 2769      42797465 
+ 2769      00
+ 2770              	.LASF53:
+ 2771 034b 54636963 		.ascii	"Tciclo\000"
+ 2771      6C6F00
+ 2772              	.LASF66:
+ 2773 0352 4144435F 		.ascii	"ADC_SAR_CountsTo_mVolts\000"
+ 2773      5341525F 
+ 2773      436F756E 
+ 2773      7473546F 
+ 2773      5F6D566F 
+ 2774              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

@@ -1,0 +1,8 @@
+D:\Laboratorio\Camara Climatica\2020\Camara Climatica Peltier Touch Avantika 330L #004588406 OP2020323\Firmware Psoc\LCD2\CamaraClimatica.cydsn\CamaraClimatica.cyprj|97a8fe36-38c4-4781-81a5-e2831d2497a2
+C:\Users\USUARIO\Desktop\Psoc\Analog_LPF\Analog_LPF_v1_0.cylib\Analog_LPF_v1_0.cyprj|86c6ac8f-d40a-476a-bf09-4be3a8865352
+C:\Program Files (x86)\Cypress\PSoC Creator\4.3\PSoC Creator\psoc\content\default\CyAnnotationLibrary\CyAnnotationLibrary.cylib\CyAnnotationLibrary.cyprj|29d0f51d-1e09-40eb-8bdd-d8aa80fa7d8a
+C:\Users\USUARIO\Documents\PSoC Creator\4.3\Downloads ( 4.3).cylib\Downloads ( 4.3).cyprj|06135b8d-8328-44c4-846b-76d287b50335
+C:\Program Files (x86)\Cypress\PSoC Creator\4.3\PSoC Creator\psoc\content\cycomponentlibraryupdates\CyComponentLibraryUpdates.cylib\CyComponentLibraryUpdates.cyprj|1fad756e-29a9-45e8-be78-292dbf185c56
+C:\Program Files (x86)\Cypress\PSoC Creator\4.3\PSoC Creator\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\CyComponentLibrary.cyprj|8a680ad2-41d5-4a06-a6b6-1505f277f143
+C:\Program Files (x86)\Cypress\PSoC Creator\4.3\PSoC Creator\psoc\content\cyprimitives\CyPrimitives.cylib\CyPrimitives.cyprj|2f17b512-6266-4fa1-a1cd-71905da4c158
+C:\Program Files (x86)\Cypress\PSoC Creator\4.3\PSoC Creator\psoc\content\default\CyReferenceLibrary\CyReferenceLibrary.cylib\CyReferenceLibrary.cyprj|b3e6da41-239a-4498-a7e5-88c26369e37d

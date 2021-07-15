@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CyXmlSerializer>
+<!--This file is machine generated and read. It is not intended to be edited by hand.-->
+<!--Due to this, there is no schema for this file.-->
+<CyGuid_843a90a4-0c4b-4e44-991d-05e7fb117a21 type_name="CyDesigner.Common.ProjMgmt.Model.CyPrjMgmtWrkspcCustomData" version="4">
+<CyGuid_fdba8dfd-b15b-4469-9bbb-9e40c3e70997 type_name="CyDesigner.Common.Base.CyCustomData" version="2">
+<userData>
+<dataGuid v="1b906a0f-a7b6-4e4d-a428-82f98b53cb35">
+<CyGuid_1b906a0f-a7b6-4e4d-a428-82f98b53cb35 type_name="CyDesigner.Common.ProjMgmt.GUI.CyExplorerWindow+CyExplorerWindowState" version="3" SelectedTab="Source">
+<TreeKeys>
+<v>Source</v>
+<v>Components</v>
+<v>Output</v>
+</TreeKeys>
+<TreeStates>
+<CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="LCD\LCD">
+<ExpandedNodeIds>
+<v>LCD</v>
+<v>LCD\LCD</v>
+<v>LCD\LCD\TopDesign</v>
+<v>LCD\LCD\LCD.cydwr</v>
+<v>LCD\LCD\LCD.cydwr\Pins</v>
+<v>LCD\LCD\LCD.cydwr\Analog</v>
+<v>LCD\LCD\LCD.cydwr\Clocks</v>
+<v>LCD\LCD\LCD.cydwr\Interrupts</v>
+<v>LCD\LCD\LCD.cydwr\DMA</v>
+<v>LCD\LCD\LCD.cydwr\System</v>
+<v>LCD\LCD\LCD.cydwr\Directives</v>
+<v>LCD\LCD\LCD.cydwr\Flash Security</v>
+<v>LCD\LCD\LCD.cydwr\EEPROM</v>
+<v>LCD\LCD\Header Files</v>
+<v>LCD\LCD\Header Files\cyapicallbacks.h</v>
+<v>LCD\LCD\Source Files</v>
+<v>LCD\LCD\Source Files\main.c</v>
+<v>LCD\LCD\Generated_Source</v>
+<v>LCD\LCD\Generated_Source\PSoC5</v>
+</ExpandedNodeIds>
+<VisibleNodeIds>
+<v>LCD</v>
+<v>LCD\LCD</v>
+<v>LCD\LCD\TopDesign</v>
+<v>LCD\LCD\LCD.cydwr</v>
+<v>LCD\LCD\LCD.cydwr\Pins</v>
+<v>LCD\LCD\LCD.cydwr\Analog</v>
+<v>LCD\LCD\LCD.cydwr\Clocks</v>
+<v>LCD\LCD\LCD.cydwr\Interrupts</v>
+<v>LCD\LCD\LCD.cydwr\DMA</v>
+<v>LCD\LCD\LCD.cydwr\System</v>
+<v>LCD\LCD\LCD.cydwr\Directives</v>
+<v>LCD\LCD\LCD.cydwr\Flash Security</v>
+<v>LCD\LCD\LCD.cydwr\EEPROM</v>
+<v>LCD\LCD\Header Files</v>
+<v>LCD\LCD\Header Files\cyapicallbacks.h</v>
+<v>LCD\LCD\Source Files</v>
+<v>LCD\LCD\Source Files\main.c</v>
+<v>LCD\LCD\Generated_Source</v>
+<v>LCD\LCD\Generated_Source\PSoC5</v>
+<v>LCD\LCD\Generated_Source\PSoC5\ADC</v>
+<v>LCD\LCD\Generated_Source\PSoC5\ADC_AMux</v>
+<v>LCD\LCD\Generated_Source\PSoC5\ADC_Ext_CP_Clk</v>
+<v>LCD\LCD\Generated_Source\PSoC5\ADC_IRQ</v>
+<v>LCD\LCD\Generated_Source\PSoC5\ADC_theACLK</v>
+<v>LCD\LCD\Generated_Source\PSoC5\cy_boot</v>
+<v>LCD\LCD\Generated_Source\PSoC5\LCD_Char_1</v>
+<v>LCD\LCD\Generated_Source\PSoC5\LCD_Char_1_LCDPort</v>
+<v>LCD\LCD\Generated_Source\PSoC5\LED</v>
+<v>LCD\LCD\Generated_Source\PSoC5\PGA_1</v>
+<v>LCD\LCD\Generated_Source\PSoC5\VAn</v>
+</VisibleNodeIds>
+</CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237>
+<CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="LCD\LCD\TopDesign\TopDesign.cysch">
+<ExpandedNodeIds>
+<v>LCD</v>
+<v>LCD\LCD</v>
+<v>LCD\LCD\TopDesign</v>
+<v>LCD\LCD\TopDesign\TopDesign.cysch</v>
+</ExpandedNodeIds>
+<VisibleNodeIds>
+<v>LCD</v>
+<v>LCD\LCD</v>
+<v>LCD\LCD\TopDesign</v>
+<v>LCD\LCD\TopDesign\TopDesign.cysch</v>
+</VisibleNodeIds>
+</CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237>
+<CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="LCD">
+<ExpandedNodeIds>
+<v>LCD</v>
+<v>LCD\LCD</v>
+<v>LCD\LCD\CortexM3</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\ADC.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\ADC_AMux.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\ADC_Ext_CP_Clk.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\ADC_INT.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\ADC_IRQ.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\ADC_PM.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\ADC_theACLK.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\Cm3Start.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\CyBootAsmGnu.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\CyDmac.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\cyfitter_cfg.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\CyFlash.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\CyLib.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\cymetadata.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\cyPm.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\CySpc.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\cyutils.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\LCD_Char_1.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\LCD_Char_1_LCDPort.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\LCD_Char_1_PM.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\LED.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\main.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\PGA_1.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\PGA_1_PM.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\VAn.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\LCD.elf</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\LCD.hex</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\LCD.map</v>
+<v>LCD\LCD\LCD.gpdsc</v>
+<v>LCD\LCD\LCD.rpt</v>
+<v>LCD\LCD\LCD_timing.html</v>
+</ExpandedNodeIds>
+<VisibleNodeIds>
+<v>LCD</v>
+<v>LCD\LCD</v>
+<v>LCD\LCD\CortexM3</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\ADC.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\ADC_AMux.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\ADC_Ext_CP_Clk.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\ADC_INT.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\ADC_IRQ.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\ADC_PM.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\ADC_theACLK.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\Cm3Start.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\CyBootAsmGnu.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\CyDmac.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\cyfitter_cfg.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\CyFlash.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\CyLib.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\cymetadata.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\cyPm.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\CySpc.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\cyutils.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\LCD_Char_1.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\LCD_Char_1_LCDPort.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\LCD_Char_1_PM.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\LED.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\main.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\PGA_1.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\PGA_1_PM.lst</v>
+</VisibleNodeIds>
+</CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237>
+</TreeStates>
+<TreeKeysV2>
+<v>Datasheet</v>
+</TreeKeysV2>
+<TreeStatesV2>
+<CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="">
+<ExpandedNodeIds>
+<v>LCD</v>
+<v>LCD\LCD</v>
+<v>LCD\LCD\PSoC 5LP Architecture TRM</v>
+<v>LCD\LCD\CY8C58LP Family Datasheet</v>
+<v>LCD\LCD\System Reference Guides</v>
+<v>LCD\LCD\System Reference Guides\cy_boot_v5_60</v>
+<v>LCD\LCD\ADC_DelSig_v3_20.pdf</v>
+<v>LCD\LCD\CharLCD_v2_20.pdf</v>
+<v>LCD\LCD\cy_pins_v2_20</v>
+<v>LCD\LCD\cy_pins_v2_20\cy_pins_v2_20.pdf</v>
+<v>LCD\LCD\PGA_v2_0.pdf</v>
+</ExpandedNodeIds>
+<VisibleNodeIds>
+<v>LCD</v>
+<v>LCD\LCD</v>
+<v>LCD\LCD\PSoC 5LP Architecture TRM</v>
+<v>LCD\LCD\CY8C58LP Family Datasheet</v>
+<v>LCD\LCD\System Reference Guides</v>
+<v>LCD\LCD\System Reference Guides\cy_boot_v5_60</v>
+<v>LCD\LCD\ADC_DelSig_v3_20.pdf</v>
+<v>LCD\LCD\CharLCD_v2_20.pdf</v>
+<v>LCD\LCD\cy_pins_v2_20</v>
+<v>LCD\LCD\cy_pins_v2_20\cy_pins_v2_20.pdf</v>
+<v>LCD\LCD\PGA_v2_0.pdf</v>
+</VisibleNodeIds>
+</CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237>
+</TreeStatesV2>
+</CyGuid_1b906a0f-a7b6-4e4d-a428-82f98b53cb35>
+</dataGuid>
+<dataGuid v="5f2be1a5-0687-4501-bb8c-cf21cb8211bf">
+<CyGuid_5f2be1a5-0687-4501-bb8c-cf21cb8211bf type_name="CyDesigner.Common.ProjMgmt.GUI.CyBookmarkData" version="1">
+<indicators />
+</CyGuid_5f2be1a5-0687-4501-bb8c-cf21cb8211bf>
+</dataGuid>
+</userData>
+</CyGuid_fdba8dfd-b15b-4469-9bbb-9e40c3e70997>
+<Unloaded />
+<OpenDocs>
+<name v=".\LCD.cydsn\LCD.cydwr" />
+<name v=".\LCD.cydsn\main.c" />
+<name v=".\LCD.cydsn\TopDesign\TopDesign.cysch" />
+<name v=".\LCD.cydsn\Generated_Source\PSoC5\LCD_Char_1.c" />
+</OpenDocs>
+<OpenDocsLayout><![CDATA[<?xml version="1.0"?><!--
+
+  Actipro Docking/MDI for WinForms
+  Copyright (c) 2001-2016 Actipro Software LLC.  All rights reserved.
+  http://www.actiprosoftware.com
+
+--><DocumentLayout Version="1.0"><LayoutData><TabbedMdiRootContainer Orientation="Horizontal"><TabbedMdiContainer Size="1139, 414" SelectedTabbedMdiWindow="0f5d36e1-e061-44a3-a23c-b1c2ccf4bda8"><DocumentWindow Key="E:\Dielec Ingenieria\Psoc\LCD\LCD.cydsn\LCD.cydwr" Guid="0f5d36e1-e061-44a3-a23c-b1c2ccf4bda8" /><DocumentWindow Key="E:\Dielec Ingenieria\Psoc\LCD\LCD.cydsn\main.c" Guid="62679e65-6db0-4819-b50a-5c14798fb4c6" /><DocumentWindow Key="E:\Dielec Ingenieria\Psoc\LCD\LCD.cydsn\TopDesign\TopDesign.cysch" Guid="2963d24c-41ae-4bdd-a9e9-a443d8083e46" /><DocumentWindow Key="E:\Dielec Ingenieria\Psoc\LCD\LCD.cydsn\Generated_Source\PSoC5\LCD_Char_1.c" Guid="2f218942-f8a1-4e22-8e0c-de1d0088e4bf" /><ToolWindow Key="Start Page:bd4649ab-da6b-4d04-a663-c722b8bf99db:Start Page" Guid="ecc8597e-5094-45b2-be4a-c15ea78194a5" /></TabbedMdiContainer></TabbedMdiRootContainer><FloatingContainers /></LayoutData></DocumentLayout>]]></OpenDocsLayout>
+<config v="" />
+<AutoUpdate v="true" />
+</CyGuid_843a90a4-0c4b-4e44-991d-05e7fb117a21>
+</CyXmlSerializer>

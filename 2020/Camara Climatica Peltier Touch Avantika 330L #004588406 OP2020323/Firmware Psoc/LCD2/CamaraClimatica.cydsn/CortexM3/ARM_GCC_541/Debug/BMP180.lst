@@ -1,0 +1,2353 @@
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccFo0b2q.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"BMP180.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.ReadSensorCalibrationData,"ax",%progbits
+  20              		.align	2
+  21              		.global	ReadSensorCalibrationData
+  22              		.thumb
+  23              		.thumb_func
+  24              		.type	ReadSensorCalibrationData, %function
+  25              	ReadSensorCalibrationData:
+  26              	.LFB63:
+  27              		.file 1 "BMP180.c"
+   1:BMP180.c      **** /* ========================================
+   2:BMP180.c      ****  *
+   3:BMP180.c      ****  * Copyright YOUR COMPANY, THE YEAR
+   4:BMP180.c      ****  * All Rights Reserved
+   5:BMP180.c      ****  * UNPUBLISHED, LICENSED SOFTWARE.
+   6:BMP180.c      ****  *
+   7:BMP180.c      ****  * CONFIDENTIAL AND PROPRIETARY INFORMATION
+   8:BMP180.c      ****  * WHICH IS THE PROPERTY OF your company.
+   9:BMP180.c      ****  *
+  10:BMP180.c      ****  * ========================================
+  11:BMP180.c      **** */
+  12:BMP180.c      **** 
+  13:BMP180.c      **** #include <BMP180.h>
+  14:BMP180.c      **** 
+  15:BMP180.c      **** 
+  16:BMP180.c      **** /*************************Variables Declaration****************************************************
+  17:BMP180.c      **** uint8 SensorCalibrationData[0x16]; //Calibration data is stored in this array
+  18:BMP180.c      **** long X1, X2, X3, B3, B5, B6, UT, UP; //Variables to store calibration coefficients
+  19:BMP180.c      **** unsigned long B4, B7; //Variables to store calibration coefficients
+  20:BMP180.c      **** short AC1, AC2, AC3, B1, B2, MC, MD; //Variables to store calibration coefficients
+  21:BMP180.c      **** unsigned short AC4, AC5, AC6; //Variables to store calibration coefficients
+  22:BMP180.c      **** long UT, UP; //Variables to store uncompensated temperature and pressure data
+  23:BMP180.c      **** double PressureAtSeaLevel = 101325.0; //Pressure at sea level in Pascal
+  24:BMP180.c      **** uint8 CalibrationDataAvailable = FALSE; //This flag is to whether the calibration data is available
+  25:BMP180.c      **** /**************************************************************************************************
+  26:BMP180.c      **** char8 str[12];    
+  27:BMP180.c      **** 
+  28:BMP180.c      **** /**************************************************************************************************
+  29:BMP180.c      **** * Function Name: ReadSensorCalibrationData
+  30:BMP180.c      **** ***************************************************************************************************
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccFo0b2q.s 			page 2
+
+
+  31:BMP180.c      **** * Summary: This function reads the sensor calibration data over I2C and
+  32:BMP180.c      **** * assigns it to the appropriate sensor coefficient variables.
+  33:BMP180.c      **** *
+  34:BMP180.c      **** * Parameters:
+  35:BMP180.c      **** *  void
+  36:BMP180.c      **** *
+  37:BMP180.c      **** * Return:
+  38:BMP180.c      **** *  void
+  39:BMP180.c      **** *
+  40:BMP180.c      **** ***************************************************************************************************
+  41:BMP180.c      **** void ReadSensorCalibrationData(void)
+  42:BMP180.c      **** {
+  28              		.loc 1 42 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32 0000 08B5     		push	{r3, lr}
+  33              		.cfi_def_cfa_offset 8
+  34              		.cfi_offset 3, -8
+  35              		.cfi_offset 14, -4
+  43:BMP180.c      ****     static uint8 I2CWriteBuffer[0x01] = {0xAA}; //Location from which the calibration data is to be
+  44:BMP180.c      ****     
+  45:BMP180.c      ****     /* Do a write operation with the memory address bytes to get calibration data */
+  46:BMP180.c      **** 	I2C_MasterWriteBuf(I2CSlaveAddress, (uint8 *) I2CWriteBuffer, sizeof(I2CWriteBuffer), I2C_MODE_COM
+  36              		.loc 1 46 0
+  37 0002 0023     		movs	r3, #0
+  38 0004 0122     		movs	r2, #1
+  39 0006 2C49     		ldr	r1, .L5
+  40 0008 7720     		movs	r0, #119
+  41 000a FFF7FEFF 		bl	I2C_MasterWriteBuf
+  42              	.LVL0:
+  43              	.L2:
+  47:BMP180.c      ****     while(!(I2C_MasterStatus() & I2C_MSTAT_WR_CMPLT)); //Wait till the master completes writing
+  44              		.loc 1 47 0 discriminator 1
+  45 000e FFF7FEFF 		bl	I2C_MasterStatus
+  46              	.LVL1:
+  47 0012 10F0020F 		tst	r0, #2
+  48 0016 FAD0     		beq	.L2
+  48:BMP180.c      ****     I2C_MasterClearStatus(); //Clear I2C master status
+  49              		.loc 1 48 0
+  50 0018 FFF7FEFF 		bl	I2C_MasterClearStatus
+  51              	.LVL2:
+  49:BMP180.c      ****     
+  50:BMP180.c      ****     /* Read calibration from the sensor EEPROM and store it in a buffer */
+  51:BMP180.c      **** 	I2C_MasterReadBuf(I2CSlaveAddress, (uint8 *) SensorCalibrationData, sizeof(SensorCalibrationData),
+  52              		.loc 1 51 0
+  53 001c 0023     		movs	r3, #0
+  54 001e 1622     		movs	r2, #22
+  55 0020 2649     		ldr	r1, .L5+4
+  56 0022 7720     		movs	r0, #119
+  57 0024 FFF7FEFF 		bl	I2C_MasterReadBuf
+  58              	.LVL3:
+  59              	.L3:
+  52:BMP180.c      ****     while(!(I2C_MasterStatus() & I2C_MSTAT_RD_CMPLT)); //Wait till the master completes reading
+  60              		.loc 1 52 0 discriminator 1
+  61 0028 FFF7FEFF 		bl	I2C_MasterStatus
+  62              	.LVL4:
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccFo0b2q.s 			page 3
+
+
+  63 002c 10F0010F 		tst	r0, #1
+  64 0030 FAD0     		beq	.L3
+  53:BMP180.c      ****     I2C_MasterClearStatus(); //Clear I2C master status
+  65              		.loc 1 53 0
+  66 0032 FFF7FEFF 		bl	I2C_MasterClearStatus
+  67              	.LVL5:
+  54:BMP180.c      ****     
+  55:BMP180.c      ****     CalibrationDataAvailable = TRUE; //Set sensor calibration data available flag
+  68              		.loc 1 55 0
+  69 0036 0122     		movs	r2, #1
+  70 0038 214B     		ldr	r3, .L5+8
+  71 003a 1A70     		strb	r2, [r3]
+  56:BMP180.c      ****     
+  57:BMP180.c      ****     /* Assign calibration data to coefficient variables as described in sensor datasheet */
+  58:BMP180.c      ****     AC1 = (SensorCalibrationData[0x00] << 0x08) | SensorCalibrationData[0x01];
+  72              		.loc 1 58 0
+  73 003c 1F4B     		ldr	r3, .L5+4
+  74 003e 1978     		ldrb	r1, [r3]	@ zero_extendqisi2
+  75 0040 5A78     		ldrb	r2, [r3, #1]	@ zero_extendqisi2
+  76 0042 42EA0122 		orr	r2, r2, r1, lsl #8
+  77 0046 1F49     		ldr	r1, .L5+12
+  78 0048 0A80     		strh	r2, [r1]	@ movhi
+  59:BMP180.c      ****     AC2 = (SensorCalibrationData[0x02] << 0x08) | SensorCalibrationData[0x03];
+  79              		.loc 1 59 0
+  80 004a 9978     		ldrb	r1, [r3, #2]	@ zero_extendqisi2
+  81 004c DA78     		ldrb	r2, [r3, #3]	@ zero_extendqisi2
+  82 004e 42EA0122 		orr	r2, r2, r1, lsl #8
+  83 0052 1D49     		ldr	r1, .L5+16
+  84 0054 0A80     		strh	r2, [r1]	@ movhi
+  60:BMP180.c      ****     AC3 = (SensorCalibrationData[0x04] << 0x08) | SensorCalibrationData[0x05];
+  85              		.loc 1 60 0
+  86 0056 1979     		ldrb	r1, [r3, #4]	@ zero_extendqisi2
+  87 0058 5A79     		ldrb	r2, [r3, #5]	@ zero_extendqisi2
+  88 005a 42EA0122 		orr	r2, r2, r1, lsl #8
+  89 005e 1B49     		ldr	r1, .L5+20
+  90 0060 0A80     		strh	r2, [r1]	@ movhi
+  61:BMP180.c      ****     AC4 = (SensorCalibrationData[0x06] << 0x08) | SensorCalibrationData[0x07];
+  91              		.loc 1 61 0
+  92 0062 9979     		ldrb	r1, [r3, #6]	@ zero_extendqisi2
+  93 0064 DA79     		ldrb	r2, [r3, #7]	@ zero_extendqisi2
+  94 0066 42EA0122 		orr	r2, r2, r1, lsl #8
+  95 006a 1949     		ldr	r1, .L5+24
+  96 006c 0A80     		strh	r2, [r1]	@ movhi
+  62:BMP180.c      ****     AC5 = (SensorCalibrationData[0x08] << 0x08) | SensorCalibrationData[0x09];
+  97              		.loc 1 62 0
+  98 006e 197A     		ldrb	r1, [r3, #8]	@ zero_extendqisi2
+  99 0070 5A7A     		ldrb	r2, [r3, #9]	@ zero_extendqisi2
+ 100 0072 42EA0122 		orr	r2, r2, r1, lsl #8
+ 101 0076 1749     		ldr	r1, .L5+28
+ 102 0078 0A80     		strh	r2, [r1]	@ movhi
+  63:BMP180.c      ****     AC6 = (SensorCalibrationData[0x0A] << 0x08) | SensorCalibrationData[0x0B];
+ 103              		.loc 1 63 0
+ 104 007a 997A     		ldrb	r1, [r3, #10]	@ zero_extendqisi2
+ 105 007c DA7A     		ldrb	r2, [r3, #11]	@ zero_extendqisi2
+ 106 007e 42EA0122 		orr	r2, r2, r1, lsl #8
+ 107 0082 1549     		ldr	r1, .L5+32
+ 108 0084 0A80     		strh	r2, [r1]	@ movhi
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccFo0b2q.s 			page 4
+
+
+  64:BMP180.c      ****     B1 = (SensorCalibrationData[0x0C] << 0x08) | SensorCalibrationData[0x0D];
+ 109              		.loc 1 64 0
+ 110 0086 197B     		ldrb	r1, [r3, #12]	@ zero_extendqisi2
+ 111 0088 5A7B     		ldrb	r2, [r3, #13]	@ zero_extendqisi2
+ 112 008a 42EA0122 		orr	r2, r2, r1, lsl #8
+ 113 008e 1349     		ldr	r1, .L5+36
+ 114 0090 0A80     		strh	r2, [r1]	@ movhi
+  65:BMP180.c      ****     B2 = (SensorCalibrationData[0x0E] << 0x08) | SensorCalibrationData[0x0F];
+ 115              		.loc 1 65 0
+ 116 0092 997B     		ldrb	r1, [r3, #14]	@ zero_extendqisi2
+ 117 0094 DA7B     		ldrb	r2, [r3, #15]	@ zero_extendqisi2
+ 118 0096 42EA0122 		orr	r2, r2, r1, lsl #8
+ 119 009a 1149     		ldr	r1, .L5+40
+ 120 009c 0A80     		strh	r2, [r1]	@ movhi
+  66:BMP180.c      ****     MC = (SensorCalibrationData[0x012] << 0x08) | SensorCalibrationData[0x013];
+ 121              		.loc 1 66 0
+ 122 009e 997C     		ldrb	r1, [r3, #18]	@ zero_extendqisi2
+ 123 00a0 DA7C     		ldrb	r2, [r3, #19]	@ zero_extendqisi2
+ 124 00a2 42EA0122 		orr	r2, r2, r1, lsl #8
+ 125 00a6 0F49     		ldr	r1, .L5+44
+ 126 00a8 0A80     		strh	r2, [r1]	@ movhi
+  67:BMP180.c      ****     MD = (SensorCalibrationData[0x014] << 0x08) | SensorCalibrationData[0x015];
+ 127              		.loc 1 67 0
+ 128 00aa 1A7D     		ldrb	r2, [r3, #20]	@ zero_extendqisi2
+ 129 00ac 5B7D     		ldrb	r3, [r3, #21]	@ zero_extendqisi2
+ 130 00ae 43EA0223 		orr	r3, r3, r2, lsl #8
+ 131 00b2 0D4A     		ldr	r2, .L5+48
+ 132 00b4 1380     		strh	r3, [r2]	@ movhi
+ 133 00b6 08BD     		pop	{r3, pc}
+ 134              	.L6:
+ 135              		.align	2
+ 136              	.L5:
+ 137 00b8 00000000 		.word	.LANCHOR0
+ 138 00bc 00000000 		.word	SensorCalibrationData
+ 139 00c0 00000000 		.word	.LANCHOR1
+ 140 00c4 00000000 		.word	AC1
+ 141 00c8 00000000 		.word	AC2
+ 142 00cc 00000000 		.word	AC3
+ 143 00d0 00000000 		.word	AC4
+ 144 00d4 00000000 		.word	AC5
+ 145 00d8 00000000 		.word	AC6
+ 146 00dc 00000000 		.word	B1
+ 147 00e0 00000000 		.word	B2
+ 148 00e4 00000000 		.word	MC
+ 149 00e8 00000000 		.word	MD
+ 150              		.cfi_endproc
+ 151              	.LFE63:
+ 152              		.size	ReadSensorCalibrationData, .-ReadSensorCalibrationData
+ 153              		.section	.text.ReadUncompensatedTemperature,"ax",%progbits
+ 154              		.align	2
+ 155              		.global	ReadUncompensatedTemperature
+ 156              		.thumb
+ 157              		.thumb_func
+ 158              		.type	ReadUncompensatedTemperature, %function
+ 159              	ReadUncompensatedTemperature:
+ 160              	.LFB64:
+  68:BMP180.c      **** }
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccFo0b2q.s 			page 5
+
+
+  69:BMP180.c      **** /**************************************************************************************************
+  70:BMP180.c      **** 
+  71:BMP180.c      **** /**************************************************************************************************
+  72:BMP180.c      **** * Function Name: ReadUncompensatedTemperature
+  73:BMP180.c      **** ***************************************************************************************************
+  74:BMP180.c      **** * Summary: This function writes the temperature conversion command to the sensor and
+  75:BMP180.c      **** * waits for conversion to complete, and then reads the converted data (uncompensated temperature) a
+  76:BMP180.c      **** *
+  77:BMP180.c      **** * Parameters:
+  78:BMP180.c      **** *  void
+  79:BMP180.c      **** *
+  80:BMP180.c      **** * Return:
+  81:BMP180.c      **** *  void
+  82:BMP180.c      **** *
+  83:BMP180.c      **** ***************************************************************************************************
+  84:BMP180.c      **** void ReadUncompensatedTemperature(void)
+  85:BMP180.c      **** {
+ 161              		.loc 1 85 0
+ 162              		.cfi_startproc
+ 163              		@ args = 0, pretend = 0, frame = 0
+ 164              		@ frame_needed = 0, uses_anonymous_args = 0
+ 165 0000 08B5     		push	{r3, lr}
+ 166              		.cfi_def_cfa_offset 8
+ 167              		.cfi_offset 3, -8
+ 168              		.cfi_offset 14, -4
+  86:BMP180.c      ****     static uint8 I2CReadBuffer[0x02]; //The uncompensated temperature read from the sensor is store
+  87:BMP180.c      ****     static uint8 I2CWriteBuffer[0x02] = {0xF4, 0x2E}; //Command for temperature conversion - Regist
+  88:BMP180.c      ****     static uint8 SetReadAddressBuffer[0x01] = {0xF6}; //Register address from which the data is rea
+  89:BMP180.c      ****     
+  90:BMP180.c      ****     /* Do a write operation with the memory address bytes to get temperature data */
+  91:BMP180.c      **** 	I2C_MasterWriteBuf(I2CSlaveAddress, (uint8 *) I2CWriteBuffer, sizeof(I2CWriteBuffer), I2C_MODE_COM
+ 169              		.loc 1 91 0
+ 170 0002 0023     		movs	r3, #0
+ 171 0004 0222     		movs	r2, #2
+ 172 0006 1849     		ldr	r1, .L12
+ 173 0008 7720     		movs	r0, #119
+ 174 000a FFF7FEFF 		bl	I2C_MasterWriteBuf
+ 175              	.LVL6:
+ 176              	.L8:
+  92:BMP180.c      ****     while(!(I2C_MasterStatus() & I2C_MSTAT_WR_CMPLT)); //Wait till the master completes writing
+ 177              		.loc 1 92 0 discriminator 1
+ 178 000e FFF7FEFF 		bl	I2C_MasterStatus
+ 179              	.LVL7:
+ 180 0012 10F0020F 		tst	r0, #2
+ 181 0016 FAD0     		beq	.L8
+  93:BMP180.c      ****     I2C_MasterClearStatus(); //Clear I2C master status
+ 182              		.loc 1 93 0
+ 183 0018 FFF7FEFF 		bl	I2C_MasterClearStatus
+ 184              	.LVL8:
+  94:BMP180.c      ****     
+  95:BMP180.c      ****     CyDelay(5); //Wait for 5ms temperature conversion
+ 185              		.loc 1 95 0
+ 186 001c 0520     		movs	r0, #5
+ 187 001e FFF7FEFF 		bl	CyDelay
+ 188              	.LVL9:
+  96:BMP180.c      ****     
+  97:BMP180.c      ****     /* In order to do a read from a specific address, do a write operation with the memory address 
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccFo0b2q.s 			page 6
+
+
+  98:BMP180.c      **** 	I2C_MasterWriteBuf(I2CSlaveAddress, (uint8 *) SetReadAddressBuffer, sizeof(SetReadAddressBuffer), 
+ 189              		.loc 1 98 0
+ 190 0022 0023     		movs	r3, #0
+ 191 0024 0122     		movs	r2, #1
+ 192 0026 1149     		ldr	r1, .L12+4
+ 193 0028 7720     		movs	r0, #119
+ 194 002a FFF7FEFF 		bl	I2C_MasterWriteBuf
+ 195              	.LVL10:
+ 196              	.L9:
+  99:BMP180.c      ****     while(!(I2C_MasterStatus() & I2C_MSTAT_WR_CMPLT)); //Wait till the master completes writing
+ 197              		.loc 1 99 0 discriminator 1
+ 198 002e FFF7FEFF 		bl	I2C_MasterStatus
+ 199              	.LVL11:
+ 200 0032 10F0020F 		tst	r0, #2
+ 201 0036 FAD0     		beq	.L9
+ 100:BMP180.c      ****     I2C_MasterClearStatus(); //Clear I2C master status
+ 202              		.loc 1 100 0
+ 203 0038 FFF7FEFF 		bl	I2C_MasterClearStatus
+ 204              	.LVL12:
+ 101:BMP180.c      ****     
+ 102:BMP180.c      ****     /* Read temperature from the sensor and store it in a buffer */
+ 103:BMP180.c      **** 	I2C_MasterReadBuf(I2CSlaveAddress, (uint8 *) I2CReadBuffer, sizeof(I2CReadBuffer), I2C_MODE_COMPLE
+ 205              		.loc 1 103 0
+ 206 003c 0023     		movs	r3, #0
+ 207 003e 0222     		movs	r2, #2
+ 208 0040 0B49     		ldr	r1, .L12+8
+ 209 0042 7720     		movs	r0, #119
+ 210 0044 FFF7FEFF 		bl	I2C_MasterReadBuf
+ 211              	.LVL13:
+ 212              	.L10:
+ 104:BMP180.c      ****     while(!(I2C_MasterStatus() & I2C_MSTAT_RD_CMPLT)); //Wait till the master completes reading
+ 213              		.loc 1 104 0 discriminator 1
+ 214 0048 FFF7FEFF 		bl	I2C_MasterStatus
+ 215              	.LVL14:
+ 216 004c 10F0010F 		tst	r0, #1
+ 217 0050 FAD0     		beq	.L10
+ 105:BMP180.c      ****     I2C_MasterClearStatus(); //Clear I2C master status
+ 218              		.loc 1 105 0
+ 219 0052 FFF7FEFF 		bl	I2C_MasterClearStatus
+ 220              	.LVL15:
+ 106:BMP180.c      ****     
+ 107:BMP180.c      **** 	UT = (I2CReadBuffer[0x00] << 0x08) | I2CReadBuffer[0x01]; //Return uncompensated temperature value
+ 221              		.loc 1 107 0
+ 222 0056 074A     		ldr	r2, .L12+12
+ 223 0058 1179     		ldrb	r1, [r2, #4]	@ zero_extendqisi2
+ 224 005a 5379     		ldrb	r3, [r2, #5]	@ zero_extendqisi2
+ 225 005c 43EA0123 		orr	r3, r3, r1, lsl #8
+ 226 0060 054A     		ldr	r2, .L12+16
+ 227 0062 1360     		str	r3, [r2]
+ 228 0064 08BD     		pop	{r3, pc}
+ 229              	.L13:
+ 230 0066 00BF     		.align	2
+ 231              	.L12:
+ 232 0068 04000000 		.word	.LANCHOR0+4
+ 233 006c 08000000 		.word	.LANCHOR0+8
+ 234 0070 04000000 		.word	.LANCHOR1+4
+ 235 0074 00000000 		.word	.LANCHOR1
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccFo0b2q.s 			page 7
+
+
+ 236 0078 00000000 		.word	UT
+ 237              		.cfi_endproc
+ 238              	.LFE64:
+ 239              		.size	ReadUncompensatedTemperature, .-ReadUncompensatedTemperature
+ 240              		.section	.text.ReadUncompensatedPressure,"ax",%progbits
+ 241              		.align	2
+ 242              		.global	ReadUncompensatedPressure
+ 243              		.thumb
+ 244              		.thumb_func
+ 245              		.type	ReadUncompensatedPressure, %function
+ 246              	ReadUncompensatedPressure:
+ 247              	.LFB65:
+ 108:BMP180.c      **** }
+ 109:BMP180.c      **** /**************************************************************************************************
+ 110:BMP180.c      **** 
+ 111:BMP180.c      **** /**************************************************************************************************
+ 112:BMP180.c      **** * Function Name: ReadUncompensatedPressure
+ 113:BMP180.c      **** ***************************************************************************************************
+ 114:BMP180.c      **** * Summary: This function writes the pressure conversion command to the sensor and
+ 115:BMP180.c      **** * waits for conversion to complete, and then reads the converted data (uncompensated pressure) and 
+ 116:BMP180.c      **** *
+ 117:BMP180.c      **** * Parameters:
+ 118:BMP180.c      **** *  void
+ 119:BMP180.c      **** *
+ 120:BMP180.c      **** * Return:
+ 121:BMP180.c      **** *  void
+ 122:BMP180.c      **** *
+ 123:BMP180.c      **** ***************************************************************************************************
+ 124:BMP180.c      **** void ReadUncompensatedPressure(void)
+ 125:BMP180.c      **** {
+ 248              		.loc 1 125 0
+ 249              		.cfi_startproc
+ 250              		@ args = 0, pretend = 0, frame = 0
+ 251              		@ frame_needed = 0, uses_anonymous_args = 0
+ 252 0000 08B5     		push	{r3, lr}
+ 253              		.cfi_def_cfa_offset 8
+ 254              		.cfi_offset 3, -8
+ 255              		.cfi_offset 14, -4
+ 126:BMP180.c      ****     static uint8 I2CReadBuffer[0x03]; //The uncompensated pressure read from the sensor is stored h
+ 127:BMP180.c      ****     static uint8 I2CWriteBuffer[0x02] = {0xF4, 0x34 + (OSS << 0x06)}; //Command for pressure conver
+ 128:BMP180.c      ****     static uint8 SetReadAddressBuffer[0x01] = {0xF6}; //Register address from which the data is rea
+ 129:BMP180.c      ****     
+ 130:BMP180.c      ****     /* Do a write operation with the memory address bytes to get pressure data */
+ 131:BMP180.c      **** 	I2C_MasterWriteBuf(I2CSlaveAddress, (uint8 *) I2CWriteBuffer, sizeof(I2CWriteBuffer), I2C_MODE_COM
+ 256              		.loc 1 131 0
+ 257 0002 0023     		movs	r3, #0
+ 258 0004 0222     		movs	r2, #2
+ 259 0006 1A49     		ldr	r1, .L19
+ 260 0008 7720     		movs	r0, #119
+ 261 000a FFF7FEFF 		bl	I2C_MasterWriteBuf
+ 262              	.LVL16:
+ 263              	.L15:
+ 132:BMP180.c      ****     while(!(I2C_MasterStatus() & I2C_MSTAT_WR_CMPLT)); //Wait till the master completes writing
+ 264              		.loc 1 132 0 discriminator 1
+ 265 000e FFF7FEFF 		bl	I2C_MasterStatus
+ 266              	.LVL17:
+ 267 0012 10F0020F 		tst	r0, #2
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccFo0b2q.s 			page 8
+
+
+ 268 0016 FAD0     		beq	.L15
+ 133:BMP180.c      ****     I2C_MasterClearStatus(); //Clear I2C master status
+ 269              		.loc 1 133 0
+ 270 0018 FFF7FEFF 		bl	I2C_MasterClearStatus
+ 271              	.LVL18:
+ 134:BMP180.c      ****     
+ 135:BMP180.c      ****     CyDelay(26); //Wait for 26ms pressure conversion
+ 272              		.loc 1 135 0
+ 273 001c 1A20     		movs	r0, #26
+ 274 001e FFF7FEFF 		bl	CyDelay
+ 275              	.LVL19:
+ 136:BMP180.c      ****     
+ 137:BMP180.c      ****     /* In order to do a read from a specific address, do a write operation with the memory address 
+ 138:BMP180.c      **** 	I2C_MasterWriteBuf(I2CSlaveAddress, (uint8 *) SetReadAddressBuffer, sizeof(SetReadAddressBuffer), 
+ 276              		.loc 1 138 0
+ 277 0022 0023     		movs	r3, #0
+ 278 0024 0122     		movs	r2, #1
+ 279 0026 1349     		ldr	r1, .L19+4
+ 280 0028 7720     		movs	r0, #119
+ 281 002a FFF7FEFF 		bl	I2C_MasterWriteBuf
+ 282              	.LVL20:
+ 283              	.L16:
+ 139:BMP180.c      ****     while(!(I2C_MasterStatus() & I2C_MSTAT_WR_CMPLT)); //Wait till the master completes writing
+ 284              		.loc 1 139 0 discriminator 1
+ 285 002e FFF7FEFF 		bl	I2C_MasterStatus
+ 286              	.LVL21:
+ 287 0032 10F0020F 		tst	r0, #2
+ 288 0036 FAD0     		beq	.L16
+ 140:BMP180.c      ****     I2C_MasterClearStatus(); //Clear I2C master status
+ 289              		.loc 1 140 0
+ 290 0038 FFF7FEFF 		bl	I2C_MasterClearStatus
+ 291              	.LVL22:
+ 141:BMP180.c      ****     
+ 142:BMP180.c      ****     /* Read pressure from the sensor and store it in a buffer */
+ 143:BMP180.c      **** 	I2C_MasterReadBuf(I2CSlaveAddress, (uint8 *) I2CReadBuffer, sizeof(I2CReadBuffer), I2C_MODE_COMPLE
+ 292              		.loc 1 143 0
+ 293 003c 0023     		movs	r3, #0
+ 294 003e 0322     		movs	r2, #3
+ 295 0040 0D49     		ldr	r1, .L19+8
+ 296 0042 7720     		movs	r0, #119
+ 297 0044 FFF7FEFF 		bl	I2C_MasterReadBuf
+ 298              	.LVL23:
+ 299              	.L17:
+ 144:BMP180.c      ****     while(!(I2C_MasterStatus() & I2C_MSTAT_RD_CMPLT)); //Wait till the master completes reading
+ 300              		.loc 1 144 0 discriminator 1
+ 301 0048 FFF7FEFF 		bl	I2C_MasterStatus
+ 302              	.LVL24:
+ 303 004c 10F0010F 		tst	r0, #1
+ 304 0050 FAD0     		beq	.L17
+ 145:BMP180.c      ****     I2C_MasterClearStatus(); //Clear I2C master status
+ 305              		.loc 1 145 0
+ 306 0052 FFF7FEFF 		bl	I2C_MasterClearStatus
+ 307              	.LVL25:
+ 146:BMP180.c      ****     
+ 147:BMP180.c      **** 	UP = ((I2CReadBuffer[0x00] << 0x10) | (I2CReadBuffer[0x01] << 0x08) | I2CReadBuffer[0x02]) >> (0x0
+ 308              		.loc 1 147 0
+ 309 0056 094A     		ldr	r2, .L19+12
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccFo0b2q.s 			page 9
+
+
+ 310 0058 117A     		ldrb	r1, [r2, #8]	@ zero_extendqisi2
+ 311 005a 537A     		ldrb	r3, [r2, #9]	@ zero_extendqisi2
+ 312 005c 1B02     		lsls	r3, r3, #8
+ 313 005e 43EA0143 		orr	r3, r3, r1, lsl #16
+ 314 0062 927A     		ldrb	r2, [r2, #10]	@ zero_extendqisi2
+ 315 0064 1343     		orrs	r3, r3, r2
+ 316 0066 5B11     		asrs	r3, r3, #5
+ 317 0068 054A     		ldr	r2, .L19+16
+ 318 006a 1360     		str	r3, [r2]
+ 319 006c 08BD     		pop	{r3, pc}
+ 320              	.L20:
+ 321 006e 00BF     		.align	2
+ 322              	.L19:
+ 323 0070 0C000000 		.word	.LANCHOR0+12
+ 324 0074 10000000 		.word	.LANCHOR0+16
+ 325 0078 08000000 		.word	.LANCHOR1+8
+ 326 007c 00000000 		.word	.LANCHOR1
+ 327 0080 00000000 		.word	UP
+ 328              		.cfi_endproc
+ 329              	.LFE65:
+ 330              		.size	ReadUncompensatedPressure, .-ReadUncompensatedPressure
+ 331              		.global	__aeabi_i2d
+ 332              		.global	__aeabi_dmul
+ 333              		.global	__aeabi_d2iz
+ 334              		.global	__aeabi_ddiv
+ 335              		.global	__aeabi_ui2d
+ 336              		.global	__aeabi_d2uiz
+ 337              		.global	__aeabi_dadd
+ 338              		.section	.text.ReadAndCalculateSensorData,"ax",%progbits
+ 339              		.align	2
+ 340              		.global	ReadAndCalculateSensorData
+ 341              		.thumb
+ 342              		.thumb_func
+ 343              		.type	ReadAndCalculateSensorData, %function
+ 344              	ReadAndCalculateSensorData:
+ 345              	.LFB66:
+ 148:BMP180.c      **** }
+ 149:BMP180.c      **** /**************************************************************************************************
+ 150:BMP180.c      **** 
+ 151:BMP180.c      **** /**************************************************************************************************
+ 152:BMP180.c      **** * Function Name: ReadCalculateSensorData
+ 153:BMP180.c      **** ***************************************************************************************************
+ 154:BMP180.c      **** * Summary: This function reads the uncompensated temperature and pressure value and converts it
+ 155:BMP180.c      **** * into true temperature, pressure and altitude using the algorithm given in the sensor datasheet.
+ 156:BMP180.c      **** *
+ 157:BMP180.c      **** * Parameters:
+ 158:BMP180.c      **** *  void
+ 159:BMP180.c      **** *
+ 160:BMP180.c      **** * Return:
+ 161:BMP180.c      **** *  void
+ 162:BMP180.c      **** *
+ 163:BMP180.c      **** ***************************************************************************************************
+ 164:BMP180.c      **** void ReadAndCalculateSensorData(void)
+ 165:BMP180.c      **** {
+ 346              		.loc 1 165 0
+ 347              		.cfi_startproc
+ 348              		@ args = 0, pretend = 0, frame = 0
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccFo0b2q.s 			page 10
+
+
+ 349              		@ frame_needed = 0, uses_anonymous_args = 0
+ 350 0000 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}
+ 351              		.cfi_def_cfa_offset 24
+ 352              		.cfi_offset 4, -24
+ 353              		.cfi_offset 5, -20
+ 354              		.cfi_offset 6, -16
+ 355              		.cfi_offset 7, -12
+ 356              		.cfi_offset 8, -8
+ 357              		.cfi_offset 14, -4
+ 166:BMP180.c      ****     /* Read the sensor calibration data if not already available */
+ 167:BMP180.c      **** 	if(!CalibrationDataAvailable)
+ 358              		.loc 1 167 0
+ 359 0004 874B     		ldr	r3, .L27
+ 360 0006 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 361 0008 0BB9     		cbnz	r3, .L22
+ 168:BMP180.c      ****     {
+ 169:BMP180.c      ****         ReadSensorCalibrationData(); //Read sensor calibration data
+ 362              		.loc 1 169 0
+ 363 000a FFF7FEFF 		bl	ReadSensorCalibrationData
+ 364              	.LVL26:
+ 365              	.L22:
+ 170:BMP180.c      ****     }
+ 171:BMP180.c      ****     
+ 172:BMP180.c      ****     ReadUncompensatedTemperature(); //Read the uncompensated temperature value
+ 366              		.loc 1 172 0
+ 367 000e FFF7FEFF 		bl	ReadUncompensatedTemperature
+ 368              	.LVL27:
+ 173:BMP180.c      ****     ReadUncompensatedPressure(); //Read the uncompensated pressure value
+ 369              		.loc 1 173 0
+ 370 0012 FFF7FEFF 		bl	ReadUncompensatedPressure
+ 371              	.LVL28:
+ 174:BMP180.c      ****     
+ 175:BMP180.c      ****     /* Calculate the true temperature as described in sensor datasheet */
+ 176:BMP180.c      ****     X1 = (UT - AC6) * AC5 / pow(2, 15);
+ 372              		.loc 1 176 0
+ 373 0016 844B     		ldr	r3, .L27+4
+ 374 0018 1888     		ldrh	r0, [r3]
+ 375 001a 844B     		ldr	r3, .L27+8
+ 376 001c 1B68     		ldr	r3, [r3]
+ 377 001e 1B1A     		subs	r3, r3, r0
+ 378 0020 834A     		ldr	r2, .L27+12
+ 379 0022 1088     		ldrh	r0, [r2]
+ 380 0024 03FB00F0 		mul	r0, r3, r0
+ 381 0028 FFF7FEFF 		bl	__aeabi_i2d
+ 382              	.LVL29:
+ 383 002c 0022     		movs	r2, #0
+ 384 002e 4FF07C53 		mov	r3, #1056964608
+ 385 0032 FFF7FEFF 		bl	__aeabi_dmul
+ 386              	.LVL30:
+ 387 0036 FFF7FEFF 		bl	__aeabi_d2iz
+ 388              	.LVL31:
+ 389 003a 0546     		mov	r5, r0
+ 177:BMP180.c      ****     X2 = MC * pow(2, 11) / (X1 + MD);
+ 390              		.loc 1 177 0
+ 391 003c 7D4B     		ldr	r3, .L27+16
+ 392 003e B3F90000 		ldrsh	r0, [r3]
+ 393 0042 FFF7FEFF 		bl	__aeabi_i2d
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccFo0b2q.s 			page 11
+
+
+ 394              	.LVL32:
+ 395 0046 0022     		movs	r2, #0
+ 396 0048 7B4B     		ldr	r3, .L27+20
+ 397 004a FFF7FEFF 		bl	__aeabi_dmul
+ 398              	.LVL33:
+ 399 004e 0646     		mov	r6, r0
+ 400 0050 0F46     		mov	r7, r1
+ 401 0052 7A4B     		ldr	r3, .L27+24
+ 402 0054 B3F90000 		ldrsh	r0, [r3]
+ 403 0058 2844     		add	r0, r0, r5
+ 404 005a FFF7FEFF 		bl	__aeabi_i2d
+ 405              	.LVL34:
+ 406 005e 0246     		mov	r2, r0
+ 407 0060 0B46     		mov	r3, r1
+ 408 0062 3046     		mov	r0, r6
+ 409 0064 3946     		mov	r1, r7
+ 410 0066 FFF7FEFF 		bl	__aeabi_ddiv
+ 411              	.LVL35:
+ 412 006a FFF7FEFF 		bl	__aeabi_d2iz
+ 413              	.LVL36:
+ 178:BMP180.c      ****     B5 = X1 + X2;
+ 414              		.loc 1 178 0
+ 415 006e 0544     		add	r5, r5, r0
+ 416 0070 734B     		ldr	r3, .L27+28
+ 417 0072 1D60     		str	r5, [r3]
+ 179:BMP180.c      ****     Temperature2 = (B5 + 8) / pow(2, 4);
+ 418              		.loc 1 179 0
+ 419 0074 05F10800 		add	r0, r5, #8
+ 420 0078 FFF7FEFF 		bl	__aeabi_i2d
+ 421              	.LVL37:
+ 422 007c 0022     		movs	r2, #0
+ 423 007e 714B     		ldr	r3, .L27+32
+ 424 0080 FFF7FEFF 		bl	__aeabi_dmul
+ 425              	.LVL38:
+ 426 0084 FFF7FEFF 		bl	__aeabi_d2iz
+ 427              	.LVL39:
+ 428 0088 6F4B     		ldr	r3, .L27+36
+ 429 008a 1860     		str	r0, [r3]
+ 180:BMP180.c      ****     
+ 181:BMP180.c      ****     /* Calculate the true barometric pressure as described in sensor datasheet */
+ 182:BMP180.c      ****     B6 = B5 - 4000;
+ 430              		.loc 1 182 0
+ 431 008c A5F57A65 		sub	r5, r5, #4000
+ 432 0090 6E4B     		ldr	r3, .L27+40
+ 433 0092 1D60     		str	r5, [r3]
+ 183:BMP180.c      ****     X1 = (B2 * (B6 * B6 / pow(2, 12))) / pow(2, 11);
+ 434              		.loc 1 183 0
+ 435 0094 05FB05F0 		mul	r0, r5, r5
+ 436 0098 FFF7FEFF 		bl	__aeabi_i2d
+ 437              	.LVL40:
+ 438 009c 0022     		movs	r2, #0
+ 439 009e 6C4B     		ldr	r3, .L27+44
+ 440 00a0 FFF7FEFF 		bl	__aeabi_dmul
+ 441              	.LVL41:
+ 442 00a4 0646     		mov	r6, r0
+ 443 00a6 0F46     		mov	r7, r1
+ 444 00a8 6A4B     		ldr	r3, .L27+48
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccFo0b2q.s 			page 12
+
+
+ 445 00aa B3F90000 		ldrsh	r0, [r3]
+ 446 00ae FFF7FEFF 		bl	__aeabi_i2d
+ 447              	.LVL42:
+ 448 00b2 3246     		mov	r2, r6
+ 449 00b4 3B46     		mov	r3, r7
+ 450 00b6 FFF7FEFF 		bl	__aeabi_dmul
+ 451              	.LVL43:
+ 452 00ba 0022     		movs	r2, #0
+ 453 00bc 4FF07D53 		mov	r3, #1061158912
+ 454 00c0 FFF7FEFF 		bl	__aeabi_dmul
+ 455              	.LVL44:
+ 456 00c4 FFF7FEFF 		bl	__aeabi_d2iz
+ 457              	.LVL45:
+ 458 00c8 0446     		mov	r4, r0
+ 184:BMP180.c      ****     X2 = AC2 * B6 / pow(2, 11);
+ 459              		.loc 1 184 0
+ 460 00ca 634B     		ldr	r3, .L27+52
+ 461 00cc B3F90000 		ldrsh	r0, [r3]
+ 462 00d0 05FB00F0 		mul	r0, r5, r0
+ 463 00d4 FFF7FEFF 		bl	__aeabi_i2d
+ 464              	.LVL46:
+ 465 00d8 0022     		movs	r2, #0
+ 466 00da 4FF07D53 		mov	r3, #1061158912
+ 467 00de FFF7FEFF 		bl	__aeabi_dmul
+ 468              	.LVL47:
+ 469 00e2 FFF7FEFF 		bl	__aeabi_d2iz
+ 470              	.LVL48:
+ 185:BMP180.c      ****     X3 = X1 + X2;
+ 471              		.loc 1 185 0
+ 472 00e6 2044     		add	r0, r0, r4
+ 186:BMP180.c      ****     B3 = (((AC1 * 4 + X3) << OSS) + 2) / 4;
+ 473              		.loc 1 186 0
+ 474 00e8 5C4B     		ldr	r3, .L27+56
+ 475 00ea B3F90040 		ldrsh	r4, [r3]
+ 476 00ee 00EB8404 		add	r4, r0, r4, lsl #2
+ 477 00f2 E400     		lsls	r4, r4, #3
+ 478 00f4 0234     		adds	r4, r4, #2
+ 479 00f6 00D5     		bpl	.L23
+ 480 00f8 0334     		adds	r4, r4, #3
+ 481              	.L23:
+ 482 00fa A410     		asrs	r4, r4, #2
+ 483 00fc 584B     		ldr	r3, .L27+60
+ 484 00fe 1C60     		str	r4, [r3]
+ 187:BMP180.c      ****     X1 = AC3 * B6 / pow(2, 13);
+ 485              		.loc 1 187 0
+ 486 0100 584B     		ldr	r3, .L27+64
+ 487 0102 B3F90000 		ldrsh	r0, [r3]
+ 488 0106 05FB00F0 		mul	r0, r5, r0
+ 489 010a FFF7FEFF 		bl	__aeabi_i2d
+ 490              	.LVL49:
+ 491 010e 0022     		movs	r2, #0
+ 492 0110 554B     		ldr	r3, .L27+68
+ 493 0112 FFF7FEFF 		bl	__aeabi_dmul
+ 494              	.LVL50:
+ 495 0116 FFF7FEFF 		bl	__aeabi_d2iz
+ 496              	.LVL51:
+ 497 011a 0546     		mov	r5, r0
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccFo0b2q.s 			page 13
+
+
+ 188:BMP180.c      ****     X2 = (B1 * (B6 * B6 / pow(2, 12))) / pow(2, 16);
+ 498              		.loc 1 188 0
+ 499 011c 534B     		ldr	r3, .L27+72
+ 500 011e B3F90000 		ldrsh	r0, [r3]
+ 501 0122 FFF7FEFF 		bl	__aeabi_i2d
+ 502              	.LVL52:
+ 503 0126 3246     		mov	r2, r6
+ 504 0128 3B46     		mov	r3, r7
+ 505 012a FFF7FEFF 		bl	__aeabi_dmul
+ 506              	.LVL53:
+ 507 012e 0022     		movs	r2, #0
+ 508 0130 4F4B     		ldr	r3, .L27+76
+ 509 0132 FFF7FEFF 		bl	__aeabi_dmul
+ 510              	.LVL54:
+ 511 0136 FFF7FEFF 		bl	__aeabi_d2iz
+ 512              	.LVL55:
+ 189:BMP180.c      ****     X3 = ((X1 + X2) + 2) / pow(2, 2);
+ 513              		.loc 1 189 0
+ 514 013a 2844     		add	r0, r0, r5
+ 515 013c 0230     		adds	r0, r0, #2
+ 516 013e FFF7FEFF 		bl	__aeabi_i2d
+ 517              	.LVL56:
+ 518 0142 0022     		movs	r2, #0
+ 519 0144 4B4B     		ldr	r3, .L27+80
+ 520 0146 FFF7FEFF 		bl	__aeabi_dmul
+ 521              	.LVL57:
+ 522 014a FFF7FEFF 		bl	__aeabi_d2iz
+ 523              	.LVL58:
+ 524 014e 4A4B     		ldr	r3, .L27+84
+ 525 0150 1860     		str	r0, [r3]
+ 190:BMP180.c      ****     B4 = (AC4 * (unsigned long)(X3 + 32768)) / pow(2, 15);
+ 526              		.loc 1 190 0
+ 527 0152 00F50040 		add	r0, r0, #32768
+ 528 0156 494B     		ldr	r3, .L27+88
+ 529 0158 1B88     		ldrh	r3, [r3]
+ 530 015a 00FB03F0 		mul	r0, r0, r3
+ 531 015e FFF7FEFF 		bl	__aeabi_ui2d
+ 532              	.LVL59:
+ 533 0162 0022     		movs	r2, #0
+ 534 0164 4FF07C53 		mov	r3, #1056964608
+ 535 0168 FFF7FEFF 		bl	__aeabi_dmul
+ 536              	.LVL60:
+ 537 016c FFF7FEFF 		bl	__aeabi_d2uiz
+ 538              	.LVL61:
+ 539 0170 434B     		ldr	r3, .L27+92
+ 540 0172 1860     		str	r0, [r3]
+ 191:BMP180.c      ****     B7 = ((unsigned long)UP - B3) * (50000 >> OSS);
+ 541              		.loc 1 191 0
+ 542 0174 434B     		ldr	r3, .L27+96
+ 543 0176 1B68     		ldr	r3, [r3]
+ 544 0178 1C1B     		subs	r4, r3, r4
+ 545 017a 41F66A03 		movw	r3, #6250
+ 546 017e 03FB04F4 		mul	r4, r3, r4
+ 547 0182 414B     		ldr	r3, .L27+100
+ 548 0184 1C60     		str	r4, [r3]
+ 192:BMP180.c      ****     if(B7 < 0x80000000)
+ 549              		.loc 1 192 0
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccFo0b2q.s 			page 14
+
+
+ 550 0186 002C     		cmp	r4, #0
+ 551 0188 05DB     		blt	.L24
+ 193:BMP180.c      ****     {
+ 194:BMP180.c      ****         Pressure = (B7 *2) / B4;
+ 552              		.loc 1 194 0
+ 553 018a 6400     		lsls	r4, r4, #1
+ 554 018c B4FBF0F0 		udiv	r0, r4, r0
+ 555 0190 3E4B     		ldr	r3, .L27+104
+ 556 0192 1860     		str	r0, [r3]
+ 557 0194 04E0     		b	.L25
+ 558              	.L24:
+ 195:BMP180.c      ****     }
+ 196:BMP180.c      ****     else 
+ 197:BMP180.c      ****     {
+ 198:BMP180.c      ****         Pressure = (B7 / B4) *2;
+ 559              		.loc 1 198 0
+ 560 0196 B4FBF0F4 		udiv	r4, r4, r0
+ 561 019a 6400     		lsls	r4, r4, #1
+ 562 019c 3B4B     		ldr	r3, .L27+104
+ 563 019e 1C60     		str	r4, [r3]
+ 564              	.L25:
+ 199:BMP180.c      ****     }
+ 200:BMP180.c      ****     X1 = (Pressure / pow(2, 8)) * (Pressure / pow(2, 8));
+ 565              		.loc 1 200 0
+ 566 01a0 3A4C     		ldr	r4, .L27+104
+ 567 01a2 D4F80080 		ldr	r8, [r4]
+ 568 01a6 4046     		mov	r0, r8
+ 569 01a8 FFF7FEFF 		bl	__aeabi_i2d
+ 570              	.LVL62:
+ 571 01ac 0646     		mov	r6, r0
+ 572 01ae 0F46     		mov	r7, r1
+ 573 01b0 0022     		movs	r2, #0
+ 574 01b2 374B     		ldr	r3, .L27+108
+ 575 01b4 FFF7FEFF 		bl	__aeabi_dmul
+ 576              	.LVL63:
+ 577 01b8 0246     		mov	r2, r0
+ 578 01ba 0B46     		mov	r3, r1
+ 579 01bc FFF7FEFF 		bl	__aeabi_dmul
+ 580              	.LVL64:
+ 581 01c0 FFF7FEFF 		bl	__aeabi_d2iz
+ 582              	.LVL65:
+ 201:BMP180.c      ****     X1 = (X1 * 3038) / pow(2, 16);
+ 583              		.loc 1 201 0
+ 584 01c4 40F6DE33 		movw	r3, #3038
+ 585 01c8 03FB00F0 		mul	r0, r3, r0
+ 586 01cc FFF7FEFF 		bl	__aeabi_i2d
+ 587              	.LVL66:
+ 588 01d0 0022     		movs	r2, #0
+ 589 01d2 274B     		ldr	r3, .L27+76
+ 590 01d4 FFF7FEFF 		bl	__aeabi_dmul
+ 591              	.LVL67:
+ 592 01d8 FFF7FEFF 		bl	__aeabi_d2iz
+ 593              	.LVL68:
+ 594 01dc 0546     		mov	r5, r0
+ 595 01de 2D4B     		ldr	r3, .L27+112
+ 596 01e0 1860     		str	r0, [r3]
+ 202:BMP180.c      ****     X2 = (-7357 * Pressure) / pow(2, 16);
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccFo0b2q.s 			page 15
+
+
+ 597              		.loc 1 202 0
+ 598 01e2 2D48     		ldr	r0, .L27+116
+ 599 01e4 00FB08F0 		mul	r0, r0, r8
+ 600 01e8 FFF7FEFF 		bl	__aeabi_i2d
+ 601              	.LVL69:
+ 602 01ec 0022     		movs	r2, #0
+ 603 01ee 204B     		ldr	r3, .L27+76
+ 604 01f0 FFF7FEFF 		bl	__aeabi_dmul
+ 605              	.LVL70:
+ 606 01f4 FFF7FEFF 		bl	__aeabi_d2iz
+ 607              	.LVL71:
+ 608 01f8 284B     		ldr	r3, .L27+120
+ 609 01fa 1860     		str	r0, [r3]
+ 203:BMP180.c      ****     Pressure = Pressure + (X1 + X2 + 3791) / pow(2, 4);
+ 610              		.loc 1 203 0
+ 611 01fc 2844     		add	r0, r0, r5
+ 612 01fe 00F6CF60 		addw	r0, r0, #3791
+ 613 0202 FFF7FEFF 		bl	__aeabi_i2d
+ 614              	.LVL72:
+ 615 0206 0022     		movs	r2, #0
+ 616 0208 0E4B     		ldr	r3, .L27+32
+ 617 020a FFF7FEFF 		bl	__aeabi_dmul
+ 618              	.LVL73:
+ 619 020e 0246     		mov	r2, r0
+ 620 0210 0B46     		mov	r3, r1
+ 621 0212 3046     		mov	r0, r6
+ 622 0214 3946     		mov	r1, r7
+ 623 0216 FFF7FEFF 		bl	__aeabi_dadd
+ 624              	.LVL74:
+ 625 021a FFF7FEFF 		bl	__aeabi_d2iz
+ 626              	.LVL75:
+ 627 021e 2060     		str	r0, [r4]
+ 628 0220 BDE8F081 		pop	{r4, r5, r6, r7, r8, pc}
+ 629              	.L28:
+ 630              		.align	2
+ 631              	.L27:
+ 632 0224 00000000 		.word	.LANCHOR1
+ 633 0228 00000000 		.word	AC6
+ 634 022c 00000000 		.word	UT
+ 635 0230 00000000 		.word	AC5
+ 636 0234 00000000 		.word	MC
+ 637 0238 0000A040 		.word	1084227584
+ 638 023c 00000000 		.word	MD
+ 639 0240 00000000 		.word	B5
+ 640 0244 0000B03F 		.word	1068498944
+ 641 0248 00000000 		.word	Temperature2
+ 642 024c 00000000 		.word	B6
+ 643 0250 0000303F 		.word	1060110336
+ 644 0254 00000000 		.word	B2
+ 645 0258 00000000 		.word	AC2
+ 646 025c 00000000 		.word	AC1
+ 647 0260 00000000 		.word	B3
+ 648 0264 00000000 		.word	AC3
+ 649 0268 0000203F 		.word	1059061760
+ 650 026c 00000000 		.word	B1
+ 651 0270 0000F03E 		.word	1055916032
+ 652 0274 0000D03F 		.word	1070596096
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccFo0b2q.s 			page 16
+
+
+ 653 0278 00000000 		.word	X3
+ 654 027c 00000000 		.word	AC4
+ 655 0280 00000000 		.word	B4
+ 656 0284 00000000 		.word	UP
+ 657 0288 00000000 		.word	B7
+ 658 028c 00000000 		.word	Pressure
+ 659 0290 0000703F 		.word	1064304640
+ 660 0294 00000000 		.word	X1
+ 661 0298 43E3FFFF 		.word	-7357
+ 662 029c 00000000 		.word	X2
+ 663              		.cfi_endproc
+ 664              	.LFE66:
+ 665              		.size	ReadAndCalculateSensorData, .-ReadAndCalculateSensorData
+ 666              		.comm	str,12,4
+ 667              		.global	CalibrationDataAvailable
+ 668              		.global	PressureAtSeaLevel
+ 669              		.comm	AC6,2,2
+ 670              		.comm	AC5,2,2
+ 671              		.comm	AC4,2,2
+ 672              		.comm	MD,2,2
+ 673              		.comm	MC,2,2
+ 674              		.comm	B2,2,2
+ 675              		.comm	B1,2,2
+ 676              		.comm	AC3,2,2
+ 677              		.comm	AC2,2,2
+ 678              		.comm	AC1,2,2
+ 679              		.comm	B7,4,4
+ 680              		.comm	B4,4,4
+ 681              		.comm	UP,4,4
+ 682              		.comm	UT,4,4
+ 683              		.comm	B6,4,4
+ 684              		.comm	B5,4,4
+ 685              		.comm	B3,4,4
+ 686              		.comm	X3,4,4
+ 687              		.comm	X2,4,4
+ 688              		.comm	X1,4,4
+ 689              		.comm	SensorCalibrationData,22,4
+ 690              		.comm	Altitude,4,4
+ 691              		.comm	Pressure,4,4
+ 692              		.comm	Temperature2,4,4
+ 693              		.data
+ 694              		.align	3
+ 695              		.set	.LANCHOR0,. + 0
+ 696              		.type	I2CWriteBuffer.7547, %object
+ 697              		.size	I2CWriteBuffer.7547, 1
+ 698              	I2CWriteBuffer.7547:
+ 699 0000 AA       		.byte	-86
+ 700 0001 000000   		.space	3
+ 701              		.type	I2CWriteBuffer.7558, %object
+ 702              		.size	I2CWriteBuffer.7558, 2
+ 703              	I2CWriteBuffer.7558:
+ 704 0004 F4       		.byte	-12
+ 705 0005 2E       		.byte	46
+ 706 0006 0000     		.space	2
+ 707              		.type	SetReadAddressBuffer.7559, %object
+ 708              		.size	SetReadAddressBuffer.7559, 1
+ 709              	SetReadAddressBuffer.7559:
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccFo0b2q.s 			page 17
+
+
+ 710 0008 F6       		.byte	-10
+ 711 0009 000000   		.space	3
+ 712              		.type	I2CWriteBuffer.7573, %object
+ 713              		.size	I2CWriteBuffer.7573, 2
+ 714              	I2CWriteBuffer.7573:
+ 715 000c F4       		.byte	-12
+ 716 000d F4       		.byte	-12
+ 717 000e 0000     		.space	2
+ 718              		.type	SetReadAddressBuffer.7574, %object
+ 719              		.size	SetReadAddressBuffer.7574, 1
+ 720              	SetReadAddressBuffer.7574:
+ 721 0010 F6       		.byte	-10
+ 722 0011 00000000 		.space	7
+ 722      000000
+ 723              		.type	PressureAtSeaLevel, %object
+ 724              		.size	PressureAtSeaLevel, 8
+ 725              	PressureAtSeaLevel:
+ 726 0018 00000000 		.word	0
+ 727 001c D0BCF840 		.word	1090043088
+ 728              		.bss
+ 729              		.align	2
+ 730              		.set	.LANCHOR1,. + 0
+ 731              		.type	CalibrationDataAvailable, %object
+ 732              		.size	CalibrationDataAvailable, 1
+ 733              	CalibrationDataAvailable:
+ 734 0000 00       		.space	1
+ 735 0001 000000   		.space	3
+ 736              		.type	I2CReadBuffer.7557, %object
+ 737              		.size	I2CReadBuffer.7557, 2
+ 738              	I2CReadBuffer.7557:
+ 739 0004 0000     		.space	2
+ 740 0006 0000     		.space	2
+ 741              		.type	I2CReadBuffer.7572, %object
+ 742              		.size	I2CReadBuffer.7572, 3
+ 743              	I2CReadBuffer.7572:
+ 744 0008 000000   		.space	3
+ 745              		.text
+ 746              	.Letext0:
+ 747              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.3\\psoc creator\\import\\gnu\\arm\\5.4.
+ 748              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.3\\psoc creator\\import\\gnu\\arm\\5.4.
+ 749              		.file 4 "Generated_Source\\PSoC5/cytypes.h"
+ 750              		.file 5 "Generated_Source\\PSoC5/core_cm3.h"
+ 751              		.file 6 "./BMP180.h"
+ 752              		.file 7 "Generated_Source\\PSoC5/I2C.h"
+ 753              		.file 8 "Generated_Source\\PSoC5/CyLib.h"
+ 754              		.section	.debug_info,"",%progbits
+ 755              	.Ldebug_info0:
+ 756 0000 E6050000 		.4byte	0x5e6
+ 757 0004 0400     		.2byte	0x4
+ 758 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 759 000a 04       		.byte	0x4
+ 760 000b 01       		.uleb128 0x1
+ 761 000c 44020000 		.4byte	.LASF37
+ 762 0010 0C       		.byte	0xc
+ 763 0011 F1020000 		.4byte	.LASF38
+ 764 0015 D2000000 		.4byte	.LASF39
+ 765 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccFo0b2q.s 			page 18
+
+
+ 766 001d 00000000 		.4byte	0
+ 767 0021 00000000 		.4byte	.Ldebug_line0
+ 768 0025 02       		.uleb128 0x2
+ 769 0026 01       		.byte	0x1
+ 770 0027 06       		.byte	0x6
+ 771 0028 35030000 		.4byte	.LASF0
+ 772 002c 02       		.uleb128 0x2
+ 773 002d 01       		.byte	0x1
+ 774 002e 08       		.byte	0x8
+ 775 002f B1000000 		.4byte	.LASF1
+ 776 0033 02       		.uleb128 0x2
+ 777 0034 02       		.byte	0x2
+ 778 0035 05       		.byte	0x5
+ 779 0036 10030000 		.4byte	.LASF2
+ 780 003a 02       		.uleb128 0x2
+ 781 003b 02       		.byte	0x2
+ 782 003c 07       		.byte	0x7
+ 783 003d 93010000 		.4byte	.LASF3
+ 784 0041 03       		.uleb128 0x3
+ 785 0042 31000000 		.4byte	.LASF9
+ 786 0046 02       		.byte	0x2
+ 787 0047 3F       		.byte	0x3f
+ 788 0048 4C000000 		.4byte	0x4c
+ 789 004c 02       		.uleb128 0x2
+ 790 004d 04       		.byte	0x4
+ 791 004e 05       		.byte	0x5
+ 792 004f 20030000 		.4byte	.LASF4
+ 793 0053 02       		.uleb128 0x2
+ 794 0054 04       		.byte	0x4
+ 795 0055 07       		.byte	0x7
+ 796 0056 DB010000 		.4byte	.LASF5
+ 797 005a 02       		.uleb128 0x2
+ 798 005b 08       		.byte	0x8
+ 799 005c 05       		.byte	0x5
+ 800 005d E3020000 		.4byte	.LASF6
+ 801 0061 02       		.uleb128 0x2
+ 802 0062 08       		.byte	0x8
+ 803 0063 07       		.byte	0x7
+ 804 0064 14020000 		.4byte	.LASF7
+ 805 0068 04       		.uleb128 0x4
+ 806 0069 04       		.byte	0x4
+ 807 006a 05       		.byte	0x5
+ 808 006b 696E7400 		.ascii	"int\000"
+ 809 006f 02       		.uleb128 0x2
+ 810 0070 04       		.byte	0x4
+ 811 0071 07       		.byte	0x7
+ 812 0072 07020000 		.4byte	.LASF8
+ 813 0076 03       		.uleb128 0x3
+ 814 0077 D2020000 		.4byte	.LASF10
+ 815 007b 03       		.byte	0x3
+ 816 007c 2C       		.byte	0x2c
+ 817 007d 41000000 		.4byte	0x41
+ 818 0081 05       		.uleb128 0x5
+ 819 0082 1A030000 		.4byte	.LASF11
+ 820 0086 04       		.byte	0x4
+ 821 0087 9201     		.2byte	0x192
+ 822 0089 2C000000 		.4byte	0x2c
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccFo0b2q.s 			page 19
+
+
+ 823 008d 02       		.uleb128 0x2
+ 824 008e 04       		.byte	0x4
+ 825 008f 04       		.byte	0x4
+ 826 0090 2B000000 		.4byte	.LASF12
+ 827 0094 02       		.uleb128 0x2
+ 828 0095 08       		.byte	0x8
+ 829 0096 04       		.byte	0x4
+ 830 0097 41030000 		.4byte	.LASF13
+ 831 009b 05       		.uleb128 0x5
+ 832 009c 62010000 		.4byte	.LASF14
+ 833 00a0 04       		.byte	0x4
+ 834 00a1 A301     		.2byte	0x1a3
+ 835 00a3 A7000000 		.4byte	0xa7
+ 836 00a7 02       		.uleb128 0x2
+ 837 00a8 01       		.byte	0x1
+ 838 00a9 08       		.byte	0x8
+ 839 00aa FA020000 		.4byte	.LASF15
+ 840 00ae 02       		.uleb128 0x2
+ 841 00af 08       		.byte	0x8
+ 842 00b0 04       		.byte	0x4
+ 843 00b1 29030000 		.4byte	.LASF16
+ 844 00b5 02       		.uleb128 0x2
+ 845 00b6 04       		.byte	0x4
+ 846 00b7 07       		.byte	0x7
+ 847 00b8 DA020000 		.4byte	.LASF17
+ 848 00bc 06       		.uleb128 0x6
+ 849 00bd ED010000 		.4byte	.LASF18
+ 850 00c1 01       		.byte	0x1
+ 851 00c2 29       		.byte	0x29
+ 852 00c3 00000000 		.4byte	.LFB63
+ 853 00c7 EC000000 		.4byte	.LFE63-.LFB63
+ 854 00cb 01       		.uleb128 0x1
+ 855 00cc 9C       		.byte	0x9c
+ 856 00cd 55010000 		.4byte	0x155
+ 857 00d1 07       		.uleb128 0x7
+ 858 00d2 7F000000 		.4byte	.LASF20
+ 859 00d6 01       		.byte	0x1
+ 860 00d7 2B       		.byte	0x2b
+ 861 00d8 55010000 		.4byte	0x155
+ 862 00dc 05       		.uleb128 0x5
+ 863 00dd 03       		.byte	0x3
+ 864 00de 00000000 		.4byte	I2CWriteBuffer.7547
+ 865 00e2 08       		.uleb128 0x8
+ 866 00e3 0E000000 		.4byte	.LVL0
+ 867 00e7 B2050000 		.4byte	0x5b2
+ 868 00eb 09010000 		.4byte	0x109
+ 869 00ef 09       		.uleb128 0x9
+ 870 00f0 01       		.uleb128 0x1
+ 871 00f1 50       		.byte	0x50
+ 872 00f2 02       		.uleb128 0x2
+ 873 00f3 08       		.byte	0x8
+ 874 00f4 77       		.byte	0x77
+ 875 00f5 09       		.uleb128 0x9
+ 876 00f6 01       		.uleb128 0x1
+ 877 00f7 51       		.byte	0x51
+ 878 00f8 05       		.uleb128 0x5
+ 879 00f9 03       		.byte	0x3
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccFo0b2q.s 			page 20
+
+
+ 880 00fa 00000000 		.4byte	.LANCHOR0
+ 881 00fe 09       		.uleb128 0x9
+ 882 00ff 01       		.uleb128 0x1
+ 883 0100 52       		.byte	0x52
+ 884 0101 01       		.uleb128 0x1
+ 885 0102 31       		.byte	0x31
+ 886 0103 09       		.uleb128 0x9
+ 887 0104 01       		.uleb128 0x1
+ 888 0105 53       		.byte	0x53
+ 889 0106 01       		.uleb128 0x1
+ 890 0107 30       		.byte	0x30
+ 891 0108 00       		.byte	0
+ 892 0109 0A       		.uleb128 0xa
+ 893 010a 12000000 		.4byte	.LVL1
+ 894 010e BD050000 		.4byte	0x5bd
+ 895 0112 0A       		.uleb128 0xa
+ 896 0113 1C000000 		.4byte	.LVL2
+ 897 0117 C8050000 		.4byte	0x5c8
+ 898 011b 08       		.uleb128 0x8
+ 899 011c 28000000 		.4byte	.LVL3
+ 900 0120 D3050000 		.4byte	0x5d3
+ 901 0124 42010000 		.4byte	0x142
+ 902 0128 09       		.uleb128 0x9
+ 903 0129 01       		.uleb128 0x1
+ 904 012a 50       		.byte	0x50
+ 905 012b 02       		.uleb128 0x2
+ 906 012c 08       		.byte	0x8
+ 907 012d 77       		.byte	0x77
+ 908 012e 09       		.uleb128 0x9
+ 909 012f 01       		.uleb128 0x1
+ 910 0130 51       		.byte	0x51
+ 911 0131 05       		.uleb128 0x5
+ 912 0132 03       		.byte	0x3
+ 913 0133 00000000 		.4byte	SensorCalibrationData
+ 914 0137 09       		.uleb128 0x9
+ 915 0138 01       		.uleb128 0x1
+ 916 0139 52       		.byte	0x52
+ 917 013a 01       		.uleb128 0x1
+ 918 013b 46       		.byte	0x46
+ 919 013c 09       		.uleb128 0x9
+ 920 013d 01       		.uleb128 0x1
+ 921 013e 53       		.byte	0x53
+ 922 013f 01       		.uleb128 0x1
+ 923 0140 30       		.byte	0x30
+ 924 0141 00       		.byte	0
+ 925 0142 0A       		.uleb128 0xa
+ 926 0143 2C000000 		.4byte	.LVL4
+ 927 0147 BD050000 		.4byte	0x5bd
+ 928 014b 0A       		.uleb128 0xa
+ 929 014c 36000000 		.4byte	.LVL5
+ 930 0150 C8050000 		.4byte	0x5c8
+ 931 0154 00       		.byte	0
+ 932 0155 0B       		.uleb128 0xb
+ 933 0156 81000000 		.4byte	0x81
+ 934 015a 65010000 		.4byte	0x165
+ 935 015e 0C       		.uleb128 0xc
+ 936 015f B5000000 		.4byte	0xb5
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccFo0b2q.s 			page 21
+
+
+ 937 0163 00       		.byte	0
+ 938 0164 00       		.byte	0
+ 939 0165 06       		.uleb128 0x6
+ 940 0166 76010000 		.4byte	.LASF19
+ 941 016a 01       		.byte	0x1
+ 942 016b 54       		.byte	0x54
+ 943 016c 00000000 		.4byte	.LFB64
+ 944 0170 7C000000 		.4byte	.LFE64-.LFB64
+ 945 0174 01       		.uleb128 0x1
+ 946 0175 9C       		.byte	0x9c
+ 947 0176 6C020000 		.4byte	0x26c
+ 948 017a 07       		.uleb128 0x7
+ 949 017b 68010000 		.4byte	.LASF21
+ 950 017f 01       		.byte	0x1
+ 951 0180 56       		.byte	0x56
+ 952 0181 6C020000 		.4byte	0x26c
+ 953 0185 05       		.uleb128 0x5
+ 954 0186 03       		.byte	0x3
+ 955 0187 04000000 		.4byte	I2CReadBuffer.7557
+ 956 018b 07       		.uleb128 0x7
+ 957 018c 7F000000 		.4byte	.LASF20
+ 958 0190 01       		.byte	0x1
+ 959 0191 57       		.byte	0x57
+ 960 0192 6C020000 		.4byte	0x26c
+ 961 0196 05       		.uleb128 0x5
+ 962 0197 03       		.byte	0x3
+ 963 0198 04000000 		.4byte	I2CWriteBuffer.7558
+ 964 019c 07       		.uleb128 0x7
+ 965 019d 16000000 		.4byte	.LASF22
+ 966 01a1 01       		.byte	0x1
+ 967 01a2 58       		.byte	0x58
+ 968 01a3 55010000 		.4byte	0x155
+ 969 01a7 05       		.uleb128 0x5
+ 970 01a8 03       		.byte	0x3
+ 971 01a9 08000000 		.4byte	SetReadAddressBuffer.7559
+ 972 01ad 08       		.uleb128 0x8
+ 973 01ae 0E000000 		.4byte	.LVL6
+ 974 01b2 B2050000 		.4byte	0x5b2
+ 975 01b6 D4010000 		.4byte	0x1d4
+ 976 01ba 09       		.uleb128 0x9
+ 977 01bb 01       		.uleb128 0x1
+ 978 01bc 50       		.byte	0x50
+ 979 01bd 02       		.uleb128 0x2
+ 980 01be 08       		.byte	0x8
+ 981 01bf 77       		.byte	0x77
+ 982 01c0 09       		.uleb128 0x9
+ 983 01c1 01       		.uleb128 0x1
+ 984 01c2 51       		.byte	0x51
+ 985 01c3 05       		.uleb128 0x5
+ 986 01c4 03       		.byte	0x3
+ 987 01c5 04000000 		.4byte	.LANCHOR0+4
+ 988 01c9 09       		.uleb128 0x9
+ 989 01ca 01       		.uleb128 0x1
+ 990 01cb 52       		.byte	0x52
+ 991 01cc 01       		.uleb128 0x1
+ 992 01cd 32       		.byte	0x32
+ 993 01ce 09       		.uleb128 0x9
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccFo0b2q.s 			page 22
+
+
+ 994 01cf 01       		.uleb128 0x1
+ 995 01d0 53       		.byte	0x53
+ 996 01d1 01       		.uleb128 0x1
+ 997 01d2 30       		.byte	0x30
+ 998 01d3 00       		.byte	0
+ 999 01d4 0A       		.uleb128 0xa
+ 1000 01d5 12000000 		.4byte	.LVL7
+ 1001 01d9 BD050000 		.4byte	0x5bd
+ 1002 01dd 0A       		.uleb128 0xa
+ 1003 01de 1C000000 		.4byte	.LVL8
+ 1004 01e2 C8050000 		.4byte	0x5c8
+ 1005 01e6 08       		.uleb128 0x8
+ 1006 01e7 22000000 		.4byte	.LVL9
+ 1007 01eb DE050000 		.4byte	0x5de
+ 1008 01ef F9010000 		.4byte	0x1f9
+ 1009 01f3 09       		.uleb128 0x9
+ 1010 01f4 01       		.uleb128 0x1
+ 1011 01f5 50       		.byte	0x50
+ 1012 01f6 01       		.uleb128 0x1
+ 1013 01f7 35       		.byte	0x35
+ 1014 01f8 00       		.byte	0
+ 1015 01f9 08       		.uleb128 0x8
+ 1016 01fa 2E000000 		.4byte	.LVL10
+ 1017 01fe B2050000 		.4byte	0x5b2
+ 1018 0202 20020000 		.4byte	0x220
+ 1019 0206 09       		.uleb128 0x9
+ 1020 0207 01       		.uleb128 0x1
+ 1021 0208 50       		.byte	0x50
+ 1022 0209 02       		.uleb128 0x2
+ 1023 020a 08       		.byte	0x8
+ 1024 020b 77       		.byte	0x77
+ 1025 020c 09       		.uleb128 0x9
+ 1026 020d 01       		.uleb128 0x1
+ 1027 020e 51       		.byte	0x51
+ 1028 020f 05       		.uleb128 0x5
+ 1029 0210 03       		.byte	0x3
+ 1030 0211 08000000 		.4byte	.LANCHOR0+8
+ 1031 0215 09       		.uleb128 0x9
+ 1032 0216 01       		.uleb128 0x1
+ 1033 0217 52       		.byte	0x52
+ 1034 0218 01       		.uleb128 0x1
+ 1035 0219 31       		.byte	0x31
+ 1036 021a 09       		.uleb128 0x9
+ 1037 021b 01       		.uleb128 0x1
+ 1038 021c 53       		.byte	0x53
+ 1039 021d 01       		.uleb128 0x1
+ 1040 021e 30       		.byte	0x30
+ 1041 021f 00       		.byte	0
+ 1042 0220 0A       		.uleb128 0xa
+ 1043 0221 32000000 		.4byte	.LVL11
+ 1044 0225 BD050000 		.4byte	0x5bd
+ 1045 0229 0A       		.uleb128 0xa
+ 1046 022a 3C000000 		.4byte	.LVL12
+ 1047 022e C8050000 		.4byte	0x5c8
+ 1048 0232 08       		.uleb128 0x8
+ 1049 0233 48000000 		.4byte	.LVL13
+ 1050 0237 D3050000 		.4byte	0x5d3
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccFo0b2q.s 			page 23
+
+
+ 1051 023b 59020000 		.4byte	0x259
+ 1052 023f 09       		.uleb128 0x9
+ 1053 0240 01       		.uleb128 0x1
+ 1054 0241 50       		.byte	0x50
+ 1055 0242 02       		.uleb128 0x2
+ 1056 0243 08       		.byte	0x8
+ 1057 0244 77       		.byte	0x77
+ 1058 0245 09       		.uleb128 0x9
+ 1059 0246 01       		.uleb128 0x1
+ 1060 0247 51       		.byte	0x51
+ 1061 0248 05       		.uleb128 0x5
+ 1062 0249 03       		.byte	0x3
+ 1063 024a 04000000 		.4byte	.LANCHOR1+4
+ 1064 024e 09       		.uleb128 0x9
+ 1065 024f 01       		.uleb128 0x1
+ 1066 0250 52       		.byte	0x52
+ 1067 0251 01       		.uleb128 0x1
+ 1068 0252 32       		.byte	0x32
+ 1069 0253 09       		.uleb128 0x9
+ 1070 0254 01       		.uleb128 0x1
+ 1071 0255 53       		.byte	0x53
+ 1072 0256 01       		.uleb128 0x1
+ 1073 0257 30       		.byte	0x30
+ 1074 0258 00       		.byte	0
+ 1075 0259 0A       		.uleb128 0xa
+ 1076 025a 4C000000 		.4byte	.LVL14
+ 1077 025e BD050000 		.4byte	0x5bd
+ 1078 0262 0A       		.uleb128 0xa
+ 1079 0263 56000000 		.4byte	.LVL15
+ 1080 0267 C8050000 		.4byte	0x5c8
+ 1081 026b 00       		.byte	0
+ 1082 026c 0B       		.uleb128 0xb
+ 1083 026d 81000000 		.4byte	0x81
+ 1084 0271 7C020000 		.4byte	0x27c
+ 1085 0275 0C       		.uleb128 0xc
+ 1086 0276 B5000000 		.4byte	0xb5
+ 1087 027a 01       		.byte	0x1
+ 1088 027b 00       		.byte	0
+ 1089 027c 06       		.uleb128 0x6
+ 1090 027d 8E000000 		.4byte	.LASF23
+ 1091 0281 01       		.byte	0x1
+ 1092 0282 7C       		.byte	0x7c
+ 1093 0283 00000000 		.4byte	.LFB65
+ 1094 0287 84000000 		.4byte	.LFE65-.LFB65
+ 1095 028b 01       		.uleb128 0x1
+ 1096 028c 9C       		.byte	0x9c
+ 1097 028d 83030000 		.4byte	0x383
+ 1098 0291 07       		.uleb128 0x7
+ 1099 0292 68010000 		.4byte	.LASF21
+ 1100 0296 01       		.byte	0x1
+ 1101 0297 7E       		.byte	0x7e
+ 1102 0298 83030000 		.4byte	0x383
+ 1103 029c 05       		.uleb128 0x5
+ 1104 029d 03       		.byte	0x3
+ 1105 029e 08000000 		.4byte	I2CReadBuffer.7572
+ 1106 02a2 07       		.uleb128 0x7
+ 1107 02a3 7F000000 		.4byte	.LASF20
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccFo0b2q.s 			page 24
+
+
+ 1108 02a7 01       		.byte	0x1
+ 1109 02a8 7F       		.byte	0x7f
+ 1110 02a9 6C020000 		.4byte	0x26c
+ 1111 02ad 05       		.uleb128 0x5
+ 1112 02ae 03       		.byte	0x3
+ 1113 02af 0C000000 		.4byte	I2CWriteBuffer.7573
+ 1114 02b3 07       		.uleb128 0x7
+ 1115 02b4 16000000 		.4byte	.LASF22
+ 1116 02b8 01       		.byte	0x1
+ 1117 02b9 80       		.byte	0x80
+ 1118 02ba 55010000 		.4byte	0x155
+ 1119 02be 05       		.uleb128 0x5
+ 1120 02bf 03       		.byte	0x3
+ 1121 02c0 10000000 		.4byte	SetReadAddressBuffer.7574
+ 1122 02c4 08       		.uleb128 0x8
+ 1123 02c5 0E000000 		.4byte	.LVL16
+ 1124 02c9 B2050000 		.4byte	0x5b2
+ 1125 02cd EB020000 		.4byte	0x2eb
+ 1126 02d1 09       		.uleb128 0x9
+ 1127 02d2 01       		.uleb128 0x1
+ 1128 02d3 50       		.byte	0x50
+ 1129 02d4 02       		.uleb128 0x2
+ 1130 02d5 08       		.byte	0x8
+ 1131 02d6 77       		.byte	0x77
+ 1132 02d7 09       		.uleb128 0x9
+ 1133 02d8 01       		.uleb128 0x1
+ 1134 02d9 51       		.byte	0x51
+ 1135 02da 05       		.uleb128 0x5
+ 1136 02db 03       		.byte	0x3
+ 1137 02dc 0C000000 		.4byte	.LANCHOR0+12
+ 1138 02e0 09       		.uleb128 0x9
+ 1139 02e1 01       		.uleb128 0x1
+ 1140 02e2 52       		.byte	0x52
+ 1141 02e3 01       		.uleb128 0x1
+ 1142 02e4 32       		.byte	0x32
+ 1143 02e5 09       		.uleb128 0x9
+ 1144 02e6 01       		.uleb128 0x1
+ 1145 02e7 53       		.byte	0x53
+ 1146 02e8 01       		.uleb128 0x1
+ 1147 02e9 30       		.byte	0x30
+ 1148 02ea 00       		.byte	0
+ 1149 02eb 0A       		.uleb128 0xa
+ 1150 02ec 12000000 		.4byte	.LVL17
+ 1151 02f0 BD050000 		.4byte	0x5bd
+ 1152 02f4 0A       		.uleb128 0xa
+ 1153 02f5 1C000000 		.4byte	.LVL18
+ 1154 02f9 C8050000 		.4byte	0x5c8
+ 1155 02fd 08       		.uleb128 0x8
+ 1156 02fe 22000000 		.4byte	.LVL19
+ 1157 0302 DE050000 		.4byte	0x5de
+ 1158 0306 10030000 		.4byte	0x310
+ 1159 030a 09       		.uleb128 0x9
+ 1160 030b 01       		.uleb128 0x1
+ 1161 030c 50       		.byte	0x50
+ 1162 030d 01       		.uleb128 0x1
+ 1163 030e 4A       		.byte	0x4a
+ 1164 030f 00       		.byte	0
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccFo0b2q.s 			page 25
+
+
+ 1165 0310 08       		.uleb128 0x8
+ 1166 0311 2E000000 		.4byte	.LVL20
+ 1167 0315 B2050000 		.4byte	0x5b2
+ 1168 0319 37030000 		.4byte	0x337
+ 1169 031d 09       		.uleb128 0x9
+ 1170 031e 01       		.uleb128 0x1
+ 1171 031f 50       		.byte	0x50
+ 1172 0320 02       		.uleb128 0x2
+ 1173 0321 08       		.byte	0x8
+ 1174 0322 77       		.byte	0x77
+ 1175 0323 09       		.uleb128 0x9
+ 1176 0324 01       		.uleb128 0x1
+ 1177 0325 51       		.byte	0x51
+ 1178 0326 05       		.uleb128 0x5
+ 1179 0327 03       		.byte	0x3
+ 1180 0328 10000000 		.4byte	.LANCHOR0+16
+ 1181 032c 09       		.uleb128 0x9
+ 1182 032d 01       		.uleb128 0x1
+ 1183 032e 52       		.byte	0x52
+ 1184 032f 01       		.uleb128 0x1
+ 1185 0330 31       		.byte	0x31
+ 1186 0331 09       		.uleb128 0x9
+ 1187 0332 01       		.uleb128 0x1
+ 1188 0333 53       		.byte	0x53
+ 1189 0334 01       		.uleb128 0x1
+ 1190 0335 30       		.byte	0x30
+ 1191 0336 00       		.byte	0
+ 1192 0337 0A       		.uleb128 0xa
+ 1193 0338 32000000 		.4byte	.LVL21
+ 1194 033c BD050000 		.4byte	0x5bd
+ 1195 0340 0A       		.uleb128 0xa
+ 1196 0341 3C000000 		.4byte	.LVL22
+ 1197 0345 C8050000 		.4byte	0x5c8
+ 1198 0349 08       		.uleb128 0x8
+ 1199 034a 48000000 		.4byte	.LVL23
+ 1200 034e D3050000 		.4byte	0x5d3
+ 1201 0352 70030000 		.4byte	0x370
+ 1202 0356 09       		.uleb128 0x9
+ 1203 0357 01       		.uleb128 0x1
+ 1204 0358 50       		.byte	0x50
+ 1205 0359 02       		.uleb128 0x2
+ 1206 035a 08       		.byte	0x8
+ 1207 035b 77       		.byte	0x77
+ 1208 035c 09       		.uleb128 0x9
+ 1209 035d 01       		.uleb128 0x1
+ 1210 035e 51       		.byte	0x51
+ 1211 035f 05       		.uleb128 0x5
+ 1212 0360 03       		.byte	0x3
+ 1213 0361 08000000 		.4byte	.LANCHOR1+8
+ 1214 0365 09       		.uleb128 0x9
+ 1215 0366 01       		.uleb128 0x1
+ 1216 0367 52       		.byte	0x52
+ 1217 0368 01       		.uleb128 0x1
+ 1218 0369 33       		.byte	0x33
+ 1219 036a 09       		.uleb128 0x9
+ 1220 036b 01       		.uleb128 0x1
+ 1221 036c 53       		.byte	0x53
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccFo0b2q.s 			page 26
+
+
+ 1222 036d 01       		.uleb128 0x1
+ 1223 036e 30       		.byte	0x30
+ 1224 036f 00       		.byte	0
+ 1225 0370 0A       		.uleb128 0xa
+ 1226 0371 4C000000 		.4byte	.LVL24
+ 1227 0375 BD050000 		.4byte	0x5bd
+ 1228 0379 0A       		.uleb128 0xa
+ 1229 037a 56000000 		.4byte	.LVL25
+ 1230 037e C8050000 		.4byte	0x5c8
+ 1231 0382 00       		.byte	0
+ 1232 0383 0B       		.uleb128 0xb
+ 1233 0384 81000000 		.4byte	0x81
+ 1234 0388 93030000 		.4byte	0x393
+ 1235 038c 0C       		.uleb128 0xc
+ 1236 038d B5000000 		.4byte	0xb5
+ 1237 0391 02       		.byte	0x2
+ 1238 0392 00       		.byte	0
+ 1239 0393 0D       		.uleb128 0xd
+ 1240 0394 B3010000 		.4byte	.LASF24
+ 1241 0398 01       		.byte	0x1
+ 1242 0399 A4       		.byte	0xa4
+ 1243 039a 00000000 		.4byte	.LFB66
+ 1244 039e A0020000 		.4byte	.LFE66-.LFB66
+ 1245 03a2 01       		.uleb128 0x1
+ 1246 03a3 9C       		.byte	0x9c
+ 1247 03a4 C4030000 		.4byte	0x3c4
+ 1248 03a8 0A       		.uleb128 0xa
+ 1249 03a9 0E000000 		.4byte	.LVL26
+ 1250 03ad BC000000 		.4byte	0xbc
+ 1251 03b1 0A       		.uleb128 0xa
+ 1252 03b2 12000000 		.4byte	.LVL27
+ 1253 03b6 65010000 		.4byte	0x165
+ 1254 03ba 0A       		.uleb128 0xa
+ 1255 03bb 16000000 		.4byte	.LVL28
+ 1256 03bf 7C020000 		.4byte	0x27c
+ 1257 03c3 00       		.byte	0
+ 1258 03c4 0E       		.uleb128 0xe
+ 1259 03c5 A6010000 		.4byte	.LASF25
+ 1260 03c9 05       		.byte	0x5
+ 1261 03ca 1207     		.2byte	0x712
+ 1262 03cc D0030000 		.4byte	0x3d0
+ 1263 03d0 0F       		.uleb128 0xf
+ 1264 03d1 76000000 		.4byte	0x76
+ 1265 03d5 10       		.uleb128 0x10
+ 1266 03d6 CE010000 		.4byte	.LASF26
+ 1267 03da 06       		.byte	0x6
+ 1268 03db 35       		.byte	0x35
+ 1269 03dc 4C000000 		.4byte	0x4c
+ 1270 03e0 05       		.uleb128 0x5
+ 1271 03e1 03       		.byte	0x3
+ 1272 03e2 00000000 		.4byte	Temperature2
+ 1273 03e6 10       		.uleb128 0x10
+ 1274 03e7 A8000000 		.4byte	.LASF27
+ 1275 03eb 06       		.byte	0x6
+ 1276 03ec 35       		.byte	0x35
+ 1277 03ed 4C000000 		.4byte	0x4c
+ 1278 03f1 05       		.uleb128 0x5
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccFo0b2q.s 			page 27
+
+
+ 1279 03f2 03       		.byte	0x3
+ 1280 03f3 00000000 		.4byte	Pressure
+ 1281 03f7 10       		.uleb128 0x10
+ 1282 03f8 3B000000 		.4byte	.LASF28
+ 1283 03fc 06       		.byte	0x6
+ 1284 03fd 35       		.byte	0x35
+ 1285 03fe 4C000000 		.4byte	0x4c
+ 1286 0402 05       		.uleb128 0x5
+ 1287 0403 03       		.byte	0x3
+ 1288 0404 00000000 		.4byte	Altitude
+ 1289 0408 0B       		.uleb128 0xb
+ 1290 0409 81000000 		.4byte	0x81
+ 1291 040d 18040000 		.4byte	0x418
+ 1292 0411 0C       		.uleb128 0xc
+ 1293 0412 B5000000 		.4byte	0xb5
+ 1294 0416 15       		.byte	0x15
+ 1295 0417 00       		.byte	0
+ 1296 0418 10       		.uleb128 0x10
+ 1297 0419 00000000 		.4byte	.LASF29
+ 1298 041d 01       		.byte	0x1
+ 1299 041e 11       		.byte	0x11
+ 1300 041f 08040000 		.4byte	0x408
+ 1301 0423 05       		.uleb128 0x5
+ 1302 0424 03       		.byte	0x3
+ 1303 0425 00000000 		.4byte	SensorCalibrationData
+ 1304 0429 11       		.uleb128 0x11
+ 1305 042a 583100   		.ascii	"X1\000"
+ 1306 042d 01       		.byte	0x1
+ 1307 042e 12       		.byte	0x12
+ 1308 042f 4C000000 		.4byte	0x4c
+ 1309 0433 05       		.uleb128 0x5
+ 1310 0434 03       		.byte	0x3
+ 1311 0435 00000000 		.4byte	X1
+ 1312 0439 11       		.uleb128 0x11
+ 1313 043a 583200   		.ascii	"X2\000"
+ 1314 043d 01       		.byte	0x1
+ 1315 043e 12       		.byte	0x12
+ 1316 043f 4C000000 		.4byte	0x4c
+ 1317 0443 05       		.uleb128 0x5
+ 1318 0444 03       		.byte	0x3
+ 1319 0445 00000000 		.4byte	X2
+ 1320 0449 11       		.uleb128 0x11
+ 1321 044a 583300   		.ascii	"X3\000"
+ 1322 044d 01       		.byte	0x1
+ 1323 044e 12       		.byte	0x12
+ 1324 044f 4C000000 		.4byte	0x4c
+ 1325 0453 05       		.uleb128 0x5
+ 1326 0454 03       		.byte	0x3
+ 1327 0455 00000000 		.4byte	X3
+ 1328 0459 11       		.uleb128 0x11
+ 1329 045a 423300   		.ascii	"B3\000"
+ 1330 045d 01       		.byte	0x1
+ 1331 045e 12       		.byte	0x12
+ 1332 045f 4C000000 		.4byte	0x4c
+ 1333 0463 05       		.uleb128 0x5
+ 1334 0464 03       		.byte	0x3
+ 1335 0465 00000000 		.4byte	B3
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccFo0b2q.s 			page 28
+
+
+ 1336 0469 11       		.uleb128 0x11
+ 1337 046a 423500   		.ascii	"B5\000"
+ 1338 046d 01       		.byte	0x1
+ 1339 046e 12       		.byte	0x12
+ 1340 046f 4C000000 		.4byte	0x4c
+ 1341 0473 05       		.uleb128 0x5
+ 1342 0474 03       		.byte	0x3
+ 1343 0475 00000000 		.4byte	B5
+ 1344 0479 11       		.uleb128 0x11
+ 1345 047a 423600   		.ascii	"B6\000"
+ 1346 047d 01       		.byte	0x1
+ 1347 047e 12       		.byte	0x12
+ 1348 047f 4C000000 		.4byte	0x4c
+ 1349 0483 05       		.uleb128 0x5
+ 1350 0484 03       		.byte	0x3
+ 1351 0485 00000000 		.4byte	B6
+ 1352 0489 11       		.uleb128 0x11
+ 1353 048a 555400   		.ascii	"UT\000"
+ 1354 048d 01       		.byte	0x1
+ 1355 048e 16       		.byte	0x16
+ 1356 048f 4C000000 		.4byte	0x4c
+ 1357 0493 05       		.uleb128 0x5
+ 1358 0494 03       		.byte	0x3
+ 1359 0495 00000000 		.4byte	UT
+ 1360 0499 11       		.uleb128 0x11
+ 1361 049a 555000   		.ascii	"UP\000"
+ 1362 049d 01       		.byte	0x1
+ 1363 049e 16       		.byte	0x16
+ 1364 049f 4C000000 		.4byte	0x4c
+ 1365 04a3 05       		.uleb128 0x5
+ 1366 04a4 03       		.byte	0x3
+ 1367 04a5 00000000 		.4byte	UP
+ 1368 04a9 11       		.uleb128 0x11
+ 1369 04aa 423400   		.ascii	"B4\000"
+ 1370 04ad 01       		.byte	0x1
+ 1371 04ae 13       		.byte	0x13
+ 1372 04af 53000000 		.4byte	0x53
+ 1373 04b3 05       		.uleb128 0x5
+ 1374 04b4 03       		.byte	0x3
+ 1375 04b5 00000000 		.4byte	B4
+ 1376 04b9 11       		.uleb128 0x11
+ 1377 04ba 423700   		.ascii	"B7\000"
+ 1378 04bd 01       		.byte	0x1
+ 1379 04be 13       		.byte	0x13
+ 1380 04bf 53000000 		.4byte	0x53
+ 1381 04c3 05       		.uleb128 0x5
+ 1382 04c4 03       		.byte	0x3
+ 1383 04c5 00000000 		.4byte	B7
+ 1384 04c9 11       		.uleb128 0x11
+ 1385 04ca 41433100 		.ascii	"AC1\000"
+ 1386 04ce 01       		.byte	0x1
+ 1387 04cf 14       		.byte	0x14
+ 1388 04d0 33000000 		.4byte	0x33
+ 1389 04d4 05       		.uleb128 0x5
+ 1390 04d5 03       		.byte	0x3
+ 1391 04d6 00000000 		.4byte	AC1
+ 1392 04da 11       		.uleb128 0x11
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccFo0b2q.s 			page 29
+
+
+ 1393 04db 41433200 		.ascii	"AC2\000"
+ 1394 04df 01       		.byte	0x1
+ 1395 04e0 14       		.byte	0x14
+ 1396 04e1 33000000 		.4byte	0x33
+ 1397 04e5 05       		.uleb128 0x5
+ 1398 04e6 03       		.byte	0x3
+ 1399 04e7 00000000 		.4byte	AC2
+ 1400 04eb 11       		.uleb128 0x11
+ 1401 04ec 41433300 		.ascii	"AC3\000"
+ 1402 04f0 01       		.byte	0x1
+ 1403 04f1 14       		.byte	0x14
+ 1404 04f2 33000000 		.4byte	0x33
+ 1405 04f6 05       		.uleb128 0x5
+ 1406 04f7 03       		.byte	0x3
+ 1407 04f8 00000000 		.4byte	AC3
+ 1408 04fc 11       		.uleb128 0x11
+ 1409 04fd 423100   		.ascii	"B1\000"
+ 1410 0500 01       		.byte	0x1
+ 1411 0501 14       		.byte	0x14
+ 1412 0502 33000000 		.4byte	0x33
+ 1413 0506 05       		.uleb128 0x5
+ 1414 0507 03       		.byte	0x3
+ 1415 0508 00000000 		.4byte	B1
+ 1416 050c 11       		.uleb128 0x11
+ 1417 050d 423200   		.ascii	"B2\000"
+ 1418 0510 01       		.byte	0x1
+ 1419 0511 14       		.byte	0x14
+ 1420 0512 33000000 		.4byte	0x33
+ 1421 0516 05       		.uleb128 0x5
+ 1422 0517 03       		.byte	0x3
+ 1423 0518 00000000 		.4byte	B2
+ 1424 051c 11       		.uleb128 0x11
+ 1425 051d 4D4300   		.ascii	"MC\000"
+ 1426 0520 01       		.byte	0x1
+ 1427 0521 14       		.byte	0x14
+ 1428 0522 33000000 		.4byte	0x33
+ 1429 0526 05       		.uleb128 0x5
+ 1430 0527 03       		.byte	0x3
+ 1431 0528 00000000 		.4byte	MC
+ 1432 052c 11       		.uleb128 0x11
+ 1433 052d 4D4400   		.ascii	"MD\000"
+ 1434 0530 01       		.byte	0x1
+ 1435 0531 14       		.byte	0x14
+ 1436 0532 33000000 		.4byte	0x33
+ 1437 0536 05       		.uleb128 0x5
+ 1438 0537 03       		.byte	0x3
+ 1439 0538 00000000 		.4byte	MD
+ 1440 053c 11       		.uleb128 0x11
+ 1441 053d 41433400 		.ascii	"AC4\000"
+ 1442 0541 01       		.byte	0x1
+ 1443 0542 15       		.byte	0x15
+ 1444 0543 3A000000 		.4byte	0x3a
+ 1445 0547 05       		.uleb128 0x5
+ 1446 0548 03       		.byte	0x3
+ 1447 0549 00000000 		.4byte	AC4
+ 1448 054d 11       		.uleb128 0x11
+ 1449 054e 41433500 		.ascii	"AC5\000"
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccFo0b2q.s 			page 30
+
+
+ 1450 0552 01       		.byte	0x1
+ 1451 0553 15       		.byte	0x15
+ 1452 0554 3A000000 		.4byte	0x3a
+ 1453 0558 05       		.uleb128 0x5
+ 1454 0559 03       		.byte	0x3
+ 1455 055a 00000000 		.4byte	AC5
+ 1456 055e 11       		.uleb128 0x11
+ 1457 055f 41433600 		.ascii	"AC6\000"
+ 1458 0563 01       		.byte	0x1
+ 1459 0564 15       		.byte	0x15
+ 1460 0565 3A000000 		.4byte	0x3a
+ 1461 0569 05       		.uleb128 0x5
+ 1462 056a 03       		.byte	0x3
+ 1463 056b 00000000 		.4byte	AC6
+ 1464 056f 10       		.uleb128 0x10
+ 1465 0570 44000000 		.4byte	.LASF30
+ 1466 0574 01       		.byte	0x1
+ 1467 0575 17       		.byte	0x17
+ 1468 0576 94000000 		.4byte	0x94
+ 1469 057a 05       		.uleb128 0x5
+ 1470 057b 03       		.byte	0x3
+ 1471 057c 00000000 		.4byte	PressureAtSeaLevel
+ 1472 0580 10       		.uleb128 0x10
+ 1473 0581 2B020000 		.4byte	.LASF31
+ 1474 0585 01       		.byte	0x1
+ 1475 0586 18       		.byte	0x18
+ 1476 0587 81000000 		.4byte	0x81
+ 1477 058b 05       		.uleb128 0x5
+ 1478 058c 03       		.byte	0x3
+ 1479 058d 00000000 		.4byte	CalibrationDataAvailable
+ 1480 0591 0B       		.uleb128 0xb
+ 1481 0592 9B000000 		.4byte	0x9b
+ 1482 0596 A1050000 		.4byte	0x5a1
+ 1483 059a 0C       		.uleb128 0xc
+ 1484 059b B5000000 		.4byte	0xb5
+ 1485 059f 0B       		.byte	0xb
+ 1486 05a0 00       		.byte	0
+ 1487 05a1 11       		.uleb128 0x11
+ 1488 05a2 73747200 		.ascii	"str\000"
+ 1489 05a6 01       		.byte	0x1
+ 1490 05a7 1A       		.byte	0x1a
+ 1491 05a8 91050000 		.4byte	0x591
+ 1492 05ac 05       		.uleb128 0x5
+ 1493 05ad 03       		.byte	0x3
+ 1494 05ae 00000000 		.4byte	str
+ 1495 05b2 12       		.uleb128 0x12
+ 1496 05b3 BF000000 		.4byte	.LASF32
+ 1497 05b7 BF000000 		.4byte	.LASF32
+ 1498 05bb 07       		.byte	0x7
+ 1499 05bc A7       		.byte	0xa7
+ 1500 05bd 12       		.uleb128 0x12
+ 1501 05be FF020000 		.4byte	.LASF33
+ 1502 05c2 FF020000 		.4byte	.LASF33
+ 1503 05c6 07       		.byte	0x7
+ 1504 05c7 A3       		.byte	0xa3
+ 1505 05c8 12       		.uleb128 0x12
+ 1506 05c9 57000000 		.4byte	.LASF34
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccFo0b2q.s 			page 31
+
+
+ 1507 05cd 57000000 		.4byte	.LASF34
+ 1508 05d1 07       		.byte	0x7
+ 1509 05d2 A4       		.byte	0xa4
+ 1510 05d3 12       		.uleb128 0x12
+ 1511 05d4 6D000000 		.4byte	.LASF35
+ 1512 05d8 6D000000 		.4byte	.LASF35
+ 1513 05dc 07       		.byte	0x7
+ 1514 05dd A9       		.byte	0xa9
+ 1515 05de 12       		.uleb128 0x12
+ 1516 05df 48030000 		.4byte	.LASF36
+ 1517 05e3 48030000 		.4byte	.LASF36
+ 1518 05e7 08       		.byte	0x8
+ 1519 05e8 76       		.byte	0x76
+ 1520 05e9 00       		.byte	0
+ 1521              		.section	.debug_abbrev,"",%progbits
+ 1522              	.Ldebug_abbrev0:
+ 1523 0000 01       		.uleb128 0x1
+ 1524 0001 11       		.uleb128 0x11
+ 1525 0002 01       		.byte	0x1
+ 1526 0003 25       		.uleb128 0x25
+ 1527 0004 0E       		.uleb128 0xe
+ 1528 0005 13       		.uleb128 0x13
+ 1529 0006 0B       		.uleb128 0xb
+ 1530 0007 03       		.uleb128 0x3
+ 1531 0008 0E       		.uleb128 0xe
+ 1532 0009 1B       		.uleb128 0x1b
+ 1533 000a 0E       		.uleb128 0xe
+ 1534 000b 55       		.uleb128 0x55
+ 1535 000c 17       		.uleb128 0x17
+ 1536 000d 11       		.uleb128 0x11
+ 1537 000e 01       		.uleb128 0x1
+ 1538 000f 10       		.uleb128 0x10
+ 1539 0010 17       		.uleb128 0x17
+ 1540 0011 00       		.byte	0
+ 1541 0012 00       		.byte	0
+ 1542 0013 02       		.uleb128 0x2
+ 1543 0014 24       		.uleb128 0x24
+ 1544 0015 00       		.byte	0
+ 1545 0016 0B       		.uleb128 0xb
+ 1546 0017 0B       		.uleb128 0xb
+ 1547 0018 3E       		.uleb128 0x3e
+ 1548 0019 0B       		.uleb128 0xb
+ 1549 001a 03       		.uleb128 0x3
+ 1550 001b 0E       		.uleb128 0xe
+ 1551 001c 00       		.byte	0
+ 1552 001d 00       		.byte	0
+ 1553 001e 03       		.uleb128 0x3
+ 1554 001f 16       		.uleb128 0x16
+ 1555 0020 00       		.byte	0
+ 1556 0021 03       		.uleb128 0x3
+ 1557 0022 0E       		.uleb128 0xe
+ 1558 0023 3A       		.uleb128 0x3a
+ 1559 0024 0B       		.uleb128 0xb
+ 1560 0025 3B       		.uleb128 0x3b
+ 1561 0026 0B       		.uleb128 0xb
+ 1562 0027 49       		.uleb128 0x49
+ 1563 0028 13       		.uleb128 0x13
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccFo0b2q.s 			page 32
+
+
+ 1564 0029 00       		.byte	0
+ 1565 002a 00       		.byte	0
+ 1566 002b 04       		.uleb128 0x4
+ 1567 002c 24       		.uleb128 0x24
+ 1568 002d 00       		.byte	0
+ 1569 002e 0B       		.uleb128 0xb
+ 1570 002f 0B       		.uleb128 0xb
+ 1571 0030 3E       		.uleb128 0x3e
+ 1572 0031 0B       		.uleb128 0xb
+ 1573 0032 03       		.uleb128 0x3
+ 1574 0033 08       		.uleb128 0x8
+ 1575 0034 00       		.byte	0
+ 1576 0035 00       		.byte	0
+ 1577 0036 05       		.uleb128 0x5
+ 1578 0037 16       		.uleb128 0x16
+ 1579 0038 00       		.byte	0
+ 1580 0039 03       		.uleb128 0x3
+ 1581 003a 0E       		.uleb128 0xe
+ 1582 003b 3A       		.uleb128 0x3a
+ 1583 003c 0B       		.uleb128 0xb
+ 1584 003d 3B       		.uleb128 0x3b
+ 1585 003e 05       		.uleb128 0x5
+ 1586 003f 49       		.uleb128 0x49
+ 1587 0040 13       		.uleb128 0x13
+ 1588 0041 00       		.byte	0
+ 1589 0042 00       		.byte	0
+ 1590 0043 06       		.uleb128 0x6
+ 1591 0044 2E       		.uleb128 0x2e
+ 1592 0045 01       		.byte	0x1
+ 1593 0046 3F       		.uleb128 0x3f
+ 1594 0047 19       		.uleb128 0x19
+ 1595 0048 03       		.uleb128 0x3
+ 1596 0049 0E       		.uleb128 0xe
+ 1597 004a 3A       		.uleb128 0x3a
+ 1598 004b 0B       		.uleb128 0xb
+ 1599 004c 3B       		.uleb128 0x3b
+ 1600 004d 0B       		.uleb128 0xb
+ 1601 004e 27       		.uleb128 0x27
+ 1602 004f 19       		.uleb128 0x19
+ 1603 0050 11       		.uleb128 0x11
+ 1604 0051 01       		.uleb128 0x1
+ 1605 0052 12       		.uleb128 0x12
+ 1606 0053 06       		.uleb128 0x6
+ 1607 0054 40       		.uleb128 0x40
+ 1608 0055 18       		.uleb128 0x18
+ 1609 0056 9742     		.uleb128 0x2117
+ 1610 0058 19       		.uleb128 0x19
+ 1611 0059 01       		.uleb128 0x1
+ 1612 005a 13       		.uleb128 0x13
+ 1613 005b 00       		.byte	0
+ 1614 005c 00       		.byte	0
+ 1615 005d 07       		.uleb128 0x7
+ 1616 005e 34       		.uleb128 0x34
+ 1617 005f 00       		.byte	0
+ 1618 0060 03       		.uleb128 0x3
+ 1619 0061 0E       		.uleb128 0xe
+ 1620 0062 3A       		.uleb128 0x3a
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccFo0b2q.s 			page 33
+
+
+ 1621 0063 0B       		.uleb128 0xb
+ 1622 0064 3B       		.uleb128 0x3b
+ 1623 0065 0B       		.uleb128 0xb
+ 1624 0066 49       		.uleb128 0x49
+ 1625 0067 13       		.uleb128 0x13
+ 1626 0068 02       		.uleb128 0x2
+ 1627 0069 18       		.uleb128 0x18
+ 1628 006a 00       		.byte	0
+ 1629 006b 00       		.byte	0
+ 1630 006c 08       		.uleb128 0x8
+ 1631 006d 898201   		.uleb128 0x4109
+ 1632 0070 01       		.byte	0x1
+ 1633 0071 11       		.uleb128 0x11
+ 1634 0072 01       		.uleb128 0x1
+ 1635 0073 31       		.uleb128 0x31
+ 1636 0074 13       		.uleb128 0x13
+ 1637 0075 01       		.uleb128 0x1
+ 1638 0076 13       		.uleb128 0x13
+ 1639 0077 00       		.byte	0
+ 1640 0078 00       		.byte	0
+ 1641 0079 09       		.uleb128 0x9
+ 1642 007a 8A8201   		.uleb128 0x410a
+ 1643 007d 00       		.byte	0
+ 1644 007e 02       		.uleb128 0x2
+ 1645 007f 18       		.uleb128 0x18
+ 1646 0080 9142     		.uleb128 0x2111
+ 1647 0082 18       		.uleb128 0x18
+ 1648 0083 00       		.byte	0
+ 1649 0084 00       		.byte	0
+ 1650 0085 0A       		.uleb128 0xa
+ 1651 0086 898201   		.uleb128 0x4109
+ 1652 0089 00       		.byte	0
+ 1653 008a 11       		.uleb128 0x11
+ 1654 008b 01       		.uleb128 0x1
+ 1655 008c 31       		.uleb128 0x31
+ 1656 008d 13       		.uleb128 0x13
+ 1657 008e 00       		.byte	0
+ 1658 008f 00       		.byte	0
+ 1659 0090 0B       		.uleb128 0xb
+ 1660 0091 01       		.uleb128 0x1
+ 1661 0092 01       		.byte	0x1
+ 1662 0093 49       		.uleb128 0x49
+ 1663 0094 13       		.uleb128 0x13
+ 1664 0095 01       		.uleb128 0x1
+ 1665 0096 13       		.uleb128 0x13
+ 1666 0097 00       		.byte	0
+ 1667 0098 00       		.byte	0
+ 1668 0099 0C       		.uleb128 0xc
+ 1669 009a 21       		.uleb128 0x21
+ 1670 009b 00       		.byte	0
+ 1671 009c 49       		.uleb128 0x49
+ 1672 009d 13       		.uleb128 0x13
+ 1673 009e 2F       		.uleb128 0x2f
+ 1674 009f 0B       		.uleb128 0xb
+ 1675 00a0 00       		.byte	0
+ 1676 00a1 00       		.byte	0
+ 1677 00a2 0D       		.uleb128 0xd
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccFo0b2q.s 			page 34
+
+
+ 1678 00a3 2E       		.uleb128 0x2e
+ 1679 00a4 01       		.byte	0x1
+ 1680 00a5 3F       		.uleb128 0x3f
+ 1681 00a6 19       		.uleb128 0x19
+ 1682 00a7 03       		.uleb128 0x3
+ 1683 00a8 0E       		.uleb128 0xe
+ 1684 00a9 3A       		.uleb128 0x3a
+ 1685 00aa 0B       		.uleb128 0xb
+ 1686 00ab 3B       		.uleb128 0x3b
+ 1687 00ac 0B       		.uleb128 0xb
+ 1688 00ad 27       		.uleb128 0x27
+ 1689 00ae 19       		.uleb128 0x19
+ 1690 00af 11       		.uleb128 0x11
+ 1691 00b0 01       		.uleb128 0x1
+ 1692 00b1 12       		.uleb128 0x12
+ 1693 00b2 06       		.uleb128 0x6
+ 1694 00b3 40       		.uleb128 0x40
+ 1695 00b4 18       		.uleb128 0x18
+ 1696 00b5 9642     		.uleb128 0x2116
+ 1697 00b7 19       		.uleb128 0x19
+ 1698 00b8 01       		.uleb128 0x1
+ 1699 00b9 13       		.uleb128 0x13
+ 1700 00ba 00       		.byte	0
+ 1701 00bb 00       		.byte	0
+ 1702 00bc 0E       		.uleb128 0xe
+ 1703 00bd 34       		.uleb128 0x34
+ 1704 00be 00       		.byte	0
+ 1705 00bf 03       		.uleb128 0x3
+ 1706 00c0 0E       		.uleb128 0xe
+ 1707 00c1 3A       		.uleb128 0x3a
+ 1708 00c2 0B       		.uleb128 0xb
+ 1709 00c3 3B       		.uleb128 0x3b
+ 1710 00c4 05       		.uleb128 0x5
+ 1711 00c5 49       		.uleb128 0x49
+ 1712 00c6 13       		.uleb128 0x13
+ 1713 00c7 3F       		.uleb128 0x3f
+ 1714 00c8 19       		.uleb128 0x19
+ 1715 00c9 3C       		.uleb128 0x3c
+ 1716 00ca 19       		.uleb128 0x19
+ 1717 00cb 00       		.byte	0
+ 1718 00cc 00       		.byte	0
+ 1719 00cd 0F       		.uleb128 0xf
+ 1720 00ce 35       		.uleb128 0x35
+ 1721 00cf 00       		.byte	0
+ 1722 00d0 49       		.uleb128 0x49
+ 1723 00d1 13       		.uleb128 0x13
+ 1724 00d2 00       		.byte	0
+ 1725 00d3 00       		.byte	0
+ 1726 00d4 10       		.uleb128 0x10
+ 1727 00d5 34       		.uleb128 0x34
+ 1728 00d6 00       		.byte	0
+ 1729 00d7 03       		.uleb128 0x3
+ 1730 00d8 0E       		.uleb128 0xe
+ 1731 00d9 3A       		.uleb128 0x3a
+ 1732 00da 0B       		.uleb128 0xb
+ 1733 00db 3B       		.uleb128 0x3b
+ 1734 00dc 0B       		.uleb128 0xb
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccFo0b2q.s 			page 35
+
+
+ 1735 00dd 49       		.uleb128 0x49
+ 1736 00de 13       		.uleb128 0x13
+ 1737 00df 3F       		.uleb128 0x3f
+ 1738 00e0 19       		.uleb128 0x19
+ 1739 00e1 02       		.uleb128 0x2
+ 1740 00e2 18       		.uleb128 0x18
+ 1741 00e3 00       		.byte	0
+ 1742 00e4 00       		.byte	0
+ 1743 00e5 11       		.uleb128 0x11
+ 1744 00e6 34       		.uleb128 0x34
+ 1745 00e7 00       		.byte	0
+ 1746 00e8 03       		.uleb128 0x3
+ 1747 00e9 08       		.uleb128 0x8
+ 1748 00ea 3A       		.uleb128 0x3a
+ 1749 00eb 0B       		.uleb128 0xb
+ 1750 00ec 3B       		.uleb128 0x3b
+ 1751 00ed 0B       		.uleb128 0xb
+ 1752 00ee 49       		.uleb128 0x49
+ 1753 00ef 13       		.uleb128 0x13
+ 1754 00f0 3F       		.uleb128 0x3f
+ 1755 00f1 19       		.uleb128 0x19
+ 1756 00f2 02       		.uleb128 0x2
+ 1757 00f3 18       		.uleb128 0x18
+ 1758 00f4 00       		.byte	0
+ 1759 00f5 00       		.byte	0
+ 1760 00f6 12       		.uleb128 0x12
+ 1761 00f7 2E       		.uleb128 0x2e
+ 1762 00f8 00       		.byte	0
+ 1763 00f9 3F       		.uleb128 0x3f
+ 1764 00fa 19       		.uleb128 0x19
+ 1765 00fb 3C       		.uleb128 0x3c
+ 1766 00fc 19       		.uleb128 0x19
+ 1767 00fd 6E       		.uleb128 0x6e
+ 1768 00fe 0E       		.uleb128 0xe
+ 1769 00ff 03       		.uleb128 0x3
+ 1770 0100 0E       		.uleb128 0xe
+ 1771 0101 3A       		.uleb128 0x3a
+ 1772 0102 0B       		.uleb128 0xb
+ 1773 0103 3B       		.uleb128 0x3b
+ 1774 0104 0B       		.uleb128 0xb
+ 1775 0105 00       		.byte	0
+ 1776 0106 00       		.byte	0
+ 1777 0107 00       		.byte	0
+ 1778              		.section	.debug_aranges,"",%progbits
+ 1779 0000 34000000 		.4byte	0x34
+ 1780 0004 0200     		.2byte	0x2
+ 1781 0006 00000000 		.4byte	.Ldebug_info0
+ 1782 000a 04       		.byte	0x4
+ 1783 000b 00       		.byte	0
+ 1784 000c 0000     		.2byte	0
+ 1785 000e 0000     		.2byte	0
+ 1786 0010 00000000 		.4byte	.LFB63
+ 1787 0014 EC000000 		.4byte	.LFE63-.LFB63
+ 1788 0018 00000000 		.4byte	.LFB64
+ 1789 001c 7C000000 		.4byte	.LFE64-.LFB64
+ 1790 0020 00000000 		.4byte	.LFB65
+ 1791 0024 84000000 		.4byte	.LFE65-.LFB65
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccFo0b2q.s 			page 36
+
+
+ 1792 0028 00000000 		.4byte	.LFB66
+ 1793 002c A0020000 		.4byte	.LFE66-.LFB66
+ 1794 0030 00000000 		.4byte	0
+ 1795 0034 00000000 		.4byte	0
+ 1796              		.section	.debug_ranges,"",%progbits
+ 1797              	.Ldebug_ranges0:
+ 1798 0000 00000000 		.4byte	.LFB63
+ 1799 0004 EC000000 		.4byte	.LFE63
+ 1800 0008 00000000 		.4byte	.LFB64
+ 1801 000c 7C000000 		.4byte	.LFE64
+ 1802 0010 00000000 		.4byte	.LFB65
+ 1803 0014 84000000 		.4byte	.LFE65
+ 1804 0018 00000000 		.4byte	.LFB66
+ 1805 001c A0020000 		.4byte	.LFE66
+ 1806 0020 00000000 		.4byte	0
+ 1807 0024 00000000 		.4byte	0
+ 1808              		.section	.debug_line,"",%progbits
+ 1809              	.Ldebug_line0:
+ 1810 0000 1A020000 		.section	.debug_str,"MS",%progbits,1
+ 1810      02007001 
+ 1810      00000201 
+ 1810      FB0E0D00 
+ 1810      01010101 
+ 1811              	.LASF29:
+ 1812 0000 53656E73 		.ascii	"SensorCalibrationData\000"
+ 1812      6F724361 
+ 1812      6C696272 
+ 1812      6174696F 
+ 1812      6E446174 
+ 1813              	.LASF22:
+ 1814 0016 53657452 		.ascii	"SetReadAddressBuffer\000"
+ 1814      65616441 
+ 1814      64647265 
+ 1814      73734275 
+ 1814      66666572 
+ 1815              	.LASF12:
+ 1816 002b 666C6F61 		.ascii	"float\000"
+ 1816      7400
+ 1817              	.LASF9:
+ 1818 0031 5F5F696E 		.ascii	"__int32_t\000"
+ 1818      7433325F 
+ 1818      7400
+ 1819              	.LASF28:
+ 1820 003b 416C7469 		.ascii	"Altitude\000"
+ 1820      74756465 
+ 1820      00
+ 1821              	.LASF30:
+ 1822 0044 50726573 		.ascii	"PressureAtSeaLevel\000"
+ 1822      73757265 
+ 1822      41745365 
+ 1822      614C6576 
+ 1822      656C00
+ 1823              	.LASF34:
+ 1824 0057 4932435F 		.ascii	"I2C_MasterClearStatus\000"
+ 1824      4D617374 
+ 1824      6572436C 
+ 1824      65617253 
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccFo0b2q.s 			page 37
+
+
+ 1824      74617475 
+ 1825              	.LASF35:
+ 1826 006d 4932435F 		.ascii	"I2C_MasterReadBuf\000"
+ 1826      4D617374 
+ 1826      65725265 
+ 1826      61644275 
+ 1826      6600
+ 1827              	.LASF20:
+ 1828 007f 49324357 		.ascii	"I2CWriteBuffer\000"
+ 1828      72697465 
+ 1828      42756666 
+ 1828      657200
+ 1829              	.LASF23:
+ 1830 008e 52656164 		.ascii	"ReadUncompensatedPressure\000"
+ 1830      556E636F 
+ 1830      6D70656E 
+ 1830      73617465 
+ 1830      64507265 
+ 1831              	.LASF27:
+ 1832 00a8 50726573 		.ascii	"Pressure\000"
+ 1832      73757265 
+ 1832      00
+ 1833              	.LASF1:
+ 1834 00b1 756E7369 		.ascii	"unsigned char\000"
+ 1834      676E6564 
+ 1834      20636861 
+ 1834      7200
+ 1835              	.LASF32:
+ 1836 00bf 4932435F 		.ascii	"I2C_MasterWriteBuf\000"
+ 1836      4D617374 
+ 1836      65725772 
+ 1836      69746542 
+ 1836      756600
+ 1837              	.LASF39:
+ 1838 00d2 443A5C4C 		.ascii	"D:\\Laboratorio\\Camara Climatica\\2020\\Camara Cli"
+ 1838      61626F72 
+ 1838      61746F72 
+ 1838      696F5C43 
+ 1838      616D6172 
+ 1839 0101 6D617469 		.ascii	"matica Peltier Touch Avantika 330L #004588406 OP202"
+ 1839      63612050 
+ 1839      656C7469 
+ 1839      65722054 
+ 1839      6F756368 
+ 1840 0134 30333233 		.ascii	"0323\\Firmware Psoc\\LCD2\\CamaraClimatica.cydsn\000"
+ 1840      5C466972 
+ 1840      6D776172 
+ 1840      65205073 
+ 1840      6F635C4C 
+ 1841              	.LASF14:
+ 1842 0162 63686172 		.ascii	"char8\000"
+ 1842      3800
+ 1843              	.LASF21:
+ 1844 0168 49324352 		.ascii	"I2CReadBuffer\000"
+ 1844      65616442 
+ 1844      75666665 
+ 1844      7200
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccFo0b2q.s 			page 38
+
+
+ 1845              	.LASF19:
+ 1846 0176 52656164 		.ascii	"ReadUncompensatedTemperature\000"
+ 1846      556E636F 
+ 1846      6D70656E 
+ 1846      73617465 
+ 1846      6454656D 
+ 1847              	.LASF3:
+ 1848 0193 73686F72 		.ascii	"short unsigned int\000"
+ 1848      7420756E 
+ 1848      7369676E 
+ 1848      65642069 
+ 1848      6E7400
+ 1849              	.LASF25:
+ 1850 01a6 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 1850      52784275 
+ 1850      66666572 
+ 1850      00
+ 1851              	.LASF24:
+ 1852 01b3 52656164 		.ascii	"ReadAndCalculateSensorData\000"
+ 1852      416E6443 
+ 1852      616C6375 
+ 1852      6C617465 
+ 1852      53656E73 
+ 1853              	.LASF26:
+ 1854 01ce 54656D70 		.ascii	"Temperature2\000"
+ 1854      65726174 
+ 1854      75726532 
+ 1854      00
+ 1855              	.LASF5:
+ 1856 01db 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1856      20756E73 
+ 1856      69676E65 
+ 1856      6420696E 
+ 1856      7400
+ 1857              	.LASF18:
+ 1858 01ed 52656164 		.ascii	"ReadSensorCalibrationData\000"
+ 1858      53656E73 
+ 1858      6F724361 
+ 1858      6C696272 
+ 1858      6174696F 
+ 1859              	.LASF8:
+ 1860 0207 756E7369 		.ascii	"unsigned int\000"
+ 1860      676E6564 
+ 1860      20696E74 
+ 1860      00
+ 1861              	.LASF7:
+ 1862 0214 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 1862      206C6F6E 
+ 1862      6720756E 
+ 1862      7369676E 
+ 1862      65642069 
+ 1863              	.LASF31:
+ 1864 022b 43616C69 		.ascii	"CalibrationDataAvailable\000"
+ 1864      62726174 
+ 1864      696F6E44 
+ 1864      61746141 
+ 1864      7661696C 
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccFo0b2q.s 			page 39
+
+
+ 1865              	.LASF37:
+ 1866 0244 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 1866      43313120 
+ 1866      352E342E 
+ 1866      31203230 
+ 1866      31363036 
+ 1867 0277 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 1867      20726576 
+ 1867      6973696F 
+ 1867      6E203233 
+ 1867      37373135 
+ 1868 02aa 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ 1868      66756E63 
+ 1868      74696F6E 
+ 1868      2D736563 
+ 1868      74696F6E 
+ 1869              	.LASF10:
+ 1870 02d2 696E7433 		.ascii	"int32_t\000"
+ 1870      325F7400 
+ 1871              	.LASF17:
+ 1872 02da 73697A65 		.ascii	"sizetype\000"
+ 1872      74797065 
+ 1872      00
+ 1873              	.LASF6:
+ 1874 02e3 6C6F6E67 		.ascii	"long long int\000"
+ 1874      206C6F6E 
+ 1874      6720696E 
+ 1874      7400
+ 1875              	.LASF38:
+ 1876 02f1 424D5031 		.ascii	"BMP180.c\000"
+ 1876      38302E63 
+ 1876      00
+ 1877              	.LASF15:
+ 1878 02fa 63686172 		.ascii	"char\000"
+ 1878      00
+ 1879              	.LASF33:
+ 1880 02ff 4932435F 		.ascii	"I2C_MasterStatus\000"
+ 1880      4D617374 
+ 1880      65725374 
+ 1880      61747573 
+ 1880      00
+ 1881              	.LASF2:
+ 1882 0310 73686F72 		.ascii	"short int\000"
+ 1882      7420696E 
+ 1882      7400
+ 1883              	.LASF11:
+ 1884 031a 75696E74 		.ascii	"uint8\000"
+ 1884      3800
+ 1885              	.LASF4:
+ 1886 0320 6C6F6E67 		.ascii	"long int\000"
+ 1886      20696E74 
+ 1886      00
+ 1887              	.LASF16:
+ 1888 0329 6C6F6E67 		.ascii	"long double\000"
+ 1888      20646F75 
+ 1888      626C6500 
+ 1889              	.LASF0:
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccFo0b2q.s 			page 40
+
+
+ 1890 0335 7369676E 		.ascii	"signed char\000"
+ 1890      65642063 
+ 1890      68617200 
+ 1891              	.LASF13:
+ 1892 0341 646F7562 		.ascii	"double\000"
+ 1892      6C6500
+ 1893              	.LASF36:
+ 1894 0348 43794465 		.ascii	"CyDelay\000"
+ 1894      6C617900 
+ 1895              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

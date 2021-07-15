@@ -1,0 +1,1264 @@
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccLbEvA0.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"RTD.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.RTD_MultShift24,"ax",%progbits
+  20              		.align	2
+  21              		.global	RTD_MultShift24
+  22              		.thumb
+  23              		.thumb_func
+  24              		.type	RTD_MultShift24, %function
+  25              	RTD_MultShift24:
+  26              	.LFB0:
+  27              		.file 1 "Generated_Source\\PSoC5\\RTD.c"
+   1:Generated_Source\PSoC5/RTD.c **** /*******************************************************************************
+   2:Generated_Source\PSoC5/RTD.c **** * File Name: RTD.c
+   3:Generated_Source\PSoC5/RTD.c **** * Version 1.20
+   4:Generated_Source\PSoC5/RTD.c **** *
+   5:Generated_Source\PSoC5/RTD.c **** * Description:
+   6:Generated_Source\PSoC5/RTD.c **** *  This file provides the source code to the API for the RTDCalc Component.
+   7:Generated_Source\PSoC5/RTD.c **** *
+   8:Generated_Source\PSoC5/RTD.c **** * Note:
+   9:Generated_Source\PSoC5/RTD.c **** *  None.
+  10:Generated_Source\PSoC5/RTD.c **** *
+  11:Generated_Source\PSoC5/RTD.c **** ********************************************************************************
+  12:Generated_Source\PSoC5/RTD.c **** * Copyright 2012-2013, Cypress Semiconductor Corporation.  All rights reserved.
+  13:Generated_Source\PSoC5/RTD.c **** * You may use this file only in accordance with the license, terms, conditions,
+  14:Generated_Source\PSoC5/RTD.c **** * disclaimers, and limitations in the end user license agreement accompanying
+  15:Generated_Source\PSoC5/RTD.c **** * the software package with which this file was provided.
+  16:Generated_Source\PSoC5/RTD.c **** *******************************************************************************/
+  17:Generated_Source\PSoC5/RTD.c **** 
+  18:Generated_Source\PSoC5/RTD.c **** #include "RTD.h"
+  19:Generated_Source\PSoC5/RTD.c **** 
+  20:Generated_Source\PSoC5/RTD.c **** #if(!CY_PSOC3)
+  21:Generated_Source\PSoC5/RTD.c **** 
+  22:Generated_Source\PSoC5/RTD.c **** 
+  23:Generated_Source\PSoC5/RTD.c ****     /*******************************************************************************
+  24:Generated_Source\PSoC5/RTD.c ****     * Function Name: RTD_MultShift24
+  25:Generated_Source\PSoC5/RTD.c ****     ********************************************************************************
+  26:Generated_Source\PSoC5/RTD.c ****     *
+  27:Generated_Source\PSoC5/RTD.c ****     * Summary:
+  28:Generated_Source\PSoC5/RTD.c ****     *  Performs the math function (op1 * op2) >> 24 using 64 bit arithmetic without
+  29:Generated_Source\PSoC5/RTD.c ****     *  any loss of precision and without overflow.
+  30:Generated_Source\PSoC5/RTD.c ****     *
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccLbEvA0.s 			page 2
+
+
+  31:Generated_Source\PSoC5/RTD.c ****     * Parameters:
+  32:Generated_Source\PSoC5/RTD.c ****     *  op1: Signed 32-bit operand
+  33:Generated_Source\PSoC5/RTD.c ****     *  op2: Unsigned 24-bit operand
+  34:Generated_Source\PSoC5/RTD.c ****     *
+  35:Generated_Source\PSoC5/RTD.c ****     * Return:
+  36:Generated_Source\PSoC5/RTD.c ****     *  Signed 32-bit result of the math calculation
+  37:Generated_Source\PSoC5/RTD.c ****     *
+  38:Generated_Source\PSoC5/RTD.c ****     *******************************************************************************/
+  39:Generated_Source\PSoC5/RTD.c ****     int32 RTD_MultShift24(int32 op1, uint32 op2) 
+  40:Generated_Source\PSoC5/RTD.c ****     {
+  28              		.loc 1 40 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32              		@ link register save eliminated.
+  33              	.LVL0:
+  34 0000 30B4     		push	{r4, r5}
+  35              		.cfi_def_cfa_offset 8
+  36              		.cfi_offset 4, -8
+  37              		.cfi_offset 5, -4
+  38 0002 0B46     		mov	r3, r1
+  39              	.LVL1:
+  41:Generated_Source\PSoC5/RTD.c ****         int64 result=0;
+  42:Generated_Source\PSoC5/RTD.c **** 
+  43:Generated_Source\PSoC5/RTD.c ****         result = (int64)op1 * (int64)op2;
+  40              		.loc 1 43 0
+  41 0004 C517     		asrs	r5, r0, #31
+  42 0006 A0FB0101 		umull	r0, r1, r0, r1
+  43              	.LVL2:
+  44 000a 03FB0511 		mla	r1, r3, r5, r1
+  45              	.LVL3:
+  44:Generated_Source\PSoC5/RTD.c ****         
+  45:Generated_Source\PSoC5/RTD.c ****         if (result < 0)
+  46              		.loc 1 45 0
+  47 000e 0028     		cmp	r0, #0
+  48 0010 71F10003 		sbcs	r3, r1, #0
+  49              	.LVL4:
+  50 0014 07DA     		bge	.L2
+  46:Generated_Source\PSoC5/RTD.c ****         {
+  47:Generated_Source\PSoC5/RTD.c ****             result = -result;
+  51              		.loc 1 47 0
+  52 0016 4042     		rsbs	r0, r0, #0
+  53              	.LVL5:
+  54 0018 61EB4101 		sbc	r1, r1, r1, lsl #1
+  55              	.LVL6:
+  48:Generated_Source\PSoC5/RTD.c ****             result = (int32)((uint32)((uint64)result >> RTD_24BIT_SHIFTING));
+  56              		.loc 1 48 0
+  57 001c 000E     		lsrs	r0, r0, #24
+  58              	.LVL7:
+  59 001e 40EA0120 		orr	r0, r0, r1, lsl #8
+  60              	.LVL8:
+  49:Generated_Source\PSoC5/RTD.c ****             result = -result;
+  61              		.loc 1 49 0
+  62 0022 4042     		rsbs	r0, r0, #0
+  63              	.LVL9:
+  64 0024 02E0     		b	.L3
+  65              	.LVL10:
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccLbEvA0.s 			page 3
+
+
+  66              	.L2:
+  50:Generated_Source\PSoC5/RTD.c ****         }
+  51:Generated_Source\PSoC5/RTD.c ****         else
+  52:Generated_Source\PSoC5/RTD.c ****         {
+  53:Generated_Source\PSoC5/RTD.c ****             result = (int32)((uint32)((uint64)result >> RTD_24BIT_SHIFTING));
+  67              		.loc 1 53 0
+  68 0026 000E     		lsrs	r0, r0, #24
+  69              	.LVL11:
+  70 0028 40EA0120 		orr	r0, r0, r1, lsl #8
+  71              	.LVL12:
+  72              	.L3:
+  54:Generated_Source\PSoC5/RTD.c ****         }
+  55:Generated_Source\PSoC5/RTD.c ****         return (result);
+  56:Generated_Source\PSoC5/RTD.c ****     }
+  73              		.loc 1 56 0
+  74 002c 30BC     		pop	{r4, r5}
+  75              		.cfi_restore 5
+  76              		.cfi_restore 4
+  77              		.cfi_def_cfa_offset 0
+  78 002e 7047     		bx	lr
+  79              		.cfi_endproc
+  80              	.LFE0:
+  81              		.size	RTD_MultShift24, .-RTD_MultShift24
+  82              		.section	.text.RTD_GetTemperature,"ax",%progbits
+  83              		.align	2
+  84              		.global	RTD_GetTemperature
+  85              		.thumb
+  86              		.thumb_func
+  87              		.type	RTD_GetTemperature, %function
+  88              	RTD_GetTemperature:
+  89              	.LFB1:
+  57:Generated_Source\PSoC5/RTD.c **** #endif /* End (!CY_PSOC3) */
+  58:Generated_Source\PSoC5/RTD.c **** 
+  59:Generated_Source\PSoC5/RTD.c **** 
+  60:Generated_Source\PSoC5/RTD.c **** /*******************************************************************************
+  61:Generated_Source\PSoC5/RTD.c **** * Function Name: RTD_GetTemperature
+  62:Generated_Source\PSoC5/RTD.c **** ********************************************************************************
+  63:Generated_Source\PSoC5/RTD.c **** *
+  64:Generated_Source\PSoC5/RTD.c **** * Summary:
+  65:Generated_Source\PSoC5/RTD.c **** *  Calculates the temperature from RTD resistance.
+  66:Generated_Source\PSoC5/RTD.c **** *
+  67:Generated_Source\PSoC5/RTD.c **** * Parameters:
+  68:Generated_Source\PSoC5/RTD.c **** *  res: Resistance in milliohms.
+  69:Generated_Source\PSoC5/RTD.c **** *
+  70:Generated_Source\PSoC5/RTD.c **** * Return:
+  71:Generated_Source\PSoC5/RTD.c **** *  Temperature in 1/100ths degrees C.
+  72:Generated_Source\PSoC5/RTD.c **** *
+  73:Generated_Source\PSoC5/RTD.c **** *******************************************************************************/
+  74:Generated_Source\PSoC5/RTD.c **** int32 RTD_GetTemperature(uint32 res) 
+  75:Generated_Source\PSoC5/RTD.c **** 
+  76:Generated_Source\PSoC5/RTD.c **** #if (CY_PSOC3)
+  77:Generated_Source\PSoC5/RTD.c **** {
+  78:Generated_Source\PSoC5/RTD.c **** 
+  79:Generated_Source\PSoC5/RTD.c ****     /***************************************
+  80:Generated_Source\PSoC5/RTD.c ****     *  Customizer Generated Coefficients
+  81:Generated_Source\PSoC5/RTD.c ****     ***************************************/
+  82:Generated_Source\PSoC5/RTD.c ****     const int32 CYCODE RTD_coeffPos[] = { -50627439, 257097715, 38021537, 32651646, -19086029, 1971
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccLbEvA0.s 			page 4
+
+
+  83:Generated_Source\PSoC5/RTD.c ****     const int32 CYCODE RTD_coeffNeg[] = { -12388603, 59563818, 37926757, -46772889, -68832396, 2519
+  84:Generated_Source\PSoC5/RTD.c **** 
+  85:Generated_Source\PSoC5/RTD.c ****     uint8 i=0u;
+  86:Generated_Source\PSoC5/RTD.c ****     float32 resNorm=0.0f;
+  87:Generated_Source\PSoC5/RTD.c ****     float32 temp=0.0f;
+  88:Generated_Source\PSoC5/RTD.c **** 
+  89:Generated_Source\PSoC5/RTD.c ****     resNorm = (float32)res;
+  90:Generated_Source\PSoC5/RTD.c **** 
+  91:Generated_Source\PSoC5/RTD.c ****     if (((RTD_RTD_TYPE == (uint32)RTD__PT100) && (res > RTD_ZERO_VAL_PT100)) ||
+  92:Generated_Source\PSoC5/RTD.c ****         ((RTD_RTD_TYPE == (uint32)RTD__PT500) && (res > RTD_ZERO_VAL_PT500)) ||
+  93:Generated_Source\PSoC5/RTD.c ****         ((RTD_RTD_TYPE == (uint32)RTD__PT1000) && (res > RTD_ZERO_VAL_PT1000)))
+  94:Generated_Source\PSoC5/RTD.c ****     {
+  95:Generated_Source\PSoC5/RTD.c ****          /* Temperature above 0 degrees C */
+  96:Generated_Source\PSoC5/RTD.c ****         for (i = RTD_ORDER_POS - 1u; i > 0u; i--)
+  97:Generated_Source\PSoC5/RTD.c ****         {
+  98:Generated_Source\PSoC5/RTD.c ****             temp = (RTD_coeffPos[i] + temp) * resNorm;
+  99:Generated_Source\PSoC5/RTD.c ****         }
+ 100:Generated_Source\PSoC5/RTD.c ****         temp = temp + RTD_coeffPos[RTD_FIRST_EL_MAS];
+ 101:Generated_Source\PSoC5/RTD.c ****     }
+ 102:Generated_Source\PSoC5/RTD.c ****     else
+ 103:Generated_Source\PSoC5/RTD.c ****     {
+ 104:Generated_Source\PSoC5/RTD.c ****         /* Temperature below 0 degrees C */
+ 105:Generated_Source\PSoC5/RTD.c ****         for (i = RTD_ORDER_NEG - 1u; i > 0u; i--)
+ 106:Generated_Source\PSoC5/RTD.c ****         {
+ 107:Generated_Source\PSoC5/RTD.c ****             temp = (RTD_coeffNeg[i] + temp) * resNorm;
+ 108:Generated_Source\PSoC5/RTD.c ****         }
+ 109:Generated_Source\PSoC5/RTD.c ****         temp = temp + RTD_coeffNeg[RTD_FIRST_EL_MAS];
+ 110:Generated_Source\PSoC5/RTD.c ****     }
+ 111:Generated_Source\PSoC5/RTD.c ****     return ((int32)(temp));
+ 112:Generated_Source\PSoC5/RTD.c **** }
+ 113:Generated_Source\PSoC5/RTD.c **** #else
+ 114:Generated_Source\PSoC5/RTD.c **** {
+  90              		.loc 1 114 0
+  91              		.cfi_startproc
+  92              		@ args = 0, pretend = 0, frame = 48
+  93              		@ frame_needed = 0, uses_anonymous_args = 0
+  94              	.LVL13:
+  95 0000 F0B5     		push	{r4, r5, r6, r7, lr}
+  96              		.cfi_def_cfa_offset 20
+  97              		.cfi_offset 4, -20
+  98              		.cfi_offset 5, -16
+  99              		.cfi_offset 6, -12
+ 100              		.cfi_offset 7, -8
+ 101              		.cfi_offset 14, -4
+ 102 0002 8DB0     		sub	sp, sp, #52
+ 103              		.cfi_def_cfa_offset 72
+ 104 0004 0746     		mov	r7, r0
+ 115:Generated_Source\PSoC5/RTD.c ****     /***************************************
+ 116:Generated_Source\PSoC5/RTD.c ****     *  Customizer Generated Coefficients
+ 117:Generated_Source\PSoC5/RTD.c ****     ***************************************/
+ 118:Generated_Source\PSoC5/RTD.c ****     const int32 CYCODE RTD_coeffPos[] = { -50627439, 257097715, 38021537, 32651646, -19086029, 1971
+ 105              		.loc 1 118 0
+ 106 0006 234C     		ldr	r4, .L13
+ 107 0008 06AD     		add	r5, sp, #24
+ 108 000a 2646     		mov	r6, r4
+ 109 000c 0FCE     		ldmia	r6!, {r0, r1, r2, r3}
+ 110              	.LVL14:
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccLbEvA0.s 			page 5
+
+
+ 111 000e 0FC5     		stmia	r5!, {r0, r1, r2, r3}
+ 112 0010 96E80300 		ldmia	r6, {r0, r1}
+ 113 0014 85E80300 		stmia	r5, {r0, r1}
+ 119:Generated_Source\PSoC5/RTD.c ****     const int32 CYCODE RTD_coeffNeg[] = { -12388603, 59563818, 37926757, -46772889, -68832396, 2519
+ 114              		.loc 1 119 0
+ 115 0018 6D46     		mov	r5, sp
+ 116 001a 1834     		adds	r4, r4, #24
+ 117 001c 0FCC     		ldmia	r4!, {r0, r1, r2, r3}
+ 118 001e 0FC5     		stmia	r5!, {r0, r1, r2, r3}
+ 119 0020 94E80300 		ldmia	r4, {r0, r1}
+ 120 0024 85E80300 		stmia	r5, {r0, r1}
+ 121              	.LVL15:
+ 120:Generated_Source\PSoC5/RTD.c **** 
+ 121:Generated_Source\PSoC5/RTD.c ****     uint8 i;
+ 122:Generated_Source\PSoC5/RTD.c ****     int32 temp=0;
+ 123:Generated_Source\PSoC5/RTD.c **** 
+ 124:Generated_Source\PSoC5/RTD.c ****     if (((RTD_RTD_TYPE == (uint32)RTD__PT100) && (res > RTD_ZERO_VAL_PT100)) ||
+ 122              		.loc 1 124 0
+ 123 0028 1B4B     		ldr	r3, .L13+4
+ 124 002a 9F42     		cmp	r7, r3
+ 125 002c 17D9     		bls	.L6
+ 125:Generated_Source\PSoC5/RTD.c ****         ((RTD_RTD_TYPE == (uint32)RTD__PT500) && (res > RTD_ZERO_VAL_PT500)) ||
+ 126:Generated_Source\PSoC5/RTD.c ****         ((RTD_RTD_TYPE == (uint32)RTD__PT1000) && (res > RTD_ZERO_VAL_PT1000)))
+ 127:Generated_Source\PSoC5/RTD.c ****     {
+ 128:Generated_Source\PSoC5/RTD.c ****          /* Temperature above 0 degrees C */
+ 129:Generated_Source\PSoC5/RTD.c ****         res = res << (RTD_IN_NORMALIZATION - RTD_POS_INPUT_SCALE);
+ 126              		.loc 1 129 0
+ 127 002e 7D01     		lsls	r5, r7, #5
+ 128              	.LVL16:
+ 122:Generated_Source\PSoC5/RTD.c **** 
+ 129              		.loc 1 122 0
+ 130 0030 0020     		movs	r0, #0
+ 130:Generated_Source\PSoC5/RTD.c **** 
+ 131:Generated_Source\PSoC5/RTD.c ****         for (i = RTD_ORDER_POS - 1u; i > 0u; i--)
+ 131              		.loc 1 131 0
+ 132 0032 0524     		movs	r4, #5
+ 133 0034 0AE0     		b	.L7
+ 134              	.LVL17:
+ 135              	.L8:
+ 132:Generated_Source\PSoC5/RTD.c ****         {
+ 133:Generated_Source\PSoC5/RTD.c ****             temp = RTD_MultShift24((RTD_coeffPos[i] + temp), res);
+ 136              		.loc 1 133 0 discriminator 3
+ 137 0036 0CAB     		add	r3, sp, #48
+ 138 0038 03EB8403 		add	r3, r3, r4, lsl #2
+ 139 003c 53F8183C 		ldr	r3, [r3, #-24]
+ 140 0040 2946     		mov	r1, r5
+ 141 0042 1844     		add	r0, r0, r3
+ 142              	.LVL18:
+ 143 0044 FFF7FEFF 		bl	RTD_MultShift24
+ 144              	.LVL19:
+ 131:Generated_Source\PSoC5/RTD.c ****         {
+ 145              		.loc 1 131 0 discriminator 3
+ 146 0048 013C     		subs	r4, r4, #1
+ 147              	.LVL20:
+ 148 004a E4B2     		uxtb	r4, r4
+ 149              	.LVL21:
+ 150              	.L7:
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccLbEvA0.s 			page 6
+
+
+ 131:Generated_Source\PSoC5/RTD.c ****         {
+ 151              		.loc 1 131 0 is_stmt 0 discriminator 1
+ 152 004c 002C     		cmp	r4, #0
+ 153 004e F2D1     		bne	.L8
+ 134:Generated_Source\PSoC5/RTD.c ****         }
+ 135:Generated_Source\PSoC5/RTD.c ****         temp = (int32)((uint32)((uint64)(int32)(temp + RTD_coeffPos[RTD_FIRST_EL_MAS]) >> 
+ 154              		.loc 1 135 0 is_stmt 1
+ 155 0050 124B     		ldr	r3, .L13+8
+ 156 0052 0344     		add	r3, r3, r0
+ 157 0054 D917     		asrs	r1, r3, #31
+ 158 0056 DB0A     		lsrs	r3, r3, #11
+ 159 0058 43EA4150 		orr	r0, r3, r1, lsl #21
+ 160              	.LVL22:
+ 161 005c 18E0     		b	.L9
+ 162              	.LVL23:
+ 163              	.L6:
+ 136:Generated_Source\PSoC5/RTD.c ****                        RTD_POS_COEFF_SCALE));
+ 137:Generated_Source\PSoC5/RTD.c ****     }
+ 138:Generated_Source\PSoC5/RTD.c **** 
+ 139:Generated_Source\PSoC5/RTD.c ****     else
+ 140:Generated_Source\PSoC5/RTD.c ****     {
+ 141:Generated_Source\PSoC5/RTD.c ****         /* Temperature below 0 degrees C */
+ 142:Generated_Source\PSoC5/RTD.c ****         res = res << (RTD_IN_NORMALIZATION - RTD_NEG_INPUT_SCALE);
+ 164              		.loc 1 142 0
+ 165 005e 7D01     		lsls	r5, r7, #5
+ 166              	.LVL24:
+ 122:Generated_Source\PSoC5/RTD.c **** 
+ 167              		.loc 1 122 0
+ 168 0060 0020     		movs	r0, #0
+ 143:Generated_Source\PSoC5/RTD.c **** 
+ 144:Generated_Source\PSoC5/RTD.c ****         for (i = RTD_ORDER_NEG - 1u; i > 0u; i--)
+ 169              		.loc 1 144 0
+ 170 0062 0524     		movs	r4, #5
+ 171 0064 0AE0     		b	.L10
+ 172              	.LVL25:
+ 173              	.L11:
+ 145:Generated_Source\PSoC5/RTD.c ****         {
+ 146:Generated_Source\PSoC5/RTD.c ****             temp = RTD_MultShift24((RTD_coeffNeg[i] + temp), res);
+ 174              		.loc 1 146 0 discriminator 3
+ 175 0066 0CAB     		add	r3, sp, #48
+ 176 0068 03EB8403 		add	r3, r3, r4, lsl #2
+ 177 006c 53F8303C 		ldr	r3, [r3, #-48]
+ 178 0070 2946     		mov	r1, r5
+ 179 0072 1844     		add	r0, r0, r3
+ 180              	.LVL26:
+ 181 0074 FFF7FEFF 		bl	RTD_MultShift24
+ 182              	.LVL27:
+ 144:Generated_Source\PSoC5/RTD.c ****         {
+ 183              		.loc 1 144 0 discriminator 3
+ 184 0078 013C     		subs	r4, r4, #1
+ 185              	.LVL28:
+ 186 007a E4B2     		uxtb	r4, r4
+ 187              	.LVL29:
+ 188              	.L10:
+ 144:Generated_Source\PSoC5/RTD.c ****         {
+ 189              		.loc 1 144 0 is_stmt 0 discriminator 1
+ 190 007c 002C     		cmp	r4, #0
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccLbEvA0.s 			page 7
+
+
+ 191 007e F2D1     		bne	.L11
+ 147:Generated_Source\PSoC5/RTD.c ****         }
+ 148:Generated_Source\PSoC5/RTD.c **** 
+ 149:Generated_Source\PSoC5/RTD.c ****         temp = (int32)((uint32)((uint64)(int32)(temp + RTD_coeffNeg[RTD_FIRST_EL_MAS]) >> 
+ 192              		.loc 1 149 0 is_stmt 1
+ 193 0080 A0F53D00 		sub	r0, r0, #12386304
+ 194              	.LVL30:
+ 195 0084 A0F6FB00 		subw	r0, r0, #2299
+ 196              	.LVL31:
+ 197 0088 C517     		asrs	r5, r0, #31
+ 198              	.LVL32:
+ 199 008a 430A     		lsrs	r3, r0, #9
+ 200 008c 43EAC550 		orr	r0, r3, r5, lsl #23
+ 201              	.LVL33:
+ 202              	.L9:
+ 150:Generated_Source\PSoC5/RTD.c ****                        RTD_NEG_COEFF_SCALE));
+ 151:Generated_Source\PSoC5/RTD.c ****     }
+ 152:Generated_Source\PSoC5/RTD.c ****     return (temp);
+ 153:Generated_Source\PSoC5/RTD.c **** }
+ 203              		.loc 1 153 0
+ 204 0090 0DB0     		add	sp, sp, #52
+ 205              		.cfi_def_cfa_offset 20
+ 206              		@ sp needed
+ 207 0092 F0BD     		pop	{r4, r5, r6, r7, pc}
+ 208              	.LVL34:
+ 209              	.L14:
+ 210              		.align	2
+ 211              	.L13:
+ 212 0094 00000000 		.word	.LANCHOR0
+ 213 0098 A0860100 		.word	100000
+ 214 009c 917CFBFC 		.word	-50627439
+ 215              		.cfi_endproc
+ 216              	.LFE1:
+ 217              		.size	RTD_GetTemperature, .-RTD_GetTemperature
+ 218              		.section	.rodata
+ 219              		.align	2
+ 220              		.set	.LANCHOR0,. + 0
+ 221              	.LC0:
+ 222 0000 917CFBFC 		.word	-50627439
+ 223 0004 F3FF520F 		.word	257097715
+ 224 0008 A1294402 		.word	38021537
+ 225 000c 7E39F201 		.word	32651646
+ 226 0010 33C5DCFE 		.word	-19086029
+ 227 0014 58C72C01 		.word	19711832
+ 228              	.LC1:
+ 229 0018 05F742FF 		.word	-12388603
+ 230 001c 2ADF8C03 		.word	59563818
+ 231 0020 65B74202 		.word	37926757
+ 232 0024 674D36FD 		.word	-46772889
+ 233 0028 74B3E5FB 		.word	-68832396
+ 234 002c E2C9030F 		.word	251906530
+ 235              		.text
+ 236              	.Letext0:
+ 237              		.file 2 "Generated_Source\\PSoC5\\cytypes.h"
+ 238              		.section	.debug_info,"",%progbits
+ 239              	.Ldebug_info0:
+ 240 0000 B3010000 		.4byte	0x1b3
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccLbEvA0.s 			page 8
+
+
+ 241 0004 0400     		.2byte	0x4
+ 242 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 243 000a 04       		.byte	0x4
+ 244 000b 01       		.uleb128 0x1
+ 245 000c 2E000000 		.4byte	.LASF25
+ 246 0010 0C       		.byte	0xc
+ 247 0011 2C020000 		.4byte	.LASF26
+ 248 0015 BC000000 		.4byte	.LASF27
+ 249 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 250 001d 00000000 		.4byte	0
+ 251 0021 00000000 		.4byte	.Ldebug_line0
+ 252 0025 02       		.uleb128 0x2
+ 253 0026 08       		.byte	0x8
+ 254 0027 07       		.byte	0x7
+ 255 0028 94010000 		.4byte	.LASF0
+ 256 002c 02       		.uleb128 0x2
+ 257 002d 04       		.byte	0x4
+ 258 002e 07       		.byte	0x7
+ 259 002f 87010000 		.4byte	.LASF1
+ 260 0033 03       		.uleb128 0x3
+ 261 0034 04       		.byte	0x4
+ 262 0035 05       		.byte	0x5
+ 263 0036 696E7400 		.ascii	"int\000"
+ 264 003a 02       		.uleb128 0x2
+ 265 003b 08       		.byte	0x8
+ 266 003c 05       		.byte	0x5
+ 267 003d C8010000 		.4byte	.LASF2
+ 268 0041 02       		.uleb128 0x2
+ 269 0042 08       		.byte	0x8
+ 270 0043 04       		.byte	0x4
+ 271 0044 14020000 		.4byte	.LASF3
+ 272 0048 02       		.uleb128 0x2
+ 273 0049 01       		.byte	0x1
+ 274 004a 06       		.byte	0x6
+ 275 004b 20020000 		.4byte	.LASF4
+ 276 004f 02       		.uleb128 0x2
+ 277 0050 01       		.byte	0x1
+ 278 0051 08       		.byte	0x8
+ 279 0052 20000000 		.4byte	.LASF5
+ 280 0056 02       		.uleb128 0x2
+ 281 0057 02       		.byte	0x2
+ 282 0058 05       		.byte	0x5
+ 283 0059 E8010000 		.4byte	.LASF6
+ 284 005d 02       		.uleb128 0x2
+ 285 005e 02       		.byte	0x2
+ 286 005f 07       		.byte	0x7
+ 287 0060 07000000 		.4byte	.LASF7
+ 288 0064 02       		.uleb128 0x2
+ 289 0065 04       		.byte	0x4
+ 290 0066 05       		.byte	0x5
+ 291 0067 0B020000 		.4byte	.LASF8
+ 292 006b 02       		.uleb128 0x2
+ 293 006c 04       		.byte	0x4
+ 294 006d 07       		.byte	0x7
+ 295 006e 4C010000 		.4byte	.LASF9
+ 296 0072 02       		.uleb128 0x2
+ 297 0073 04       		.byte	0x4
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccLbEvA0.s 			page 9
+
+
+ 298 0074 07       		.byte	0x7
+ 299 0075 BF010000 		.4byte	.LASF10
+ 300 0079 02       		.uleb128 0x2
+ 301 007a 01       		.byte	0x1
+ 302 007b 08       		.byte	0x8
+ 303 007c E3010000 		.4byte	.LASF11
+ 304 0080 04       		.uleb128 0x4
+ 305 0081 F2010000 		.4byte	.LASF12
+ 306 0085 02       		.byte	0x2
+ 307 0086 9201     		.2byte	0x192
+ 308 0088 4F000000 		.4byte	0x4f
+ 309 008c 04       		.uleb128 0x4
+ 310 008d 80010000 		.4byte	.LASF13
+ 311 0091 02       		.byte	0x2
+ 312 0092 9401     		.2byte	0x194
+ 313 0094 6B000000 		.4byte	0x6b
+ 314 0098 04       		.uleb128 0x4
+ 315 0099 63010000 		.4byte	.LASF14
+ 316 009d 02       		.byte	0x2
+ 317 009e 9701     		.2byte	0x197
+ 318 00a0 64000000 		.4byte	0x64
+ 319 00a4 02       		.uleb128 0x2
+ 320 00a5 04       		.byte	0x4
+ 321 00a6 04       		.byte	0x4
+ 322 00a7 1A000000 		.4byte	.LASF15
+ 323 00ab 02       		.uleb128 0x2
+ 324 00ac 08       		.byte	0x8
+ 325 00ad 04       		.byte	0x4
+ 326 00ae 69010000 		.4byte	.LASF16
+ 327 00b2 04       		.uleb128 0x4
+ 328 00b3 49020000 		.4byte	.LASF17
+ 329 00b7 02       		.byte	0x2
+ 330 00b8 9D01     		.2byte	0x19d
+ 331 00ba 3A000000 		.4byte	0x3a
+ 332 00be 04       		.uleb128 0x4
+ 333 00bf 00000000 		.4byte	.LASF18
+ 334 00c3 02       		.byte	0x2
+ 335 00c4 9E01     		.2byte	0x19e
+ 336 00c6 25000000 		.4byte	0x25
+ 337 00ca 05       		.uleb128 0x5
+ 338 00cb 70010000 		.4byte	.LASF19
+ 339 00cf 01       		.byte	0x1
+ 340 00d0 27       		.byte	0x27
+ 341 00d1 98000000 		.4byte	0x98
+ 342 00d5 00000000 		.4byte	.LFB0
+ 343 00d9 30000000 		.4byte	.LFE0-.LFB0
+ 344 00dd 01       		.uleb128 0x1
+ 345 00de 9C       		.byte	0x9c
+ 346 00df 11010000 		.4byte	0x111
+ 347 00e3 06       		.uleb128 0x6
+ 348 00e4 6F703100 		.ascii	"op1\000"
+ 349 00e8 01       		.byte	0x1
+ 350 00e9 27       		.byte	0x27
+ 351 00ea 98000000 		.4byte	0x98
+ 352 00ee 00000000 		.4byte	.LLST0
+ 353 00f2 06       		.uleb128 0x6
+ 354 00f3 6F703200 		.ascii	"op2\000"
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccLbEvA0.s 			page 10
+
+
+ 355 00f7 01       		.byte	0x1
+ 356 00f8 27       		.byte	0x27
+ 357 00f9 8C000000 		.4byte	0x8c
+ 358 00fd 21000000 		.4byte	.LLST1
+ 359 0101 07       		.uleb128 0x7
+ 360 0102 AB010000 		.4byte	.LASF21
+ 361 0106 01       		.byte	0x1
+ 362 0107 29       		.byte	0x29
+ 363 0108 B2000000 		.4byte	0xb2
+ 364 010c 4D000000 		.4byte	.LLST2
+ 365 0110 00       		.byte	0
+ 366 0111 05       		.uleb128 0x5
+ 367 0112 F8010000 		.4byte	.LASF20
+ 368 0116 01       		.byte	0x1
+ 369 0117 4A       		.byte	0x4a
+ 370 0118 98000000 		.4byte	0x98
+ 371 011c 00000000 		.4byte	.LFB1
+ 372 0120 A0000000 		.4byte	.LFE1-.LFB1
+ 373 0124 01       		.uleb128 0x1
+ 374 0125 9C       		.byte	0x9c
+ 375 0126 97010000 		.4byte	0x197
+ 376 012a 06       		.uleb128 0x6
+ 377 012b 72657300 		.ascii	"res\000"
+ 378 012f 01       		.byte	0x1
+ 379 0130 4A       		.byte	0x4a
+ 380 0131 8C000000 		.4byte	0x8c
+ 381 0135 DE000000 		.4byte	.LLST3
+ 382 0139 08       		.uleb128 0x8
+ 383 013a D6010000 		.4byte	.LASF22
+ 384 013e 01       		.byte	0x1
+ 385 013f 76       		.byte	0x76
+ 386 0140 AC010000 		.4byte	0x1ac
+ 387 0144 02       		.uleb128 0x2
+ 388 0145 91       		.byte	0x91
+ 389 0146 50       		.sleb128 -48
+ 390 0147 08       		.uleb128 0x8
+ 391 0148 B2010000 		.4byte	.LASF23
+ 392 014c 01       		.byte	0x1
+ 393 014d 77       		.byte	0x77
+ 394 014e B1010000 		.4byte	0x1b1
+ 395 0152 03       		.uleb128 0x3
+ 396 0153 91       		.byte	0x91
+ 397 0154 B87F     		.sleb128 -72
+ 398 0156 09       		.uleb128 0x9
+ 399 0157 6900     		.ascii	"i\000"
+ 400 0159 01       		.byte	0x1
+ 401 015a 79       		.byte	0x79
+ 402 015b 80000000 		.4byte	0x80
+ 403 015f 2C010000 		.4byte	.LLST4
+ 404 0163 07       		.uleb128 0x7
+ 405 0164 5E010000 		.4byte	.LASF24
+ 406 0168 01       		.byte	0x1
+ 407 0169 7A       		.byte	0x7a
+ 408 016a 98000000 		.4byte	0x98
+ 409 016e 78010000 		.4byte	.LLST5
+ 410 0172 0A       		.uleb128 0xa
+ 411 0173 48000000 		.4byte	.LVL19
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccLbEvA0.s 			page 11
+
+
+ 412 0177 CA000000 		.4byte	0xca
+ 413 017b 86010000 		.4byte	0x186
+ 414 017f 0B       		.uleb128 0xb
+ 415 0180 01       		.uleb128 0x1
+ 416 0181 51       		.byte	0x51
+ 417 0182 02       		.uleb128 0x2
+ 418 0183 75       		.byte	0x75
+ 419 0184 00       		.sleb128 0
+ 420 0185 00       		.byte	0
+ 421 0186 0C       		.uleb128 0xc
+ 422 0187 78000000 		.4byte	.LVL27
+ 423 018b CA000000 		.4byte	0xca
+ 424 018f 0B       		.uleb128 0xb
+ 425 0190 01       		.uleb128 0x1
+ 426 0191 51       		.byte	0x51
+ 427 0192 02       		.uleb128 0x2
+ 428 0193 75       		.byte	0x75
+ 429 0194 00       		.sleb128 0
+ 430 0195 00       		.byte	0
+ 431 0196 00       		.byte	0
+ 432 0197 0D       		.uleb128 0xd
+ 433 0198 A7010000 		.4byte	0x1a7
+ 434 019c A7010000 		.4byte	0x1a7
+ 435 01a0 0E       		.uleb128 0xe
+ 436 01a1 72000000 		.4byte	0x72
+ 437 01a5 05       		.byte	0x5
+ 438 01a6 00       		.byte	0
+ 439 01a7 0F       		.uleb128 0xf
+ 440 01a8 98000000 		.4byte	0x98
+ 441 01ac 0F       		.uleb128 0xf
+ 442 01ad 97010000 		.4byte	0x197
+ 443 01b1 0F       		.uleb128 0xf
+ 444 01b2 97010000 		.4byte	0x197
+ 445 01b6 00       		.byte	0
+ 446              		.section	.debug_abbrev,"",%progbits
+ 447              	.Ldebug_abbrev0:
+ 448 0000 01       		.uleb128 0x1
+ 449 0001 11       		.uleb128 0x11
+ 450 0002 01       		.byte	0x1
+ 451 0003 25       		.uleb128 0x25
+ 452 0004 0E       		.uleb128 0xe
+ 453 0005 13       		.uleb128 0x13
+ 454 0006 0B       		.uleb128 0xb
+ 455 0007 03       		.uleb128 0x3
+ 456 0008 0E       		.uleb128 0xe
+ 457 0009 1B       		.uleb128 0x1b
+ 458 000a 0E       		.uleb128 0xe
+ 459 000b 55       		.uleb128 0x55
+ 460 000c 17       		.uleb128 0x17
+ 461 000d 11       		.uleb128 0x11
+ 462 000e 01       		.uleb128 0x1
+ 463 000f 10       		.uleb128 0x10
+ 464 0010 17       		.uleb128 0x17
+ 465 0011 00       		.byte	0
+ 466 0012 00       		.byte	0
+ 467 0013 02       		.uleb128 0x2
+ 468 0014 24       		.uleb128 0x24
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccLbEvA0.s 			page 12
+
+
+ 469 0015 00       		.byte	0
+ 470 0016 0B       		.uleb128 0xb
+ 471 0017 0B       		.uleb128 0xb
+ 472 0018 3E       		.uleb128 0x3e
+ 473 0019 0B       		.uleb128 0xb
+ 474 001a 03       		.uleb128 0x3
+ 475 001b 0E       		.uleb128 0xe
+ 476 001c 00       		.byte	0
+ 477 001d 00       		.byte	0
+ 478 001e 03       		.uleb128 0x3
+ 479 001f 24       		.uleb128 0x24
+ 480 0020 00       		.byte	0
+ 481 0021 0B       		.uleb128 0xb
+ 482 0022 0B       		.uleb128 0xb
+ 483 0023 3E       		.uleb128 0x3e
+ 484 0024 0B       		.uleb128 0xb
+ 485 0025 03       		.uleb128 0x3
+ 486 0026 08       		.uleb128 0x8
+ 487 0027 00       		.byte	0
+ 488 0028 00       		.byte	0
+ 489 0029 04       		.uleb128 0x4
+ 490 002a 16       		.uleb128 0x16
+ 491 002b 00       		.byte	0
+ 492 002c 03       		.uleb128 0x3
+ 493 002d 0E       		.uleb128 0xe
+ 494 002e 3A       		.uleb128 0x3a
+ 495 002f 0B       		.uleb128 0xb
+ 496 0030 3B       		.uleb128 0x3b
+ 497 0031 05       		.uleb128 0x5
+ 498 0032 49       		.uleb128 0x49
+ 499 0033 13       		.uleb128 0x13
+ 500 0034 00       		.byte	0
+ 501 0035 00       		.byte	0
+ 502 0036 05       		.uleb128 0x5
+ 503 0037 2E       		.uleb128 0x2e
+ 504 0038 01       		.byte	0x1
+ 505 0039 3F       		.uleb128 0x3f
+ 506 003a 19       		.uleb128 0x19
+ 507 003b 03       		.uleb128 0x3
+ 508 003c 0E       		.uleb128 0xe
+ 509 003d 3A       		.uleb128 0x3a
+ 510 003e 0B       		.uleb128 0xb
+ 511 003f 3B       		.uleb128 0x3b
+ 512 0040 0B       		.uleb128 0xb
+ 513 0041 27       		.uleb128 0x27
+ 514 0042 19       		.uleb128 0x19
+ 515 0043 49       		.uleb128 0x49
+ 516 0044 13       		.uleb128 0x13
+ 517 0045 11       		.uleb128 0x11
+ 518 0046 01       		.uleb128 0x1
+ 519 0047 12       		.uleb128 0x12
+ 520 0048 06       		.uleb128 0x6
+ 521 0049 40       		.uleb128 0x40
+ 522 004a 18       		.uleb128 0x18
+ 523 004b 9742     		.uleb128 0x2117
+ 524 004d 19       		.uleb128 0x19
+ 525 004e 01       		.uleb128 0x1
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccLbEvA0.s 			page 13
+
+
+ 526 004f 13       		.uleb128 0x13
+ 527 0050 00       		.byte	0
+ 528 0051 00       		.byte	0
+ 529 0052 06       		.uleb128 0x6
+ 530 0053 05       		.uleb128 0x5
+ 531 0054 00       		.byte	0
+ 532 0055 03       		.uleb128 0x3
+ 533 0056 08       		.uleb128 0x8
+ 534 0057 3A       		.uleb128 0x3a
+ 535 0058 0B       		.uleb128 0xb
+ 536 0059 3B       		.uleb128 0x3b
+ 537 005a 0B       		.uleb128 0xb
+ 538 005b 49       		.uleb128 0x49
+ 539 005c 13       		.uleb128 0x13
+ 540 005d 02       		.uleb128 0x2
+ 541 005e 17       		.uleb128 0x17
+ 542 005f 00       		.byte	0
+ 543 0060 00       		.byte	0
+ 544 0061 07       		.uleb128 0x7
+ 545 0062 34       		.uleb128 0x34
+ 546 0063 00       		.byte	0
+ 547 0064 03       		.uleb128 0x3
+ 548 0065 0E       		.uleb128 0xe
+ 549 0066 3A       		.uleb128 0x3a
+ 550 0067 0B       		.uleb128 0xb
+ 551 0068 3B       		.uleb128 0x3b
+ 552 0069 0B       		.uleb128 0xb
+ 553 006a 49       		.uleb128 0x49
+ 554 006b 13       		.uleb128 0x13
+ 555 006c 02       		.uleb128 0x2
+ 556 006d 17       		.uleb128 0x17
+ 557 006e 00       		.byte	0
+ 558 006f 00       		.byte	0
+ 559 0070 08       		.uleb128 0x8
+ 560 0071 34       		.uleb128 0x34
+ 561 0072 00       		.byte	0
+ 562 0073 03       		.uleb128 0x3
+ 563 0074 0E       		.uleb128 0xe
+ 564 0075 3A       		.uleb128 0x3a
+ 565 0076 0B       		.uleb128 0xb
+ 566 0077 3B       		.uleb128 0x3b
+ 567 0078 0B       		.uleb128 0xb
+ 568 0079 49       		.uleb128 0x49
+ 569 007a 13       		.uleb128 0x13
+ 570 007b 02       		.uleb128 0x2
+ 571 007c 18       		.uleb128 0x18
+ 572 007d 00       		.byte	0
+ 573 007e 00       		.byte	0
+ 574 007f 09       		.uleb128 0x9
+ 575 0080 34       		.uleb128 0x34
+ 576 0081 00       		.byte	0
+ 577 0082 03       		.uleb128 0x3
+ 578 0083 08       		.uleb128 0x8
+ 579 0084 3A       		.uleb128 0x3a
+ 580 0085 0B       		.uleb128 0xb
+ 581 0086 3B       		.uleb128 0x3b
+ 582 0087 0B       		.uleb128 0xb
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccLbEvA0.s 			page 14
+
+
+ 583 0088 49       		.uleb128 0x49
+ 584 0089 13       		.uleb128 0x13
+ 585 008a 02       		.uleb128 0x2
+ 586 008b 17       		.uleb128 0x17
+ 587 008c 00       		.byte	0
+ 588 008d 00       		.byte	0
+ 589 008e 0A       		.uleb128 0xa
+ 590 008f 898201   		.uleb128 0x4109
+ 591 0092 01       		.byte	0x1
+ 592 0093 11       		.uleb128 0x11
+ 593 0094 01       		.uleb128 0x1
+ 594 0095 31       		.uleb128 0x31
+ 595 0096 13       		.uleb128 0x13
+ 596 0097 01       		.uleb128 0x1
+ 597 0098 13       		.uleb128 0x13
+ 598 0099 00       		.byte	0
+ 599 009a 00       		.byte	0
+ 600 009b 0B       		.uleb128 0xb
+ 601 009c 8A8201   		.uleb128 0x410a
+ 602 009f 00       		.byte	0
+ 603 00a0 02       		.uleb128 0x2
+ 604 00a1 18       		.uleb128 0x18
+ 605 00a2 9142     		.uleb128 0x2111
+ 606 00a4 18       		.uleb128 0x18
+ 607 00a5 00       		.byte	0
+ 608 00a6 00       		.byte	0
+ 609 00a7 0C       		.uleb128 0xc
+ 610 00a8 898201   		.uleb128 0x4109
+ 611 00ab 01       		.byte	0x1
+ 612 00ac 11       		.uleb128 0x11
+ 613 00ad 01       		.uleb128 0x1
+ 614 00ae 31       		.uleb128 0x31
+ 615 00af 13       		.uleb128 0x13
+ 616 00b0 00       		.byte	0
+ 617 00b1 00       		.byte	0
+ 618 00b2 0D       		.uleb128 0xd
+ 619 00b3 01       		.uleb128 0x1
+ 620 00b4 01       		.byte	0x1
+ 621 00b5 49       		.uleb128 0x49
+ 622 00b6 13       		.uleb128 0x13
+ 623 00b7 01       		.uleb128 0x1
+ 624 00b8 13       		.uleb128 0x13
+ 625 00b9 00       		.byte	0
+ 626 00ba 00       		.byte	0
+ 627 00bb 0E       		.uleb128 0xe
+ 628 00bc 21       		.uleb128 0x21
+ 629 00bd 00       		.byte	0
+ 630 00be 49       		.uleb128 0x49
+ 631 00bf 13       		.uleb128 0x13
+ 632 00c0 2F       		.uleb128 0x2f
+ 633 00c1 0B       		.uleb128 0xb
+ 634 00c2 00       		.byte	0
+ 635 00c3 00       		.byte	0
+ 636 00c4 0F       		.uleb128 0xf
+ 637 00c5 26       		.uleb128 0x26
+ 638 00c6 00       		.byte	0
+ 639 00c7 49       		.uleb128 0x49
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccLbEvA0.s 			page 15
+
+
+ 640 00c8 13       		.uleb128 0x13
+ 641 00c9 00       		.byte	0
+ 642 00ca 00       		.byte	0
+ 643 00cb 00       		.byte	0
+ 644              		.section	.debug_loc,"",%progbits
+ 645              	.Ldebug_loc0:
+ 646              	.LLST0:
+ 647 0000 00000000 		.4byte	.LVL0
+ 648 0004 0A000000 		.4byte	.LVL2
+ 649 0008 0100     		.2byte	0x1
+ 650 000a 50       		.byte	0x50
+ 651 000b 0A000000 		.4byte	.LVL2
+ 652 000f 30000000 		.4byte	.LFE0
+ 653 0013 0400     		.2byte	0x4
+ 654 0015 F3       		.byte	0xf3
+ 655 0016 01       		.uleb128 0x1
+ 656 0017 50       		.byte	0x50
+ 657 0018 9F       		.byte	0x9f
+ 658 0019 00000000 		.4byte	0
+ 659 001d 00000000 		.4byte	0
+ 660              	.LLST1:
+ 661 0021 00000000 		.4byte	.LVL0
+ 662 0025 0E000000 		.4byte	.LVL3
+ 663 0029 0100     		.2byte	0x1
+ 664 002b 51       		.byte	0x51
+ 665 002c 0E000000 		.4byte	.LVL3
+ 666 0030 14000000 		.4byte	.LVL4
+ 667 0034 0100     		.2byte	0x1
+ 668 0036 53       		.byte	0x53
+ 669 0037 14000000 		.4byte	.LVL4
+ 670 003b 30000000 		.4byte	.LFE0
+ 671 003f 0400     		.2byte	0x4
+ 672 0041 F3       		.byte	0xf3
+ 673 0042 01       		.uleb128 0x1
+ 674 0043 51       		.byte	0x51
+ 675 0044 9F       		.byte	0x9f
+ 676 0045 00000000 		.4byte	0
+ 677 0049 00000000 		.4byte	0
+ 678              	.LLST2:
+ 679 004d 04000000 		.4byte	.LVL1
+ 680 0051 0E000000 		.4byte	.LVL3
+ 681 0055 0A00     		.2byte	0xa
+ 682 0057 9E       		.byte	0x9e
+ 683 0058 08       		.uleb128 0x8
+ 684 0059 00000000 		.8byte	0
+ 684      00000000 
+ 685 0061 0E000000 		.4byte	.LVL3
+ 686 0065 18000000 		.4byte	.LVL5
+ 687 0069 0600     		.2byte	0x6
+ 688 006b 50       		.byte	0x50
+ 689 006c 93       		.byte	0x93
+ 690 006d 04       		.uleb128 0x4
+ 691 006e 51       		.byte	0x51
+ 692 006f 93       		.byte	0x93
+ 693 0070 04       		.uleb128 0x4
+ 694 0071 18000000 		.4byte	.LVL5
+ 695 0075 1C000000 		.4byte	.LVL6
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccLbEvA0.s 			page 16
+
+
+ 696 0079 1000     		.2byte	0x10
+ 697 007b F3       		.byte	0xf3
+ 698 007c 01       		.uleb128 0x1
+ 699 007d 50       		.byte	0x50
+ 700 007e F7       		.byte	0xf7
+ 701 007f 2C       		.uleb128 0x2c
+ 702 0080 F7       		.byte	0xf7
+ 703 0081 25       		.uleb128 0x25
+ 704 0082 F3       		.byte	0xf3
+ 705 0083 01       		.uleb128 0x1
+ 706 0084 51       		.byte	0x51
+ 707 0085 F7       		.byte	0xf7
+ 708 0086 2C       		.uleb128 0x2c
+ 709 0087 F7       		.byte	0xf7
+ 710 0088 25       		.uleb128 0x25
+ 711 0089 1E       		.byte	0x1e
+ 712 008a 9F       		.byte	0x9f
+ 713 008b 1C000000 		.4byte	.LVL6
+ 714 008f 1E000000 		.4byte	.LVL7
+ 715 0093 0600     		.2byte	0x6
+ 716 0095 50       		.byte	0x50
+ 717 0096 93       		.byte	0x93
+ 718 0097 04       		.uleb128 0x4
+ 719 0098 51       		.byte	0x51
+ 720 0099 93       		.byte	0x93
+ 721 009a 04       		.uleb128 0x4
+ 722 009b 22000000 		.4byte	.LVL8
+ 723 009f 24000000 		.4byte	.LVL9
+ 724 00a3 0700     		.2byte	0x7
+ 725 00a5 70       		.byte	0x70
+ 726 00a6 00       		.sleb128 0
+ 727 00a7 F7       		.byte	0xf7
+ 728 00a8 33       		.uleb128 0x33
+ 729 00a9 F7       		.byte	0xf7
+ 730 00aa 25       		.uleb128 0x25
+ 731 00ab 9F       		.byte	0x9f
+ 732 00ac 26000000 		.4byte	.LVL10
+ 733 00b0 28000000 		.4byte	.LVL11
+ 734 00b4 0600     		.2byte	0x6
+ 735 00b6 50       		.byte	0x50
+ 736 00b7 93       		.byte	0x93
+ 737 00b8 04       		.uleb128 0x4
+ 738 00b9 51       		.byte	0x51
+ 739 00ba 93       		.byte	0x93
+ 740 00bb 04       		.uleb128 0x4
+ 741 00bc 28000000 		.4byte	.LVL11
+ 742 00c0 2C000000 		.4byte	.LVL12
+ 743 00c4 1000     		.2byte	0x10
+ 744 00c6 F3       		.byte	0xf3
+ 745 00c7 01       		.uleb128 0x1
+ 746 00c8 50       		.byte	0x50
+ 747 00c9 F7       		.byte	0xf7
+ 748 00ca 2C       		.uleb128 0x2c
+ 749 00cb F7       		.byte	0xf7
+ 750 00cc 25       		.uleb128 0x25
+ 751 00cd F3       		.byte	0xf3
+ 752 00ce 01       		.uleb128 0x1
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccLbEvA0.s 			page 17
+
+
+ 753 00cf 51       		.byte	0x51
+ 754 00d0 F7       		.byte	0xf7
+ 755 00d1 2C       		.uleb128 0x2c
+ 756 00d2 F7       		.byte	0xf7
+ 757 00d3 25       		.uleb128 0x25
+ 758 00d4 1E       		.byte	0x1e
+ 759 00d5 9F       		.byte	0x9f
+ 760 00d6 00000000 		.4byte	0
+ 761 00da 00000000 		.4byte	0
+ 762              	.LLST3:
+ 763 00de 00000000 		.4byte	.LVL13
+ 764 00e2 0E000000 		.4byte	.LVL14
+ 765 00e6 0100     		.2byte	0x1
+ 766 00e8 50       		.byte	0x50
+ 767 00e9 0E000000 		.4byte	.LVL14
+ 768 00ed 30000000 		.4byte	.LVL16
+ 769 00f1 0100     		.2byte	0x1
+ 770 00f3 57       		.byte	0x57
+ 771 00f4 30000000 		.4byte	.LVL16
+ 772 00f8 5E000000 		.4byte	.LVL23
+ 773 00fc 0100     		.2byte	0x1
+ 774 00fe 55       		.byte	0x55
+ 775 00ff 5E000000 		.4byte	.LVL23
+ 776 0103 60000000 		.4byte	.LVL24
+ 777 0107 0100     		.2byte	0x1
+ 778 0109 57       		.byte	0x57
+ 779 010a 60000000 		.4byte	.LVL24
+ 780 010e 8A000000 		.4byte	.LVL32
+ 781 0112 0100     		.2byte	0x1
+ 782 0114 55       		.byte	0x55
+ 783 0115 8A000000 		.4byte	.LVL32
+ 784 0119 90000000 		.4byte	.LVL33
+ 785 011d 0500     		.2byte	0x5
+ 786 011f 77       		.byte	0x77
+ 787 0120 00       		.sleb128 0
+ 788 0121 35       		.byte	0x35
+ 789 0122 24       		.byte	0x24
+ 790 0123 9F       		.byte	0x9f
+ 791 0124 00000000 		.4byte	0
+ 792 0128 00000000 		.4byte	0
+ 793              	.LLST4:
+ 794 012c 30000000 		.4byte	.LVL16
+ 795 0130 36000000 		.4byte	.LVL17
+ 796 0134 0200     		.2byte	0x2
+ 797 0136 35       		.byte	0x35
+ 798 0137 9F       		.byte	0x9f
+ 799 0138 36000000 		.4byte	.LVL17
+ 800 013c 4A000000 		.4byte	.LVL20
+ 801 0140 0100     		.2byte	0x1
+ 802 0142 54       		.byte	0x54
+ 803 0143 4C000000 		.4byte	.LVL21
+ 804 0147 5E000000 		.4byte	.LVL23
+ 805 014b 0100     		.2byte	0x1
+ 806 014d 54       		.byte	0x54
+ 807 014e 60000000 		.4byte	.LVL24
+ 808 0152 66000000 		.4byte	.LVL25
+ 809 0156 0200     		.2byte	0x2
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccLbEvA0.s 			page 18
+
+
+ 810 0158 35       		.byte	0x35
+ 811 0159 9F       		.byte	0x9f
+ 812 015a 66000000 		.4byte	.LVL25
+ 813 015e 7A000000 		.4byte	.LVL28
+ 814 0162 0100     		.2byte	0x1
+ 815 0164 54       		.byte	0x54
+ 816 0165 7C000000 		.4byte	.LVL29
+ 817 0169 94000000 		.4byte	.LVL34
+ 818 016d 0100     		.2byte	0x1
+ 819 016f 54       		.byte	0x54
+ 820 0170 00000000 		.4byte	0
+ 821 0174 00000000 		.4byte	0
+ 822              	.LLST5:
+ 823 0178 28000000 		.4byte	.LVL15
+ 824 017c 36000000 		.4byte	.LVL17
+ 825 0180 0200     		.2byte	0x2
+ 826 0182 30       		.byte	0x30
+ 827 0183 9F       		.byte	0x9f
+ 828 0184 36000000 		.4byte	.LVL17
+ 829 0188 44000000 		.4byte	.LVL18
+ 830 018c 0100     		.2byte	0x1
+ 831 018e 50       		.byte	0x50
+ 832 018f 48000000 		.4byte	.LVL19
+ 833 0193 5E000000 		.4byte	.LVL23
+ 834 0197 0100     		.2byte	0x1
+ 835 0199 50       		.byte	0x50
+ 836 019a 5E000000 		.4byte	.LVL23
+ 837 019e 66000000 		.4byte	.LVL25
+ 838 01a2 0200     		.2byte	0x2
+ 839 01a4 30       		.byte	0x30
+ 840 01a5 9F       		.byte	0x9f
+ 841 01a6 66000000 		.4byte	.LVL25
+ 842 01aa 74000000 		.4byte	.LVL26
+ 843 01ae 0100     		.2byte	0x1
+ 844 01b0 50       		.byte	0x50
+ 845 01b1 78000000 		.4byte	.LVL27
+ 846 01b5 84000000 		.4byte	.LVL30
+ 847 01b9 0100     		.2byte	0x1
+ 848 01bb 50       		.byte	0x50
+ 849 01bc 84000000 		.4byte	.LVL30
+ 850 01c0 88000000 		.4byte	.LVL31
+ 851 01c4 0600     		.2byte	0x6
+ 852 01c6 70       		.byte	0x70
+ 853 01c7 8080F405 		.sleb128 12386304
+ 854 01cb 9F       		.byte	0x9f
+ 855 01cc 88000000 		.4byte	.LVL31
+ 856 01d0 90000000 		.4byte	.LVL33
+ 857 01d4 0600     		.2byte	0x6
+ 858 01d6 70       		.byte	0x70
+ 859 01d7 FB91F405 		.sleb128 12388603
+ 860 01db 9F       		.byte	0x9f
+ 861 01dc 90000000 		.4byte	.LVL33
+ 862 01e0 A0000000 		.4byte	.LFE1
+ 863 01e4 0100     		.2byte	0x1
+ 864 01e6 50       		.byte	0x50
+ 865 01e7 00000000 		.4byte	0
+ 866 01eb 00000000 		.4byte	0
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccLbEvA0.s 			page 19
+
+
+ 867              		.section	.debug_aranges,"",%progbits
+ 868 0000 24000000 		.4byte	0x24
+ 869 0004 0200     		.2byte	0x2
+ 870 0006 00000000 		.4byte	.Ldebug_info0
+ 871 000a 04       		.byte	0x4
+ 872 000b 00       		.byte	0
+ 873 000c 0000     		.2byte	0
+ 874 000e 0000     		.2byte	0
+ 875 0010 00000000 		.4byte	.LFB0
+ 876 0014 30000000 		.4byte	.LFE0-.LFB0
+ 877 0018 00000000 		.4byte	.LFB1
+ 878 001c A0000000 		.4byte	.LFE1-.LFB1
+ 879 0020 00000000 		.4byte	0
+ 880 0024 00000000 		.4byte	0
+ 881              		.section	.debug_ranges,"",%progbits
+ 882              	.Ldebug_ranges0:
+ 883 0000 00000000 		.4byte	.LFB0
+ 884 0004 30000000 		.4byte	.LFE0
+ 885 0008 00000000 		.4byte	.LFB1
+ 886 000c A0000000 		.4byte	.LFE1
+ 887 0010 00000000 		.4byte	0
+ 888 0014 00000000 		.4byte	0
+ 889              		.section	.debug_line,"",%progbits
+ 890              	.Ldebug_line0:
+ 891 0000 A2000000 		.section	.debug_str,"MS",%progbits,1
+ 891      02004000 
+ 891      00000201 
+ 891      FB0E0D00 
+ 891      01010101 
+ 892              	.LASF18:
+ 893 0000 75696E74 		.ascii	"uint64\000"
+ 893      363400
+ 894              	.LASF7:
+ 895 0007 73686F72 		.ascii	"short unsigned int\000"
+ 895      7420756E 
+ 895      7369676E 
+ 895      65642069 
+ 895      6E7400
+ 896              	.LASF15:
+ 897 001a 666C6F61 		.ascii	"float\000"
+ 897      7400
+ 898              	.LASF5:
+ 899 0020 756E7369 		.ascii	"unsigned char\000"
+ 899      676E6564 
+ 899      20636861 
+ 899      7200
+ 900              	.LASF25:
+ 901 002e 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 901      43313120 
+ 901      352E342E 
+ 901      31203230 
+ 901      31363036 
+ 902 0061 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 902      20726576 
+ 902      6973696F 
+ 902      6E203233 
+ 902      37373135 
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccLbEvA0.s 			page 20
+
+
+ 903 0094 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ 903      66756E63 
+ 903      74696F6E 
+ 903      2D736563 
+ 903      74696F6E 
+ 904              	.LASF27:
+ 905 00bc 443A5C4C 		.ascii	"D:\\Laboratorio\\Camara Climatica\\2020\\Camara Cli"
+ 905      61626F72 
+ 905      61746F72 
+ 905      696F5C43 
+ 905      616D6172 
+ 906 00eb 6D617469 		.ascii	"matica Peltier Touch Avantika 330L #004588406 OP202"
+ 906      63612050 
+ 906      656C7469 
+ 906      65722054 
+ 906      6F756368 
+ 907 011e 30333233 		.ascii	"0323\\Firmware Psoc\\LCD2\\CamaraClimatica.cydsn\000"
+ 907      5C466972 
+ 907      6D776172 
+ 907      65205073 
+ 907      6F635C4C 
+ 908              	.LASF9:
+ 909 014c 6C6F6E67 		.ascii	"long unsigned int\000"
+ 909      20756E73 
+ 909      69676E65 
+ 909      6420696E 
+ 909      7400
+ 910              	.LASF24:
+ 911 015e 74656D70 		.ascii	"temp\000"
+ 911      00
+ 912              	.LASF14:
+ 913 0163 696E7433 		.ascii	"int32\000"
+ 913      3200
+ 914              	.LASF16:
+ 915 0169 646F7562 		.ascii	"double\000"
+ 915      6C6500
+ 916              	.LASF19:
+ 917 0170 5254445F 		.ascii	"RTD_MultShift24\000"
+ 917      4D756C74 
+ 917      53686966 
+ 917      74323400 
+ 918              	.LASF13:
+ 919 0180 75696E74 		.ascii	"uint32\000"
+ 919      333200
+ 920              	.LASF1:
+ 921 0187 756E7369 		.ascii	"unsigned int\000"
+ 921      676E6564 
+ 921      20696E74 
+ 921      00
+ 922              	.LASF0:
+ 923 0194 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 923      206C6F6E 
+ 923      6720756E 
+ 923      7369676E 
+ 923      65642069 
+ 924              	.LASF21:
+ 925 01ab 72657375 		.ascii	"result\000"
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccLbEvA0.s 			page 21
+
+
+ 925      6C7400
+ 926              	.LASF23:
+ 927 01b2 5254445F 		.ascii	"RTD_coeffNeg\000"
+ 927      636F6566 
+ 927      664E6567 
+ 927      00
+ 928              	.LASF10:
+ 929 01bf 73697A65 		.ascii	"sizetype\000"
+ 929      74797065 
+ 929      00
+ 930              	.LASF2:
+ 931 01c8 6C6F6E67 		.ascii	"long long int\000"
+ 931      206C6F6E 
+ 931      6720696E 
+ 931      7400
+ 932              	.LASF22:
+ 933 01d6 5254445F 		.ascii	"RTD_coeffPos\000"
+ 933      636F6566 
+ 933      66506F73 
+ 933      00
+ 934              	.LASF11:
+ 935 01e3 63686172 		.ascii	"char\000"
+ 935      00
+ 936              	.LASF6:
+ 937 01e8 73686F72 		.ascii	"short int\000"
+ 937      7420696E 
+ 937      7400
+ 938              	.LASF12:
+ 939 01f2 75696E74 		.ascii	"uint8\000"
+ 939      3800
+ 940              	.LASF20:
+ 941 01f8 5254445F 		.ascii	"RTD_GetTemperature\000"
+ 941      47657454 
+ 941      656D7065 
+ 941      72617475 
+ 941      726500
+ 942              	.LASF8:
+ 943 020b 6C6F6E67 		.ascii	"long int\000"
+ 943      20696E74 
+ 943      00
+ 944              	.LASF3:
+ 945 0214 6C6F6E67 		.ascii	"long double\000"
+ 945      20646F75 
+ 945      626C6500 
+ 946              	.LASF4:
+ 947 0220 7369676E 		.ascii	"signed char\000"
+ 947      65642063 
+ 947      68617200 
+ 948              	.LASF26:
+ 949 022c 47656E65 		.ascii	"Generated_Source\\PSoC5\\RTD.c\000"
+ 949      72617465 
+ 949      645F536F 
+ 949      75726365 
+ 949      5C50536F 
+ 950              	.LASF17:
+ 951 0249 696E7436 		.ascii	"int64\000"
+ 951      3400
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccLbEvA0.s 			page 22
+
+
+ 952              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

@@ -1,0 +1,116 @@
+[Directories]
+Include=C:\Program Files (x86)\PICC\Devices\
+Library=
+LinkerScript=
+output=
+
+[defines]
+enabled=0
+chip=1
+D1=
+V1=
+buildcount=15
+
+[fileformats]
+forcecoff=1
+debug=4
+error=2
+object=0
+list=0
+scratch=0
+sta=1
+tre=1
+expandtree=0
+allerrors=1
+allwarnings=1
+stayupne=3
+stayupoe=0
+
+[PROJECT]
+Target=Horno.hex
+Development_Mode=
+Processor_Text=PIC18F4685
+ToolSuite=CCS
+CCSVersion=5.059
+Compiler=PCH
+
+[Target Data]
+BuildTool=C-COMPILER
+OptionString=+FM
+AdditionalOptionString=
+BuildRequired=1
+FileList=Horno.c
+
+[Horno.c]
+Type=4
+Path=
+FileList=
+BuildTool=
+OptionString=
+AdditionalOptionString=
+
+[mru-list]
+1=Horno.c
+
+[Windows]
+0=0000 %S 0 0 796 451 3 0
+
+
+[CompilerVersion]
+Fixed=
+
+[Opened Files]
+1=Horno.c
+t1=268
+Count=3
+2=Funciones.h
+t2=509
+3=..\..\Autoclave 23L con Vacio Peru #0045879XX OP2019119\Firmware V4.0\GLCD_Controller\GLCD_Controller.c
+t3=1
+
+[ProjectLog]
+Days=2
+D1=08-11-2017
+D1_L=13
+D1_L1=[22944]Started Editing.
+D1_L2=[23244]Stopped Editing.
+D1_L3=[23248]Started Editing.
+D1_L4=[23474]Stopped Editing.
+TotalEdit=129
+TotalDebug=0
+D1_E=6
+D1_D=0
+D1_L5=[23474]Project Closed.
+D1_L6=[23505]Project Opened.
+D1_L7=[23519]Started Editing.
+D1_L8=[23561]Stopped Editing.
+D1_L9=[23561]Project Closed.
+D1_L10=[27584]Project Opened.
+D1_L11=[27697]Started Editing.
+D1_L12=[28016]Stopped Editing.
+D1_L13=[31672]Project Closed.
+D2=20-10-2019
+D2_L=18
+D2_L1=[71659]Project Opened.
+D2_L2=[71798]Started Editing.
+D2_L3=[73878]Stopped Editing.
+D2_L4=[74170]Started Editing.
+D2_L5=[75954]Stopped Editing.
+D2_L6=[76031]Started Editing.
+D2_L7=[77222]Stopped Editing.
+D2_L8=[77231]Started Editing.
+D2_L9=[77887]Stopped Editing.
+D2_L10=[78095]Started Editing.
+D2_L11=[79981]Stopped Editing.
+D2_L12=[80214]Started Editing.
+D2_L13=[80687]Stopped Editing.
+D2_L14=[80994]Started Editing.
+D2_L15=[82293]Stopped Editing.
+D2_L16=[82319]Started Editing.
+D2_L17=[82425]Stopped Editing.
+D2_E=123
+D2_D=0
+D2_L18=[82425]Project Closed.
+[Units]
+Count=1
+1=Horno (main)

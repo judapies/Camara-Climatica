@@ -1,0 +1,9 @@
+Banda - = 2
+#pulsos = 5000
+Media = 40
+Ajuste - = 0
+Ajuste + = 0
+Tciclo = 10
+Integral = 1
+Derivativo = 25
+Proporcional = 1
