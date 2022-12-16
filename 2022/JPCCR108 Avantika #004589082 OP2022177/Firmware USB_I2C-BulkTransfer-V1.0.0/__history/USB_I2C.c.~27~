@@ -1,0 +1,187 @@
+// Cuatro pulsadores de entrada (Derecha, Izquierda, arriba y abajo).
+// Reloj con XT de 4 MHz.
+// Programación para Autoclave con Calderin
+// Tiene Menú:Ciclo: Liquidos, Instrumental suave, Textil Instrumental y Caucho.
+// Tiene 6 niveles programables para desfogue suave.
+// Ing. Juan David Piñeros.
+// JP Inglobal. 2015
+
+#include <18F2550.h>
+#device adc=10
+#fuses HSPLL,WDT1024,NOPROTECT,NOLVP,NODEBUG,USBDIV,PLL5,CPUDIV1,VREGEN,NOMCLR
+#use delay(clock=48000000)
+//#use RS232(BAUD=19200, BITS=8, PARITY=N, XMIT=PIN_C6, RCV=PIN_C7, stream=printer)
+#use i2c(slave, slow, sda=PIN_B0, scl=PIN_B1, address=0xB0)
+
+#define USB_HID_DEVICE FALSE // deshabilitamos el uso de las directivas HID
+#define USB_EP1_TX_ENABLE USB_ENABLE_BULK // turn on EP1(EndPoint1) for IN bulk/interrupt transfers
+#define USB_EP1_RX_ENABLE USB_ENABLE_BULK // turn on EP1(EndPoint1) for OUT bulk/interrupt transfers
+#define USB_EP1_TX_SIZE 32 // size to allocate for the tx endpoint 1 buffer
+#define USB_EP1_RX_SIZE 32 // size to allocate for the rx endpoint 1 buffer
+#include <pic18_usb.h> // Microchip PIC18Fxx5x Hardware layer for CCS's PIC USB driver
+#include "header.h" // Configuración del USB y los descriptores para este dispositivo
+#include <usb.c> // handles usb setup tokens and get descriptor reports
+const int8 Lenbuf = 32; 
+int8 recbuf[Lenbuf];
+int8 rxubuf[Lenbuf];
+
+#define   LEVEL_L          !input(PIN_A0)
+#define   LEVEL_H          !input(PIN_A1)
+
+#define   SSR1_on          output_bit(PIN_C0,1)
+#define   SSR1_off         output_bit(PIN_C0,0)
+
+#define   SSR2_on          output_bit(PIN_C1,1)
+#define   SSR2_off         output_bit(PIN_C1,0)
+
+#define   Bomba_on          output_bit(PIN_C2,1)
+#define   Bomba_off         output_bit(PIN_C2,0)
+
+// Variables para Pt100
+short conteoLlenado=0
+float d3=0.0;
+float Temperatura=0.0,TempUSB=0.0,Temporal=0.0,Temperatura2=0.0;
+int16 tlevelL=0,tlevelH=0,tLlenado=0,tiempos=0;
+
+byte fstate;                     //Guardara el estado del bus I2C
+byte posicion, buffer[0x20], txbuf[0x20],rxbuf[0x20];     //Buffer de memoria
+
+#INT_SSP
+void ssp_interupt (){
+   int incoming;                //Variable donde se recibe el byte que manda el maestro
+   
+   fstate = i2c_isr_state();    //Lectura del estado del bus I2c la interrupción
+   /* Solicitud de lectura del esclavo por el master */
+   if(fstate == 0x80) {         
+       //Manda al maestro la información contenida en la posición de memoria que le ha solicitado
+      i2c_write (txbuf[posicion]);
+   }else{                              //Sino es que hay dato en el bus I2C...
+      incoming = i2c_read();           //... lo lee
+      if (fState == 1) {          //Información recibida corresponde a la posicion
+         posicion = incoming;          //Se guarda posición
+      }else if (fState == 2) {          //Información recibida corresponde al dato
+         rxbuf[posicion] = incoming;
+      }
+   }
+}
+
+void Lee_Vector(void){
+   if(rxbuf[7]==255 && rxbuf[8]==255 && rxbuf[9]==128){
+      Temporal=(float)rxbuf[1];
+      Temperatura=rxbuf[0];
+      Temperatura=Temperatura+(Temporal/10);
+      Temporal=(float)rxbuf[3];
+      Temperatura2=rxbuf[2];
+      Temperatura2=Temperatura2+(Temporal/10);
+   }
+}
+
+void controlaTemperatura(){
+   if(Temperatura2<((int8)Temperatura-1)){
+      SSR1_off;SSR2_on;//Calienta
+   }else if(Temperatura2>=((int8)Temperatura-1) && Temperatura2<((int8)Temperatura+1)){
+      SSR1_off;SSR2_off;//apaga
+   }else if(Temperatura2>((int8)Temperatura+1)){
+      SSR1_on;SSR2_off;//Enfria
+   }else{
+      SSR1_off;SSR2_off;//Apaga
+   }
+}
+
+#int_TIMER1 
+void temp1s(void){
+   set_timer1(4536); // Se repite cada 5ms 
+   if(LEVEL_L){
+      if(tlevelL<3000)
+         tlevelL++;
+   }else{
+      tlevelL=0;
+   }
+      
+   if(LEVEL_H){
+      if(tlevelH<3000)
+         tlevelH++;
+   }else{
+      tlevelH=0;   
+   }
+   tiempos++;
+   if(tiempos>=200){
+      tiempos=0;
+      if(conteoLlenado){
+         tLlenado++;
+      }else{
+         tLlenado=0;
+      }
+   }
+}
+void main(){
+   fState = 0;
+   for (posicion=0;posicion<0x10;posicion++){
+      buffer[posicion] = 0x00;
+      txbuf[posicion] = 0x00;
+      rxbuf[posicion] = 0x00;
+   }
+   
+   Lee_Vector();
+   enable_interrupts(INT_SSP);
+   setup_timer_1(T1_INTERNAL|T1_DIV_BY_1);
+   enable_interrupts(INT_TIMER1);
+   usb_init();
+   usb_task();
+   setup_wdt(WDT_ON);
+   enable_interrupts(global);
+
+while(true){
+   Lee_Vector();
+   restart_wdt();
+   
+   if(tLevelL>600)
+      controlaTemperatura();
+      
+   if(tLevelL==0){
+      Bomba_on;
+      conteoLlenado=1;
+   }else{
+      if(tlevelH>=600){
+         Bomba_off;
+         conteoLlenado=0;
+      }
+   }
+   
+   if(tLleando>=300){
+      txbuf[0]=10;//Alarma de llenado
+   }else if(tlevelH>=600){
+      txbuf[0]=20;//indicacion de que esta lleno el humidificador
+   }else if(tlevelL>=0){
+      txbuf[0]=30;//indicacion de que esta sin agua el humidificador
+   }
+//_Menu_De_USB--------------------------------------------------------------------------------------------------------------------------------------------    
+if(usb_enumerated()){
+   
+   if(usb_kbhit(1)){
+      usb_get_packet(1, rxubuf, Lenbuf);
+   }
+   
+   TempUSB=Temperatura;
+   recbuf[0]=rxbuf[0];
+   recbuf[1]=120;
+   d3=TempUSB-(int8)TempUSB;
+   d3=d3*10.0;
+   recbuf[2]=rxbuf[1];
+   recbuf[3]=0;
+   recbuf[4]=0;
+   recbuf[5]=0;    
+   recbuf[6]=0;
+   recbuf[7]=0;
+   recbuf[8]=0;
+   recbuf[9]=0;
+   recbuf[10]=0;
+   recbuf[11]=0;     
+   recbuf[13]=0;
+   recbuf[14]=0;
+                
+    usb_put_packet(1, recbuf, Lenbuf, USB_DTS_TOGGLE); //y enviamos el mismo paquete de tamaño 32bytes del EP1 al PC
+}
+//_--------------------------------------------------------------------------------------------------------------------------------------------------------    
+   }
+}

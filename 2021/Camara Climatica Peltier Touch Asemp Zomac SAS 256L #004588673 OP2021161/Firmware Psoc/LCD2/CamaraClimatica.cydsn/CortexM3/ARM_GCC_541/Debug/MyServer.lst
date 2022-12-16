@@ -1,0 +1,3645 @@
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\cczfFPJv.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"MyServer.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.LED_state,"ax",%progbits
+  20              		.align	2
+  21              		.global	LED_state
+  22              		.thumb
+  23              		.thumb_func
+  24              		.type	LED_state, %function
+  25              	LED_state:
+  26              	.LFB64:
+  27              		.file 1 "MyServer.c"
+   1:MyServer.c    **** /* ========================================*/
+   2:MyServer.c    **** 
+   3:MyServer.c    **** //
+   4:MyServer.c    **** //   	HTML-Шпаргалка:    http://ruseller.com/htmlshpora.php?id=52   	Основы HTML   h
+   5:MyServer.c    **** 
+   6:MyServer.c    **** #include <stdio.h>
+   7:MyServer.c    **** #include <stdlib.h>
+   8:MyServer.c    **** #include <funciones.h>
+   9:MyServer.c    **** #include <MyServer.h>
+  10:MyServer.c    **** #define led_on()    { BUZZER_Write(1);}		
+  11:MyServer.c    **** #define led_off()   { BUZZER_Write(0);}	
+  12:MyServer.c    **** 
+  13:MyServer.c    **** // variables
+  14:MyServer.c    **** char lang_ru;  		// Language page
+  15:MyServer.c    **** int counter;		// page update counter
+  16:MyServer.c    **** char str[32];
+  17:MyServer.c    **** //__________________________________________________________________________
+  18:MyServer.c    **** 
+  19:MyServer.c    **** short LED_state (void ){	// LED status monitoring
+  28              		.loc 1 19 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32 0000 08B5     		push	{r3, lr}
+  33              		.cfi_def_cfa_offset 8
+  34              		.cfi_offset 3, -8
+  35              		.cfi_offset 14, -4
+  20:MyServer.c    ****     return !BUZZER_Read();
+  36              		.loc 1 20 0
+  37 0002 FFF7FEFF 		bl	BUZZER_Read
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\cczfFPJv.s 			page 2
+
+
+  38              	.LVL0:
+  21:MyServer.c    **** }	
+  39              		.loc 1 21 0
+  40 0006 B0FA80F0 		clz	r0, r0
+  41 000a 4009     		lsrs	r0, r0, #5
+  42 000c 08BD     		pop	{r3, pc}
+  43              		.cfi_endproc
+  44              	.LFE64:
+  45              		.size	LED_state, .-LED_state
+  46 000e 00BF     		.section	.text.set_param,"ax",%progbits
+  47              		.align	2
+  48              		.global	set_param
+  49              		.thumb
+  50              		.thumb_func
+  51              		.type	set_param, %function
+  52              	set_param:
+  53              	.LFB65:
+  22:MyServer.c    **** 
+  23:MyServer.c    **** char header[] =    
+  24:MyServer.c    **** "<!DOCTYPE html>"
+  25:MyServer.c    **** "<html>"
+  26:MyServer.c    **** "<head>"
+  27:MyServer.c    ****   "<meta charset='UTF-8'>"
+  28:MyServer.c    ****   "<meta name='viewport' content='width=device-width, initial-scale=1.0'>"
+  29:MyServer.c    ****   "<meta http-equiv='X-UA-Compatible' content='ie=edge'>"
+  30:MyServer.c    ****   "<meta http-equiv='refresh' content='15' >"
+  31:MyServer.c    ****   "<title>JP Bioingenieria SAS</title>"
+  32:MyServer.c    **** 
+  33:MyServer.c    ****   "<!-- Bootstrap CSS CDN -->"
+  34:MyServer.c    ****   "<link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.mi
+  35:MyServer.c    **** 
+  36:MyServer.c    ****   "<!-- Font Awesome JS -->"
+  37:MyServer.c    ****   "<script defer src='https://use.fontawesome.com/releases/v5.0.13/js/solid.js' integrity='sha384-t
+  38:MyServer.c    ****   "<script defer src='https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js' integrity='sh
+  39:MyServer.c    **** 
+  40:MyServer.c    ****   "<!--BOOTSTRAP 4 -->"
+  41:MyServer.c    ****   "<link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.c
+  42:MyServer.c    ****     
+  43:MyServer.c    ****   "<style>"
+  44:MyServer.c    ****   "body {"
+  45:MyServer.c    **** 	"background: #0F2027;  /* fallback for old browsers */"
+  46:MyServer.c    **** 	"background: -webkit-linear-gradient(to right, #2C5364, #203A43, #0F2027);  /* Chrome 10-25, Safar
+  47:MyServer.c    **** 	"background: linear-gradient(to right, #2C5364, #203A43, #0F2027); /* W3C, IE 10+/ Edge, Firefox 1
+  48:MyServer.c    ****     "color:white;"
+  49:MyServer.c    ****   "}"
+  50:MyServer.c    ****   "</style>"
+  51:MyServer.c    **** "</head>"
+  52:MyServer.c    ****     "<h2>Camara Climatica JP Inglobal V1.0.0.0</h2>\r\n";
+  53:MyServer.c    **** //__________________________________________________________________________
+  54:MyServer.c    **** // Заголовок странички
+  55:MyServer.c    **** char web_edit_header[] =   "";// "HTTP/1.0 200 OK\r\nContent-Type: text/html; charset=UTF-8\r\n\r\n
+  56:MyServer.c    **** //"<body text='#0000CC' bgcolor='#CCFFFF'>";	  // set color:    http://www.w3schools.com/tags/ref_c
+  57:MyServer.c    **** //__________________________________________________________________________
+  58:MyServer.c    **** 
+  59:MyServer.c    **** // Страничка с ошибкой 404
+  60:MyServer.c    **** char webif_404_reply[] =
+  61:MyServer.c    **** "HTTP/1.0 404 Not Found\r\nContent-Type: text/html; charset=UTF-8\r\n\r\n" 
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\cczfFPJv.s 			page 3
+
+
+  62:MyServer.c    **** "<html><body>"   "<pre>Page not found\r\n\r\n"
+  63:MyServer.c    **** "<a href='/'>Home page</a></pre>\r\n"
+  64:MyServer.c    **** "</body></html>" ; 	// CLOSE PAGE
+  65:MyServer.c    **** //__________________________________________________________________________
+  66:MyServer.c    **** 
+  67:MyServer.c    **** 
+  68:MyServer.c    **** void set_param(char *params, char *p)	// reading and setting the obtained parameters
+  69:MyServer.c    **** {
+  54              		.loc 1 69 0
+  55              		.cfi_startproc
+  56              		@ args = 0, pretend = 0, frame = 0
+  57              		@ frame_needed = 0, uses_anonymous_args = 0
+  58              	.LVL1:
+  59 0000 70B5     		push	{r4, r5, r6, lr}
+  60              		.cfi_def_cfa_offset 16
+  61              		.cfi_offset 4, -16
+  62              		.cfi_offset 5, -12
+  63              		.cfi_offset 6, -8
+  64              		.cfi_offset 14, -4
+  65 0002 0446     		mov	r4, r0
+  70:MyServer.c    **** char *name;   char *value;	
+  71:MyServer.c    **** 
+  72:MyServer.c    **** //*________________________________________________________________________________________________
+  73:MyServer.c    **** 	while(params)	// if detected a question mark   ( ? )
+  66              		.loc 1 73 0
+  67 0004 2AE0     		b	.L4
+  68              	.LVL2:
+  69              	.L9:
+  74:MyServer.c    ****             {
+  75:MyServer.c    **** // looking for where it ends.   symbol "&" - the ampersand is a separator between parameters.
+  76:MyServer.c    ****                 if((p = strchr(params, '&')))
+  70              		.loc 1 76 0
+  71 0006 2621     		movs	r1, #38
+  72 0008 2046     		mov	r0, r4
+  73 000a FFF7FEFF 		bl	strchr
+  74              	.LVL3:
+  75 000e 18B1     		cbz	r0, .L10
+  77:MyServer.c    ****                     *(p++) = 0;	//& replaced by zero ,  p - pointer to the next parameter
+  76              		.loc 1 77 0
+  77 0010 461C     		adds	r6, r0, #1
+  78              	.LVL4:
+  79 0012 0022     		movs	r2, #0
+  80 0014 0270     		strb	r2, [r0]
+  81 0016 00E0     		b	.L5
+  82              	.LVL5:
+  83              	.L10:
+  76:MyServer.c    ****                     *(p++) = 0;	//& replaced by zero ,  p - pointer to the next parameter
+  84              		.loc 1 76 0
+  85 0018 0646     		mov	r6, r0
+  86              	.LVL6:
+  87              	.L5:
+  78:MyServer.c    **** // Parse the parameter name and value on
+  79:MyServer.c    **** 	            name = params;    
+  80:MyServer.c    ****                 
+  81:MyServer.c    ****                 if((value = strchr(name, '=')))
+  88              		.loc 1 81 0
+  89 001a 3D21     		movs	r1, #61
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\cczfFPJv.s 			page 4
+
+
+  90 001c 2046     		mov	r0, r4
+  91 001e FFF7FEFF 		bl	strchr
+  92              	.LVL7:
+  93 0022 18B1     		cbz	r0, .L11
+  82:MyServer.c    ****                     *(value++) = 0;	//  name - 0 - value  
+  94              		.loc 1 82 0
+  95 0024 451C     		adds	r5, r0, #1
+  96              	.LVL8:
+  97 0026 0022     		movs	r2, #0
+  98 0028 0270     		strb	r2, [r0]
+  99 002a 00E0     		b	.L6
+ 100              	.LVL9:
+ 101              	.L11:
+  81:MyServer.c    ****                     *(value++) = 0;	//  name - 0 - value  
+ 102              		.loc 1 81 0
+ 103 002c 0546     		mov	r5, r0
+ 104              	.LVL10:
+ 105              	.L6:
+  83:MyServer.c    **** // params = led (on/off)?
+  84:MyServer.c    ****                 if( (strcmp (name,  ("led")) == 0 ) && value )	// if name = "led"  and value Found 
+ 106              		.loc 1 84 0
+ 107 002e 0D49     		ldr	r1, .L13
+ 108 0030 2046     		mov	r0, r4
+ 109 0032 FFF7FEFF 		bl	strcmp
+ 110              	.LVL11:
+ 111 0036 80B9     		cbnz	r0, .L7
+ 112              		.loc 1 84 0 is_stmt 0 discriminator 1
+ 113 0038 7DB1     		cbz	r5, .L7
+  85:MyServer.c    ****                 {
+  86:MyServer.c    ****                     if(strcmp(value, ("on")) == 0)         		led_off()
+ 114              		.loc 1 86 0 is_stmt 1
+ 115 003a 0B49     		ldr	r1, .L13+4
+ 116 003c 2846     		mov	r0, r5
+ 117 003e FFF7FEFF 		bl	strcmp
+ 118              	.LVL12:
+ 119 0042 10B9     		cbnz	r0, .L8
+ 120              		.loc 1 86 0 is_stmt 0 discriminator 1
+ 121 0044 FFF7FEFF 		bl	BUZZER_Write
+ 122              	.LVL13:
+ 123 0048 07E0     		b	.L7
+ 124              	.L8:
+  87:MyServer.c    ****                     else if(strcmp(value, ("off")) == 0)       	led_on()
+ 125              		.loc 1 87 0 is_stmt 1
+ 126 004a 0849     		ldr	r1, .L13+8
+ 127 004c 2846     		mov	r0, r5
+ 128 004e FFF7FEFF 		bl	strcmp
+ 129              	.LVL14:
+ 130 0052 10B9     		cbnz	r0, .L7
+ 131              		.loc 1 87 0 is_stmt 0 discriminator 1
+ 132 0054 0120     		movs	r0, #1
+ 133 0056 FFF7FEFF 		bl	BUZZER_Write
+ 134              	.LVL15:
+ 135              	.L7:
+ 136 005a 3446     		mov	r4, r6
+ 137              	.LVL16:
+ 138              	.L4:
+  73:MyServer.c    ****             {
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\cczfFPJv.s 			page 5
+
+
+ 139              		.loc 1 73 0 is_stmt 1
+ 140 005c 002C     		cmp	r4, #0
+ 141 005e D2D1     		bne	.L9
+  88:MyServer.c    ****                 }
+  89:MyServer.c    **** 	 params = p;	// next params
+  90:MyServer.c    **** 			}
+  91:MyServer.c    **** }//------------------------------------------------------------------------------------
+ 142              		.loc 1 91 0
+ 143 0060 70BD     		pop	{r4, r5, r6, pc}
+ 144              	.LVL17:
+ 145              	.L14:
+ 146 0062 00BF     		.align	2
+ 147              	.L13:
+ 148 0064 00000000 		.word	.LC0
+ 149 0068 04000000 		.word	.LC1
+ 150 006c 08000000 		.word	.LC2
+ 151              		.cfi_endproc
+ 152              	.LFE65:
+ 153              		.size	set_param, .-set_param
+ 154              		.global	__aeabi_f2d
+ 155              		.section	.text.display_param,"ax",%progbits
+ 156              		.align	2
+ 157              		.global	display_param
+ 158              		.thumb
+ 159              		.thumb_func
+ 160              		.type	display_param, %function
+ 161              	display_param:
+ 162              	.LFB66:
+  92:MyServer.c    **** 
+  93:MyServer.c    **** void display_param(char *buffer)	// Shows received parameters
+  94:MyServer.c    **** {
+ 163              		.loc 1 94 0
+ 164              		.cfi_startproc
+ 165              		@ args = 0, pretend = 0, frame = 0
+ 166              		@ frame_needed = 0, uses_anonymous_args = 0
+ 167              	.LVL18:
+ 168 0000 70B5     		push	{r4, r5, r6, lr}
+ 169              		.cfi_def_cfa_offset 16
+ 170              		.cfi_offset 4, -16
+ 171              		.cfi_offset 5, -12
+ 172              		.cfi_offset 6, -8
+ 173              		.cfi_offset 14, -4
+ 174 0002 0446     		mov	r4, r0
+  95:MyServer.c    **** 	memset(buffer, 0,  2000);	// all data stored in  buffer  processed. clean the buffer to reply
+ 175              		.loc 1 95 0
+ 176 0004 4FF4FA62 		mov	r2, #2000
+ 177 0008 0021     		movs	r1, #0
+ 178 000a FFF7FEFF 		bl	memset
+ 179              	.LVL19:
+  96:MyServer.c    **** 	strcpy(buffer,	header);	// open page 
+ 180              		.loc 1 96 0
+ 181 000e 3949     		ldr	r1, .L17
+ 182 0010 2046     		mov	r0, r4
+ 183 0012 FFF7FEFF 		bl	strcpy
+ 184              	.LVL20:
+  97:MyServer.c    ****     strcat(buffer,	"<pre>");	
+ 185              		.loc 1 97 0
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\cczfFPJv.s 			page 6
+
+
+ 186 0016 2046     		mov	r0, r4
+ 187 0018 FFF7FEFF 		bl	strlen
+ 188              	.LVL21:
+ 189 001c 0246     		mov	r2, r0
+ 190 001e 2118     		adds	r1, r4, r0
+ 191 0020 354B     		ldr	r3, .L17+4
+ 192 0022 1868     		ldr	r0, [r3]	@ unaligned
+ 193 0024 A050     		str	r0, [r4, r2]	@ unaligned
+ 194 0026 9B88     		ldrh	r3, [r3, #4]	@ unaligned
+ 195 0028 8B80     		strh	r3, [r1, #4]	@ unaligned
+  98:MyServer.c    **** /*
+  99:MyServer.c    ****     if((!LED_state()))
+ 100:MyServer.c    ****         strcat(buffer,	"Buzzer encendido. <a href='/?led=on'>Apaguelo</a>." 				);
+ 101:MyServer.c    ****   	else if (LED_state())
+ 102:MyServer.c    ****         strcat(buffer,	"Buzzer apagado.  <a href='/?led=off'>Enciendalo</a>."				);*/
+ 103:MyServer.c    **** 
+ 104:MyServer.c    **** 	sprintf(str,"<p>Temperatura: <b>%2.1f°C </b>",Temperatura);
+ 196              		.loc 1 104 0
+ 197 002a 344B     		ldr	r3, .L17+8
+ 198 002c 1868     		ldr	r0, [r3]	@ float
+ 199 002e FFF7FEFF 		bl	__aeabi_f2d
+ 200              	.LVL22:
+ 201 0032 334D     		ldr	r5, .L17+12
+ 202 0034 0246     		mov	r2, r0
+ 203 0036 0B46     		mov	r3, r1
+ 204 0038 3249     		ldr	r1, .L17+16
+ 205 003a 2846     		mov	r0, r5
+ 206 003c FFF7FEFF 		bl	sprintf
+ 207              	.LVL23:
+ 105:MyServer.c    **** 	strcat(buffer,	 str);							 
+ 208              		.loc 1 105 0
+ 209 0040 2946     		mov	r1, r5
+ 210 0042 2046     		mov	r0, r4
+ 211 0044 FFF7FEFF 		bl	strcat
+ 212              	.LVL24:
+ 106:MyServer.c    ****     sprintf(str,"<p>Temperatura2: <b>%2.1f°C </b>",Temperatura2);
+ 213              		.loc 1 106 0
+ 214 0048 2F4B     		ldr	r3, .L17+20
+ 215 004a 1868     		ldr	r0, [r3]	@ float
+ 216 004c FFF7FEFF 		bl	__aeabi_f2d
+ 217              	.LVL25:
+ 218 0050 0246     		mov	r2, r0
+ 219 0052 0B46     		mov	r3, r1
+ 220 0054 2D49     		ldr	r1, .L17+24
+ 221 0056 2846     		mov	r0, r5
+ 222 0058 FFF7FEFF 		bl	sprintf
+ 223              	.LVL26:
+ 107:MyServer.c    **** 	strcat(buffer,	 str);				
+ 224              		.loc 1 107 0
+ 225 005c 2946     		mov	r1, r5
+ 226 005e 2046     		mov	r0, r4
+ 227 0060 FFF7FEFF 		bl	strcat
+ 228              	.LVL27:
+ 108:MyServer.c    ****     sprintf(str,"<p>Temperatura Ambiente: <b>%02ld°C </b>",Temperature2/100);
+ 229              		.loc 1 108 0
+ 230 0064 2A4B     		ldr	r3, .L17+28
+ 231 0066 1B68     		ldr	r3, [r3]
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\cczfFPJv.s 			page 7
+
+
+ 232 0068 2A4A     		ldr	r2, .L17+32
+ 233 006a 82FB0312 		smull	r1, r2, r2, r3
+ 234 006e DB17     		asrs	r3, r3, #31
+ 235 0070 C3EB6212 		rsb	r2, r3, r2, asr #5
+ 236 0074 2849     		ldr	r1, .L17+36
+ 237 0076 2846     		mov	r0, r5
+ 238 0078 FFF7FEFF 		bl	sprintf
+ 239              	.LVL28:
+ 109:MyServer.c    **** 	strcat(buffer,	 str);				
+ 240              		.loc 1 109 0
+ 241 007c 2946     		mov	r1, r5
+ 242 007e 2046     		mov	r0, r4
+ 243 0080 FFF7FEFF 		bl	strcat
+ 244              	.LVL29:
+ 110:MyServer.c    ****     sprintf(str,"<p>Humedad: <b>%2.1f%% </b>",Humedad);
+ 245              		.loc 1 110 0
+ 246 0084 254B     		ldr	r3, .L17+40
+ 247 0086 1868     		ldr	r0, [r3]	@ float
+ 248 0088 FFF7FEFF 		bl	__aeabi_f2d
+ 249              	.LVL30:
+ 250 008c 0246     		mov	r2, r0
+ 251 008e 0B46     		mov	r3, r1
+ 252 0090 2349     		ldr	r1, .L17+44
+ 253 0092 2846     		mov	r0, r5
+ 254 0094 FFF7FEFF 		bl	sprintf
+ 255              	.LVL31:
+ 111:MyServer.c    **** 	strcat(buffer,	 str);
+ 256              		.loc 1 111 0
+ 257 0098 2946     		mov	r1, r5
+ 258 009a 2046     		mov	r0, r4
+ 259 009c FFF7FEFF 		bl	strcat
+ 260              	.LVL32:
+ 112:MyServer.c    ****     sprintf(str,"<p>Temperatura H: <b>%2.1f°C </b>",Tam);
+ 261              		.loc 1 112 0
+ 262 00a0 204B     		ldr	r3, .L17+48
+ 263 00a2 1868     		ldr	r0, [r3]	@ float
+ 264 00a4 FFF7FEFF 		bl	__aeabi_f2d
+ 265              	.LVL33:
+ 266 00a8 0246     		mov	r2, r0
+ 267 00aa 0B46     		mov	r3, r1
+ 268 00ac 1E49     		ldr	r1, .L17+52
+ 269 00ae 2846     		mov	r0, r5
+ 270 00b0 FFF7FEFF 		bl	sprintf
+ 271              	.LVL34:
+ 113:MyServer.c    **** 	strcat(buffer,	 str);
+ 272              		.loc 1 113 0
+ 273 00b4 2946     		mov	r1, r5
+ 274 00b6 2046     		mov	r0, r4
+ 275 00b8 FFF7FEFF 		bl	strcat
+ 276              	.LVL35:
+ 114:MyServer.c    **** 	//strcat(buffer,	"<a href='/edit'>Change</a>");	// The created "Change" button on the page with a 
+ 115:MyServer.c    **** 	//counter = counter+1;									// for the test page refresh increment counter
+ 116:MyServer.c    **** 	strcat(buffer,	"</pre>");
+ 277              		.loc 1 116 0
+ 278 00bc 2046     		mov	r0, r4
+ 279 00be FFF7FEFF 		bl	strlen
+ 280              	.LVL36:
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\cczfFPJv.s 			page 8
+
+
+ 281 00c2 0146     		mov	r1, r0
+ 282 00c4 2218     		adds	r2, r4, r0
+ 283 00c6 194B     		ldr	r3, .L17+56
+ 284 00c8 1868     		ldr	r0, [r3]	@ unaligned
+ 285 00ca 6050     		str	r0, [r4, r1]	@ unaligned
+ 286 00cc 9988     		ldrh	r1, [r3, #4]	@ unaligned
+ 287 00ce 9B79     		ldrb	r3, [r3, #6]	@ zero_extendqisi2
+ 288 00d0 9180     		strh	r1, [r2, #4]	@ unaligned
+ 289 00d2 9371     		strb	r3, [r2, #6]
+ 117:MyServer.c    **** 	strcat(buffer,	"</body></html>"); 				// close page
+ 290              		.loc 1 117 0
+ 291 00d4 2046     		mov	r0, r4
+ 292 00d6 FFF7FEFF 		bl	strlen
+ 293              	.LVL37:
+ 294 00da 0646     		mov	r6, r0
+ 295 00dc 2518     		adds	r5, r4, r0
+ 296 00de 144B     		ldr	r3, .L17+60
+ 297 00e0 07CB     		ldmia	r3!, {r0, r1, r2}
+ 298 00e2 A051     		str	r0, [r4, r6]	@ unaligned
+ 299 00e4 6960     		str	r1, [r5, #4]	@ unaligned
+ 300 00e6 AA60     		str	r2, [r5, #8]	@ unaligned
+ 301 00e8 1A88     		ldrh	r2, [r3]	@ unaligned
+ 302 00ea 9B78     		ldrb	r3, [r3, #2]	@ zero_extendqisi2
+ 303 00ec AA81     		strh	r2, [r5, #12]	@ unaligned
+ 304 00ee AB73     		strb	r3, [r5, #14]
+ 305 00f0 70BD     		pop	{r4, r5, r6, pc}
+ 306              	.LVL38:
+ 307              	.L18:
+ 308 00f2 00BF     		.align	2
+ 309              	.L17:
+ 310 00f4 00000000 		.word	.LANCHOR0
+ 311 00f8 0C000000 		.word	.LC3
+ 312 00fc 00000000 		.word	Temperatura
+ 313 0100 00000000 		.word	str
+ 314 0104 14000000 		.word	.LC4
+ 315 0108 00000000 		.word	Temperatura2
+ 316 010c 38000000 		.word	.LC5
+ 317 0110 00000000 		.word	Temperature2
+ 318 0114 1F85EB51 		.word	1374389535
+ 319 0118 5C000000 		.word	.LC6
+ 320 011c 00000000 		.word	Humedad
+ 321 0120 88000000 		.word	.LC7
+ 322 0124 00000000 		.word	Tam
+ 323 0128 A4000000 		.word	.LC8
+ 324 012c C8000000 		.word	.LC9
+ 325 0130 D0000000 		.word	.LC10
+ 326              		.cfi_endproc
+ 327              	.LFE66:
+ 328              		.size	display_param, .-display_param
+ 329              		.section	.text.web_form,"ax",%progbits
+ 330              		.align	2
+ 331              		.global	web_form
+ 332              		.thumb
+ 333              		.thumb_func
+ 334              		.type	web_form, %function
+ 335              	web_form:
+ 336              	.LFB67:
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\cczfFPJv.s 			page 9
+
+
+ 118:MyServer.c    **** }//----------------------------------
+ 119:MyServer.c    **** 
+ 120:MyServer.c    **** void web_form(char *buffer, int counter)	// form to change the counter
+ 121:MyServer.c    **** {
+ 337              		.loc 1 121 0
+ 338              		.cfi_startproc
+ 339              		@ args = 0, pretend = 0, frame = 0
+ 340              		@ frame_needed = 0, uses_anonymous_args = 0
+ 341              	.LVL39:
+ 342 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+ 343              		.cfi_def_cfa_offset 24
+ 344              		.cfi_offset 3, -24
+ 345              		.cfi_offset 4, -20
+ 346              		.cfi_offset 5, -16
+ 347              		.cfi_offset 6, -12
+ 348              		.cfi_offset 7, -8
+ 349              		.cfi_offset 14, -4
+ 350 0002 0746     		mov	r7, r0
+ 351 0004 0C46     		mov	r4, r1
+ 122:MyServer.c    **** 	memset(buffer, 0,  2000);			// all data stored in  buffer  processed. clean the buffer to reply
+ 352              		.loc 1 122 0
+ 353 0006 4FF4FA62 		mov	r2, #2000
+ 354 000a 0021     		movs	r1, #0
+ 355              	.LVL40:
+ 356 000c FFF7FEFF 		bl	memset
+ 357              	.LVL41:
+ 123:MyServer.c    **** 	sprintf(str,"%d",counter);
+ 358              		.loc 1 123 0
+ 359 0010 2246     		mov	r2, r4
+ 360 0012 3D49     		ldr	r1, .L24
+ 361 0014 3D48     		ldr	r0, .L24+4
+ 362 0016 FFF7FEFF 		bl	sprintf
+ 363              	.LVL42:
+ 124:MyServer.c    **** 	strcat( buffer,	 web_edit_header );	// header without  'refresh'
+ 364              		.loc 1 124 0
+ 365 001a 3D49     		ldr	r1, .L24+8
+ 366 001c 3846     		mov	r0, r7
+ 367 001e FFF7FEFF 		bl	strcat
+ 368              	.LVL43:
+ 125:MyServer.c    **** 	strcat( buffer,	("<pre> <form action='/' method='GET'>\r\n"));
+ 369              		.loc 1 125 0
+ 370 0022 3846     		mov	r0, r7
+ 371 0024 FFF7FEFF 		bl	strlen
+ 372              	.LVL44:
+ 373 0028 3A4E     		ldr	r6, .L24+12
+ 374 002a 3C18     		adds	r4, r7, r0
+ 375              	.LVL45:
+ 376 002c 06F1200E 		add	lr, r6, #32
+ 377              	.L20:
+ 378 0030 3546     		mov	r5, r6
+ 379 0032 0FCD     		ldmia	r5!, {r0, r1, r2, r3}
+ 380 0034 2060     		str	r0, [r4]	@ unaligned
+ 381 0036 6160     		str	r1, [r4, #4]	@ unaligned
+ 382 0038 A260     		str	r2, [r4, #8]	@ unaligned
+ 383 003a E360     		str	r3, [r4, #12]	@ unaligned
+ 384 003c 2E46     		mov	r6, r5
+ 385 003e 1034     		adds	r4, r4, #16
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\cczfFPJv.s 			page 10
+
+
+ 386 0040 7545     		cmp	r5, lr
+ 387 0042 F5D1     		bne	.L20
+ 388 0044 2868     		ldr	r0, [r5]	@ unaligned
+ 389 0046 2060     		str	r0, [r4]	@ unaligned
+ 390 0048 AA88     		ldrh	r2, [r5, #4]	@ unaligned
+ 391 004a AB79     		ldrb	r3, [r5, #6]	@ zero_extendqisi2
+ 392 004c A280     		strh	r2, [r4, #4]	@ unaligned
+ 393 004e A371     		strb	r3, [r4, #6]
+ 126:MyServer.c    **** //	strcat( buffer,	"<form action='/' method='GET'>\r\n");
+ 127:MyServer.c    **** 	strcat( buffer,	"Enter value (0..255):\r\n");
+ 394              		.loc 1 127 0
+ 395 0050 3846     		mov	r0, r7
+ 396 0052 FFF7FEFF 		bl	strlen
+ 397              	.LVL46:
+ 398 0056 0646     		mov	r6, r0
+ 399 0058 3D18     		adds	r5, r7, r0
+ 400 005a 2F4C     		ldr	r4, .L24+16
+ 401 005c 0FCC     		ldmia	r4!, {r0, r1, r2, r3}
+ 402 005e B851     		str	r0, [r7, r6]	@ unaligned
+ 403 0060 6960     		str	r1, [r5, #4]	@ unaligned
+ 404 0062 AA60     		str	r2, [r5, #8]	@ unaligned
+ 405 0064 EB60     		str	r3, [r5, #12]	@ unaligned
+ 406 0066 03CC     		ldmia	r4!, {r0, r1}
+ 407 0068 2861     		str	r0, [r5, #16]	@ unaligned
+ 408 006a 6961     		str	r1, [r5, #20]	@ unaligned
+ 128:MyServer.c    **** 	strcat( buffer,	"<input type='text' name='pwm' size='4' value='");
+ 409              		.loc 1 128 0
+ 410 006c 3846     		mov	r0, r7
+ 411 006e FFF7FEFF 		bl	strlen
+ 412              	.LVL47:
+ 413 0072 2A4C     		ldr	r4, .L24+20
+ 414 0074 3D18     		adds	r5, r7, r0
+ 415 0076 04F1200E 		add	lr, r4, #32
+ 416              	.L21:
+ 417 007a 2646     		mov	r6, r4
+ 418 007c 0FCE     		ldmia	r6!, {r0, r1, r2, r3}
+ 419 007e 2860     		str	r0, [r5]	@ unaligned
+ 420 0080 6960     		str	r1, [r5, #4]	@ unaligned
+ 421 0082 AA60     		str	r2, [r5, #8]	@ unaligned
+ 422 0084 EB60     		str	r3, [r5, #12]	@ unaligned
+ 423 0086 3446     		mov	r4, r6
+ 424 0088 1035     		adds	r5, r5, #16
+ 425 008a 7645     		cmp	r6, lr
+ 426 008c F5D1     		bne	.L21
+ 427 008e 07CC     		ldmia	r4!, {r0, r1, r2}
+ 428 0090 2860     		str	r0, [r5]	@ unaligned
+ 429 0092 6960     		str	r1, [r5, #4]	@ unaligned
+ 430 0094 AA60     		str	r2, [r5, #8]	@ unaligned
+ 431 0096 2288     		ldrh	r2, [r4]	@ unaligned
+ 432 0098 A378     		ldrb	r3, [r4, #2]	@ zero_extendqisi2
+ 433 009a AA81     		strh	r2, [r5, #12]	@ unaligned
+ 434 009c AB73     		strb	r3, [r5, #14]
+ 129:MyServer.c    **** 	strcat( buffer,	 str);
+ 435              		.loc 1 129 0
+ 436 009e 1B49     		ldr	r1, .L24+4
+ 437 00a0 3846     		mov	r0, r7
+ 438 00a2 FFF7FEFF 		bl	strcat
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\cczfFPJv.s 			page 11
+
+
+ 439              	.LVL48:
+ 130:MyServer.c    **** 	strcat( buffer,	"'>  ");
+ 440              		.loc 1 130 0
+ 441 00a6 3846     		mov	r0, r7
+ 442 00a8 FFF7FEFF 		bl	strlen
+ 443              	.LVL49:
+ 444 00ac 0246     		mov	r2, r0
+ 445 00ae 3918     		adds	r1, r7, r0
+ 446 00b0 1B4B     		ldr	r3, .L24+24
+ 447 00b2 1868     		ldr	r0, [r3]	@ unaligned
+ 448 00b4 B850     		str	r0, [r7, r2]	@ unaligned
+ 449 00b6 1B79     		ldrb	r3, [r3, #4]	@ zero_extendqisi2
+ 450 00b8 0B71     		strb	r3, [r1, #4]
+ 131:MyServer.c    **** 	strcat( buffer,	"<input type='submit' value='OK'>\r\n");
+ 451              		.loc 1 131 0
+ 452 00ba 3846     		mov	r0, r7
+ 453 00bc FFF7FEFF 		bl	strlen
+ 454              	.LVL50:
+ 455 00c0 184E     		ldr	r6, .L24+28
+ 456 00c2 3C18     		adds	r4, r7, r0
+ 457 00c4 06F1200E 		add	lr, r6, #32
+ 458              	.L22:
+ 459 00c8 3546     		mov	r5, r6
+ 460 00ca 0FCD     		ldmia	r5!, {r0, r1, r2, r3}
+ 461 00cc 2060     		str	r0, [r4]	@ unaligned
+ 462 00ce 6160     		str	r1, [r4, #4]	@ unaligned
+ 463 00d0 A260     		str	r2, [r4, #8]	@ unaligned
+ 464 00d2 E360     		str	r3, [r4, #12]	@ unaligned
+ 465 00d4 2E46     		mov	r6, r5
+ 466 00d6 1034     		adds	r4, r4, #16
+ 467 00d8 7545     		cmp	r5, lr
+ 468 00da F5D1     		bne	.L22
+ 469 00dc 2A88     		ldrh	r2, [r5]	@ unaligned
+ 470 00de AB78     		ldrb	r3, [r5, #2]	@ zero_extendqisi2
+ 471 00e0 2280     		strh	r2, [r4]	@ unaligned
+ 472 00e2 A370     		strb	r3, [r4, #2]
+ 132:MyServer.c    **** 	strcat( buffer,	"</form>  </pre> </body> </html>");	// Закрыть страничку
+ 473              		.loc 1 132 0
+ 474 00e4 3846     		mov	r0, r7
+ 475 00e6 FFF7FEFF 		bl	strlen
+ 476              	.LVL51:
+ 477 00ea 0646     		mov	r6, r0
+ 478 00ec 3D18     		adds	r5, r7, r0
+ 479 00ee 0E4C     		ldr	r4, .L24+32
+ 480 00f0 0FCC     		ldmia	r4!, {r0, r1, r2, r3}
+ 481 00f2 B851     		str	r0, [r7, r6]	@ unaligned
+ 482 00f4 6960     		str	r1, [r5, #4]	@ unaligned
+ 483 00f6 AA60     		str	r2, [r5, #8]	@ unaligned
+ 484 00f8 EB60     		str	r3, [r5, #12]	@ unaligned
+ 485 00fa 0FCC     		ldmia	r4!, {r0, r1, r2, r3}
+ 486 00fc 2861     		str	r0, [r5, #16]	@ unaligned
+ 487 00fe 6961     		str	r1, [r5, #20]	@ unaligned
+ 488 0100 AA61     		str	r2, [r5, #24]	@ unaligned
+ 489 0102 EB61     		str	r3, [r5, #28]	@ unaligned
+ 490 0104 F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 491              	.LVL52:
+ 492              	.L25:
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\cczfFPJv.s 			page 12
+
+
+ 493 0106 00BF     		.align	2
+ 494              	.L24:
+ 495 0108 E0000000 		.word	.LC11
+ 496 010c 00000000 		.word	str
+ 497 0110 00000000 		.word	.LANCHOR1
+ 498 0114 E4000000 		.word	.LC12
+ 499 0118 0C010000 		.word	.LC13
+ 500 011c 24010000 		.word	.LC14
+ 501 0120 54010000 		.word	.LC15
+ 502 0124 5C010000 		.word	.LC16
+ 503 0128 80010000 		.word	.LC17
+ 504              		.cfi_endproc
+ 505              	.LFE67:
+ 506              		.size	web_form, .-web_form
+ 507              		.section	.text.webif_data,"ax",%progbits
+ 508              		.align	2
+ 509              		.global	webif_data
+ 510              		.thumb
+ 511              		.thumb_func
+ 512              		.type	webif_data, %function
+ 513              	webif_data:
+ 514              	.LFB68:
+ 133:MyServer.c    **** }//________________________________________________________________________________________________
+ 134:MyServer.c    **** 
+ 135:MyServer.c    **** /****************************  Called when data is received from the browser  *********************
+ 136:MyServer.c    **** /***																																***/
+ 137:MyServer.c    **** /**************************************************************************************************
+ 138:MyServer.c    **** 
+ 139:MyServer.c    **** void webif_data(char socket, char *Inbuff)
+ 140:MyServer.c    **** {
+ 515              		.loc 1 140 0
+ 516              		.cfi_startproc
+ 517              		@ args = 0, pretend = 0, frame = 0
+ 518              		@ frame_needed = 0, uses_anonymous_args = 0
+ 519              	.LVL53:
+ 520 0000 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}
+ 521              		.cfi_def_cfa_offset 24
+ 522              		.cfi_offset 4, -24
+ 523              		.cfi_offset 5, -20
+ 524              		.cfi_offset 6, -16
+ 525              		.cfi_offset 7, -12
+ 526              		.cfi_offset 8, -8
+ 527              		.cfi_offset 14, -4
+ 528 0004 0646     		mov	r6, r0
+ 529 0006 0C46     		mov	r4, r1
+ 141:MyServer.c    **** char *url; 		//  URL 
+ 142:MyServer.c    **** char *p; 		// label or a pointer to the next parameter  (указатель разметки)
+ 143:MyServer.c    **** char *params;	// a pointer to the name of the parameter
+ 144:MyServer.c    **** 
+ 145:MyServer.c    **** //   Parse query - check that the method - GET and get our URL. (Page address with parameters)
+ 146:MyServer.c    **** if((p = strchr(Inbuff + 4, ' ')) == 0)
+ 530              		.loc 1 146 0
+ 531 0008 0D1D     		adds	r5, r1, #4
+ 532 000a 2021     		movs	r1, #32
+ 533              	.LVL54:
+ 534 000c 2846     		mov	r0, r5
+ 535              	.LVL55:
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\cczfFPJv.s 			page 13
+
+
+ 536 000e FFF7FEFF 		bl	strchr
+ 537              	.LVL56:
+ 538 0012 28B9     		cbnz	r0, .L27
+ 147:MyServer.c    ****     strcat(Inbuff, " ");	// Request IE update page - there is no space at the end. add!!!
+ 539              		.loc 1 147 0
+ 540 0014 2046     		mov	r0, r4
+ 541              	.LVL57:
+ 542 0016 FFF7FEFF 		bl	strlen
+ 543              	.LVL58:
+ 544 001a 234B     		ldr	r3, .L35
+ 545 001c 1B88     		ldrh	r3, [r3]	@ unaligned
+ 546 001e 2352     		strh	r3, [r4, r0]	@ unaligned
+ 547              	.L27:
+ 148:MyServer.c    ****     
+ 149:MyServer.c    **** if( (memcmp(Inbuff, ("GET "), 4) == 0) &&  ((p = strchr(Inbuff + 4, ' ')) != 0) )	// now begin
+ 548              		.loc 1 149 0
+ 549 0020 0422     		movs	r2, #4
+ 550 0022 2249     		ldr	r1, .L35+4
+ 551 0024 2046     		mov	r0, r4
+ 552 0026 FFF7FEFF 		bl	memcmp
+ 553              	.LVL59:
+ 554 002a 78BB     		cbnz	r0, .L28
+ 555              		.loc 1 149 0 is_stmt 0 discriminator 1
+ 556 002c 2021     		movs	r1, #32
+ 557 002e 2846     		mov	r0, r5
+ 558 0030 FFF7FEFF 		bl	strchr
+ 559              	.LVL60:
+ 560 0034 0746     		mov	r7, r0
+ 561 0036 48B3     		cbz	r0, .L28
+ 562              	.LVL61:
+ 150:MyServer.c    ****   {
+ 151:MyServer.c    **** 	url = Inbuff + 4 ;  					// a pointer to the beginning of the received URL. end - the first space
+ 152:MyServer.c    **** 	*p = 0;   								// celebrate the end of the URL address and the parameters
+ 563              		.loc 1 152 0 is_stmt 1
+ 564 0038 0023     		movs	r3, #0
+ 565 003a 0370     		strb	r3, [r0]
+ 153:MyServer.c    **** 
+ 154:MyServer.c    **** 	//  Parse the URL and the path settings (find in turn question marks)
+ 155:MyServer.c    **** 	if((params = strchr(url, '?')))
+ 566              		.loc 1 155 0
+ 567 003c 3F21     		movs	r1, #63
+ 568 003e 2846     		mov	r0, r5
+ 569              	.LVL62:
+ 570 0040 FFF7FEFF 		bl	strchr
+ 571              	.LVL63:
+ 572 0044 20B1     		cbz	r0, .L33
+ 156:MyServer.c    ****         *(params++) = 0;			// write 0 instead of the first one found? immediately followed by - poi
+ 573              		.loc 1 156 0
+ 574 0046 00F10108 		add	r8, r0, #1
+ 575              	.LVL64:
+ 576 004a 0022     		movs	r2, #0
+ 577 004c 0270     		strb	r2, [r0]
+ 578 004e 00E0     		b	.L29
+ 579              	.LVL65:
+ 580              	.L33:
+ 155:MyServer.c    ****         *(params++) = 0;			// write 0 instead of the first one found? immediately followed by - poi
+ 581              		.loc 1 155 0
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\cczfFPJv.s 			page 14
+
+
+ 582 0050 8046     		mov	r8, r0
+ 583              	.LVL66:
+ 584              	.L29:
+ 157:MyServer.c    **** 
+ 158:MyServer.c    **** 		// Check the path. we have a home page "/" and the page counter compounds   "/edit"  
+ 159:MyServer.c    **** 	
+ 160:MyServer.c    **** 	  if(strcmp(url, ("/")) == 0)			//   home page "/"
+ 585              		.loc 1 160 0
+ 586 0052 1749     		ldr	r1, .L35+8
+ 587 0054 2846     		mov	r0, r5
+ 588 0056 FFF7FEFF 		bl	strcmp
+ 589              	.LVL67:
+ 590 005a 38B9     		cbnz	r0, .L30
+ 161:MyServer.c    **** 		{
+ 162:MyServer.c    ****        		set_param ( params,  p );		// Parse and process parameters
+ 591              		.loc 1 162 0
+ 592 005c 3946     		mov	r1, r7
+ 593 005e 4046     		mov	r0, r8
+ 594 0060 FFF7FEFF 		bl	set_param
+ 595              	.LVL68:
+ 163:MyServer.c    ****    			display_param( Inbuff );		// Displays the params on the main page
+ 596              		.loc 1 163 0
+ 597 0064 2046     		mov	r0, r4
+ 598 0066 FFF7FEFF 		bl	display_param
+ 599              	.LVL69:
+ 600 006a 13E0     		b	.L31
+ 601              	.L30:
+ 164:MyServer.c    **** 		}
+ 165:MyServer.c    ****  	   else if(strcmp(url, ("/edit")) == 0){
+ 602              		.loc 1 165 0
+ 603 006c 1149     		ldr	r1, .L35+12
+ 604 006e 2846     		mov	r0, r5
+ 605 0070 FFF7FEFF 		bl	strcmp
+ 606              	.LVL70:
+ 607 0074 28B9     		cbnz	r0, .L32
+ 166:MyServer.c    ****             web_form(Inbuff,  counter); 	// Browser requests a page / edit? Submit a form for chang
+ 608              		.loc 1 166 0
+ 609 0076 104B     		ldr	r3, .L35+16
+ 610 0078 1968     		ldr	r1, [r3]
+ 611 007a 2046     		mov	r0, r4
+ 612 007c FFF7FEFF 		bl	web_form
+ 613              	.LVL71:
+ 614 0080 08E0     		b	.L31
+ 615              	.L32:
+ 167:MyServer.c    ****        }else{    // Wrong URL - write 404 page  in  buffer
+ 168:MyServer.c    **** 	        strcat(Inbuff, webif_404_reply);	
+ 616              		.loc 1 168 0
+ 617 0082 0E49     		ldr	r1, .L35+20
+ 618 0084 2046     		mov	r0, r4
+ 619 0086 FFF7FEFF 		bl	strcat
+ 620              	.LVL72:
+ 621 008a 03E0     		b	.L31
+ 622              	.LVL73:
+ 623              	.L28:
+ 169:MyServer.c    ****        }	
+ 170:MyServer.c    **** 
+ 171:MyServer.c    ****    }	
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\cczfFPJv.s 			page 15
+
+
+ 172:MyServer.c    **** else    // Wrong URL - write 404 page  in  buffer
+ 173:MyServer.c    ****    {		 strcat(Inbuff, webif_404_reply);	}	
+ 624              		.loc 1 173 0
+ 625 008c 0B49     		ldr	r1, .L35+20
+ 626 008e 2046     		mov	r0, r4
+ 627 0090 FFF7FEFF 		bl	strcat
+ 628              	.LVL74:
+ 629              	.L31:
+ 174:MyServer.c    **** 	ETH0_TcpSend(socket, (uint8*)Inbuff,  strlen((char *)Inbuff));	
+ 630              		.loc 1 174 0
+ 631 0094 2046     		mov	r0, r4
+ 632 0096 FFF7FEFF 		bl	strlen
+ 633              	.LVL75:
+ 634 009a 82B2     		uxth	r2, r0
+ 635 009c 2146     		mov	r1, r4
+ 636 009e 3046     		mov	r0, r6
+ 637 00a0 FFF7FEFF 		bl	ETH0_TcpSend
+ 638              	.LVL76:
+ 639 00a4 BDE8F081 		pop	{r4, r5, r6, r7, r8, pc}
+ 640              	.LVL77:
+ 641              	.L36:
+ 642              		.align	2
+ 643              	.L35:
+ 644 00a8 A0010000 		.word	.LC18
+ 645 00ac A4010000 		.word	.LC19
+ 646 00b0 AC010000 		.word	.LC20
+ 647 00b4 B0010000 		.word	.LC21
+ 648 00b8 00000000 		.word	counter
+ 649 00bc EC050000 		.word	.LANCHOR0+1516
+ 650              		.cfi_endproc
+ 651              	.LFE68:
+ 652              		.size	webif_data, .-webif_data
+ 653              		.global	webif_404_reply
+ 654              		.global	web_edit_header
+ 655              		.global	header
+ 656              		.comm	str,32,4
+ 657              		.comm	counter,4,4
+ 658              		.comm	lang_ru,1,1
+ 659              		.comm	calib,144,4
+ 660              		.comm	graph,9600,4
+ 661              		.comm	rampas,240,4
+ 662              		.data
+ 663              		.align	2
+ 664              		.set	.LANCHOR0,. + 0
+ 665              		.type	header, %object
+ 666              		.size	header, 1516
+ 667              	header:
+ 668 0000 3C21444F 		.ascii	"<!DOCTYPE html><html><head><meta charset='UTF-8'><m"
+ 668      43545950 
+ 668      45206874 
+ 668      6D6C3E3C 
+ 668      68746D6C 
+ 669 0033 65746120 		.ascii	"eta name='viewport' content='width=device-width, in"
+ 669      6E616D65 
+ 669      3D277669 
+ 669      6577706F 
+ 669      72742720 
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\cczfFPJv.s 			page 16
+
+
+ 670 0066 69746961 		.ascii	"itial-scale=1.0'><meta http-equiv='X-UA-Compatible'"
+ 670      6C2D7363 
+ 670      616C653D 
+ 670      312E3027 
+ 670      3E3C6D65 
+ 671 0099 20636F6E 		.ascii	" content='ie=edge'><meta http-equiv='refresh' conte"
+ 671      74656E74 
+ 671      3D276965 
+ 671      3D656467 
+ 671      65273E3C 
+ 672 00cc 6E743D27 		.ascii	"nt='15' ><title>JP Bioingenieria SAS</title><!-- Bo"
+ 672      31352720 
+ 672      3E3C7469 
+ 672      746C653E 
+ 672      4A502042 
+ 673 00ff 6F747374 		.ascii	"otstrap CSS CDN --><link rel='stylesheet' href='htt"
+ 673      72617020 
+ 673      43535320 
+ 673      43444E20 
+ 673      2D2D3E3C 
+ 674 0132 70733A2F 		.ascii	"ps://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css"
+ 674      2F737461 
+ 674      636B7061 
+ 674      74682E62 
+ 674      6F6F7473 
+ 675 0165 2F626F6F 		.ascii	"/bootstrap.min.css' integrity='sha384-9gVQ4dYFwwWSj"
+ 675      74737472 
+ 675      61702E6D 
+ 675      696E2E63 
+ 675      73732720 
+ 676 0198 49445A6E 		.ascii	"IDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
+ 676      4C45576E 
+ 676      78436A65 
+ 676      53574670 
+ 676      684A6977 
+ 677 01cb 27206372 		.ascii	"' crossorigin='anonymous'><!-- Font Awesome JS --><"
+ 677      6F73736F 
+ 677      72696769 
+ 677      6E3D2761 
+ 677      6E6F6E79 
+ 678 01fe 73637269 		.ascii	"script defer src='https://use.fontawesome.com/relea"
+ 678      70742064 
+ 678      65666572 
+ 678      20737263 
+ 678      3D276874 
+ 679 0231 7365732F 		.ascii	"ses/v5.0.13/js/solid.js' integrity='sha384-tzzSw1/V"
+ 679      76352E30 
+ 679      2E31332F 
+ 679      6A732F73 
+ 679      6F6C6964 
+ 680 0264 6F2B304E 		.ascii	"o+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmc"
+ 680      35556853 
+ 680      74503362 
+ 680      76775750 
+ 680      712B7576 
+ 681 0297 48697446 		.ascii	"HitFZ' crossorigin='anonymous'></script><script def"
+ 681      5A272063 
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\cczfFPJv.s 			page 17
+
+
+ 681      726F7373 
+ 681      6F726967 
+ 681      696E3D27 
+ 682 02ca 65722073 		.ascii	"er src='https://use.fontawesome.com/releases/v5.0.1"
+ 682      72633D27 
+ 682      68747470 
+ 682      733A2F2F 
+ 682      7573652E 
+ 683 02fd 332F6A73 		.ascii	"3/js/fontawesome.js' integrity='sha384-6OIrr52G08Np"
+ 683      2F666F6E 
+ 683      74617765 
+ 683      736F6D65 
+ 683      2E6A7327 
+ 684 0330 4F46535A 		.ascii	"OFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTO"
+ 684      6478787A 
+ 684      3178644E 
+ 684      536E646C 
+ 684      44347664 
+ 685 0363 59272063 		.ascii	"Y' crossorigin='anonymous'></script><!--BOOTSTRAP 4"
+ 685      726F7373 
+ 685      6F726967 
+ 685      696E3D27 
+ 685      616E6F6E 
+ 686 0396 202D2D3E 		.ascii	" --><link rel='stylesheet' href='https://maxcdn.boo"
+ 686      3C6C696E 
+ 686      6B207265 
+ 686      6C3D2773 
+ 686      74796C65 
+ 687 03c9 74737472 		.ascii	"tstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+ 687      61706364 
+ 687      6E2E636F 
+ 687      6D2F626F 
+ 687      6F747374 
+ 688 03fc 2720696E 		.ascii	"' integrity='sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmU"
+ 688      74656772 
+ 688      6974793D 
+ 688      27736861 
+ 688      3338342D 
+ 689 042f 63777737 		.ascii	"cww7on3RYdg4Va+PmSTsz/K68vbdEjh4u' crossorigin='ano"
+ 689      6F6E3352 
+ 689      59646734 
+ 689      56612B50 
+ 689      6D535473 
+ 690 0462 6E796D6F 		.ascii	"nymous'><style>body {background: #0F2027;  /* fallb"
+ 690      7573273E 
+ 690      3C737479 
+ 690      6C653E62 
+ 690      6F647920 
+ 691 0495 61636B20 		.ascii	"ack for old browsers */background: -webkit-linear-g"
+ 691      666F7220 
+ 691      6F6C6420 
+ 691      62726F77 
+ 691      73657273 
+ 692 04c8 72616469 		.ascii	"radient(to right, #2C5364, #203A43, #0F2027);  /* C"
+ 692      656E7428 
+ 692      746F2072 
+ 692      69676874 
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\cczfFPJv.s 			page 18
+
+
+ 692      2C202332 
+ 693 04fb 68726F6D 		.ascii	"hrome 10-25, Safari 5.1-6 */background: linear-grad"
+ 693      65203130 
+ 693      2D32352C 
+ 693      20536166 
+ 693      61726920 
+ 694 052e 69656E74 		.ascii	"ient(to right, #2C5364, #203A43, #0F2027); /* W3C, "
+ 694      28746F20 
+ 694      72696768 
+ 694      742C2023 
+ 694      32433533 
+ 695 0561 49452031 		.ascii	"IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, S"
+ 695      302B2F20 
+ 695      45646765 
+ 695      2C204669 
+ 695      7265666F 
+ 696 0594 61666172 		.ascii	"afari 7+ */color:white;}</style></head><h2>Camara C"
+ 696      6920372B 
+ 696      202A2F63 
+ 696      6F6C6F72 
+ 696      3A776869 
+ 697 05c7 6C696D61 		.ascii	"limatica JP Inglobal V1.0.0.0</h2>\015\012\000"
+ 697      74696361 
+ 697      204A5020 
+ 697      496E676C 
+ 697      6F62616C 
+ 698              		.type	webif_404_reply, %object
+ 699              		.size	webif_404_reply, 149
+ 700              	webif_404_reply:
+ 701 05ec 48545450 		.ascii	"HTTP/1.0 404 Not Found\015\012Content-Type: text/ht"
+ 701      2F312E30 
+ 701      20343034 
+ 701      204E6F74 
+ 701      20466F75 
+ 702 0619 6D6C3B20 		.ascii	"ml; charset=UTF-8\015\012\015\012<html><body><pre>P"
+ 702      63686172 
+ 702      7365743D 
+ 702      5554462D 
+ 702      380D0A0D 
+ 703 0640 61676520 		.ascii	"age not found\015\012\015\012<a href='/'>Home page<"
+ 703      6E6F7420 
+ 703      666F756E 
+ 703      640D0A0D 
+ 703      0A3C6120 
+ 704 0667 2F613E3C 		.ascii	"/a></pre>\015\012</body></html>\000"
+ 704      2F707265 
+ 704      3E0D0A3C 
+ 704      2F626F64 
+ 704      793E3C2F 
+ 705              		.section	.rodata.str1.4,"aMS",%progbits,1
+ 706              		.align	2
+ 707              	.LC0:
+ 708 0000 6C656400 		.ascii	"led\000"
+ 709              	.LC1:
+ 710 0004 6F6E00   		.ascii	"on\000"
+ 711 0007 00       		.space	1
+ 712              	.LC2:
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\cczfFPJv.s 			page 19
+
+
+ 713 0008 6F666600 		.ascii	"off\000"
+ 714              	.LC3:
+ 715 000c 3C707265 		.ascii	"<pre>\000"
+ 715      3E00
+ 716 0012 0000     		.space	2
+ 717              	.LC4:
+ 718 0014 3C703E54 		.ascii	"<p>Temperatura: <b>%2.1f\302\260C </b>\000"
+ 718      656D7065 
+ 718      72617475 
+ 718      72613A20 
+ 718      3C623E25 
+ 719 0035 000000   		.space	3
+ 720              	.LC5:
+ 721 0038 3C703E54 		.ascii	"<p>Temperatura2: <b>%2.1f\302\260C </b>\000"
+ 721      656D7065 
+ 721      72617475 
+ 721      7261323A 
+ 721      203C623E 
+ 722 005a 0000     		.space	2
+ 723              	.LC6:
+ 724 005c 3C703E54 		.ascii	"<p>Temperatura Ambiente: <b>%02ld\302\260C </b>\000"
+ 724      656D7065 
+ 724      72617475 
+ 724      72612041 
+ 724      6D626965 
+ 725 0086 0000     		.space	2
+ 726              	.LC7:
+ 727 0088 3C703E48 		.ascii	"<p>Humedad: <b>%2.1f%% </b>\000"
+ 727      756D6564 
+ 727      61643A20 
+ 727      3C623E25 
+ 727      322E3166 
+ 728              	.LC8:
+ 729 00a4 3C703E54 		.ascii	"<p>Temperatura H: <b>%2.1f\302\260C </b>\000"
+ 729      656D7065 
+ 729      72617475 
+ 729      72612048 
+ 729      3A203C62 
+ 730 00c7 00       		.space	1
+ 731              	.LC9:
+ 732 00c8 3C2F7072 		.ascii	"</pre>\000"
+ 732      653E00
+ 733 00cf 00       		.space	1
+ 734              	.LC10:
+ 735 00d0 3C2F626F 		.ascii	"</body></html>\000"
+ 735      64793E3C 
+ 735      2F68746D 
+ 735      6C3E00
+ 736 00df 00       		.space	1
+ 737              	.LC11:
+ 738 00e0 256400   		.ascii	"%d\000"
+ 739 00e3 00       		.space	1
+ 740              	.LC12:
+ 741 00e4 3C707265 		.ascii	"<pre> <form action='/' method='GET'>\015\012\000"
+ 741      3E203C66 
+ 741      6F726D20 
+ 741      61637469 
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\cczfFPJv.s 			page 20
+
+
+ 741      6F6E3D27 
+ 742 010b 00       		.space	1
+ 743              	.LC13:
+ 744 010c 456E7465 		.ascii	"Enter value (0..255):\015\012\000"
+ 744      72207661 
+ 744      6C756520 
+ 744      28302E2E 
+ 744      32353529 
+ 745              	.LC14:
+ 746 0124 3C696E70 		.ascii	"<input type='text' name='pwm' size='4' value='\000"
+ 746      75742074 
+ 746      7970653D 
+ 746      27746578 
+ 746      7427206E 
+ 747 0153 00       		.space	1
+ 748              	.LC15:
+ 749 0154 273E2020 		.ascii	"'>  \000"
+ 749      00
+ 750 0159 000000   		.space	3
+ 751              	.LC16:
+ 752 015c 3C696E70 		.ascii	"<input type='submit' value='OK'>\015\012\000"
+ 752      75742074 
+ 752      7970653D 
+ 752      27737562 
+ 752      6D697427 
+ 753 017f 00       		.space	1
+ 754              	.LC17:
+ 755 0180 3C2F666F 		.ascii	"</form>  </pre> </body> </html>\000"
+ 755      726D3E20 
+ 755      203C2F70 
+ 755      72653E20 
+ 755      3C2F626F 
+ 756              	.LC18:
+ 757 01a0 2000     		.ascii	" \000"
+ 758 01a2 0000     		.space	2
+ 759              	.LC19:
+ 760 01a4 47455420 		.ascii	"GET \000"
+ 760      00
+ 761 01a9 000000   		.space	3
+ 762              	.LC20:
+ 763 01ac 2F00     		.ascii	"/\000"
+ 764 01ae 0000     		.space	2
+ 765              	.LC21:
+ 766 01b0 2F656469 		.ascii	"/edit\000"
+ 766      7400
+ 767              		.bss
+ 768              		.align	2
+ 769              		.set	.LANCHOR1,. + 0
+ 770              		.type	web_edit_header, %object
+ 771              		.size	web_edit_header, 1
+ 772              	web_edit_header:
+ 773 0000 00       		.space	1
+ 774              		.text
+ 775              	.Letext0:
+ 776              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+ 777              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+ 778              		.file 4 "Generated_Source\\PSoC5/cytypes.h"
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\cczfFPJv.s 			page 21
+
+
+ 779              		.file 5 "./funciones.h"
+ 780              		.file 6 "Generated_Source\\PSoC5/core_cm3.h"
+ 781              		.file 7 "Generated_Source\\PSoC5/BUZZER.h"
+ 782              		.file 8 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+ 783              		.file 9 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+ 784              		.file 10 "Generated_Source\\PSoC5/ETH0.h"
+ 785              		.file 11 "<built-in>"
+ 786              		.section	.debug_info,"",%progbits
+ 787              	.Ldebug_info0:
+ 788 0000 85090000 		.4byte	0x985
+ 789 0004 0400     		.2byte	0x4
+ 790 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 791 000a 04       		.byte	0x4
+ 792 000b 01       		.uleb128 0x1
+ 793 000c 25030000 		.4byte	.LASF66
+ 794 0010 0C       		.byte	0xc
+ 795 0011 9D010000 		.4byte	.LASF67
+ 796 0015 81020000 		.4byte	.LASF68
+ 797 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 798 001d 00000000 		.4byte	0
+ 799 0021 00000000 		.4byte	.Ldebug_line0
+ 800 0025 02       		.uleb128 0x2
+ 801 0026 01       		.byte	0x1
+ 802 0027 06       		.byte	0x6
+ 803 0028 52010000 		.4byte	.LASF0
+ 804 002c 02       		.uleb128 0x2
+ 805 002d 01       		.byte	0x1
+ 806 002e 08       		.byte	0x8
+ 807 002f F9000000 		.4byte	.LASF1
+ 808 0033 02       		.uleb128 0x2
+ 809 0034 02       		.byte	0x2
+ 810 0035 05       		.byte	0x5
+ 811 0036 4A000000 		.4byte	.LASF2
+ 812 003a 02       		.uleb128 0x2
+ 813 003b 02       		.byte	0x2
+ 814 003c 07       		.byte	0x7
+ 815 003d B5010000 		.4byte	.LASF3
+ 816 0041 03       		.uleb128 0x3
+ 817 0042 4E020000 		.4byte	.LASF12
+ 818 0046 02       		.byte	0x2
+ 819 0047 3F       		.byte	0x3f
+ 820 0048 4C000000 		.4byte	0x4c
+ 821 004c 02       		.uleb128 0x2
+ 822 004d 04       		.byte	0x4
+ 823 004e 05       		.byte	0x5
+ 824 004f D9000000 		.4byte	.LASF4
+ 825 0053 02       		.uleb128 0x2
+ 826 0054 04       		.byte	0x4
+ 827 0055 07       		.byte	0x7
+ 828 0056 22020000 		.4byte	.LASF5
+ 829 005a 02       		.uleb128 0x2
+ 830 005b 08       		.byte	0x8
+ 831 005c 05       		.byte	0x5
+ 832 005d B5000000 		.4byte	.LASF6
+ 833 0061 02       		.uleb128 0x2
+ 834 0062 08       		.byte	0x8
+ 835 0063 07       		.byte	0x7
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\cczfFPJv.s 			page 22
+
+
+ 836 0064 5E010000 		.4byte	.LASF7
+ 837 0068 04       		.uleb128 0x4
+ 838 0069 04       		.byte	0x4
+ 839 006a 05       		.byte	0x5
+ 840 006b 696E7400 		.ascii	"int\000"
+ 841 006f 02       		.uleb128 0x2
+ 842 0070 04       		.byte	0x4
+ 843 0071 07       		.byte	0x7
+ 844 0072 B3030000 		.4byte	.LASF8
+ 845 0076 02       		.uleb128 0x2
+ 846 0077 08       		.byte	0x8
+ 847 0078 04       		.byte	0x4
+ 848 0079 1E010000 		.4byte	.LASF9
+ 849 007d 02       		.uleb128 0x2
+ 850 007e 04       		.byte	0x4
+ 851 007f 07       		.byte	0x7
+ 852 0080 54000000 		.4byte	.LASF10
+ 853 0084 05       		.uleb128 0x5
+ 854 0085 04       		.byte	0x4
+ 855 0086 8A000000 		.4byte	0x8a
+ 856 008a 02       		.uleb128 0x2
+ 857 008b 01       		.byte	0x1
+ 858 008c 08       		.byte	0x8
+ 859 008d C8010000 		.4byte	.LASF11
+ 860 0091 03       		.uleb128 0x3
+ 861 0092 E9010000 		.4byte	.LASF13
+ 862 0096 03       		.byte	0x3
+ 863 0097 2C       		.byte	0x2c
+ 864 0098 41000000 		.4byte	0x41
+ 865 009c 06       		.uleb128 0x6
+ 866 009d 93000000 		.4byte	.LASF14
+ 867 00a1 04       		.byte	0x4
+ 868 00a2 9201     		.2byte	0x192
+ 869 00a4 2C000000 		.4byte	0x2c
+ 870 00a8 06       		.uleb128 0x6
+ 871 00a9 34020000 		.4byte	.LASF15
+ 872 00ad 04       		.byte	0x4
+ 873 00ae 9701     		.2byte	0x197
+ 874 00b0 4C000000 		.4byte	0x4c
+ 875 00b4 02       		.uleb128 0x2
+ 876 00b5 04       		.byte	0x4
+ 877 00b6 04       		.byte	0x4
+ 878 00b7 A8000000 		.4byte	.LASF16
+ 879 00bb 02       		.uleb128 0x2
+ 880 00bc 08       		.byte	0x8
+ 881 00bd 04       		.byte	0x4
+ 882 00be 7A020000 		.4byte	.LASF17
+ 883 00c2 07       		.uleb128 0x7
+ 884 00c3 0C       		.byte	0xc
+ 885 00c4 05       		.byte	0x5
+ 886 00c5 25       		.byte	0x25
+ 887 00c6 13010000 		.4byte	0x113
+ 888 00ca 08       		.uleb128 0x8
+ 889 00cb 0C020000 		.4byte	.LASF18
+ 890 00cf 05       		.byte	0x5
+ 891 00d0 26       		.byte	0x26
+ 892 00d1 9C000000 		.4byte	0x9c
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\cczfFPJv.s 			page 23
+
+
+ 893 00d5 00       		.byte	0
+ 894 00d6 08       		.uleb128 0x8
+ 895 00d7 69000000 		.4byte	.LASF19
+ 896 00db 05       		.byte	0x5
+ 897 00dc 27       		.byte	0x27
+ 898 00dd 9C000000 		.4byte	0x9c
+ 899 00e1 01       		.byte	0x1
+ 900 00e2 08       		.uleb128 0x8
+ 901 00e3 8D000000 		.4byte	.LASF20
+ 902 00e7 05       		.byte	0x5
+ 903 00e8 28       		.byte	0x28
+ 904 00e9 9C000000 		.4byte	0x9c
+ 905 00ed 02       		.byte	0x2
+ 906 00ee 08       		.uleb128 0x8
+ 907 00ef 78000000 		.4byte	.LASF21
+ 908 00f3 05       		.byte	0x5
+ 909 00f4 29       		.byte	0x29
+ 910 00f5 9C000000 		.4byte	0x9c
+ 911 00f9 03       		.byte	0x3
+ 912 00fa 08       		.uleb128 0x8
+ 913 00fb 3A020000 		.4byte	.LASF22
+ 914 00ff 05       		.byte	0x5
+ 915 0100 2A       		.byte	0x2a
+ 916 0101 9C000000 		.4byte	0x9c
+ 917 0105 04       		.byte	0x4
+ 918 0106 08       		.uleb128 0x8
+ 919 0107 6E020000 		.4byte	.LASF23
+ 920 010b 05       		.byte	0x5
+ 921 010c 2B       		.byte	0x2b
+ 922 010d B4000000 		.4byte	0xb4
+ 923 0111 08       		.byte	0x8
+ 924 0112 00       		.byte	0
+ 925 0113 03       		.uleb128 0x3
+ 926 0114 CD010000 		.4byte	.LASF24
+ 927 0118 05       		.byte	0x5
+ 928 0119 2C       		.byte	0x2c
+ 929 011a C2000000 		.4byte	0xc2
+ 930 011e 07       		.uleb128 0x7
+ 931 011f 0C       		.byte	0xc
+ 932 0120 05       		.byte	0x5
+ 933 0121 2F       		.byte	0x2f
+ 934 0122 57010000 		.4byte	0x157
+ 935 0126 08       		.uleb128 0x8
+ 936 0127 6E020000 		.4byte	.LASF23
+ 937 012b 05       		.byte	0x5
+ 938 012c 30       		.byte	0x30
+ 939 012d B4000000 		.4byte	0xb4
+ 940 0131 00       		.byte	0
+ 941 0132 08       		.uleb128 0x8
+ 942 0133 3A020000 		.4byte	.LASF22
+ 943 0137 05       		.byte	0x5
+ 944 0138 31       		.byte	0x31
+ 945 0139 B4000000 		.4byte	0xb4
+ 946 013d 04       		.byte	0x4
+ 947 013e 08       		.uleb128 0x8
+ 948 013f A3000000 		.4byte	.LASF25
+ 949 0143 05       		.byte	0x5
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\cczfFPJv.s 			page 24
+
+
+ 950 0144 32       		.byte	0x32
+ 951 0145 9C000000 		.4byte	0x9c
+ 952 0149 08       		.byte	0x8
+ 953 014a 08       		.uleb128 0x8
+ 954 014b D1030000 		.4byte	.LASF26
+ 955 014f 05       		.byte	0x5
+ 956 0150 33       		.byte	0x33
+ 957 0151 9C000000 		.4byte	0x9c
+ 958 0155 09       		.byte	0x9
+ 959 0156 00       		.byte	0
+ 960 0157 03       		.uleb128 0x3
+ 961 0158 66020000 		.4byte	.LASF27
+ 962 015c 05       		.byte	0x5
+ 963 015d 34       		.byte	0x34
+ 964 015e 1E010000 		.4byte	0x11e
+ 965 0162 07       		.uleb128 0x7
+ 966 0163 30       		.byte	0x30
+ 967 0164 05       		.byte	0x5
+ 968 0165 37       		.byte	0x37
+ 969 0166 F5010000 		.4byte	0x1f5
+ 970 016a 08       		.uleb128 0x8
+ 971 016b 1F000000 		.4byte	.LASF28
+ 972 016f 05       		.byte	0x5
+ 973 0170 38       		.byte	0x38
+ 974 0171 B4000000 		.4byte	0xb4
+ 975 0175 00       		.byte	0
+ 976 0176 08       		.uleb128 0x8
+ 977 0177 28000000 		.4byte	.LASF29
+ 978 017b 05       		.byte	0x5
+ 979 017c 38       		.byte	0x38
+ 980 017d B4000000 		.4byte	0xb4
+ 981 0181 04       		.byte	0x4
+ 982 0182 08       		.uleb128 0x8
+ 983 0183 31000000 		.4byte	.LASF30
+ 984 0187 05       		.byte	0x5
+ 985 0188 38       		.byte	0x38
+ 986 0189 B4000000 		.4byte	0xb4
+ 987 018d 08       		.byte	0x8
+ 988 018e 09       		.uleb128 0x9
+ 989 018f 6D3100   		.ascii	"m1\000"
+ 990 0192 05       		.byte	0x5
+ 991 0193 38       		.byte	0x38
+ 992 0194 B4000000 		.4byte	0xb4
+ 993 0198 0C       		.byte	0xc
+ 994 0199 09       		.uleb128 0x9
+ 995 019a 6D3200   		.ascii	"m2\000"
+ 996 019d 05       		.byte	0x5
+ 997 019e 38       		.byte	0x38
+ 998 019f B4000000 		.4byte	0xb4
+ 999 01a3 10       		.byte	0x10
+ 1000 01a4 09       		.uleb128 0x9
+ 1001 01a5 6D3300   		.ascii	"m3\000"
+ 1002 01a8 05       		.byte	0x5
+ 1003 01a9 38       		.byte	0x38
+ 1004 01aa B4000000 		.4byte	0xb4
+ 1005 01ae 14       		.byte	0x14
+ 1006 01af 08       		.uleb128 0x8
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\cczfFPJv.s 			page 25
+
+
+ 1007 01b0 07000000 		.4byte	.LASF31
+ 1008 01b4 05       		.byte	0x5
+ 1009 01b5 38       		.byte	0x38
+ 1010 01b6 B4000000 		.4byte	0xb4
+ 1011 01ba 18       		.byte	0x18
+ 1012 01bb 08       		.uleb128 0x8
+ 1013 01bc 0F000000 		.4byte	.LASF32
+ 1014 01c0 05       		.byte	0x5
+ 1015 01c1 38       		.byte	0x38
+ 1016 01c2 B4000000 		.4byte	0xb4
+ 1017 01c6 1C       		.byte	0x1c
+ 1018 01c7 08       		.uleb128 0x8
+ 1019 01c8 17000000 		.4byte	.LASF33
+ 1020 01cc 05       		.byte	0x5
+ 1021 01cd 38       		.byte	0x38
+ 1022 01ce B4000000 		.4byte	0xb4
+ 1023 01d2 20       		.byte	0x20
+ 1024 01d3 09       		.uleb128 0x9
+ 1025 01d4 623100   		.ascii	"b1\000"
+ 1026 01d7 05       		.byte	0x5
+ 1027 01d8 38       		.byte	0x38
+ 1028 01d9 B4000000 		.4byte	0xb4
+ 1029 01dd 24       		.byte	0x24
+ 1030 01de 09       		.uleb128 0x9
+ 1031 01df 623200   		.ascii	"b2\000"
+ 1032 01e2 05       		.byte	0x5
+ 1033 01e3 38       		.byte	0x38
+ 1034 01e4 B4000000 		.4byte	0xb4
+ 1035 01e8 28       		.byte	0x28
+ 1036 01e9 09       		.uleb128 0x9
+ 1037 01ea 623300   		.ascii	"b3\000"
+ 1038 01ed 05       		.byte	0x5
+ 1039 01ee 38       		.byte	0x38
+ 1040 01ef B4000000 		.4byte	0xb4
+ 1041 01f3 2C       		.byte	0x2c
+ 1042 01f4 00       		.byte	0
+ 1043 01f5 03       		.uleb128 0x3
+ 1044 01f6 CD000000 		.4byte	.LASF34
+ 1045 01fa 05       		.byte	0x5
+ 1046 01fb 39       		.byte	0x39
+ 1047 01fc 62010000 		.4byte	0x162
+ 1048 0200 0A       		.uleb128 0xa
+ 1049 0201 C3000000 		.4byte	.LASF69
+ 1050 0205 01       		.byte	0x1
+ 1051 0206 13       		.byte	0x13
+ 1052 0207 33000000 		.4byte	0x33
+ 1053 020b 00000000 		.4byte	.LFB64
+ 1054 020f 0E000000 		.4byte	.LFE64-.LFB64
+ 1055 0213 01       		.uleb128 0x1
+ 1056 0214 9C       		.byte	0x9c
+ 1057 0215 23020000 		.4byte	0x223
+ 1058 0219 0B       		.uleb128 0xb
+ 1059 021a 06000000 		.4byte	.LVL0
+ 1060 021e 01090000 		.4byte	0x901
+ 1061 0222 00       		.byte	0
+ 1062 0223 0C       		.uleb128 0xc
+ 1063 0224 99000000 		.4byte	.LASF38
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\cczfFPJv.s 			page 26
+
+
+ 1064 0228 01       		.byte	0x1
+ 1065 0229 44       		.byte	0x44
+ 1066 022a 00000000 		.4byte	.LFB65
+ 1067 022e 70000000 		.4byte	.LFE65-.LFB65
+ 1068 0232 01       		.uleb128 0x1
+ 1069 0233 9C       		.byte	0x9c
+ 1070 0234 16030000 		.4byte	0x316
+ 1071 0238 0D       		.uleb128 0xd
+ 1072 0239 07010000 		.4byte	.LASF35
+ 1073 023d 01       		.byte	0x1
+ 1074 023e 44       		.byte	0x44
+ 1075 023f 84000000 		.4byte	0x84
+ 1076 0243 00000000 		.4byte	.LLST0
+ 1077 0247 0E       		.uleb128 0xe
+ 1078 0248 7000     		.ascii	"p\000"
+ 1079 024a 01       		.byte	0x1
+ 1080 024b 44       		.byte	0x44
+ 1081 024c 84000000 		.4byte	0x84
+ 1082 0250 1E000000 		.4byte	.LLST1
+ 1083 0254 0F       		.uleb128 0xf
+ 1084 0255 0E010000 		.4byte	.LASF36
+ 1085 0259 01       		.byte	0x1
+ 1086 025a 46       		.byte	0x46
+ 1087 025b 84000000 		.4byte	0x84
+ 1088 025f 5D000000 		.4byte	.LLST2
+ 1089 0263 0F       		.uleb128 0xf
+ 1090 0264 87000000 		.4byte	.LASF37
+ 1091 0268 01       		.byte	0x1
+ 1092 0269 46       		.byte	0x46
+ 1093 026a 84000000 		.4byte	0x84
+ 1094 026e 70000000 		.4byte	.LLST3
+ 1095 0272 10       		.uleb128 0x10
+ 1096 0273 0E000000 		.4byte	.LVL3
+ 1097 0277 0C090000 		.4byte	0x90c
+ 1098 027b 8C020000 		.4byte	0x28c
+ 1099 027f 11       		.uleb128 0x11
+ 1100 0280 01       		.uleb128 0x1
+ 1101 0281 50       		.byte	0x50
+ 1102 0282 02       		.uleb128 0x2
+ 1103 0283 74       		.byte	0x74
+ 1104 0284 00       		.sleb128 0
+ 1105 0285 11       		.uleb128 0x11
+ 1106 0286 01       		.uleb128 0x1
+ 1107 0287 51       		.byte	0x51
+ 1108 0288 02       		.uleb128 0x2
+ 1109 0289 08       		.byte	0x8
+ 1110 028a 26       		.byte	0x26
+ 1111 028b 00       		.byte	0
+ 1112 028c 10       		.uleb128 0x10
+ 1113 028d 22000000 		.4byte	.LVL7
+ 1114 0291 0C090000 		.4byte	0x90c
+ 1115 0295 A6020000 		.4byte	0x2a6
+ 1116 0299 11       		.uleb128 0x11
+ 1117 029a 01       		.uleb128 0x1
+ 1118 029b 50       		.byte	0x50
+ 1119 029c 02       		.uleb128 0x2
+ 1120 029d 74       		.byte	0x74
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\cczfFPJv.s 			page 27
+
+
+ 1121 029e 00       		.sleb128 0
+ 1122 029f 11       		.uleb128 0x11
+ 1123 02a0 01       		.uleb128 0x1
+ 1124 02a1 51       		.byte	0x51
+ 1125 02a2 02       		.uleb128 0x2
+ 1126 02a3 08       		.byte	0x8
+ 1127 02a4 3D       		.byte	0x3d
+ 1128 02a5 00       		.byte	0
+ 1129 02a6 10       		.uleb128 0x10
+ 1130 02a7 36000000 		.4byte	.LVL11
+ 1131 02ab 17090000 		.4byte	0x917
+ 1132 02af C3020000 		.4byte	0x2c3
+ 1133 02b3 11       		.uleb128 0x11
+ 1134 02b4 01       		.uleb128 0x1
+ 1135 02b5 50       		.byte	0x50
+ 1136 02b6 02       		.uleb128 0x2
+ 1137 02b7 74       		.byte	0x74
+ 1138 02b8 00       		.sleb128 0
+ 1139 02b9 11       		.uleb128 0x11
+ 1140 02ba 01       		.uleb128 0x1
+ 1141 02bb 51       		.byte	0x51
+ 1142 02bc 05       		.uleb128 0x5
+ 1143 02bd 03       		.byte	0x3
+ 1144 02be 00000000 		.4byte	.LC0
+ 1145 02c2 00       		.byte	0
+ 1146 02c3 10       		.uleb128 0x10
+ 1147 02c4 42000000 		.4byte	.LVL12
+ 1148 02c8 17090000 		.4byte	0x917
+ 1149 02cc E0020000 		.4byte	0x2e0
+ 1150 02d0 11       		.uleb128 0x11
+ 1151 02d1 01       		.uleb128 0x1
+ 1152 02d2 50       		.byte	0x50
+ 1153 02d3 02       		.uleb128 0x2
+ 1154 02d4 75       		.byte	0x75
+ 1155 02d5 00       		.sleb128 0
+ 1156 02d6 11       		.uleb128 0x11
+ 1157 02d7 01       		.uleb128 0x1
+ 1158 02d8 51       		.byte	0x51
+ 1159 02d9 05       		.uleb128 0x5
+ 1160 02da 03       		.byte	0x3
+ 1161 02db 04000000 		.4byte	.LC1
+ 1162 02df 00       		.byte	0
+ 1163 02e0 0B       		.uleb128 0xb
+ 1164 02e1 48000000 		.4byte	.LVL13
+ 1165 02e5 22090000 		.4byte	0x922
+ 1166 02e9 10       		.uleb128 0x10
+ 1167 02ea 52000000 		.4byte	.LVL14
+ 1168 02ee 17090000 		.4byte	0x917
+ 1169 02f2 06030000 		.4byte	0x306
+ 1170 02f6 11       		.uleb128 0x11
+ 1171 02f7 01       		.uleb128 0x1
+ 1172 02f8 50       		.byte	0x50
+ 1173 02f9 02       		.uleb128 0x2
+ 1174 02fa 75       		.byte	0x75
+ 1175 02fb 00       		.sleb128 0
+ 1176 02fc 11       		.uleb128 0x11
+ 1177 02fd 01       		.uleb128 0x1
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\cczfFPJv.s 			page 28
+
+
+ 1178 02fe 51       		.byte	0x51
+ 1179 02ff 05       		.uleb128 0x5
+ 1180 0300 03       		.byte	0x3
+ 1181 0301 08000000 		.4byte	.LC2
+ 1182 0305 00       		.byte	0
+ 1183 0306 12       		.uleb128 0x12
+ 1184 0307 5A000000 		.4byte	.LVL15
+ 1185 030b 22090000 		.4byte	0x922
+ 1186 030f 11       		.uleb128 0x11
+ 1187 0310 01       		.uleb128 0x1
+ 1188 0311 50       		.byte	0x50
+ 1189 0312 01       		.uleb128 0x1
+ 1190 0313 31       		.byte	0x31
+ 1191 0314 00       		.byte	0
+ 1192 0315 00       		.byte	0
+ 1193 0316 13       		.uleb128 0x13
+ 1194 0317 82010000 		.4byte	.LASF39
+ 1195 031b 01       		.byte	0x1
+ 1196 031c 5D       		.byte	0x5d
+ 1197 031d 00000000 		.4byte	.LFB66
+ 1198 0321 34010000 		.4byte	.LFE66-.LFB66
+ 1199 0325 01       		.uleb128 0x1
+ 1200 0326 9C       		.byte	0x9c
+ 1201 0327 C3040000 		.4byte	0x4c3
+ 1202 032b 0D       		.uleb128 0xd
+ 1203 032c 1B020000 		.4byte	.LASF40
+ 1204 0330 01       		.byte	0x1
+ 1205 0331 5D       		.byte	0x5d
+ 1206 0332 84000000 		.4byte	0x84
+ 1207 0336 A4000000 		.4byte	.LLST4
+ 1208 033a 10       		.uleb128 0x10
+ 1209 033b 0E000000 		.4byte	.LVL19
+ 1210 033f 2D090000 		.4byte	0x92d
+ 1211 0343 5A030000 		.4byte	0x35a
+ 1212 0347 11       		.uleb128 0x11
+ 1213 0348 01       		.uleb128 0x1
+ 1214 0349 50       		.byte	0x50
+ 1215 034a 02       		.uleb128 0x2
+ 1216 034b 74       		.byte	0x74
+ 1217 034c 00       		.sleb128 0
+ 1218 034d 11       		.uleb128 0x11
+ 1219 034e 01       		.uleb128 0x1
+ 1220 034f 51       		.byte	0x51
+ 1221 0350 01       		.uleb128 0x1
+ 1222 0351 30       		.byte	0x30
+ 1223 0352 11       		.uleb128 0x11
+ 1224 0353 01       		.uleb128 0x1
+ 1225 0354 52       		.byte	0x52
+ 1226 0355 03       		.uleb128 0x3
+ 1227 0356 0A       		.byte	0xa
+ 1228 0357 D007     		.2byte	0x7d0
+ 1229 0359 00       		.byte	0
+ 1230 035a 10       		.uleb128 0x10
+ 1231 035b 16000000 		.4byte	.LVL20
+ 1232 035f 36090000 		.4byte	0x936
+ 1233 0363 77030000 		.4byte	0x377
+ 1234 0367 11       		.uleb128 0x11
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\cczfFPJv.s 			page 29
+
+
+ 1235 0368 01       		.uleb128 0x1
+ 1236 0369 50       		.byte	0x50
+ 1237 036a 02       		.uleb128 0x2
+ 1238 036b 74       		.byte	0x74
+ 1239 036c 00       		.sleb128 0
+ 1240 036d 11       		.uleb128 0x11
+ 1241 036e 01       		.uleb128 0x1
+ 1242 036f 51       		.byte	0x51
+ 1243 0370 05       		.uleb128 0x5
+ 1244 0371 03       		.byte	0x3
+ 1245 0372 00000000 		.4byte	.LANCHOR0
+ 1246 0376 00       		.byte	0
+ 1247 0377 10       		.uleb128 0x10
+ 1248 0378 1C000000 		.4byte	.LVL21
+ 1249 037c 41090000 		.4byte	0x941
+ 1250 0380 8B030000 		.4byte	0x38b
+ 1251 0384 11       		.uleb128 0x11
+ 1252 0385 01       		.uleb128 0x1
+ 1253 0386 50       		.byte	0x50
+ 1254 0387 02       		.uleb128 0x2
+ 1255 0388 74       		.byte	0x74
+ 1256 0389 00       		.sleb128 0
+ 1257 038a 00       		.byte	0
+ 1258 038b 10       		.uleb128 0x10
+ 1259 038c 40000000 		.4byte	.LVL23
+ 1260 0390 50090000 		.4byte	0x950
+ 1261 0394 A8030000 		.4byte	0x3a8
+ 1262 0398 11       		.uleb128 0x11
+ 1263 0399 01       		.uleb128 0x1
+ 1264 039a 50       		.byte	0x50
+ 1265 039b 02       		.uleb128 0x2
+ 1266 039c 75       		.byte	0x75
+ 1267 039d 00       		.sleb128 0
+ 1268 039e 11       		.uleb128 0x11
+ 1269 039f 01       		.uleb128 0x1
+ 1270 03a0 51       		.byte	0x51
+ 1271 03a1 05       		.uleb128 0x5
+ 1272 03a2 03       		.byte	0x3
+ 1273 03a3 14000000 		.4byte	.LC4
+ 1274 03a7 00       		.byte	0
+ 1275 03a8 10       		.uleb128 0x10
+ 1276 03a9 48000000 		.4byte	.LVL24
+ 1277 03ad 5B090000 		.4byte	0x95b
+ 1278 03b1 C2030000 		.4byte	0x3c2
+ 1279 03b5 11       		.uleb128 0x11
+ 1280 03b6 01       		.uleb128 0x1
+ 1281 03b7 50       		.byte	0x50
+ 1282 03b8 02       		.uleb128 0x2
+ 1283 03b9 74       		.byte	0x74
+ 1284 03ba 00       		.sleb128 0
+ 1285 03bb 11       		.uleb128 0x11
+ 1286 03bc 01       		.uleb128 0x1
+ 1287 03bd 51       		.byte	0x51
+ 1288 03be 02       		.uleb128 0x2
+ 1289 03bf 75       		.byte	0x75
+ 1290 03c0 00       		.sleb128 0
+ 1291 03c1 00       		.byte	0
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\cczfFPJv.s 			page 30
+
+
+ 1292 03c2 10       		.uleb128 0x10
+ 1293 03c3 5C000000 		.4byte	.LVL26
+ 1294 03c7 50090000 		.4byte	0x950
+ 1295 03cb DF030000 		.4byte	0x3df
+ 1296 03cf 11       		.uleb128 0x11
+ 1297 03d0 01       		.uleb128 0x1
+ 1298 03d1 50       		.byte	0x50
+ 1299 03d2 02       		.uleb128 0x2
+ 1300 03d3 75       		.byte	0x75
+ 1301 03d4 00       		.sleb128 0
+ 1302 03d5 11       		.uleb128 0x11
+ 1303 03d6 01       		.uleb128 0x1
+ 1304 03d7 51       		.byte	0x51
+ 1305 03d8 05       		.uleb128 0x5
+ 1306 03d9 03       		.byte	0x3
+ 1307 03da 38000000 		.4byte	.LC5
+ 1308 03de 00       		.byte	0
+ 1309 03df 10       		.uleb128 0x10
+ 1310 03e0 64000000 		.4byte	.LVL27
+ 1311 03e4 5B090000 		.4byte	0x95b
+ 1312 03e8 F9030000 		.4byte	0x3f9
+ 1313 03ec 11       		.uleb128 0x11
+ 1314 03ed 01       		.uleb128 0x1
+ 1315 03ee 50       		.byte	0x50
+ 1316 03ef 02       		.uleb128 0x2
+ 1317 03f0 74       		.byte	0x74
+ 1318 03f1 00       		.sleb128 0
+ 1319 03f2 11       		.uleb128 0x11
+ 1320 03f3 01       		.uleb128 0x1
+ 1321 03f4 51       		.byte	0x51
+ 1322 03f5 02       		.uleb128 0x2
+ 1323 03f6 75       		.byte	0x75
+ 1324 03f7 00       		.sleb128 0
+ 1325 03f8 00       		.byte	0
+ 1326 03f9 10       		.uleb128 0x10
+ 1327 03fa 7C000000 		.4byte	.LVL28
+ 1328 03fe 50090000 		.4byte	0x950
+ 1329 0402 16040000 		.4byte	0x416
+ 1330 0406 11       		.uleb128 0x11
+ 1331 0407 01       		.uleb128 0x1
+ 1332 0408 50       		.byte	0x50
+ 1333 0409 02       		.uleb128 0x2
+ 1334 040a 75       		.byte	0x75
+ 1335 040b 00       		.sleb128 0
+ 1336 040c 11       		.uleb128 0x11
+ 1337 040d 01       		.uleb128 0x1
+ 1338 040e 51       		.byte	0x51
+ 1339 040f 05       		.uleb128 0x5
+ 1340 0410 03       		.byte	0x3
+ 1341 0411 5C000000 		.4byte	.LC6
+ 1342 0415 00       		.byte	0
+ 1343 0416 10       		.uleb128 0x10
+ 1344 0417 84000000 		.4byte	.LVL29
+ 1345 041b 5B090000 		.4byte	0x95b
+ 1346 041f 30040000 		.4byte	0x430
+ 1347 0423 11       		.uleb128 0x11
+ 1348 0424 01       		.uleb128 0x1
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\cczfFPJv.s 			page 31
+
+
+ 1349 0425 50       		.byte	0x50
+ 1350 0426 02       		.uleb128 0x2
+ 1351 0427 74       		.byte	0x74
+ 1352 0428 00       		.sleb128 0
+ 1353 0429 11       		.uleb128 0x11
+ 1354 042a 01       		.uleb128 0x1
+ 1355 042b 51       		.byte	0x51
+ 1356 042c 02       		.uleb128 0x2
+ 1357 042d 75       		.byte	0x75
+ 1358 042e 00       		.sleb128 0
+ 1359 042f 00       		.byte	0
+ 1360 0430 10       		.uleb128 0x10
+ 1361 0431 98000000 		.4byte	.LVL31
+ 1362 0435 50090000 		.4byte	0x950
+ 1363 0439 4D040000 		.4byte	0x44d
+ 1364 043d 11       		.uleb128 0x11
+ 1365 043e 01       		.uleb128 0x1
+ 1366 043f 50       		.byte	0x50
+ 1367 0440 02       		.uleb128 0x2
+ 1368 0441 75       		.byte	0x75
+ 1369 0442 00       		.sleb128 0
+ 1370 0443 11       		.uleb128 0x11
+ 1371 0444 01       		.uleb128 0x1
+ 1372 0445 51       		.byte	0x51
+ 1373 0446 05       		.uleb128 0x5
+ 1374 0447 03       		.byte	0x3
+ 1375 0448 88000000 		.4byte	.LC7
+ 1376 044c 00       		.byte	0
+ 1377 044d 10       		.uleb128 0x10
+ 1378 044e A0000000 		.4byte	.LVL32
+ 1379 0452 5B090000 		.4byte	0x95b
+ 1380 0456 67040000 		.4byte	0x467
+ 1381 045a 11       		.uleb128 0x11
+ 1382 045b 01       		.uleb128 0x1
+ 1383 045c 50       		.byte	0x50
+ 1384 045d 02       		.uleb128 0x2
+ 1385 045e 74       		.byte	0x74
+ 1386 045f 00       		.sleb128 0
+ 1387 0460 11       		.uleb128 0x11
+ 1388 0461 01       		.uleb128 0x1
+ 1389 0462 51       		.byte	0x51
+ 1390 0463 02       		.uleb128 0x2
+ 1391 0464 75       		.byte	0x75
+ 1392 0465 00       		.sleb128 0
+ 1393 0466 00       		.byte	0
+ 1394 0467 10       		.uleb128 0x10
+ 1395 0468 B4000000 		.4byte	.LVL34
+ 1396 046c 50090000 		.4byte	0x950
+ 1397 0470 84040000 		.4byte	0x484
+ 1398 0474 11       		.uleb128 0x11
+ 1399 0475 01       		.uleb128 0x1
+ 1400 0476 50       		.byte	0x50
+ 1401 0477 02       		.uleb128 0x2
+ 1402 0478 75       		.byte	0x75
+ 1403 0479 00       		.sleb128 0
+ 1404 047a 11       		.uleb128 0x11
+ 1405 047b 01       		.uleb128 0x1
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\cczfFPJv.s 			page 32
+
+
+ 1406 047c 51       		.byte	0x51
+ 1407 047d 05       		.uleb128 0x5
+ 1408 047e 03       		.byte	0x3
+ 1409 047f A4000000 		.4byte	.LC8
+ 1410 0483 00       		.byte	0
+ 1411 0484 10       		.uleb128 0x10
+ 1412 0485 BC000000 		.4byte	.LVL35
+ 1413 0489 5B090000 		.4byte	0x95b
+ 1414 048d 9E040000 		.4byte	0x49e
+ 1415 0491 11       		.uleb128 0x11
+ 1416 0492 01       		.uleb128 0x1
+ 1417 0493 50       		.byte	0x50
+ 1418 0494 02       		.uleb128 0x2
+ 1419 0495 74       		.byte	0x74
+ 1420 0496 00       		.sleb128 0
+ 1421 0497 11       		.uleb128 0x11
+ 1422 0498 01       		.uleb128 0x1
+ 1423 0499 51       		.byte	0x51
+ 1424 049a 02       		.uleb128 0x2
+ 1425 049b 75       		.byte	0x75
+ 1426 049c 00       		.sleb128 0
+ 1427 049d 00       		.byte	0
+ 1428 049e 10       		.uleb128 0x10
+ 1429 049f C2000000 		.4byte	.LVL36
+ 1430 04a3 41090000 		.4byte	0x941
+ 1431 04a7 B2040000 		.4byte	0x4b2
+ 1432 04ab 11       		.uleb128 0x11
+ 1433 04ac 01       		.uleb128 0x1
+ 1434 04ad 50       		.byte	0x50
+ 1435 04ae 02       		.uleb128 0x2
+ 1436 04af 74       		.byte	0x74
+ 1437 04b0 00       		.sleb128 0
+ 1438 04b1 00       		.byte	0
+ 1439 04b2 12       		.uleb128 0x12
+ 1440 04b3 DA000000 		.4byte	.LVL37
+ 1441 04b7 41090000 		.4byte	0x941
+ 1442 04bb 11       		.uleb128 0x11
+ 1443 04bc 01       		.uleb128 0x1
+ 1444 04bd 50       		.byte	0x50
+ 1445 04be 02       		.uleb128 0x2
+ 1446 04bf 74       		.byte	0x74
+ 1447 04c0 00       		.sleb128 0
+ 1448 04c1 00       		.byte	0
+ 1449 04c2 00       		.byte	0
+ 1450 04c3 0C       		.uleb128 0xc
+ 1451 04c4 C8030000 		.4byte	.LASF41
+ 1452 04c8 01       		.byte	0x1
+ 1453 04c9 78       		.byte	0x78
+ 1454 04ca 00000000 		.4byte	.LFB67
+ 1455 04ce 2C010000 		.4byte	.LFE67-.LFB67
+ 1456 04d2 01       		.uleb128 0x1
+ 1457 04d3 9C       		.byte	0x9c
+ 1458 04d4 EB050000 		.4byte	0x5eb
+ 1459 04d8 0D       		.uleb128 0xd
+ 1460 04d9 1B020000 		.4byte	.LASF40
+ 1461 04dd 01       		.byte	0x1
+ 1462 04de 78       		.byte	0x78
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\cczfFPJv.s 			page 33
+
+
+ 1463 04df 84000000 		.4byte	0x84
+ 1464 04e3 D0000000 		.4byte	.LLST5
+ 1465 04e7 0D       		.uleb128 0xd
+ 1466 04e8 2A010000 		.4byte	.LASF42
+ 1467 04ec 01       		.byte	0x1
+ 1468 04ed 78       		.byte	0x78
+ 1469 04ee 68000000 		.4byte	0x68
+ 1470 04f2 FC000000 		.4byte	.LLST6
+ 1471 04f6 10       		.uleb128 0x10
+ 1472 04f7 10000000 		.4byte	.LVL41
+ 1473 04fb 2D090000 		.4byte	0x92d
+ 1474 04ff 16050000 		.4byte	0x516
+ 1475 0503 11       		.uleb128 0x11
+ 1476 0504 01       		.uleb128 0x1
+ 1477 0505 50       		.byte	0x50
+ 1478 0506 02       		.uleb128 0x2
+ 1479 0507 77       		.byte	0x77
+ 1480 0508 00       		.sleb128 0
+ 1481 0509 11       		.uleb128 0x11
+ 1482 050a 01       		.uleb128 0x1
+ 1483 050b 51       		.byte	0x51
+ 1484 050c 01       		.uleb128 0x1
+ 1485 050d 30       		.byte	0x30
+ 1486 050e 11       		.uleb128 0x11
+ 1487 050f 01       		.uleb128 0x1
+ 1488 0510 52       		.byte	0x52
+ 1489 0511 03       		.uleb128 0x3
+ 1490 0512 0A       		.byte	0xa
+ 1491 0513 D007     		.2byte	0x7d0
+ 1492 0515 00       		.byte	0
+ 1493 0516 10       		.uleb128 0x10
+ 1494 0517 1A000000 		.4byte	.LVL42
+ 1495 051b 50090000 		.4byte	0x950
+ 1496 051f 3C050000 		.4byte	0x53c
+ 1497 0523 11       		.uleb128 0x11
+ 1498 0524 01       		.uleb128 0x1
+ 1499 0525 50       		.byte	0x50
+ 1500 0526 05       		.uleb128 0x5
+ 1501 0527 03       		.byte	0x3
+ 1502 0528 00000000 		.4byte	str
+ 1503 052c 11       		.uleb128 0x11
+ 1504 052d 01       		.uleb128 0x1
+ 1505 052e 51       		.byte	0x51
+ 1506 052f 05       		.uleb128 0x5
+ 1507 0530 03       		.byte	0x3
+ 1508 0531 E0000000 		.4byte	.LC11
+ 1509 0535 11       		.uleb128 0x11
+ 1510 0536 01       		.uleb128 0x1
+ 1511 0537 52       		.byte	0x52
+ 1512 0538 02       		.uleb128 0x2
+ 1513 0539 74       		.byte	0x74
+ 1514 053a 00       		.sleb128 0
+ 1515 053b 00       		.byte	0
+ 1516 053c 10       		.uleb128 0x10
+ 1517 053d 22000000 		.4byte	.LVL43
+ 1518 0541 5B090000 		.4byte	0x95b
+ 1519 0545 59050000 		.4byte	0x559
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\cczfFPJv.s 			page 34
+
+
+ 1520 0549 11       		.uleb128 0x11
+ 1521 054a 01       		.uleb128 0x1
+ 1522 054b 50       		.byte	0x50
+ 1523 054c 02       		.uleb128 0x2
+ 1524 054d 77       		.byte	0x77
+ 1525 054e 00       		.sleb128 0
+ 1526 054f 11       		.uleb128 0x11
+ 1527 0550 01       		.uleb128 0x1
+ 1528 0551 51       		.byte	0x51
+ 1529 0552 05       		.uleb128 0x5
+ 1530 0553 03       		.byte	0x3
+ 1531 0554 00000000 		.4byte	.LANCHOR1
+ 1532 0558 00       		.byte	0
+ 1533 0559 10       		.uleb128 0x10
+ 1534 055a 28000000 		.4byte	.LVL44
+ 1535 055e 41090000 		.4byte	0x941
+ 1536 0562 6D050000 		.4byte	0x56d
+ 1537 0566 11       		.uleb128 0x11
+ 1538 0567 01       		.uleb128 0x1
+ 1539 0568 50       		.byte	0x50
+ 1540 0569 02       		.uleb128 0x2
+ 1541 056a 77       		.byte	0x77
+ 1542 056b 00       		.sleb128 0
+ 1543 056c 00       		.byte	0
+ 1544 056d 10       		.uleb128 0x10
+ 1545 056e 56000000 		.4byte	.LVL46
+ 1546 0572 41090000 		.4byte	0x941
+ 1547 0576 81050000 		.4byte	0x581
+ 1548 057a 11       		.uleb128 0x11
+ 1549 057b 01       		.uleb128 0x1
+ 1550 057c 50       		.byte	0x50
+ 1551 057d 02       		.uleb128 0x2
+ 1552 057e 77       		.byte	0x77
+ 1553 057f 00       		.sleb128 0
+ 1554 0580 00       		.byte	0
+ 1555 0581 10       		.uleb128 0x10
+ 1556 0582 72000000 		.4byte	.LVL47
+ 1557 0586 41090000 		.4byte	0x941
+ 1558 058a 95050000 		.4byte	0x595
+ 1559 058e 11       		.uleb128 0x11
+ 1560 058f 01       		.uleb128 0x1
+ 1561 0590 50       		.byte	0x50
+ 1562 0591 02       		.uleb128 0x2
+ 1563 0592 77       		.byte	0x77
+ 1564 0593 00       		.sleb128 0
+ 1565 0594 00       		.byte	0
+ 1566 0595 10       		.uleb128 0x10
+ 1567 0596 A6000000 		.4byte	.LVL48
+ 1568 059a 5B090000 		.4byte	0x95b
+ 1569 059e B2050000 		.4byte	0x5b2
+ 1570 05a2 11       		.uleb128 0x11
+ 1571 05a3 01       		.uleb128 0x1
+ 1572 05a4 50       		.byte	0x50
+ 1573 05a5 02       		.uleb128 0x2
+ 1574 05a6 77       		.byte	0x77
+ 1575 05a7 00       		.sleb128 0
+ 1576 05a8 11       		.uleb128 0x11
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\cczfFPJv.s 			page 35
+
+
+ 1577 05a9 01       		.uleb128 0x1
+ 1578 05aa 51       		.byte	0x51
+ 1579 05ab 05       		.uleb128 0x5
+ 1580 05ac 03       		.byte	0x3
+ 1581 05ad 00000000 		.4byte	str
+ 1582 05b1 00       		.byte	0
+ 1583 05b2 10       		.uleb128 0x10
+ 1584 05b3 AC000000 		.4byte	.LVL49
+ 1585 05b7 41090000 		.4byte	0x941
+ 1586 05bb C6050000 		.4byte	0x5c6
+ 1587 05bf 11       		.uleb128 0x11
+ 1588 05c0 01       		.uleb128 0x1
+ 1589 05c1 50       		.byte	0x50
+ 1590 05c2 02       		.uleb128 0x2
+ 1591 05c3 77       		.byte	0x77
+ 1592 05c4 00       		.sleb128 0
+ 1593 05c5 00       		.byte	0
+ 1594 05c6 10       		.uleb128 0x10
+ 1595 05c7 C0000000 		.4byte	.LVL50
+ 1596 05cb 41090000 		.4byte	0x941
+ 1597 05cf DA050000 		.4byte	0x5da
+ 1598 05d3 11       		.uleb128 0x11
+ 1599 05d4 01       		.uleb128 0x1
+ 1600 05d5 50       		.byte	0x50
+ 1601 05d6 02       		.uleb128 0x2
+ 1602 05d7 77       		.byte	0x77
+ 1603 05d8 00       		.sleb128 0
+ 1604 05d9 00       		.byte	0
+ 1605 05da 12       		.uleb128 0x12
+ 1606 05db EA000000 		.4byte	.LVL51
+ 1607 05df 41090000 		.4byte	0x941
+ 1608 05e3 11       		.uleb128 0x11
+ 1609 05e4 01       		.uleb128 0x1
+ 1610 05e5 50       		.byte	0x50
+ 1611 05e6 02       		.uleb128 0x2
+ 1612 05e7 77       		.byte	0x77
+ 1613 05e8 00       		.sleb128 0
+ 1614 05e9 00       		.byte	0
+ 1615 05ea 00       		.byte	0
+ 1616 05eb 0C       		.uleb128 0xc
+ 1617 05ec 13010000 		.4byte	.LASF43
+ 1618 05f0 01       		.byte	0x1
+ 1619 05f1 8B       		.byte	0x8b
+ 1620 05f2 00000000 		.4byte	.LFB68
+ 1621 05f6 C0000000 		.4byte	.LFE68-.LFB68
+ 1622 05fa 01       		.uleb128 0x1
+ 1623 05fb 9C       		.byte	0x9c
+ 1624 05fc AE070000 		.4byte	0x7ae
+ 1625 0600 0D       		.uleb128 0xd
+ 1626 0601 80000000 		.4byte	.LASF44
+ 1627 0605 01       		.byte	0x1
+ 1628 0606 8B       		.byte	0x8b
+ 1629 0607 8A000000 		.4byte	0x8a
+ 1630 060b 28010000 		.4byte	.LLST7
+ 1631 060f 0D       		.uleb128 0xd
+ 1632 0610 E2000000 		.4byte	.LASF45
+ 1633 0614 01       		.byte	0x1
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\cczfFPJv.s 			page 36
+
+
+ 1634 0615 8B       		.byte	0x8b
+ 1635 0616 84000000 		.4byte	0x84
+ 1636 061a 49010000 		.4byte	.LLST8
+ 1637 061e 14       		.uleb128 0x14
+ 1638 061f 75726C00 		.ascii	"url\000"
+ 1639 0623 01       		.byte	0x1
+ 1640 0624 8D       		.byte	0x8d
+ 1641 0625 84000000 		.4byte	0x84
+ 1642 0629 75010000 		.4byte	.LLST9
+ 1643 062d 14       		.uleb128 0x14
+ 1644 062e 7000     		.ascii	"p\000"
+ 1645 0630 01       		.byte	0x1
+ 1646 0631 8E       		.byte	0x8e
+ 1647 0632 84000000 		.4byte	0x84
+ 1648 0636 88010000 		.4byte	.LLST10
+ 1649 063a 0F       		.uleb128 0xf
+ 1650 063b 07010000 		.4byte	.LASF35
+ 1651 063f 01       		.byte	0x1
+ 1652 0640 8F       		.byte	0x8f
+ 1653 0641 84000000 		.4byte	0x84
+ 1654 0645 B1010000 		.4byte	.LLST11
+ 1655 0649 10       		.uleb128 0x10
+ 1656 064a 12000000 		.4byte	.LVL56
+ 1657 064e 0C090000 		.4byte	0x90c
+ 1658 0652 63060000 		.4byte	0x663
+ 1659 0656 11       		.uleb128 0x11
+ 1660 0657 01       		.uleb128 0x1
+ 1661 0658 50       		.byte	0x50
+ 1662 0659 02       		.uleb128 0x2
+ 1663 065a 75       		.byte	0x75
+ 1664 065b 00       		.sleb128 0
+ 1665 065c 11       		.uleb128 0x11
+ 1666 065d 01       		.uleb128 0x1
+ 1667 065e 51       		.byte	0x51
+ 1668 065f 02       		.uleb128 0x2
+ 1669 0660 08       		.byte	0x8
+ 1670 0661 20       		.byte	0x20
+ 1671 0662 00       		.byte	0
+ 1672 0663 10       		.uleb128 0x10
+ 1673 0664 1A000000 		.4byte	.LVL58
+ 1674 0668 41090000 		.4byte	0x941
+ 1675 066c 77060000 		.4byte	0x677
+ 1676 0670 11       		.uleb128 0x11
+ 1677 0671 01       		.uleb128 0x1
+ 1678 0672 50       		.byte	0x50
+ 1679 0673 02       		.uleb128 0x2
+ 1680 0674 74       		.byte	0x74
+ 1681 0675 00       		.sleb128 0
+ 1682 0676 00       		.byte	0
+ 1683 0677 10       		.uleb128 0x10
+ 1684 0678 2A000000 		.4byte	.LVL59
+ 1685 067c 66090000 		.4byte	0x966
+ 1686 0680 99060000 		.4byte	0x699
+ 1687 0684 11       		.uleb128 0x11
+ 1688 0685 01       		.uleb128 0x1
+ 1689 0686 50       		.byte	0x50
+ 1690 0687 02       		.uleb128 0x2
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\cczfFPJv.s 			page 37
+
+
+ 1691 0688 74       		.byte	0x74
+ 1692 0689 00       		.sleb128 0
+ 1693 068a 11       		.uleb128 0x11
+ 1694 068b 01       		.uleb128 0x1
+ 1695 068c 51       		.byte	0x51
+ 1696 068d 05       		.uleb128 0x5
+ 1697 068e 03       		.byte	0x3
+ 1698 068f A4010000 		.4byte	.LC19
+ 1699 0693 11       		.uleb128 0x11
+ 1700 0694 01       		.uleb128 0x1
+ 1701 0695 52       		.byte	0x52
+ 1702 0696 01       		.uleb128 0x1
+ 1703 0697 34       		.byte	0x34
+ 1704 0698 00       		.byte	0
+ 1705 0699 10       		.uleb128 0x10
+ 1706 069a 34000000 		.4byte	.LVL60
+ 1707 069e 0C090000 		.4byte	0x90c
+ 1708 06a2 B3060000 		.4byte	0x6b3
+ 1709 06a6 11       		.uleb128 0x11
+ 1710 06a7 01       		.uleb128 0x1
+ 1711 06a8 50       		.byte	0x50
+ 1712 06a9 02       		.uleb128 0x2
+ 1713 06aa 75       		.byte	0x75
+ 1714 06ab 00       		.sleb128 0
+ 1715 06ac 11       		.uleb128 0x11
+ 1716 06ad 01       		.uleb128 0x1
+ 1717 06ae 51       		.byte	0x51
+ 1718 06af 02       		.uleb128 0x2
+ 1719 06b0 08       		.byte	0x8
+ 1720 06b1 20       		.byte	0x20
+ 1721 06b2 00       		.byte	0
+ 1722 06b3 10       		.uleb128 0x10
+ 1723 06b4 44000000 		.4byte	.LVL63
+ 1724 06b8 0C090000 		.4byte	0x90c
+ 1725 06bc CD060000 		.4byte	0x6cd
+ 1726 06c0 11       		.uleb128 0x11
+ 1727 06c1 01       		.uleb128 0x1
+ 1728 06c2 50       		.byte	0x50
+ 1729 06c3 02       		.uleb128 0x2
+ 1730 06c4 75       		.byte	0x75
+ 1731 06c5 00       		.sleb128 0
+ 1732 06c6 11       		.uleb128 0x11
+ 1733 06c7 01       		.uleb128 0x1
+ 1734 06c8 51       		.byte	0x51
+ 1735 06c9 02       		.uleb128 0x2
+ 1736 06ca 08       		.byte	0x8
+ 1737 06cb 3F       		.byte	0x3f
+ 1738 06cc 00       		.byte	0
+ 1739 06cd 10       		.uleb128 0x10
+ 1740 06ce 5A000000 		.4byte	.LVL67
+ 1741 06d2 17090000 		.4byte	0x917
+ 1742 06d6 EA060000 		.4byte	0x6ea
+ 1743 06da 11       		.uleb128 0x11
+ 1744 06db 01       		.uleb128 0x1
+ 1745 06dc 50       		.byte	0x50
+ 1746 06dd 02       		.uleb128 0x2
+ 1747 06de 75       		.byte	0x75
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\cczfFPJv.s 			page 38
+
+
+ 1748 06df 00       		.sleb128 0
+ 1749 06e0 11       		.uleb128 0x11
+ 1750 06e1 01       		.uleb128 0x1
+ 1751 06e2 51       		.byte	0x51
+ 1752 06e3 05       		.uleb128 0x5
+ 1753 06e4 03       		.byte	0x3
+ 1754 06e5 AC010000 		.4byte	.LC20
+ 1755 06e9 00       		.byte	0
+ 1756 06ea 10       		.uleb128 0x10
+ 1757 06eb 64000000 		.4byte	.LVL68
+ 1758 06ef 23020000 		.4byte	0x223
+ 1759 06f3 04070000 		.4byte	0x704
+ 1760 06f7 11       		.uleb128 0x11
+ 1761 06f8 01       		.uleb128 0x1
+ 1762 06f9 50       		.byte	0x50
+ 1763 06fa 02       		.uleb128 0x2
+ 1764 06fb 78       		.byte	0x78
+ 1765 06fc 00       		.sleb128 0
+ 1766 06fd 11       		.uleb128 0x11
+ 1767 06fe 01       		.uleb128 0x1
+ 1768 06ff 51       		.byte	0x51
+ 1769 0700 02       		.uleb128 0x2
+ 1770 0701 77       		.byte	0x77
+ 1771 0702 00       		.sleb128 0
+ 1772 0703 00       		.byte	0
+ 1773 0704 10       		.uleb128 0x10
+ 1774 0705 6A000000 		.4byte	.LVL69
+ 1775 0709 16030000 		.4byte	0x316
+ 1776 070d 18070000 		.4byte	0x718
+ 1777 0711 11       		.uleb128 0x11
+ 1778 0712 01       		.uleb128 0x1
+ 1779 0713 50       		.byte	0x50
+ 1780 0714 02       		.uleb128 0x2
+ 1781 0715 74       		.byte	0x74
+ 1782 0716 00       		.sleb128 0
+ 1783 0717 00       		.byte	0
+ 1784 0718 10       		.uleb128 0x10
+ 1785 0719 74000000 		.4byte	.LVL70
+ 1786 071d 17090000 		.4byte	0x917
+ 1787 0721 35070000 		.4byte	0x735
+ 1788 0725 11       		.uleb128 0x11
+ 1789 0726 01       		.uleb128 0x1
+ 1790 0727 50       		.byte	0x50
+ 1791 0728 02       		.uleb128 0x2
+ 1792 0729 75       		.byte	0x75
+ 1793 072a 00       		.sleb128 0
+ 1794 072b 11       		.uleb128 0x11
+ 1795 072c 01       		.uleb128 0x1
+ 1796 072d 51       		.byte	0x51
+ 1797 072e 05       		.uleb128 0x5
+ 1798 072f 03       		.byte	0x3
+ 1799 0730 B0010000 		.4byte	.LC21
+ 1800 0734 00       		.byte	0
+ 1801 0735 10       		.uleb128 0x10
+ 1802 0736 80000000 		.4byte	.LVL71
+ 1803 073a C3040000 		.4byte	0x4c3
+ 1804 073e 49070000 		.4byte	0x749
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\cczfFPJv.s 			page 39
+
+
+ 1805 0742 11       		.uleb128 0x11
+ 1806 0743 01       		.uleb128 0x1
+ 1807 0744 50       		.byte	0x50
+ 1808 0745 02       		.uleb128 0x2
+ 1809 0746 74       		.byte	0x74
+ 1810 0747 00       		.sleb128 0
+ 1811 0748 00       		.byte	0
+ 1812 0749 10       		.uleb128 0x10
+ 1813 074a 8A000000 		.4byte	.LVL72
+ 1814 074e 5B090000 		.4byte	0x95b
+ 1815 0752 66070000 		.4byte	0x766
+ 1816 0756 11       		.uleb128 0x11
+ 1817 0757 01       		.uleb128 0x1
+ 1818 0758 50       		.byte	0x50
+ 1819 0759 02       		.uleb128 0x2
+ 1820 075a 74       		.byte	0x74
+ 1821 075b 00       		.sleb128 0
+ 1822 075c 11       		.uleb128 0x11
+ 1823 075d 01       		.uleb128 0x1
+ 1824 075e 51       		.byte	0x51
+ 1825 075f 05       		.uleb128 0x5
+ 1826 0760 03       		.byte	0x3
+ 1827 0761 EC050000 		.4byte	.LANCHOR0+1516
+ 1828 0765 00       		.byte	0
+ 1829 0766 10       		.uleb128 0x10
+ 1830 0767 94000000 		.4byte	.LVL74
+ 1831 076b 5B090000 		.4byte	0x95b
+ 1832 076f 83070000 		.4byte	0x783
+ 1833 0773 11       		.uleb128 0x11
+ 1834 0774 01       		.uleb128 0x1
+ 1835 0775 50       		.byte	0x50
+ 1836 0776 02       		.uleb128 0x2
+ 1837 0777 74       		.byte	0x74
+ 1838 0778 00       		.sleb128 0
+ 1839 0779 11       		.uleb128 0x11
+ 1840 077a 01       		.uleb128 0x1
+ 1841 077b 51       		.byte	0x51
+ 1842 077c 05       		.uleb128 0x5
+ 1843 077d 03       		.byte	0x3
+ 1844 077e EC050000 		.4byte	.LANCHOR0+1516
+ 1845 0782 00       		.byte	0
+ 1846 0783 10       		.uleb128 0x10
+ 1847 0784 9A000000 		.4byte	.LVL75
+ 1848 0788 71090000 		.4byte	0x971
+ 1849 078c 97070000 		.4byte	0x797
+ 1850 0790 11       		.uleb128 0x11
+ 1851 0791 01       		.uleb128 0x1
+ 1852 0792 50       		.byte	0x50
+ 1853 0793 02       		.uleb128 0x2
+ 1854 0794 74       		.byte	0x74
+ 1855 0795 00       		.sleb128 0
+ 1856 0796 00       		.byte	0
+ 1857 0797 12       		.uleb128 0x12
+ 1858 0798 A4000000 		.4byte	.LVL76
+ 1859 079c 7C090000 		.4byte	0x97c
+ 1860 07a0 11       		.uleb128 0x11
+ 1861 07a1 01       		.uleb128 0x1
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\cczfFPJv.s 			page 40
+
+
+ 1862 07a2 50       		.byte	0x50
+ 1863 07a3 02       		.uleb128 0x2
+ 1864 07a4 76       		.byte	0x76
+ 1865 07a5 00       		.sleb128 0
+ 1866 07a6 11       		.uleb128 0x11
+ 1867 07a7 01       		.uleb128 0x1
+ 1868 07a8 51       		.byte	0x51
+ 1869 07a9 02       		.uleb128 0x2
+ 1870 07aa 74       		.byte	0x74
+ 1871 07ab 00       		.sleb128 0
+ 1872 07ac 00       		.byte	0
+ 1873 07ad 00       		.byte	0
+ 1874 07ae 15       		.uleb128 0x15
+ 1875 07af 18030000 		.4byte	.LASF46
+ 1876 07b3 06       		.byte	0x6
+ 1877 07b4 1207     		.2byte	0x712
+ 1878 07b6 BA070000 		.4byte	0x7ba
+ 1879 07ba 16       		.uleb128 0x16
+ 1880 07bb 91000000 		.4byte	0x91
+ 1881 07bf 17       		.uleb128 0x17
+ 1882 07c0 13010000 		.4byte	0x113
+ 1883 07c4 CF070000 		.4byte	0x7cf
+ 1884 07c8 18       		.uleb128 0x18
+ 1885 07c9 7D000000 		.4byte	0x7d
+ 1886 07cd 13       		.byte	0x13
+ 1887 07ce 00       		.byte	0
+ 1888 07cf 19       		.uleb128 0x19
+ 1889 07d0 F8010000 		.4byte	.LASF47
+ 1890 07d4 05       		.byte	0x5
+ 1891 07d5 2D       		.byte	0x2d
+ 1892 07d6 BF070000 		.4byte	0x7bf
+ 1893 07da 05       		.uleb128 0x5
+ 1894 07db 03       		.byte	0x3
+ 1895 07dc 00000000 		.4byte	rampas
+ 1896 07e0 17       		.uleb128 0x17
+ 1897 07e1 57010000 		.4byte	0x157
+ 1898 07e5 F1070000 		.4byte	0x7f1
+ 1899 07e9 1A       		.uleb128 0x1a
+ 1900 07ea 7D000000 		.4byte	0x7d
+ 1901 07ee 1F03     		.2byte	0x31f
+ 1902 07f0 00       		.byte	0
+ 1903 07f1 19       		.uleb128 0x19
+ 1904 07f2 42020000 		.4byte	.LASF48
+ 1905 07f6 05       		.byte	0x5
+ 1906 07f7 35       		.byte	0x35
+ 1907 07f8 E0070000 		.4byte	0x7e0
+ 1908 07fc 05       		.uleb128 0x5
+ 1909 07fd 03       		.byte	0x3
+ 1910 07fe 00000000 		.4byte	graph
+ 1911 0802 17       		.uleb128 0x17
+ 1912 0803 F5010000 		.4byte	0x1f5
+ 1913 0807 12080000 		.4byte	0x812
+ 1914 080b 18       		.uleb128 0x18
+ 1915 080c 7D000000 		.4byte	0x7d
+ 1916 0810 02       		.byte	0x2
+ 1917 0811 00       		.byte	0
+ 1918 0812 19       		.uleb128 0x19
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\cczfFPJv.s 			page 41
+
+
+ 1919 0813 48020000 		.4byte	.LASF49
+ 1920 0817 05       		.byte	0x5
+ 1921 0818 3A       		.byte	0x3a
+ 1922 0819 02080000 		.4byte	0x802
+ 1923 081d 05       		.uleb128 0x5
+ 1924 081e 03       		.byte	0x3
+ 1925 081f 00000000 		.4byte	calib
+ 1926 0823 1B       		.uleb128 0x1b
+ 1927 0824 54616D00 		.ascii	"Tam\000"
+ 1928 0828 05       		.byte	0x5
+ 1929 0829 A2       		.byte	0xa2
+ 1930 082a B4000000 		.4byte	0xb4
+ 1931 082e 1C       		.uleb128 0x1c
+ 1932 082f 3A020000 		.4byte	.LASF22
+ 1933 0833 05       		.byte	0x5
+ 1934 0834 A2       		.byte	0xa2
+ 1935 0835 B4000000 		.4byte	0xb4
+ 1936 0839 1C       		.uleb128 0x1c
+ 1937 083a 6E020000 		.4byte	.LASF23
+ 1938 083e 05       		.byte	0x5
+ 1939 083f A2       		.byte	0xa2
+ 1940 0840 B4000000 		.4byte	0xb4
+ 1941 0844 1C       		.uleb128 0x1c
+ 1942 0845 FF010000 		.4byte	.LASF50
+ 1943 0849 05       		.byte	0x5
+ 1944 084a A2       		.byte	0xa2
+ 1945 084b B4000000 		.4byte	0xb4
+ 1946 084f 1C       		.uleb128 0x1c
+ 1947 0850 90010000 		.4byte	.LASF51
+ 1948 0854 05       		.byte	0x5
+ 1949 0855 A3       		.byte	0xa3
+ 1950 0856 A8000000 		.4byte	0xa8
+ 1951 085a 19       		.uleb128 0x19
+ 1952 085b C0030000 		.4byte	.LASF52
+ 1953 085f 01       		.byte	0x1
+ 1954 0860 0E       		.byte	0xe
+ 1955 0861 8A000000 		.4byte	0x8a
+ 1956 0865 05       		.uleb128 0x5
+ 1957 0866 03       		.byte	0x3
+ 1958 0867 00000000 		.4byte	lang_ru
+ 1959 086b 19       		.uleb128 0x19
+ 1960 086c 2A010000 		.4byte	.LASF42
+ 1961 0870 01       		.byte	0x1
+ 1962 0871 0F       		.byte	0xf
+ 1963 0872 68000000 		.4byte	0x68
+ 1964 0876 05       		.uleb128 0x5
+ 1965 0877 03       		.byte	0x3
+ 1966 0878 00000000 		.4byte	counter
+ 1967 087c 17       		.uleb128 0x17
+ 1968 087d 8A000000 		.4byte	0x8a
+ 1969 0881 8C080000 		.4byte	0x88c
+ 1970 0885 18       		.uleb128 0x18
+ 1971 0886 7D000000 		.4byte	0x7d
+ 1972 088a 1F       		.byte	0x1f
+ 1973 088b 00       		.byte	0
+ 1974 088c 1D       		.uleb128 0x1d
+ 1975 088d 73747200 		.ascii	"str\000"
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\cczfFPJv.s 			page 42
+
+
+ 1976 0891 01       		.byte	0x1
+ 1977 0892 10       		.byte	0x10
+ 1978 0893 7C080000 		.4byte	0x87c
+ 1979 0897 05       		.uleb128 0x5
+ 1980 0898 03       		.byte	0x3
+ 1981 0899 00000000 		.4byte	str
+ 1982 089d 17       		.uleb128 0x17
+ 1983 089e 8A000000 		.4byte	0x8a
+ 1984 08a2 AE080000 		.4byte	0x8ae
+ 1985 08a6 1A       		.uleb128 0x1a
+ 1986 08a7 7D000000 		.4byte	0x7d
+ 1987 08ab EB05     		.2byte	0x5eb
+ 1988 08ad 00       		.byte	0
+ 1989 08ae 19       		.uleb128 0x19
+ 1990 08af 00000000 		.4byte	.LASF53
+ 1991 08b3 01       		.byte	0x1
+ 1992 08b4 17       		.byte	0x17
+ 1993 08b5 9D080000 		.4byte	0x89d
+ 1994 08b9 05       		.uleb128 0x5
+ 1995 08ba 03       		.byte	0x3
+ 1996 08bb 00000000 		.4byte	header
+ 1997 08bf 17       		.uleb128 0x17
+ 1998 08c0 8A000000 		.4byte	0x8a
+ 1999 08c4 CF080000 		.4byte	0x8cf
+ 2000 08c8 18       		.uleb128 0x18
+ 2001 08c9 7D000000 		.4byte	0x7d
+ 2002 08cd 00       		.byte	0
+ 2003 08ce 00       		.byte	0
+ 2004 08cf 19       		.uleb128 0x19
+ 2005 08d0 3A000000 		.4byte	.LASF54
+ 2006 08d4 01       		.byte	0x1
+ 2007 08d5 37       		.byte	0x37
+ 2008 08d6 BF080000 		.4byte	0x8bf
+ 2009 08da 05       		.uleb128 0x5
+ 2010 08db 03       		.byte	0x3
+ 2011 08dc 00000000 		.4byte	web_edit_header
+ 2012 08e0 17       		.uleb128 0x17
+ 2013 08e1 8A000000 		.4byte	0x8a
+ 2014 08e5 F0080000 		.4byte	0x8f0
+ 2015 08e9 18       		.uleb128 0x18
+ 2016 08ea 7D000000 		.4byte	0x7d
+ 2017 08ee 94       		.byte	0x94
+ 2018 08ef 00       		.byte	0
+ 2019 08f0 19       		.uleb128 0x19
+ 2020 08f1 E9000000 		.4byte	.LASF55
+ 2021 08f5 01       		.byte	0x1
+ 2022 08f6 3C       		.byte	0x3c
+ 2023 08f7 E0080000 		.4byte	0x8e0
+ 2024 08fb 05       		.uleb128 0x5
+ 2025 08fc 03       		.byte	0x3
+ 2026 08fd 00000000 		.4byte	webif_404_reply
+ 2027 0901 1E       		.uleb128 0x1e
+ 2028 0902 5D000000 		.4byte	.LASF56
+ 2029 0906 5D000000 		.4byte	.LASF56
+ 2030 090a 07       		.byte	0x7
+ 2031 090b 29       		.byte	0x29
+ 2032 090c 1E       		.uleb128 0x1e
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\cczfFPJv.s 			page 43
+
+
+ 2033 090d 3A010000 		.4byte	.LASF57
+ 2034 0911 3A010000 		.4byte	.LASF57
+ 2035 0915 08       		.byte	0x8
+ 2036 0916 1B       		.byte	0x1b
+ 2037 0917 1E       		.uleb128 0x1e
+ 2038 0918 58020000 		.4byte	.LASF58
+ 2039 091c 58020000 		.4byte	.LASF58
+ 2040 0920 08       		.byte	0x8
+ 2041 0921 1C       		.byte	0x1c
+ 2042 0922 1E       		.uleb128 0x1e
+ 2043 0923 75010000 		.4byte	.LASF59
+ 2044 0927 75010000 		.4byte	.LASF59
+ 2045 092b 07       		.byte	0x7
+ 2046 092c 26       		.byte	0x26
+ 2047 092d 1F       		.uleb128 0x1f
+ 2048 092e 5F020000 		.4byte	.LASF70
+ 2049 0932 5F020000 		.4byte	.LASF70
+ 2050 0936 1E       		.uleb128 0x1e
+ 2051 0937 F1010000 		.4byte	.LASF60
+ 2052 093b F1010000 		.4byte	.LASF60
+ 2053 093f 08       		.byte	0x8
+ 2054 0940 1E       		.byte	0x1e
+ 2055 0941 20       		.uleb128 0x20
+ 2056 0942 E2010000 		.4byte	.LASF64
+ 2057 0946 41010000 		.4byte	.LASF71
+ 2058 094a 0B       		.byte	0xb
+ 2059 094b 00       		.byte	0
+ 2060 094c E2010000 		.4byte	.LASF64
+ 2061 0950 1E       		.uleb128 0x1e
+ 2062 0951 32010000 		.4byte	.LASF61
+ 2063 0955 32010000 		.4byte	.LASF61
+ 2064 0959 09       		.byte	0x9
+ 2065 095a E7       		.byte	0xe7
+ 2066 095b 1E       		.uleb128 0x1e
+ 2067 095c DB010000 		.4byte	.LASF62
+ 2068 0960 DB010000 		.4byte	.LASF62
+ 2069 0964 08       		.byte	0x8
+ 2070 0965 1A       		.byte	0x1a
+ 2071 0966 1E       		.uleb128 0x1e
+ 2072 0967 AE000000 		.4byte	.LASF63
+ 2073 096b AE000000 		.4byte	.LASF63
+ 2074 096f 08       		.byte	0x8
+ 2075 0970 16       		.byte	0x16
+ 2076 0971 1E       		.uleb128 0x1e
+ 2077 0972 E2010000 		.4byte	.LASF64
+ 2078 0976 E2010000 		.4byte	.LASF64
+ 2079 097a 08       		.byte	0x8
+ 2080 097b 21       		.byte	0x21
+ 2081 097c 21       		.uleb128 0x21
+ 2082 097d A8010000 		.4byte	.LASF65
+ 2083 0981 A8010000 		.4byte	.LASF65
+ 2084 0985 0A       		.byte	0xa
+ 2085 0986 C901     		.2byte	0x1c9
+ 2086 0988 00       		.byte	0
+ 2087              		.section	.debug_abbrev,"",%progbits
+ 2088              	.Ldebug_abbrev0:
+ 2089 0000 01       		.uleb128 0x1
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\cczfFPJv.s 			page 44
+
+
+ 2090 0001 11       		.uleb128 0x11
+ 2091 0002 01       		.byte	0x1
+ 2092 0003 25       		.uleb128 0x25
+ 2093 0004 0E       		.uleb128 0xe
+ 2094 0005 13       		.uleb128 0x13
+ 2095 0006 0B       		.uleb128 0xb
+ 2096 0007 03       		.uleb128 0x3
+ 2097 0008 0E       		.uleb128 0xe
+ 2098 0009 1B       		.uleb128 0x1b
+ 2099 000a 0E       		.uleb128 0xe
+ 2100 000b 55       		.uleb128 0x55
+ 2101 000c 17       		.uleb128 0x17
+ 2102 000d 11       		.uleb128 0x11
+ 2103 000e 01       		.uleb128 0x1
+ 2104 000f 10       		.uleb128 0x10
+ 2105 0010 17       		.uleb128 0x17
+ 2106 0011 00       		.byte	0
+ 2107 0012 00       		.byte	0
+ 2108 0013 02       		.uleb128 0x2
+ 2109 0014 24       		.uleb128 0x24
+ 2110 0015 00       		.byte	0
+ 2111 0016 0B       		.uleb128 0xb
+ 2112 0017 0B       		.uleb128 0xb
+ 2113 0018 3E       		.uleb128 0x3e
+ 2114 0019 0B       		.uleb128 0xb
+ 2115 001a 03       		.uleb128 0x3
+ 2116 001b 0E       		.uleb128 0xe
+ 2117 001c 00       		.byte	0
+ 2118 001d 00       		.byte	0
+ 2119 001e 03       		.uleb128 0x3
+ 2120 001f 16       		.uleb128 0x16
+ 2121 0020 00       		.byte	0
+ 2122 0021 03       		.uleb128 0x3
+ 2123 0022 0E       		.uleb128 0xe
+ 2124 0023 3A       		.uleb128 0x3a
+ 2125 0024 0B       		.uleb128 0xb
+ 2126 0025 3B       		.uleb128 0x3b
+ 2127 0026 0B       		.uleb128 0xb
+ 2128 0027 49       		.uleb128 0x49
+ 2129 0028 13       		.uleb128 0x13
+ 2130 0029 00       		.byte	0
+ 2131 002a 00       		.byte	0
+ 2132 002b 04       		.uleb128 0x4
+ 2133 002c 24       		.uleb128 0x24
+ 2134 002d 00       		.byte	0
+ 2135 002e 0B       		.uleb128 0xb
+ 2136 002f 0B       		.uleb128 0xb
+ 2137 0030 3E       		.uleb128 0x3e
+ 2138 0031 0B       		.uleb128 0xb
+ 2139 0032 03       		.uleb128 0x3
+ 2140 0033 08       		.uleb128 0x8
+ 2141 0034 00       		.byte	0
+ 2142 0035 00       		.byte	0
+ 2143 0036 05       		.uleb128 0x5
+ 2144 0037 0F       		.uleb128 0xf
+ 2145 0038 00       		.byte	0
+ 2146 0039 0B       		.uleb128 0xb
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\cczfFPJv.s 			page 45
+
+
+ 2147 003a 0B       		.uleb128 0xb
+ 2148 003b 49       		.uleb128 0x49
+ 2149 003c 13       		.uleb128 0x13
+ 2150 003d 00       		.byte	0
+ 2151 003e 00       		.byte	0
+ 2152 003f 06       		.uleb128 0x6
+ 2153 0040 16       		.uleb128 0x16
+ 2154 0041 00       		.byte	0
+ 2155 0042 03       		.uleb128 0x3
+ 2156 0043 0E       		.uleb128 0xe
+ 2157 0044 3A       		.uleb128 0x3a
+ 2158 0045 0B       		.uleb128 0xb
+ 2159 0046 3B       		.uleb128 0x3b
+ 2160 0047 05       		.uleb128 0x5
+ 2161 0048 49       		.uleb128 0x49
+ 2162 0049 13       		.uleb128 0x13
+ 2163 004a 00       		.byte	0
+ 2164 004b 00       		.byte	0
+ 2165 004c 07       		.uleb128 0x7
+ 2166 004d 13       		.uleb128 0x13
+ 2167 004e 01       		.byte	0x1
+ 2168 004f 0B       		.uleb128 0xb
+ 2169 0050 0B       		.uleb128 0xb
+ 2170 0051 3A       		.uleb128 0x3a
+ 2171 0052 0B       		.uleb128 0xb
+ 2172 0053 3B       		.uleb128 0x3b
+ 2173 0054 0B       		.uleb128 0xb
+ 2174 0055 01       		.uleb128 0x1
+ 2175 0056 13       		.uleb128 0x13
+ 2176 0057 00       		.byte	0
+ 2177 0058 00       		.byte	0
+ 2178 0059 08       		.uleb128 0x8
+ 2179 005a 0D       		.uleb128 0xd
+ 2180 005b 00       		.byte	0
+ 2181 005c 03       		.uleb128 0x3
+ 2182 005d 0E       		.uleb128 0xe
+ 2183 005e 3A       		.uleb128 0x3a
+ 2184 005f 0B       		.uleb128 0xb
+ 2185 0060 3B       		.uleb128 0x3b
+ 2186 0061 0B       		.uleb128 0xb
+ 2187 0062 49       		.uleb128 0x49
+ 2188 0063 13       		.uleb128 0x13
+ 2189 0064 38       		.uleb128 0x38
+ 2190 0065 0B       		.uleb128 0xb
+ 2191 0066 00       		.byte	0
+ 2192 0067 00       		.byte	0
+ 2193 0068 09       		.uleb128 0x9
+ 2194 0069 0D       		.uleb128 0xd
+ 2195 006a 00       		.byte	0
+ 2196 006b 03       		.uleb128 0x3
+ 2197 006c 08       		.uleb128 0x8
+ 2198 006d 3A       		.uleb128 0x3a
+ 2199 006e 0B       		.uleb128 0xb
+ 2200 006f 3B       		.uleb128 0x3b
+ 2201 0070 0B       		.uleb128 0xb
+ 2202 0071 49       		.uleb128 0x49
+ 2203 0072 13       		.uleb128 0x13
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\cczfFPJv.s 			page 46
+
+
+ 2204 0073 38       		.uleb128 0x38
+ 2205 0074 0B       		.uleb128 0xb
+ 2206 0075 00       		.byte	0
+ 2207 0076 00       		.byte	0
+ 2208 0077 0A       		.uleb128 0xa
+ 2209 0078 2E       		.uleb128 0x2e
+ 2210 0079 01       		.byte	0x1
+ 2211 007a 3F       		.uleb128 0x3f
+ 2212 007b 19       		.uleb128 0x19
+ 2213 007c 03       		.uleb128 0x3
+ 2214 007d 0E       		.uleb128 0xe
+ 2215 007e 3A       		.uleb128 0x3a
+ 2216 007f 0B       		.uleb128 0xb
+ 2217 0080 3B       		.uleb128 0x3b
+ 2218 0081 0B       		.uleb128 0xb
+ 2219 0082 27       		.uleb128 0x27
+ 2220 0083 19       		.uleb128 0x19
+ 2221 0084 49       		.uleb128 0x49
+ 2222 0085 13       		.uleb128 0x13
+ 2223 0086 11       		.uleb128 0x11
+ 2224 0087 01       		.uleb128 0x1
+ 2225 0088 12       		.uleb128 0x12
+ 2226 0089 06       		.uleb128 0x6
+ 2227 008a 40       		.uleb128 0x40
+ 2228 008b 18       		.uleb128 0x18
+ 2229 008c 9742     		.uleb128 0x2117
+ 2230 008e 19       		.uleb128 0x19
+ 2231 008f 01       		.uleb128 0x1
+ 2232 0090 13       		.uleb128 0x13
+ 2233 0091 00       		.byte	0
+ 2234 0092 00       		.byte	0
+ 2235 0093 0B       		.uleb128 0xb
+ 2236 0094 898201   		.uleb128 0x4109
+ 2237 0097 00       		.byte	0
+ 2238 0098 11       		.uleb128 0x11
+ 2239 0099 01       		.uleb128 0x1
+ 2240 009a 31       		.uleb128 0x31
+ 2241 009b 13       		.uleb128 0x13
+ 2242 009c 00       		.byte	0
+ 2243 009d 00       		.byte	0
+ 2244 009e 0C       		.uleb128 0xc
+ 2245 009f 2E       		.uleb128 0x2e
+ 2246 00a0 01       		.byte	0x1
+ 2247 00a1 3F       		.uleb128 0x3f
+ 2248 00a2 19       		.uleb128 0x19
+ 2249 00a3 03       		.uleb128 0x3
+ 2250 00a4 0E       		.uleb128 0xe
+ 2251 00a5 3A       		.uleb128 0x3a
+ 2252 00a6 0B       		.uleb128 0xb
+ 2253 00a7 3B       		.uleb128 0x3b
+ 2254 00a8 0B       		.uleb128 0xb
+ 2255 00a9 27       		.uleb128 0x27
+ 2256 00aa 19       		.uleb128 0x19
+ 2257 00ab 11       		.uleb128 0x11
+ 2258 00ac 01       		.uleb128 0x1
+ 2259 00ad 12       		.uleb128 0x12
+ 2260 00ae 06       		.uleb128 0x6
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\cczfFPJv.s 			page 47
+
+
+ 2261 00af 40       		.uleb128 0x40
+ 2262 00b0 18       		.uleb128 0x18
+ 2263 00b1 9742     		.uleb128 0x2117
+ 2264 00b3 19       		.uleb128 0x19
+ 2265 00b4 01       		.uleb128 0x1
+ 2266 00b5 13       		.uleb128 0x13
+ 2267 00b6 00       		.byte	0
+ 2268 00b7 00       		.byte	0
+ 2269 00b8 0D       		.uleb128 0xd
+ 2270 00b9 05       		.uleb128 0x5
+ 2271 00ba 00       		.byte	0
+ 2272 00bb 03       		.uleb128 0x3
+ 2273 00bc 0E       		.uleb128 0xe
+ 2274 00bd 3A       		.uleb128 0x3a
+ 2275 00be 0B       		.uleb128 0xb
+ 2276 00bf 3B       		.uleb128 0x3b
+ 2277 00c0 0B       		.uleb128 0xb
+ 2278 00c1 49       		.uleb128 0x49
+ 2279 00c2 13       		.uleb128 0x13
+ 2280 00c3 02       		.uleb128 0x2
+ 2281 00c4 17       		.uleb128 0x17
+ 2282 00c5 00       		.byte	0
+ 2283 00c6 00       		.byte	0
+ 2284 00c7 0E       		.uleb128 0xe
+ 2285 00c8 05       		.uleb128 0x5
+ 2286 00c9 00       		.byte	0
+ 2287 00ca 03       		.uleb128 0x3
+ 2288 00cb 08       		.uleb128 0x8
+ 2289 00cc 3A       		.uleb128 0x3a
+ 2290 00cd 0B       		.uleb128 0xb
+ 2291 00ce 3B       		.uleb128 0x3b
+ 2292 00cf 0B       		.uleb128 0xb
+ 2293 00d0 49       		.uleb128 0x49
+ 2294 00d1 13       		.uleb128 0x13
+ 2295 00d2 02       		.uleb128 0x2
+ 2296 00d3 17       		.uleb128 0x17
+ 2297 00d4 00       		.byte	0
+ 2298 00d5 00       		.byte	0
+ 2299 00d6 0F       		.uleb128 0xf
+ 2300 00d7 34       		.uleb128 0x34
+ 2301 00d8 00       		.byte	0
+ 2302 00d9 03       		.uleb128 0x3
+ 2303 00da 0E       		.uleb128 0xe
+ 2304 00db 3A       		.uleb128 0x3a
+ 2305 00dc 0B       		.uleb128 0xb
+ 2306 00dd 3B       		.uleb128 0x3b
+ 2307 00de 0B       		.uleb128 0xb
+ 2308 00df 49       		.uleb128 0x49
+ 2309 00e0 13       		.uleb128 0x13
+ 2310 00e1 02       		.uleb128 0x2
+ 2311 00e2 17       		.uleb128 0x17
+ 2312 00e3 00       		.byte	0
+ 2313 00e4 00       		.byte	0
+ 2314 00e5 10       		.uleb128 0x10
+ 2315 00e6 898201   		.uleb128 0x4109
+ 2316 00e9 01       		.byte	0x1
+ 2317 00ea 11       		.uleb128 0x11
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\cczfFPJv.s 			page 48
+
+
+ 2318 00eb 01       		.uleb128 0x1
+ 2319 00ec 31       		.uleb128 0x31
+ 2320 00ed 13       		.uleb128 0x13
+ 2321 00ee 01       		.uleb128 0x1
+ 2322 00ef 13       		.uleb128 0x13
+ 2323 00f0 00       		.byte	0
+ 2324 00f1 00       		.byte	0
+ 2325 00f2 11       		.uleb128 0x11
+ 2326 00f3 8A8201   		.uleb128 0x410a
+ 2327 00f6 00       		.byte	0
+ 2328 00f7 02       		.uleb128 0x2
+ 2329 00f8 18       		.uleb128 0x18
+ 2330 00f9 9142     		.uleb128 0x2111
+ 2331 00fb 18       		.uleb128 0x18
+ 2332 00fc 00       		.byte	0
+ 2333 00fd 00       		.byte	0
+ 2334 00fe 12       		.uleb128 0x12
+ 2335 00ff 898201   		.uleb128 0x4109
+ 2336 0102 01       		.byte	0x1
+ 2337 0103 11       		.uleb128 0x11
+ 2338 0104 01       		.uleb128 0x1
+ 2339 0105 31       		.uleb128 0x31
+ 2340 0106 13       		.uleb128 0x13
+ 2341 0107 00       		.byte	0
+ 2342 0108 00       		.byte	0
+ 2343 0109 13       		.uleb128 0x13
+ 2344 010a 2E       		.uleb128 0x2e
+ 2345 010b 01       		.byte	0x1
+ 2346 010c 3F       		.uleb128 0x3f
+ 2347 010d 19       		.uleb128 0x19
+ 2348 010e 03       		.uleb128 0x3
+ 2349 010f 0E       		.uleb128 0xe
+ 2350 0110 3A       		.uleb128 0x3a
+ 2351 0111 0B       		.uleb128 0xb
+ 2352 0112 3B       		.uleb128 0x3b
+ 2353 0113 0B       		.uleb128 0xb
+ 2354 0114 27       		.uleb128 0x27
+ 2355 0115 19       		.uleb128 0x19
+ 2356 0116 11       		.uleb128 0x11
+ 2357 0117 01       		.uleb128 0x1
+ 2358 0118 12       		.uleb128 0x12
+ 2359 0119 06       		.uleb128 0x6
+ 2360 011a 40       		.uleb128 0x40
+ 2361 011b 18       		.uleb128 0x18
+ 2362 011c 9642     		.uleb128 0x2116
+ 2363 011e 19       		.uleb128 0x19
+ 2364 011f 01       		.uleb128 0x1
+ 2365 0120 13       		.uleb128 0x13
+ 2366 0121 00       		.byte	0
+ 2367 0122 00       		.byte	0
+ 2368 0123 14       		.uleb128 0x14
+ 2369 0124 34       		.uleb128 0x34
+ 2370 0125 00       		.byte	0
+ 2371 0126 03       		.uleb128 0x3
+ 2372 0127 08       		.uleb128 0x8
+ 2373 0128 3A       		.uleb128 0x3a
+ 2374 0129 0B       		.uleb128 0xb
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\cczfFPJv.s 			page 49
+
+
+ 2375 012a 3B       		.uleb128 0x3b
+ 2376 012b 0B       		.uleb128 0xb
+ 2377 012c 49       		.uleb128 0x49
+ 2378 012d 13       		.uleb128 0x13
+ 2379 012e 02       		.uleb128 0x2
+ 2380 012f 17       		.uleb128 0x17
+ 2381 0130 00       		.byte	0
+ 2382 0131 00       		.byte	0
+ 2383 0132 15       		.uleb128 0x15
+ 2384 0133 34       		.uleb128 0x34
+ 2385 0134 00       		.byte	0
+ 2386 0135 03       		.uleb128 0x3
+ 2387 0136 0E       		.uleb128 0xe
+ 2388 0137 3A       		.uleb128 0x3a
+ 2389 0138 0B       		.uleb128 0xb
+ 2390 0139 3B       		.uleb128 0x3b
+ 2391 013a 05       		.uleb128 0x5
+ 2392 013b 49       		.uleb128 0x49
+ 2393 013c 13       		.uleb128 0x13
+ 2394 013d 3F       		.uleb128 0x3f
+ 2395 013e 19       		.uleb128 0x19
+ 2396 013f 3C       		.uleb128 0x3c
+ 2397 0140 19       		.uleb128 0x19
+ 2398 0141 00       		.byte	0
+ 2399 0142 00       		.byte	0
+ 2400 0143 16       		.uleb128 0x16
+ 2401 0144 35       		.uleb128 0x35
+ 2402 0145 00       		.byte	0
+ 2403 0146 49       		.uleb128 0x49
+ 2404 0147 13       		.uleb128 0x13
+ 2405 0148 00       		.byte	0
+ 2406 0149 00       		.byte	0
+ 2407 014a 17       		.uleb128 0x17
+ 2408 014b 01       		.uleb128 0x1
+ 2409 014c 01       		.byte	0x1
+ 2410 014d 49       		.uleb128 0x49
+ 2411 014e 13       		.uleb128 0x13
+ 2412 014f 01       		.uleb128 0x1
+ 2413 0150 13       		.uleb128 0x13
+ 2414 0151 00       		.byte	0
+ 2415 0152 00       		.byte	0
+ 2416 0153 18       		.uleb128 0x18
+ 2417 0154 21       		.uleb128 0x21
+ 2418 0155 00       		.byte	0
+ 2419 0156 49       		.uleb128 0x49
+ 2420 0157 13       		.uleb128 0x13
+ 2421 0158 2F       		.uleb128 0x2f
+ 2422 0159 0B       		.uleb128 0xb
+ 2423 015a 00       		.byte	0
+ 2424 015b 00       		.byte	0
+ 2425 015c 19       		.uleb128 0x19
+ 2426 015d 34       		.uleb128 0x34
+ 2427 015e 00       		.byte	0
+ 2428 015f 03       		.uleb128 0x3
+ 2429 0160 0E       		.uleb128 0xe
+ 2430 0161 3A       		.uleb128 0x3a
+ 2431 0162 0B       		.uleb128 0xb
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\cczfFPJv.s 			page 50
+
+
+ 2432 0163 3B       		.uleb128 0x3b
+ 2433 0164 0B       		.uleb128 0xb
+ 2434 0165 49       		.uleb128 0x49
+ 2435 0166 13       		.uleb128 0x13
+ 2436 0167 3F       		.uleb128 0x3f
+ 2437 0168 19       		.uleb128 0x19
+ 2438 0169 02       		.uleb128 0x2
+ 2439 016a 18       		.uleb128 0x18
+ 2440 016b 00       		.byte	0
+ 2441 016c 00       		.byte	0
+ 2442 016d 1A       		.uleb128 0x1a
+ 2443 016e 21       		.uleb128 0x21
+ 2444 016f 00       		.byte	0
+ 2445 0170 49       		.uleb128 0x49
+ 2446 0171 13       		.uleb128 0x13
+ 2447 0172 2F       		.uleb128 0x2f
+ 2448 0173 05       		.uleb128 0x5
+ 2449 0174 00       		.byte	0
+ 2450 0175 00       		.byte	0
+ 2451 0176 1B       		.uleb128 0x1b
+ 2452 0177 34       		.uleb128 0x34
+ 2453 0178 00       		.byte	0
+ 2454 0179 03       		.uleb128 0x3
+ 2455 017a 08       		.uleb128 0x8
+ 2456 017b 3A       		.uleb128 0x3a
+ 2457 017c 0B       		.uleb128 0xb
+ 2458 017d 3B       		.uleb128 0x3b
+ 2459 017e 0B       		.uleb128 0xb
+ 2460 017f 49       		.uleb128 0x49
+ 2461 0180 13       		.uleb128 0x13
+ 2462 0181 3F       		.uleb128 0x3f
+ 2463 0182 19       		.uleb128 0x19
+ 2464 0183 3C       		.uleb128 0x3c
+ 2465 0184 19       		.uleb128 0x19
+ 2466 0185 00       		.byte	0
+ 2467 0186 00       		.byte	0
+ 2468 0187 1C       		.uleb128 0x1c
+ 2469 0188 34       		.uleb128 0x34
+ 2470 0189 00       		.byte	0
+ 2471 018a 03       		.uleb128 0x3
+ 2472 018b 0E       		.uleb128 0xe
+ 2473 018c 3A       		.uleb128 0x3a
+ 2474 018d 0B       		.uleb128 0xb
+ 2475 018e 3B       		.uleb128 0x3b
+ 2476 018f 0B       		.uleb128 0xb
+ 2477 0190 49       		.uleb128 0x49
+ 2478 0191 13       		.uleb128 0x13
+ 2479 0192 3F       		.uleb128 0x3f
+ 2480 0193 19       		.uleb128 0x19
+ 2481 0194 3C       		.uleb128 0x3c
+ 2482 0195 19       		.uleb128 0x19
+ 2483 0196 00       		.byte	0
+ 2484 0197 00       		.byte	0
+ 2485 0198 1D       		.uleb128 0x1d
+ 2486 0199 34       		.uleb128 0x34
+ 2487 019a 00       		.byte	0
+ 2488 019b 03       		.uleb128 0x3
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\cczfFPJv.s 			page 51
+
+
+ 2489 019c 08       		.uleb128 0x8
+ 2490 019d 3A       		.uleb128 0x3a
+ 2491 019e 0B       		.uleb128 0xb
+ 2492 019f 3B       		.uleb128 0x3b
+ 2493 01a0 0B       		.uleb128 0xb
+ 2494 01a1 49       		.uleb128 0x49
+ 2495 01a2 13       		.uleb128 0x13
+ 2496 01a3 3F       		.uleb128 0x3f
+ 2497 01a4 19       		.uleb128 0x19
+ 2498 01a5 02       		.uleb128 0x2
+ 2499 01a6 18       		.uleb128 0x18
+ 2500 01a7 00       		.byte	0
+ 2501 01a8 00       		.byte	0
+ 2502 01a9 1E       		.uleb128 0x1e
+ 2503 01aa 2E       		.uleb128 0x2e
+ 2504 01ab 00       		.byte	0
+ 2505 01ac 3F       		.uleb128 0x3f
+ 2506 01ad 19       		.uleb128 0x19
+ 2507 01ae 3C       		.uleb128 0x3c
+ 2508 01af 19       		.uleb128 0x19
+ 2509 01b0 6E       		.uleb128 0x6e
+ 2510 01b1 0E       		.uleb128 0xe
+ 2511 01b2 03       		.uleb128 0x3
+ 2512 01b3 0E       		.uleb128 0xe
+ 2513 01b4 3A       		.uleb128 0x3a
+ 2514 01b5 0B       		.uleb128 0xb
+ 2515 01b6 3B       		.uleb128 0x3b
+ 2516 01b7 0B       		.uleb128 0xb
+ 2517 01b8 00       		.byte	0
+ 2518 01b9 00       		.byte	0
+ 2519 01ba 1F       		.uleb128 0x1f
+ 2520 01bb 2E       		.uleb128 0x2e
+ 2521 01bc 00       		.byte	0
+ 2522 01bd 3F       		.uleb128 0x3f
+ 2523 01be 19       		.uleb128 0x19
+ 2524 01bf 3C       		.uleb128 0x3c
+ 2525 01c0 19       		.uleb128 0x19
+ 2526 01c1 6E       		.uleb128 0x6e
+ 2527 01c2 0E       		.uleb128 0xe
+ 2528 01c3 03       		.uleb128 0x3
+ 2529 01c4 0E       		.uleb128 0xe
+ 2530 01c5 00       		.byte	0
+ 2531 01c6 00       		.byte	0
+ 2532 01c7 20       		.uleb128 0x20
+ 2533 01c8 2E       		.uleb128 0x2e
+ 2534 01c9 00       		.byte	0
+ 2535 01ca 3F       		.uleb128 0x3f
+ 2536 01cb 19       		.uleb128 0x19
+ 2537 01cc 3C       		.uleb128 0x3c
+ 2538 01cd 19       		.uleb128 0x19
+ 2539 01ce 6E       		.uleb128 0x6e
+ 2540 01cf 0E       		.uleb128 0xe
+ 2541 01d0 03       		.uleb128 0x3
+ 2542 01d1 0E       		.uleb128 0xe
+ 2543 01d2 3A       		.uleb128 0x3a
+ 2544 01d3 0B       		.uleb128 0xb
+ 2545 01d4 3B       		.uleb128 0x3b
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\cczfFPJv.s 			page 52
+
+
+ 2546 01d5 0B       		.uleb128 0xb
+ 2547 01d6 6E       		.uleb128 0x6e
+ 2548 01d7 0E       		.uleb128 0xe
+ 2549 01d8 00       		.byte	0
+ 2550 01d9 00       		.byte	0
+ 2551 01da 21       		.uleb128 0x21
+ 2552 01db 2E       		.uleb128 0x2e
+ 2553 01dc 00       		.byte	0
+ 2554 01dd 3F       		.uleb128 0x3f
+ 2555 01de 19       		.uleb128 0x19
+ 2556 01df 3C       		.uleb128 0x3c
+ 2557 01e0 19       		.uleb128 0x19
+ 2558 01e1 6E       		.uleb128 0x6e
+ 2559 01e2 0E       		.uleb128 0xe
+ 2560 01e3 03       		.uleb128 0x3
+ 2561 01e4 0E       		.uleb128 0xe
+ 2562 01e5 3A       		.uleb128 0x3a
+ 2563 01e6 0B       		.uleb128 0xb
+ 2564 01e7 3B       		.uleb128 0x3b
+ 2565 01e8 05       		.uleb128 0x5
+ 2566 01e9 00       		.byte	0
+ 2567 01ea 00       		.byte	0
+ 2568 01eb 00       		.byte	0
+ 2569              		.section	.debug_loc,"",%progbits
+ 2570              	.Ldebug_loc0:
+ 2571              	.LLST0:
+ 2572 0000 00000000 		.4byte	.LVL1
+ 2573 0004 06000000 		.4byte	.LVL2
+ 2574 0008 0100     		.2byte	0x1
+ 2575 000a 50       		.byte	0x50
+ 2576 000b 06000000 		.4byte	.LVL2
+ 2577 000f 62000000 		.4byte	.LVL17
+ 2578 0013 0100     		.2byte	0x1
+ 2579 0015 54       		.byte	0x54
+ 2580 0016 00000000 		.4byte	0
+ 2581 001a 00000000 		.4byte	0
+ 2582              	.LLST1:
+ 2583 001e 00000000 		.4byte	.LVL1
+ 2584 0022 06000000 		.4byte	.LVL2
+ 2585 0026 0100     		.2byte	0x1
+ 2586 0028 51       		.byte	0x51
+ 2587 0029 0E000000 		.4byte	.LVL3
+ 2588 002d 12000000 		.4byte	.LVL4
+ 2589 0031 0100     		.2byte	0x1
+ 2590 0033 50       		.byte	0x50
+ 2591 0034 12000000 		.4byte	.LVL4
+ 2592 0038 18000000 		.4byte	.LVL5
+ 2593 003c 0100     		.2byte	0x1
+ 2594 003e 56       		.byte	0x56
+ 2595 003f 18000000 		.4byte	.LVL5
+ 2596 0043 1A000000 		.4byte	.LVL6
+ 2597 0047 0100     		.2byte	0x1
+ 2598 0049 50       		.byte	0x50
+ 2599 004a 1A000000 		.4byte	.LVL6
+ 2600 004e 5C000000 		.4byte	.LVL16
+ 2601 0052 0100     		.2byte	0x1
+ 2602 0054 56       		.byte	0x56
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\cczfFPJv.s 			page 53
+
+
+ 2603 0055 00000000 		.4byte	0
+ 2604 0059 00000000 		.4byte	0
+ 2605              	.LLST2:
+ 2606 005d 1A000000 		.4byte	.LVL6
+ 2607 0061 5C000000 		.4byte	.LVL16
+ 2608 0065 0100     		.2byte	0x1
+ 2609 0067 54       		.byte	0x54
+ 2610 0068 00000000 		.4byte	0
+ 2611 006c 00000000 		.4byte	0
+ 2612              	.LLST3:
+ 2613 0070 22000000 		.4byte	.LVL7
+ 2614 0074 26000000 		.4byte	.LVL8
+ 2615 0078 0100     		.2byte	0x1
+ 2616 007a 50       		.byte	0x50
+ 2617 007b 26000000 		.4byte	.LVL8
+ 2618 007f 2C000000 		.4byte	.LVL9
+ 2619 0083 0100     		.2byte	0x1
+ 2620 0085 55       		.byte	0x55
+ 2621 0086 2C000000 		.4byte	.LVL9
+ 2622 008a 2E000000 		.4byte	.LVL10
+ 2623 008e 0100     		.2byte	0x1
+ 2624 0090 50       		.byte	0x50
+ 2625 0091 2E000000 		.4byte	.LVL10
+ 2626 0095 5C000000 		.4byte	.LVL16
+ 2627 0099 0100     		.2byte	0x1
+ 2628 009b 55       		.byte	0x55
+ 2629 009c 00000000 		.4byte	0
+ 2630 00a0 00000000 		.4byte	0
+ 2631              	.LLST4:
+ 2632 00a4 00000000 		.4byte	.LVL18
+ 2633 00a8 0D000000 		.4byte	.LVL19-1
+ 2634 00ac 0100     		.2byte	0x1
+ 2635 00ae 50       		.byte	0x50
+ 2636 00af 0D000000 		.4byte	.LVL19-1
+ 2637 00b3 F2000000 		.4byte	.LVL38
+ 2638 00b7 0100     		.2byte	0x1
+ 2639 00b9 54       		.byte	0x54
+ 2640 00ba F2000000 		.4byte	.LVL38
+ 2641 00be 34010000 		.4byte	.LFE66
+ 2642 00c2 0400     		.2byte	0x4
+ 2643 00c4 F3       		.byte	0xf3
+ 2644 00c5 01       		.uleb128 0x1
+ 2645 00c6 50       		.byte	0x50
+ 2646 00c7 9F       		.byte	0x9f
+ 2647 00c8 00000000 		.4byte	0
+ 2648 00cc 00000000 		.4byte	0
+ 2649              	.LLST5:
+ 2650 00d0 00000000 		.4byte	.LVL39
+ 2651 00d4 0F000000 		.4byte	.LVL41-1
+ 2652 00d8 0100     		.2byte	0x1
+ 2653 00da 50       		.byte	0x50
+ 2654 00db 0F000000 		.4byte	.LVL41-1
+ 2655 00df 06010000 		.4byte	.LVL52
+ 2656 00e3 0100     		.2byte	0x1
+ 2657 00e5 57       		.byte	0x57
+ 2658 00e6 06010000 		.4byte	.LVL52
+ 2659 00ea 2C010000 		.4byte	.LFE67
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\cczfFPJv.s 			page 54
+
+
+ 2660 00ee 0400     		.2byte	0x4
+ 2661 00f0 F3       		.byte	0xf3
+ 2662 00f1 01       		.uleb128 0x1
+ 2663 00f2 50       		.byte	0x50
+ 2664 00f3 9F       		.byte	0x9f
+ 2665 00f4 00000000 		.4byte	0
+ 2666 00f8 00000000 		.4byte	0
+ 2667              	.LLST6:
+ 2668 00fc 00000000 		.4byte	.LVL39
+ 2669 0100 0C000000 		.4byte	.LVL40
+ 2670 0104 0100     		.2byte	0x1
+ 2671 0106 51       		.byte	0x51
+ 2672 0107 0C000000 		.4byte	.LVL40
+ 2673 010b 2C000000 		.4byte	.LVL45
+ 2674 010f 0100     		.2byte	0x1
+ 2675 0111 54       		.byte	0x54
+ 2676 0112 2C000000 		.4byte	.LVL45
+ 2677 0116 2C010000 		.4byte	.LFE67
+ 2678 011a 0400     		.2byte	0x4
+ 2679 011c F3       		.byte	0xf3
+ 2680 011d 01       		.uleb128 0x1
+ 2681 011e 51       		.byte	0x51
+ 2682 011f 9F       		.byte	0x9f
+ 2683 0120 00000000 		.4byte	0
+ 2684 0124 00000000 		.4byte	0
+ 2685              	.LLST7:
+ 2686 0128 00000000 		.4byte	.LVL53
+ 2687 012c 0E000000 		.4byte	.LVL55
+ 2688 0130 0100     		.2byte	0x1
+ 2689 0132 50       		.byte	0x50
+ 2690 0133 0E000000 		.4byte	.LVL55
+ 2691 0137 C0000000 		.4byte	.LFE68
+ 2692 013b 0400     		.2byte	0x4
+ 2693 013d F3       		.byte	0xf3
+ 2694 013e 01       		.uleb128 0x1
+ 2695 013f 50       		.byte	0x50
+ 2696 0140 9F       		.byte	0x9f
+ 2697 0141 00000000 		.4byte	0
+ 2698 0145 00000000 		.4byte	0
+ 2699              	.LLST8:
+ 2700 0149 00000000 		.4byte	.LVL53
+ 2701 014d 0C000000 		.4byte	.LVL54
+ 2702 0151 0100     		.2byte	0x1
+ 2703 0153 51       		.byte	0x51
+ 2704 0154 0C000000 		.4byte	.LVL54
+ 2705 0158 A8000000 		.4byte	.LVL77
+ 2706 015c 0100     		.2byte	0x1
+ 2707 015e 54       		.byte	0x54
+ 2708 015f A8000000 		.4byte	.LVL77
+ 2709 0163 C0000000 		.4byte	.LFE68
+ 2710 0167 0400     		.2byte	0x4
+ 2711 0169 F3       		.byte	0xf3
+ 2712 016a 01       		.uleb128 0x1
+ 2713 016b 51       		.byte	0x51
+ 2714 016c 9F       		.byte	0x9f
+ 2715 016d 00000000 		.4byte	0
+ 2716 0171 00000000 		.4byte	0
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\cczfFPJv.s 			page 55
+
+
+ 2717              	.LLST9:
+ 2718 0175 38000000 		.4byte	.LVL61
+ 2719 0179 8C000000 		.4byte	.LVL73
+ 2720 017d 0100     		.2byte	0x1
+ 2721 017f 55       		.byte	0x55
+ 2722 0180 00000000 		.4byte	0
+ 2723 0184 00000000 		.4byte	0
+ 2724              	.LLST10:
+ 2725 0188 12000000 		.4byte	.LVL56
+ 2726 018c 16000000 		.4byte	.LVL57
+ 2727 0190 0100     		.2byte	0x1
+ 2728 0192 50       		.byte	0x50
+ 2729 0193 34000000 		.4byte	.LVL60
+ 2730 0197 40000000 		.4byte	.LVL62
+ 2731 019b 0100     		.2byte	0x1
+ 2732 019d 50       		.byte	0x50
+ 2733 019e 40000000 		.4byte	.LVL62
+ 2734 01a2 8C000000 		.4byte	.LVL73
+ 2735 01a6 0100     		.2byte	0x1
+ 2736 01a8 57       		.byte	0x57
+ 2737 01a9 00000000 		.4byte	0
+ 2738 01ad 00000000 		.4byte	0
+ 2739              	.LLST11:
+ 2740 01b1 44000000 		.4byte	.LVL63
+ 2741 01b5 4A000000 		.4byte	.LVL64
+ 2742 01b9 0100     		.2byte	0x1
+ 2743 01bb 50       		.byte	0x50
+ 2744 01bc 4A000000 		.4byte	.LVL64
+ 2745 01c0 50000000 		.4byte	.LVL65
+ 2746 01c4 0100     		.2byte	0x1
+ 2747 01c6 58       		.byte	0x58
+ 2748 01c7 50000000 		.4byte	.LVL65
+ 2749 01cb 52000000 		.4byte	.LVL66
+ 2750 01cf 0100     		.2byte	0x1
+ 2751 01d1 50       		.byte	0x50
+ 2752 01d2 52000000 		.4byte	.LVL66
+ 2753 01d6 8C000000 		.4byte	.LVL73
+ 2754 01da 0100     		.2byte	0x1
+ 2755 01dc 58       		.byte	0x58
+ 2756 01dd 00000000 		.4byte	0
+ 2757 01e1 00000000 		.4byte	0
+ 2758              		.section	.debug_aranges,"",%progbits
+ 2759 0000 3C000000 		.4byte	0x3c
+ 2760 0004 0200     		.2byte	0x2
+ 2761 0006 00000000 		.4byte	.Ldebug_info0
+ 2762 000a 04       		.byte	0x4
+ 2763 000b 00       		.byte	0
+ 2764 000c 0000     		.2byte	0
+ 2765 000e 0000     		.2byte	0
+ 2766 0010 00000000 		.4byte	.LFB64
+ 2767 0014 0E000000 		.4byte	.LFE64-.LFB64
+ 2768 0018 00000000 		.4byte	.LFB65
+ 2769 001c 70000000 		.4byte	.LFE65-.LFB65
+ 2770 0020 00000000 		.4byte	.LFB66
+ 2771 0024 34010000 		.4byte	.LFE66-.LFB66
+ 2772 0028 00000000 		.4byte	.LFB67
+ 2773 002c 2C010000 		.4byte	.LFE67-.LFB67
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\cczfFPJv.s 			page 56
+
+
+ 2774 0030 00000000 		.4byte	.LFB68
+ 2775 0034 C0000000 		.4byte	.LFE68-.LFB68
+ 2776 0038 00000000 		.4byte	0
+ 2777 003c 00000000 		.4byte	0
+ 2778              		.section	.debug_ranges,"",%progbits
+ 2779              	.Ldebug_ranges0:
+ 2780 0000 00000000 		.4byte	.LFB64
+ 2781 0004 0E000000 		.4byte	.LFE64
+ 2782 0008 00000000 		.4byte	.LFB65
+ 2783 000c 70000000 		.4byte	.LFE65
+ 2784 0010 00000000 		.4byte	.LFB66
+ 2785 0014 34010000 		.4byte	.LFE66
+ 2786 0018 00000000 		.4byte	.LFB67
+ 2787 001c 2C010000 		.4byte	.LFE67
+ 2788 0020 00000000 		.4byte	.LFB68
+ 2789 0024 C0000000 		.4byte	.LFE68
+ 2790 0028 00000000 		.4byte	0
+ 2791 002c 00000000 		.4byte	0
+ 2792              		.section	.debug_line,"",%progbits
+ 2793              	.Ldebug_line0:
+ 2794 0000 B2020000 		.section	.debug_str,"MS",%progbits,1
+ 2794      02000402 
+ 2794      00000201 
+ 2794      FB0E0D00 
+ 2794      01010101 
+ 2795              	.LASF53:
+ 2796 0000 68656164 		.ascii	"header\000"
+ 2796      657200
+ 2797              	.LASF31:
+ 2798 0007 70617472 		.ascii	"patron1\000"
+ 2798      6F6E3100 
+ 2799              	.LASF32:
+ 2800 000f 70617472 		.ascii	"patron2\000"
+ 2800      6F6E3200 
+ 2801              	.LASF33:
+ 2802 0017 70617472 		.ascii	"patron3\000"
+ 2802      6F6E3300 
+ 2803              	.LASF28:
+ 2804 001f 636F6E74 		.ascii	"control1\000"
+ 2804      726F6C31 
+ 2804      00
+ 2805              	.LASF29:
+ 2806 0028 636F6E74 		.ascii	"control2\000"
+ 2806      726F6C32 
+ 2806      00
+ 2807              	.LASF30:
+ 2808 0031 636F6E74 		.ascii	"control3\000"
+ 2808      726F6C33 
+ 2808      00
+ 2809              	.LASF54:
+ 2810 003a 7765625F 		.ascii	"web_edit_header\000"
+ 2810      65646974 
+ 2810      5F686561 
+ 2810      64657200 
+ 2811              	.LASF2:
+ 2812 004a 73686F72 		.ascii	"short int\000"
+ 2812      7420696E 
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\cczfFPJv.s 			page 57
+
+
+ 2812      7400
+ 2813              	.LASF10:
+ 2814 0054 73697A65 		.ascii	"sizetype\000"
+ 2814      74797065 
+ 2814      00
+ 2815              	.LASF56:
+ 2816 005d 42555A5A 		.ascii	"BUZZER_Read\000"
+ 2816      45525F52 
+ 2816      65616400 
+ 2817              	.LASF19:
+ 2818 0069 54656D70 		.ascii	"TemperaturaInt\000"
+ 2818      65726174 
+ 2818      75726149 
+ 2818      6E7400
+ 2819              	.LASF21:
+ 2820 0078 4D696E75 		.ascii	"Minutos\000"
+ 2820      746F7300 
+ 2821              	.LASF44:
+ 2822 0080 736F636B 		.ascii	"socket\000"
+ 2822      657400
+ 2823              	.LASF37:
+ 2824 0087 76616C75 		.ascii	"value\000"
+ 2824      6500
+ 2825              	.LASF20:
+ 2826 008d 486F7261 		.ascii	"Horas\000"
+ 2826      7300
+ 2827              	.LASF14:
+ 2828 0093 75696E74 		.ascii	"uint8\000"
+ 2828      3800
+ 2829              	.LASF38:
+ 2830 0099 7365745F 		.ascii	"set_param\000"
+ 2830      70617261 
+ 2830      6D00
+ 2831              	.LASF25:
+ 2832 00a3 486F7261 		.ascii	"Hora\000"
+ 2832      00
+ 2833              	.LASF16:
+ 2834 00a8 666C6F61 		.ascii	"float\000"
+ 2834      7400
+ 2835              	.LASF63:
+ 2836 00ae 6D656D63 		.ascii	"memcmp\000"
+ 2836      6D7000
+ 2837              	.LASF6:
+ 2838 00b5 6C6F6E67 		.ascii	"long long int\000"
+ 2838      206C6F6E 
+ 2838      6720696E 
+ 2838      7400
+ 2839              	.LASF69:
+ 2840 00c3 4C45445F 		.ascii	"LED_state\000"
+ 2840      73746174 
+ 2840      6500
+ 2841              	.LASF34:
+ 2842 00cd 43616C69 		.ascii	"Calibracion\000"
+ 2842      62726163 
+ 2842      696F6E00 
+ 2843              	.LASF4:
+ 2844 00d9 6C6F6E67 		.ascii	"long int\000"
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\cczfFPJv.s 			page 58
+
+
+ 2844      20696E74 
+ 2844      00
+ 2845              	.LASF45:
+ 2846 00e2 496E6275 		.ascii	"Inbuff\000"
+ 2846      666600
+ 2847              	.LASF55:
+ 2848 00e9 77656269 		.ascii	"webif_404_reply\000"
+ 2848      665F3430 
+ 2848      345F7265 
+ 2848      706C7900 
+ 2849              	.LASF1:
+ 2850 00f9 756E7369 		.ascii	"unsigned char\000"
+ 2850      676E6564 
+ 2850      20636861 
+ 2850      7200
+ 2851              	.LASF35:
+ 2852 0107 70617261 		.ascii	"params\000"
+ 2852      6D7300
+ 2853              	.LASF36:
+ 2854 010e 6E616D65 		.ascii	"name\000"
+ 2854      00
+ 2855              	.LASF43:
+ 2856 0113 77656269 		.ascii	"webif_data\000"
+ 2856      665F6461 
+ 2856      746100
+ 2857              	.LASF9:
+ 2858 011e 6C6F6E67 		.ascii	"long double\000"
+ 2858      20646F75 
+ 2858      626C6500 
+ 2859              	.LASF42:
+ 2860 012a 636F756E 		.ascii	"counter\000"
+ 2860      74657200 
+ 2861              	.LASF61:
+ 2862 0132 73707269 		.ascii	"sprintf\000"
+ 2862      6E746600 
+ 2863              	.LASF57:
+ 2864 013a 73747263 		.ascii	"strchr\000"
+ 2864      687200
+ 2865              	.LASF71:
+ 2866 0141 5F5F6275 		.ascii	"__builtin_strlen\000"
+ 2866      696C7469 
+ 2866      6E5F7374 
+ 2866      726C656E 
+ 2866      00
+ 2867              	.LASF0:
+ 2868 0152 7369676E 		.ascii	"signed char\000"
+ 2868      65642063 
+ 2868      68617200 
+ 2869              	.LASF7:
+ 2870 015e 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 2870      206C6F6E 
+ 2870      6720756E 
+ 2870      7369676E 
+ 2870      65642069 
+ 2871              	.LASF59:
+ 2872 0175 42555A5A 		.ascii	"BUZZER_Write\000"
+ 2872      45525F57 
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\cczfFPJv.s 			page 59
+
+
+ 2872      72697465 
+ 2872      00
+ 2873              	.LASF39:
+ 2874 0182 64697370 		.ascii	"display_param\000"
+ 2874      6C61795F 
+ 2874      70617261 
+ 2874      6D00
+ 2875              	.LASF51:
+ 2876 0190 54656D70 		.ascii	"Temperature2\000"
+ 2876      65726174 
+ 2876      75726532 
+ 2876      00
+ 2877              	.LASF67:
+ 2878 019d 4D795365 		.ascii	"MyServer.c\000"
+ 2878      72766572 
+ 2878      2E6300
+ 2879              	.LASF65:
+ 2880 01a8 45544830 		.ascii	"ETH0_TcpSend\000"
+ 2880      5F546370 
+ 2880      53656E64 
+ 2880      00
+ 2881              	.LASF3:
+ 2882 01b5 73686F72 		.ascii	"short unsigned int\000"
+ 2882      7420756E 
+ 2882      7369676E 
+ 2882      65642069 
+ 2882      6E7400
+ 2883              	.LASF11:
+ 2884 01c8 63686172 		.ascii	"char\000"
+ 2884      00
+ 2885              	.LASF24:
+ 2886 01cd 50657273 		.ascii	"Personalizado\000"
+ 2886      6F6E616C 
+ 2886      697A6164 
+ 2886      6F00
+ 2887              	.LASF62:
+ 2888 01db 73747263 		.ascii	"strcat\000"
+ 2888      617400
+ 2889              	.LASF64:
+ 2890 01e2 7374726C 		.ascii	"strlen\000"
+ 2890      656E00
+ 2891              	.LASF13:
+ 2892 01e9 696E7433 		.ascii	"int32_t\000"
+ 2892      325F7400 
+ 2893              	.LASF60:
+ 2894 01f1 73747263 		.ascii	"strcpy\000"
+ 2894      707900
+ 2895              	.LASF47:
+ 2896 01f8 72616D70 		.ascii	"rampas\000"
+ 2896      617300
+ 2897              	.LASF50:
+ 2898 01ff 54656D70 		.ascii	"Temperatura2\000"
+ 2898      65726174 
+ 2898      75726132 
+ 2898      00
+ 2899              	.LASF18:
+ 2900 020c 54656D70 		.ascii	"TemperaturaDec\000"
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\cczfFPJv.s 			page 60
+
+
+ 2900      65726174 
+ 2900      75726144 
+ 2900      656300
+ 2901              	.LASF40:
+ 2902 021b 62756666 		.ascii	"buffer\000"
+ 2902      657200
+ 2903              	.LASF5:
+ 2904 0222 6C6F6E67 		.ascii	"long unsigned int\000"
+ 2904      20756E73 
+ 2904      69676E65 
+ 2904      6420696E 
+ 2904      7400
+ 2905              	.LASF15:
+ 2906 0234 696E7433 		.ascii	"int32\000"
+ 2906      3200
+ 2907              	.LASF22:
+ 2908 023a 48756D65 		.ascii	"Humedad\000"
+ 2908      64616400 
+ 2909              	.LASF48:
+ 2910 0242 67726170 		.ascii	"graph\000"
+ 2910      6800
+ 2911              	.LASF49:
+ 2912 0248 63616C69 		.ascii	"calib\000"
+ 2912      6200
+ 2913              	.LASF12:
+ 2914 024e 5F5F696E 		.ascii	"__int32_t\000"
+ 2914      7433325F 
+ 2914      7400
+ 2915              	.LASF58:
+ 2916 0258 73747263 		.ascii	"strcmp\000"
+ 2916      6D7000
+ 2917              	.LASF70:
+ 2918 025f 6D656D73 		.ascii	"memset\000"
+ 2918      657400
+ 2919              	.LASF27:
+ 2920 0266 47726166 		.ascii	"Grafica\000"
+ 2920      69636100 
+ 2921              	.LASF23:
+ 2922 026e 54656D70 		.ascii	"Temperatura\000"
+ 2922      65726174 
+ 2922      75726100 
+ 2923              	.LASF17:
+ 2924 027a 646F7562 		.ascii	"double\000"
+ 2924      6C6500
+ 2925              	.LASF68:
+ 2926 0281 443A5C4C 		.ascii	"D:\\Laboratorio\\Camara Climatica\\2021\\Camara Cli"
+ 2926      61626F72 
+ 2926      61746F72 
+ 2926      696F5C43 
+ 2926      616D6172 
+ 2927 02b0 6D617469 		.ascii	"matica Peltier Touch Asemp Zomac SAS 256L #0045886X"
+ 2927      63612050 
+ 2927      656C7469 
+ 2927      65722054 
+ 2927      6F756368 
+ 2928 02e3 58204F50 		.ascii	"X OP2021161\\Firmware Psoc\\LCD2\\CamaraClimatica.c"
+ 2928      32303231 
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\cczfFPJv.s 			page 61
+
+
+ 2928      3136315C 
+ 2928      4669726D 
+ 2928      77617265 
+ 2929 0313 7964736E 		.ascii	"ydsn\000"
+ 2929      00
+ 2930              	.LASF46:
+ 2931 0318 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 2931      52784275 
+ 2931      66666572 
+ 2931      00
+ 2932              	.LASF66:
+ 2933 0325 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 2933      43313120 
+ 2933      352E342E 
+ 2933      31203230 
+ 2933      31363036 
+ 2934 0358 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 2934      20726576 
+ 2934      6973696F 
+ 2934      6E203233 
+ 2934      37373135 
+ 2935 038b 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ 2935      66756E63 
+ 2935      74696F6E 
+ 2935      2D736563 
+ 2935      74696F6E 
+ 2936              	.LASF8:
+ 2937 03b3 756E7369 		.ascii	"unsigned int\000"
+ 2937      676E6564 
+ 2937      20696E74 
+ 2937      00
+ 2938              	.LASF52:
+ 2939 03c0 6C616E67 		.ascii	"lang_ru\000"
+ 2939      5F727500 
+ 2940              	.LASF41:
+ 2941 03c8 7765625F 		.ascii	"web_form\000"
+ 2941      666F726D 
+ 2941      00
+ 2942              	.LASF26:
+ 2943 03d1 4D696E75 		.ascii	"Minuto\000"
+ 2943      746F00
+ 2944              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

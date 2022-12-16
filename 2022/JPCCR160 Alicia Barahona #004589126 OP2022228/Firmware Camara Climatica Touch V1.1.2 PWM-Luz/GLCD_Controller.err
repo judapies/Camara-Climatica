@@ -1,0 +1,11 @@
+>>> Warning 205 "D:\Laboratorio\Camara Climatica\2022\JPCCR160 Alicia Barahona #0045891XX OP2022228\Firmware Camara Climatica Touch V1.1.2 PWM-Luz\Funciones.h" Line 354(1,1): Unsigned variable is never less than zero
+>>> Warning 205 "D:\Laboratorio\Camara Climatica\2022\JPCCR160 Alicia Barahona #0045891XX OP2022228\Firmware Camara Climatica Touch V1.1.2 PWM-Luz\Funciones.h" Line 357(1,1): Unsigned variable is never less than zero
+>>> Warning 205 "D:\Laboratorio\Camara Climatica\2022\JPCCR160 Alicia Barahona #0045891XX OP2022228\Firmware Camara Climatica Touch V1.1.2 PWM-Luz\Funciones.h" Line 360(1,1): Unsigned variable is never less than zero
+>>> Warning 205 "D:\Laboratorio\Camara Climatica\2022\JPCCR160 Alicia Barahona #0045891XX OP2022228\Firmware Camara Climatica Touch V1.1.2 PWM-Luz\Funciones.h" Line 363(1,1): Unsigned variable is never less than zero
+>>> Warning 216 "GLCD_Controller.c" Line 1741(1,2): Interrupts disabled during call to prevent re-entrancy:  (CR2_Write)
+>>> Warning 202 "D:\Laboratorio\Camara Climatica\2022\JPCCR160 Alicia Barahona #0045891XX OP2022228\Firmware Camara Climatica Touch V1.1.2 PWM-Luz\Funciones.h" Line 984(26,30): Variable never used:   Tref
+>>> Warning 202 "D:\Laboratorio\Camara Climatica\2022\JPCCR160 Alicia Barahona #0045891XX OP2022228\Firmware Camara Climatica Touch V1.1.2 PWM-Luz\Funciones.h" Line 1027(11,16): Variable never used:   Tref2
+>>> Warning 202 "D:\Laboratorio\Camara Climatica\2022\JPCCR160 Alicia Barahona #0045891XX OP2022228\Firmware Camara Climatica Touch V1.1.2 PWM-Luz\Funciones.h" Line 1069(10,14): Variable never used:   Href
+      Memory usage:   ROM=86%      RAM=96% - 99%
+      0 Errors,  8 Warnings.
+Build Successful.

@@ -1,0 +1,5 @@
+Puntos Camara
+
+ICH Q1A Long term; 25°C-40% ---- 30°C-35% ---- 30°C-65%
+ICH Q1A Accelerated; 40°C-25% --- 40°C-75% ---- 26°C-60%
+ICH Q1A Stress; 50°C-60°C-70°C-75%

@@ -1,0 +1,11 @@
+D:\Laboratorio\Camara Climatica\2021\Camara Climatica Peltier Touch Asemp Zomac SAS 256L #0045886XX OP2021161\Firmware Psoc\LCD2\CamaraClimatica.cydsn\CamaraClimatica.cyprj|0667392c-f065-4424-8d0f-9f06dae49235
+C:\Users\USUARIO\Desktop\Psoc\Component Libraries\CONSULTRONLib.cylib\CONSULTRONLib.cyprj|6705432d-2206-4275-8d84-a17113331d31
+C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\psoc\content\default\CyAnnotationLibrary\CyAnnotationLibrary.cylib\CyAnnotationLibrary.cyprj|9bea11bd-33a5-4e23-9a10-c805e974ee2a
+C:\Users\USUARIO\Documents\PSoC Creator\4.4\Downloads ( 4.4).cylib\Downloads ( 4.4).cyprj|f7a58aa7-0c58-4f0c-a4f9-62dde44dd88e
+C:\Users\USUARIO\Documents\PSoC Creator\4.3\Downloads ( 4.3).cylib\Downloads ( 4.3).cyprj|13161330-b483-4079-b582-b37bb8e3eecf
+C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\psoc\content\cycomponentlibraryupdates\CyComponentLibraryUpdates.cylib\CyComponentLibraryUpdates.cyprj|d9701711-9895-4c0d-aa50-4ea1668e6cf3
+C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\CyComponentLibrary.cyprj|29d9ac4c-7acc-423f-8b00-43990e8e4db3
+C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\psoc\content\cyprimitives\CyPrimitives.cylib\CyPrimitives.cyprj|205755f3-b9b9-4758-95bf-ed4b57b55397
+C:\Users\USUARIO\Documents\PSoC Creator\My Templates\PSoC-W5100-Driver-master\E2ForLife_W5x00.cylib\E2ForLife_W5x00.cyprj|59f64b52-ffa1-4536-82ce-4f4246c4a8e1
+C:\Users\USUARIO\Desktop\Psoc\Analog_LPF\Analog_LPF_v1_0.cylib\Analog_LPF_v1_0.cyprj|5bf5e2af-fc04-4d8a-b77d-e379ba206611
+C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\psoc\content\default\CyReferenceLibrary\CyReferenceLibrary.cylib\CyReferenceLibrary.cyprj|4430c1cf-5362-47c3-b64a-edd2787e8527

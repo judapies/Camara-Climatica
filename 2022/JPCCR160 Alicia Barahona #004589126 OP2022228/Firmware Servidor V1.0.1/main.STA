@@ -1,0 +1,263 @@
+
+ROM used:   49836/98304 (51%)
+            72108/98304 (73%) including unused fragments
+
+            1.8 Average locations per line
+            14.2 Average locations per statement
+
+RAM used:   960/3328 (29%) at main() level
+            1133/3328 (34%) worst case
+
+Stack used: 15 worst case (13 in main + 2 for interrupts)
+Stack size: 31
+
+Lines Stmts  %   Files
+----- ----- ---  -----
+  197    89   3  main.c
+   37     0   0  main.h
+  843     0   0  C:\Program Files (x86)\PICC\Devices\18F4685.h
+   96     6   0  tcpip\p18cxxx.h
+ 1139     0   0  tcpip\PIC18F4620_registers.h
+  163     0   0  C:\Program Files (x86)\PICC\Drivers\stdint.h
+  191     0   0  tcpip\StackTsk2.h
+  434     6   0  tcpip\TCPIP Stack\TCPIP.h
+  423     0   0  C:\Program Files (x86)\PICC\Drivers\string.h
+   32     0   0  C:\Program Files (x86)\PICC\Drivers\stddef.h
+   28     0   0  C:\Program Files (x86)\PICC\Drivers\ctype.h
+ 1351     0   0  C:\Program Files (x86)\PICC\Drivers\stdlib.h
+  552     0   0  tcpip\TCPIP Stack\GenericTypeDefs.h
+  210     0   0  tcpip\TCPIP Stack\Compiler.h
+   37     0   0  C:\Program Files (x86)\PICC\Drivers\stdio.h
+   22     1   0  tcpip\TCPIP Stack\HardwareProfile.h
+  112     1   0  tcpip\TCPIP Stack\TCPIPConfig.h
+  152     0   0  tcpip\TCPIP Stack\StackTsk.h
+  141     0   0  tcpip\TCPIP Stack\Helpers.h
+   94     0   0  tcpip\TCPIP Stack\Delay.h
+   88     0   0  tcpip\TCPIP Stack\Tick.h
+  330     0   0  tcpip\TCPIP Stack\MAC.h
+  745     0   0  tcpip\TCPIP Stack\ENC28J60.h
+  256     0   0  tcpip\TCPIP Stack\IP.h
+  112     0   0  tcpip\TCPIP Stack\ARP.h
+  104     0   0  tcpip\TCPIP Stack\XEEPROM.h
+   98     0   0  tcpip\TCPIP Stack\SPIFlash.h
+   97     0   0  tcpip\TCPIP Stack\SPIRAM.h
+  216     0   0  tcpip\TCPIP Stack\UDP.h
+  352     0   0  tcpip\TCPIP Stack\TCP.h
+  148     0   0  tcpip\TCPIP Stack\DHCP.h
+   72     0   0  tcpip\TCPIP Stack\ICMP.h
+   76     0   0  tcpip\TCPIP Stack\ccs_HTTP2.h
+  240     0   0  tcpip\TCPIP Stack\mpfs.h
+  848    66   2  tcpip\StackTsk2.c
+  553    59   2  tcpip\StackTsk.c
+ 2182   248   7  tcpip\Helpers.c
+   34     7   0  C:\Program Files (x86)\PICC\Drivers\stdarg.h
+  444    35   1  tcpip\Tick.c
+ 2338   551  16  tcpip\ENC28J60.c
+  312    39   1  tcpip\IP.c
+  702    52   1  tcpip\ARP.c
+  489    22   1  tcpip\ICMP.c
+ 1366   172   5  tcpip\UDP.c
+ 1184   307   9  tcpip\DHCP.c
+ 5592  1324  38  tcpip\TCP.c
+  753    86   2  tcpip\MPFS.c
+ 1607   408  12  tcpip\ccs_HTTP2.c
+  116    29   1  tcpip\p18cxxx.c
+----- -----
+27708  3508 Total
+
+Page ROM  %  RAM   Vol Diff  Functions:
+---- --- --- ---   --- ----  ----------
+0     32   0    7             @READ_PROGRAM_MEMORY
+0     40   0    1             @delay_ms1
+0    232   0   13   485  7.8  memmove
+0    146   0   11   318  6.5  strncpy
+0    144   0   11   371  8.2  memcmp
+0    130   0    5   231  6.6  strcmp
+0     78   0    9   266  6.5  memchr
+0     68   0    4   153  4.7  strchr
+0    122   0    9   288  6.0  strpbrk
+0    144   0    9   346  7.5  strspn
+0    176   0   10   475  7.2  strtok
+0     58   0    5   129  4.6  strlen
+0    306   0    6   436  7.9  stricmp
+0    114   0    7   271  7.0  strupr
+0     92   0   14             @MUL3232
+0    844   1   19  1817 10.4  atol
+0   1044   1   57  2308 12.4  strtoul
+0   1074   1   57  2354 12.5  strtol
+0    112   0    4   101  3.8  rand
+0     72   0    5             @DIV1616
+0     40   0    5             @MUL1616
+0      6   0    0    52  2.2  ISRTimer0
+0     94   0    4   555  6.9  StackInit
+0    492   0   12  2053 11.3  StackTask
+0      8   0    0   122  8.1  StackApplications
+0     98   0    9   229  4.4  LFSRSeedRand
+0    160   0   10   205  5.1  LFSRRand
+0    326   0   17  1813 11.8  GenerateRandomDWORD
+0     34   0    5   256  3.3  swaps
+0    374   0   11   831  4.3  swapl
+0    232   0   16   799 10.3  CalcIPChecksum
+0     18   0    0   156  2.2  TickInit
+0     58   0    4   304  4.5  GetTickCopy
+0     40   0    2    66  2.2  TickGet
+0     38   0    6   331  3.6  TickGetDiv256
+0     30   0    0   354  5.5  TickUpdate
+0    548   1    2  6711  9.0  MACInit
+0     28   0    2    44  1.6  MACIsLinked
+0     40   0    1    48  2.1  MACIsTxReady
+0    106   0    2   913  7.2  MACDiscardRx
+0    280   0    6  1684  9.2  MACGetFreeRxSize
+0    342   0   29  2157 10.4  MACGetHeader
+0    198   0    8  1495  8.3  MACPutHeader
+0    568   1    2  2731 11.8  MACFlush
+0     86   0    6   852  7.3  MACSetReadPtrInRx
+0    112   0    7   366  5.2  MACSetWritePtr
+0    108   0    7   368  5.0  MACSetReadPtr
+0    180   0   10  1359  7.7  MACCalcRxChecksum
+0    328   0   36  1256 10.7  CalcIPBufferChecksum
+0    656   1   14  6059 12.6  MACMemCopyAsync
+0     40   0    1    49  1.9  MACIsMemCopyDone
+0     42   0    1   456  4.9  MACGet
+0    118   0    9   922  9.6  MACGetArray
+0     36   0    2   456  4.5  MACPut
+0     70   0    5   616  7.7  MACPutArray
+0     56   0    1   399  4.7  SendSystemReset
+0     42   0    2   475  4.7  ReadETHReg
+0     54   0    2   647  4.7  ReadMACReg
+0    188   0    4   554  4.3  ReadPHYReg
+0     42   0    3   618  5.9  WriteReg
+0     42   0    3   458  4.7  BFCReg
+0     42   0    3   458  4.7  BFSReg
+0    160   0    6   401  4.7  WritePHYReg
+0     54   0    5   144  4.3  BankSel
+0    262   0   32   919  7.9  IPGetHeader
+0    234   0   29   992  6.8  IPPutHeader
+0     28   0    4    33  1.7  IPSetRxBuffer
+0    218   0    6   165  2.5  SwapIPHeader
+0    262   0    6   909  7.1  ARPPut
+0    284   0   30  1104  9.8  ARPProcess
+0    218   0    6   196  3.2  SwapARPPacket
+0    234   0   10  1270  9.4  ICMPProcess
+0     34   0    1   133  3.3  UDPInit
+0    348   0   14  1320 12.2  UDPOpenEx
+0     26   0    0             @MEMSET
+0    138   0    3   253  6.4  UDPTask
+0    132   0    5   206  4.1  UDPClose
+0     64   0    4   313  3.7  UDPSetTxBuffer
+0     36   0    4    63  2.3  UDPSetRxBuffer
+0     74   0    1   238  4.3  UDPIsPutReady
+0     86   0    1   204  4.6  UDPPut
+0    130   0    6   318  5.8  UDPPutArray
+0    262   0   14   914  6.4  UDPFlush
+0     70   0    1   178  3.8  UDPIsGetReady
+0     78   0    4   142  4.7  UDPGet
+0    140   0    6   295  6.5  UDPGetArray
+0     24   0    0   123  2.8  UDPDiscard
+0    396   0   33  1613  8.8  UDPProcess
+0    390   0   14  1068  8.4  FindMatchingUDPSocket
+0     62   0    2   547  5.2  DHCPInit
+0     30   0    1   149  3.1  DHCPDisable
+0     16   0    1    52  1.9  DHCPIsBound
+0   1282   1    5  6420 15.0  DHCPTask
+0     68   0    0             @goto13559
+0   1020   1   15  5309 15.9  _DHCPReceive
+0    756   1   11  3687  9.9  _DHCPSend
+0    168   0    5   362  6.8  SyncTCBStub
+0    216   0    7   472  7.0  SyncTCB
+0    412   0   13  2585 11.1  TCPInit
+0    120   0    9   675  7.3  TCPOpen
+0     46   0    1   108  3.3  TCPIsConnected
+0    234   0    1  1113 10.2  TCPDisconnect
+0     62   0    1   169  3.7  TCPFlush
+0    174   0    4   510  6.2  TCPIsPutReady
+0    292   0    6  1248 10.4  TCPPut
+0    100   0    7   232  4.1  TCPGetTxFIFOFull
+0     48   0    1   131  2.8  TCPDiscard
+0    128   0    3   297  4.4  TCPIsGetReady
+0    176   0    7   849  7.7  TCPGet
+0   2136   2   11  9302 19.6  TCPTick
+0    382   0   45  1237  8.1  TCPProcess
+0   1566   2   46 11842 17.0  SendTCP
+0   1610   2   14  3699 13.3  FindMatchingTCPSocket
+0    550   1    8   409  2.9  SwapTCPHeader
+0    210   0    4  1618  6.0  CloseSocket
+0    286   0    6  1216 11.2  GetMaxSegSizeOption
+0   4814   5   36 21973 18.4  HandleTCPSeg
+0    230   0    8   858  8.3  TCPRAMCopy
+0    382   0   27  1612 13.9  MPFSOpen
+0     18   0    0    98  2.9  MPFSClose
+0    160   0    1   407 10.1  MPFSGet
+0     76   0   10   144  3.8  _strncpy
+0     78   0    8   219  4.2  FileExists
+0    226   0   10   543  7.7  http_escape_chars
+0    154   0   11   567  7.0  http_parse_cgi_string
+0     18   0    1    42  2.1  tcp_http_putc
+0    242   0   19   557  8.0  HTTPFindMimeType
+0    182   0   11   467  7.2  TCPPutFileVarChunk
+0    202   0    6   317  6.2  myMPFSSeek
+0    424   0   13  1396 11.9  TCPPutFileParseConst
+0    176   0    9   547  6.2  TCPPutFileConstChunk
+0    114   0    9   328  3.9  TCPPutFileConstGetEscape
+0   1426   1   22  3521 12.3  tcp_http_put_file
+0     14   0    0             @const3536
+0     50   0    4             @PSTRINGCN_3461
+0    200   0    9             @PRINTF_LU_3461
+0     24   0    0             @const3542
+0     40   0    3             @PSTRINGC_3461
+0     10   0    0             @const3544
+0     14   0    0             @const3545
+0     16   0    0             @const3547
+0     38   0    2             @PSTRINGR_3461
+0     48   0    0             @const3550
+0     26   0    0             @const3551
+0     20   0    0             @const3552
+0     14   0    0             @const3555
+0     34   0    1             @SPRINTF
+0     40   0    3             @PSTRINGC_3557
+0     78   0    0             @const3561
+0    136   0    3   475  5.0  HTTPInit
+0   3636   4   22 10314 18.5  HTTPServer
+0     10   0    0             @const3589
+0     14   0    0             @const3591
+0     14   0    0             @const3593
+0     14   0    0             @const3594
+0     14   0    0             @const3595
+0     38   0    8   138  3.5  memcpypgm2ram
+0    120   0   11   165  4.7  strcpypgm2ram
+0    420   0   13  1147  9.8  MPFSGetBytes
+0     28   0    0             @GETCH_BIU_1
+0     98   0    2   522  5.2  serial_rx_isr
+0     98   0    3   267  5.0  LeeDisplay
+0    342   0   27   817  5.1  http_format_char
+0     44   0    3             @DIV88
+0    130   0    2             @PRINTF_U_3557
+0      4   0    6    41  2.4  http_exec_cgi
+0     62   0    0  1279  2.9  IPAddressInit
+0    328   0    0  1234  3.4  main
+ Inline         0             @cinit1
+
+Program metrics:
+    Functions               137
+    Statements              3508
+    Comments                12255
+    Volume (V)              308586
+    Difficulty (D)          946.8
+    Effort to implement (E) 292178647
+    Time to implement (T)   4508 hours, 56 minutes
+    Est Delivered Bugs (B)  147
+    Cyclomatic Complexity   613
+    Maintainability (MI)    121
+
+ Segment     Used  Free
+-----------  ----  ----
+00000-00002     4  0  
+00004-00006     4  0  
+00008-000A8   162  0  
+000AA-0FFFE  43094  22272  
+10000-16652     0  26196  
+16654-166E2   144  0  
+166E4-17FFE  6428  0  
+
+
+

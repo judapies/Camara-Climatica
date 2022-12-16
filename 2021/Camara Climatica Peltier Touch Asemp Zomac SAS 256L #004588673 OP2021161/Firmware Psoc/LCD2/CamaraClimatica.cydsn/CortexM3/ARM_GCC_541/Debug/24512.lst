@@ -1,0 +1,1390 @@
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccto5ktg.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"24512.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.write_ext_eeprom,"ax",%progbits
+  20              		.align	2
+  21              		.global	write_ext_eeprom
+  22              		.thumb
+  23              		.thumb_func
+  24              		.type	write_ext_eeprom, %function
+  25              	write_ext_eeprom:
+  26              	.LFB63:
+  27              		.file 1 "24512.c"
+   1:24512.c       **** /* ========================================
+   2:24512.c       ****  *
+   3:24512.c       ****  * Copyright YOUR COMPANY, THE YEAR
+   4:24512.c       ****  * All Rights Reserved
+   5:24512.c       ****  * UNPUBLISHED, LICENSED SOFTWARE.
+   6:24512.c       ****  *
+   7:24512.c       ****  * CONFIDENTIAL AND PROPRIETARY INFORMATION
+   8:24512.c       ****  * WHICH IS THE PROPERTY OF your company.
+   9:24512.c       ****  *
+  10:24512.c       ****  * ========================================
+  11:24512.c       **** */
+  12:24512.c       **** #include "24512.h"
+  13:24512.c       **** 
+  14:24512.c       **** uint8 I2CWriteBuffer[2]; //Location from which the calibration data is to be read
+  15:24512.c       **** uint8 status=0;
+  16:24512.c       **** 
+  17:24512.c       **** void write_ext_eeprom(int32 address, uint8 data)
+  18:24512.c       **** {
+  28              		.loc 1 18 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32              	.LVL0:
+  33 0000 38B5     		push	{r3, r4, r5, lr}
+  34              		.cfi_def_cfa_offset 16
+  35              		.cfi_offset 3, -16
+  36              		.cfi_offset 4, -12
+  37              		.cfi_offset 5, -8
+  38              		.cfi_offset 14, -4
+  39 0002 0546     		mov	r5, r0
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccto5ktg.s 			page 2
+
+
+  40 0004 0C46     		mov	r4, r1
+  19:24512.c       ****     I2C_MasterSendStart(EXTERNAL_EEPROM_ADDRESS,0);
+  41              		.loc 1 19 0
+  42 0006 0021     		movs	r1, #0
+  43              	.LVL1:
+  44 0008 A020     		movs	r0, #160
+  45              	.LVL2:
+  46 000a FFF7FEFF 		bl	I2C_MasterSendStart
+  47              	.LVL3:
+  20:24512.c       ****     I2C_MasterWriteByte((uint8)address>>8);
+  48              		.loc 1 20 0
+  49 000e 0020     		movs	r0, #0
+  50 0010 FFF7FEFF 		bl	I2C_MasterWriteByte
+  51              	.LVL4:
+  21:24512.c       ****     I2C_MasterWriteByte((uint8)address);
+  52              		.loc 1 21 0
+  53 0014 E8B2     		uxtb	r0, r5
+  54 0016 FFF7FEFF 		bl	I2C_MasterWriteByte
+  55              	.LVL5:
+  22:24512.c       ****     I2C_MasterWriteByte(data);
+  56              		.loc 1 22 0
+  57 001a 2046     		mov	r0, r4
+  58 001c FFF7FEFF 		bl	I2C_MasterWriteByte
+  59              	.LVL6:
+  23:24512.c       ****     I2C_MasterSendStop();    
+  60              		.loc 1 23 0
+  61 0020 FFF7FEFF 		bl	I2C_MasterSendStop
+  62              	.LVL7:
+  63 0024 38BD     		pop	{r3, r4, r5, pc}
+  64              		.cfi_endproc
+  65              	.LFE63:
+  66              		.size	write_ext_eeprom, .-write_ext_eeprom
+  67 0026 00BF     		.section	.text.read_ext_eeprom,"ax",%progbits
+  68              		.align	2
+  69              		.global	read_ext_eeprom
+  70              		.thumb
+  71              		.thumb_func
+  72              		.type	read_ext_eeprom, %function
+  73              	read_ext_eeprom:
+  74              	.LFB64:
+  24:24512.c       **** }
+  25:24512.c       **** 
+  26:24512.c       **** int8 read_ext_eeprom(int32 address) {
+  75              		.loc 1 26 0
+  76              		.cfi_startproc
+  77              		@ args = 0, pretend = 0, frame = 0
+  78              		@ frame_needed = 0, uses_anonymous_args = 0
+  79              	.LVL8:
+  80 0000 10B5     		push	{r4, lr}
+  81              		.cfi_def_cfa_offset 8
+  82              		.cfi_offset 4, -8
+  83              		.cfi_offset 14, -4
+  84 0002 0446     		mov	r4, r0
+  27:24512.c       ****    int8 data;
+  28:24512.c       ****     I2C_MasterSendStart(EXTERNAL_EEPROM_ADDRESS,0);
+  85              		.loc 1 28 0
+  86 0004 0021     		movs	r1, #0
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccto5ktg.s 			page 3
+
+
+  87 0006 A020     		movs	r0, #160
+  88              	.LVL9:
+  89 0008 FFF7FEFF 		bl	I2C_MasterSendStart
+  90              	.LVL10:
+  29:24512.c       ****     I2C_MasterWriteByte((uint8)address>>8);
+  91              		.loc 1 29 0
+  92 000c 0020     		movs	r0, #0
+  93 000e FFF7FEFF 		bl	I2C_MasterWriteByte
+  94              	.LVL11:
+  30:24512.c       ****     I2C_MasterWriteByte((uint8)address);
+  95              		.loc 1 30 0
+  96 0012 E0B2     		uxtb	r0, r4
+  97 0014 FFF7FEFF 		bl	I2C_MasterWriteByte
+  98              	.LVL12:
+  31:24512.c       ****     I2C_MasterSendStart(EXTERNAL_EEPROM_ADDRESS,1);
+  99              		.loc 1 31 0
+ 100 0018 0121     		movs	r1, #1
+ 101 001a A020     		movs	r0, #160
+ 102 001c FFF7FEFF 		bl	I2C_MasterSendStart
+ 103              	.LVL13:
+  32:24512.c       ****     data=I2C_MasterReadByte(0);
+ 104              		.loc 1 32 0
+ 105 0020 0020     		movs	r0, #0
+ 106 0022 FFF7FEFF 		bl	I2C_MasterReadByte
+ 107              	.LVL14:
+ 108 0026 44B2     		sxtb	r4, r0
+ 109              	.LVL15:
+  33:24512.c       ****     I2C_MasterSendStop();
+ 110              		.loc 1 33 0
+ 111 0028 FFF7FEFF 		bl	I2C_MasterSendStop
+ 112              	.LVL16:
+  34:24512.c       ****     return(data);
+  35:24512.c       **** }
+ 113              		.loc 1 35 0
+ 114 002c 2046     		mov	r0, r4
+ 115 002e 10BD     		pop	{r4, pc}
+ 116              		.cfi_endproc
+ 117              	.LFE64:
+ 118              		.size	read_ext_eeprom, .-read_ext_eeprom
+ 119              		.global	status
+ 120              		.comm	I2CWriteBuffer,2,4
+ 121              		.comm	calib,144,4
+ 122              		.comm	graph,9600,4
+ 123              		.comm	rampas,240,4
+ 124              		.bss
+ 125              		.type	status, %object
+ 126              		.size	status, 1
+ 127              	status:
+ 128 0000 00       		.space	1
+ 129              		.text
+ 130              	.Letext0:
+ 131              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+ 132              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+ 133              		.file 4 "Generated_Source\\PSoC5/cytypes.h"
+ 134              		.file 5 "funciones.h"
+ 135              		.file 6 "Generated_Source\\PSoC5/core_cm3.h"
+ 136              		.file 7 "Generated_Source\\PSoC5/I2C.h"
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccto5ktg.s 			page 4
+
+
+ 137              		.section	.debug_info,"",%progbits
+ 138              	.Ldebug_info0:
+ 139 0000 12040000 		.4byte	0x412
+ 140 0004 0400     		.2byte	0x4
+ 141 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 142 000a 04       		.byte	0x4
+ 143 000b 01       		.uleb128 0x1
+ 144 000c F9000000 		.4byte	.LASF48
+ 145 0010 0C       		.byte	0xc
+ 146 0011 35030000 		.4byte	.LASF49
+ 147 0015 44020000 		.4byte	.LASF50
+ 148 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 149 001d 00000000 		.4byte	0
+ 150 0021 00000000 		.4byte	.Ldebug_line0
+ 151 0025 02       		.uleb128 0x2
+ 152 0026 01       		.byte	0x1
+ 153 0027 06       		.byte	0x6
+ 154 0028 29030000 		.4byte	.LASF0
+ 155 002c 02       		.uleb128 0x2
+ 156 002d 01       		.byte	0x1
+ 157 002e 08       		.byte	0x8
+ 158 002f EB000000 		.4byte	.LASF1
+ 159 0033 02       		.uleb128 0x2
+ 160 0034 02       		.byte	0x2
+ 161 0035 05       		.byte	0x5
+ 162 0036 F4020000 		.4byte	.LASF2
+ 163 003a 02       		.uleb128 0x2
+ 164 003b 02       		.byte	0x2
+ 165 003c 07       		.byte	0x7
+ 166 003d 78000000 		.4byte	.LASF3
+ 167 0041 03       		.uleb128 0x3
+ 168 0042 53000000 		.4byte	.LASF9
+ 169 0046 02       		.byte	0x2
+ 170 0047 3F       		.byte	0x3f
+ 171 0048 4C000000 		.4byte	0x4c
+ 172 004c 02       		.uleb128 0x2
+ 173 004d 04       		.byte	0x4
+ 174 004e 05       		.byte	0x5
+ 175 004f 05030000 		.4byte	.LASF4
+ 176 0053 02       		.uleb128 0x2
+ 177 0054 04       		.byte	0x4
+ 178 0055 07       		.byte	0x7
+ 179 0056 87010000 		.4byte	.LASF5
+ 180 005a 02       		.uleb128 0x2
+ 181 005b 08       		.byte	0x8
+ 182 005c 05       		.byte	0x5
+ 183 005d 00000000 		.4byte	.LASF6
+ 184 0061 02       		.uleb128 0x2
+ 185 0062 08       		.byte	0x8
+ 186 0063 07       		.byte	0x7
+ 187 0064 F6010000 		.4byte	.LASF7
+ 188 0068 04       		.uleb128 0x4
+ 189 0069 04       		.byte	0x4
+ 190 006a 05       		.byte	0x5
+ 191 006b 696E7400 		.ascii	"int\000"
+ 192 006f 02       		.uleb128 0x2
+ 193 0070 04       		.byte	0x4
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccto5ktg.s 			page 5
+
+
+ 194 0071 07       		.byte	0x7
+ 195 0072 E1010000 		.4byte	.LASF8
+ 196 0076 03       		.uleb128 0x3
+ 197 0077 2E020000 		.4byte	.LASF10
+ 198 007b 03       		.byte	0x3
+ 199 007c 2C       		.byte	0x2c
+ 200 007d 41000000 		.4byte	0x41
+ 201 0081 05       		.uleb128 0x5
+ 202 0082 A9000000 		.4byte	.LASF11
+ 203 0086 04       		.byte	0x4
+ 204 0087 9201     		.2byte	0x192
+ 205 0089 2C000000 		.4byte	0x2c
+ 206 008d 05       		.uleb128 0x5
+ 207 008e DC010000 		.4byte	.LASF12
+ 208 0092 04       		.byte	0x4
+ 209 0093 9501     		.2byte	0x195
+ 210 0095 25000000 		.4byte	0x25
+ 211 0099 05       		.uleb128 0x5
+ 212 009a 99010000 		.4byte	.LASF13
+ 213 009e 04       		.byte	0x4
+ 214 009f 9701     		.2byte	0x197
+ 215 00a1 4C000000 		.4byte	0x4c
+ 216 00a5 02       		.uleb128 0x2
+ 217 00a6 04       		.byte	0x4
+ 218 00a7 04       		.byte	0x4
+ 219 00a8 4D000000 		.4byte	.LASF14
+ 220 00ac 02       		.uleb128 0x2
+ 221 00ad 08       		.byte	0x8
+ 222 00ae 04       		.byte	0x4
+ 223 00af C8010000 		.4byte	.LASF15
+ 224 00b3 02       		.uleb128 0x2
+ 225 00b4 01       		.byte	0x1
+ 226 00b5 08       		.byte	0x8
+ 227 00b6 3F020000 		.4byte	.LASF16
+ 228 00ba 02       		.uleb128 0x2
+ 229 00bb 08       		.byte	0x8
+ 230 00bc 04       		.byte	0x4
+ 231 00bd 1D030000 		.4byte	.LASF17
+ 232 00c1 02       		.uleb128 0x2
+ 233 00c2 04       		.byte	0x4
+ 234 00c3 07       		.byte	0x7
+ 235 00c4 36020000 		.4byte	.LASF18
+ 236 00c8 06       		.uleb128 0x6
+ 237 00c9 0C       		.byte	0xc
+ 238 00ca 05       		.byte	0x5
+ 239 00cb 25       		.byte	0x25
+ 240 00cc 19010000 		.4byte	0x119
+ 241 00d0 07       		.uleb128 0x7
+ 242 00d1 BC000000 		.4byte	.LASF19
+ 243 00d5 05       		.byte	0x5
+ 244 00d6 26       		.byte	0x26
+ 245 00d7 81000000 		.4byte	0x81
+ 246 00db 00       		.byte	0
+ 247 00dc 07       		.uleb128 0x7
+ 248 00dd 0E030000 		.4byte	.LASF20
+ 249 00e1 05       		.byte	0x5
+ 250 00e2 27       		.byte	0x27
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccto5ktg.s 			page 6
+
+
+ 251 00e3 81000000 		.4byte	0x81
+ 252 00e7 01       		.byte	0x1
+ 253 00e8 07       		.uleb128 0x7
+ 254 00e9 0D020000 		.4byte	.LASF21
+ 255 00ed 05       		.byte	0x5
+ 256 00ee 28       		.byte	0x28
+ 257 00ef 81000000 		.4byte	0x81
+ 258 00f3 02       		.byte	0x2
+ 259 00f4 07       		.uleb128 0x7
+ 260 00f5 D4010000 		.4byte	.LASF22
+ 261 00f9 05       		.byte	0x5
+ 262 00fa 29       		.byte	0x29
+ 263 00fb 81000000 		.4byte	0x81
+ 264 00ff 03       		.byte	0x3
+ 265 0100 07       		.uleb128 0x7
+ 266 0101 1E000000 		.4byte	.LASF23
+ 267 0105 05       		.byte	0x5
+ 268 0106 2A       		.byte	0x2a
+ 269 0107 81000000 		.4byte	0x81
+ 270 010b 04       		.byte	0x4
+ 271 010c 07       		.uleb128 0x7
+ 272 010d 39000000 		.4byte	.LASF24
+ 273 0111 05       		.byte	0x5
+ 274 0112 2B       		.byte	0x2b
+ 275 0113 A5000000 		.4byte	0xa5
+ 276 0117 08       		.byte	0x8
+ 277 0118 00       		.byte	0
+ 278 0119 03       		.uleb128 0x3
+ 279 011a 93000000 		.4byte	.LASF25
+ 280 011e 05       		.byte	0x5
+ 281 011f 2C       		.byte	0x2c
+ 282 0120 C8000000 		.4byte	0xc8
+ 283 0124 06       		.uleb128 0x6
+ 284 0125 0C       		.byte	0xc
+ 285 0126 05       		.byte	0x5
+ 286 0127 2F       		.byte	0x2f
+ 287 0128 5D010000 		.4byte	0x15d
+ 288 012c 07       		.uleb128 0x7
+ 289 012d 39000000 		.4byte	.LASF24
+ 290 0131 05       		.byte	0x5
+ 291 0132 30       		.byte	0x30
+ 292 0133 A5000000 		.4byte	0xa5
+ 293 0137 00       		.byte	0
+ 294 0138 07       		.uleb128 0x7
+ 295 0139 1E000000 		.4byte	.LASF23
+ 296 013d 05       		.byte	0x5
+ 297 013e 31       		.byte	0x31
+ 298 013f A5000000 		.4byte	0xa5
+ 299 0143 04       		.byte	0x4
+ 300 0144 07       		.uleb128 0x7
+ 301 0145 CF010000 		.4byte	.LASF26
+ 302 0149 05       		.byte	0x5
+ 303 014a 32       		.byte	0x32
+ 304 014b 81000000 		.4byte	0x81
+ 305 014f 08       		.byte	0x8
+ 306 0150 07       		.uleb128 0x7
+ 307 0151 5D000000 		.4byte	.LASF27
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccto5ktg.s 			page 7
+
+
+ 308 0155 05       		.byte	0x5
+ 309 0156 33       		.byte	0x33
+ 310 0157 81000000 		.4byte	0x81
+ 311 015b 09       		.byte	0x9
+ 312 015c 00       		.byte	0
+ 313 015d 03       		.uleb128 0x3
+ 314 015e C0010000 		.4byte	.LASF28
+ 315 0162 05       		.byte	0x5
+ 316 0163 34       		.byte	0x34
+ 317 0164 24010000 		.4byte	0x124
+ 318 0168 06       		.uleb128 0x6
+ 319 0169 30       		.byte	0x30
+ 320 016a 05       		.byte	0x5
+ 321 016b 37       		.byte	0x37
+ 322 016c FB010000 		.4byte	0x1fb
+ 323 0170 07       		.uleb128 0x7
+ 324 0171 13020000 		.4byte	.LASF29
+ 325 0175 05       		.byte	0x5
+ 326 0176 38       		.byte	0x38
+ 327 0177 A5000000 		.4byte	0xa5
+ 328 017b 00       		.byte	0
+ 329 017c 07       		.uleb128 0x7
+ 330 017d 1C020000 		.4byte	.LASF30
+ 331 0181 05       		.byte	0x5
+ 332 0182 38       		.byte	0x38
+ 333 0183 A5000000 		.4byte	0xa5
+ 334 0187 04       		.byte	0x4
+ 335 0188 07       		.uleb128 0x7
+ 336 0189 25020000 		.4byte	.LASF31
+ 337 018d 05       		.byte	0x5
+ 338 018e 38       		.byte	0x38
+ 339 018f A5000000 		.4byte	0xa5
+ 340 0193 08       		.byte	0x8
+ 341 0194 08       		.uleb128 0x8
+ 342 0195 6D3100   		.ascii	"m1\000"
+ 343 0198 05       		.byte	0x5
+ 344 0199 38       		.byte	0x38
+ 345 019a A5000000 		.4byte	0xa5
+ 346 019e 0C       		.byte	0xc
+ 347 019f 08       		.uleb128 0x8
+ 348 01a0 6D3200   		.ascii	"m2\000"
+ 349 01a3 05       		.byte	0x5
+ 350 01a4 38       		.byte	0x38
+ 351 01a5 A5000000 		.4byte	0xa5
+ 352 01a9 10       		.byte	0x10
+ 353 01aa 08       		.uleb128 0x8
+ 354 01ab 6D3300   		.ascii	"m3\000"
+ 355 01ae 05       		.byte	0x5
+ 356 01af 38       		.byte	0x38
+ 357 01b0 A5000000 		.4byte	0xa5
+ 358 01b4 14       		.byte	0x14
+ 359 01b5 07       		.uleb128 0x7
+ 360 01b6 8B000000 		.4byte	.LASF32
+ 361 01ba 05       		.byte	0x5
+ 362 01bb 38       		.byte	0x38
+ 363 01bc A5000000 		.4byte	0xa5
+ 364 01c0 18       		.byte	0x18
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccto5ktg.s 			page 8
+
+
+ 365 01c1 07       		.uleb128 0x7
+ 366 01c2 45000000 		.4byte	.LASF33
+ 367 01c6 05       		.byte	0x5
+ 368 01c7 38       		.byte	0x38
+ 369 01c8 A5000000 		.4byte	0xa5
+ 370 01cc 1C       		.byte	0x1c
+ 371 01cd 07       		.uleb128 0x7
+ 372 01ce A1000000 		.4byte	.LASF34
+ 373 01d2 05       		.byte	0x5
+ 374 01d3 38       		.byte	0x38
+ 375 01d4 A5000000 		.4byte	0xa5
+ 376 01d8 20       		.byte	0x20
+ 377 01d9 08       		.uleb128 0x8
+ 378 01da 623100   		.ascii	"b1\000"
+ 379 01dd 05       		.byte	0x5
+ 380 01de 38       		.byte	0x38
+ 381 01df A5000000 		.4byte	0xa5
+ 382 01e3 24       		.byte	0x24
+ 383 01e4 08       		.uleb128 0x8
+ 384 01e5 623200   		.ascii	"b2\000"
+ 385 01e8 05       		.byte	0x5
+ 386 01e9 38       		.byte	0x38
+ 387 01ea A5000000 		.4byte	0xa5
+ 388 01ee 28       		.byte	0x28
+ 389 01ef 08       		.uleb128 0x8
+ 390 01f0 623300   		.ascii	"b3\000"
+ 391 01f3 05       		.byte	0x5
+ 392 01f4 38       		.byte	0x38
+ 393 01f5 A5000000 		.4byte	0xa5
+ 394 01f9 2C       		.byte	0x2c
+ 395 01fa 00       		.byte	0
+ 396 01fb 03       		.uleb128 0x3
+ 397 01fc CB000000 		.4byte	.LASF35
+ 398 0200 05       		.byte	0x5
+ 399 0201 39       		.byte	0x39
+ 400 0202 68010000 		.4byte	0x168
+ 401 0206 09       		.uleb128 0x9
+ 402 0207 3D030000 		.4byte	.LASF51
+ 403 020b 01       		.byte	0x1
+ 404 020c 11       		.byte	0x11
+ 405 020d 00000000 		.4byte	.LFB63
+ 406 0211 26000000 		.4byte	.LFE63-.LFB63
+ 407 0215 01       		.uleb128 0x1
+ 408 0216 9C       		.byte	0x9c
+ 409 0217 97020000 		.4byte	0x297
+ 410 021b 0A       		.uleb128 0xa
+ 411 021c EE010000 		.4byte	.LASF36
+ 412 0220 01       		.byte	0x1
+ 413 0221 11       		.byte	0x11
+ 414 0222 99000000 		.4byte	0x99
+ 415 0226 00000000 		.4byte	.LLST0
+ 416 022a 0A       		.uleb128 0xa
+ 417 022b E6000000 		.4byte	.LASF37
+ 418 022f 01       		.byte	0x1
+ 419 0230 11       		.byte	0x11
+ 420 0231 81000000 		.4byte	0x81
+ 421 0235 1E000000 		.4byte	.LLST1
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccto5ktg.s 			page 9
+
+
+ 422 0239 0B       		.uleb128 0xb
+ 423 023a 0E000000 		.4byte	.LVL3
+ 424 023e E9030000 		.4byte	0x3e9
+ 425 0242 52020000 		.4byte	0x252
+ 426 0246 0C       		.uleb128 0xc
+ 427 0247 01       		.uleb128 0x1
+ 428 0248 50       		.byte	0x50
+ 429 0249 02       		.uleb128 0x2
+ 430 024a 09       		.byte	0x9
+ 431 024b A0       		.byte	0xa0
+ 432 024c 0C       		.uleb128 0xc
+ 433 024d 01       		.uleb128 0x1
+ 434 024e 51       		.byte	0x51
+ 435 024f 01       		.uleb128 0x1
+ 436 0250 30       		.byte	0x30
+ 437 0251 00       		.byte	0
+ 438 0252 0B       		.uleb128 0xb
+ 439 0253 14000000 		.4byte	.LVL4
+ 440 0257 F4030000 		.4byte	0x3f4
+ 441 025b 65020000 		.4byte	0x265
+ 442 025f 0C       		.uleb128 0xc
+ 443 0260 01       		.uleb128 0x1
+ 444 0261 50       		.byte	0x50
+ 445 0262 01       		.uleb128 0x1
+ 446 0263 30       		.byte	0x30
+ 447 0264 00       		.byte	0
+ 448 0265 0B       		.uleb128 0xb
+ 449 0266 1A000000 		.4byte	.LVL5
+ 450 026a F4030000 		.4byte	0x3f4
+ 451 026e 79020000 		.4byte	0x279
+ 452 0272 0C       		.uleb128 0xc
+ 453 0273 01       		.uleb128 0x1
+ 454 0274 50       		.byte	0x50
+ 455 0275 02       		.uleb128 0x2
+ 456 0276 75       		.byte	0x75
+ 457 0277 00       		.sleb128 0
+ 458 0278 00       		.byte	0
+ 459 0279 0B       		.uleb128 0xb
+ 460 027a 20000000 		.4byte	.LVL6
+ 461 027e F4030000 		.4byte	0x3f4
+ 462 0282 8D020000 		.4byte	0x28d
+ 463 0286 0C       		.uleb128 0xc
+ 464 0287 01       		.uleb128 0x1
+ 465 0288 50       		.byte	0x50
+ 466 0289 02       		.uleb128 0x2
+ 467 028a 74       		.byte	0x74
+ 468 028b 00       		.sleb128 0
+ 469 028c 00       		.byte	0
+ 470 028d 0D       		.uleb128 0xd
+ 471 028e 24000000 		.4byte	.LVL7
+ 472 0292 FF030000 		.4byte	0x3ff
+ 473 0296 00       		.byte	0
+ 474 0297 0E       		.uleb128 0xe
+ 475 0298 0E000000 		.4byte	.LASF52
+ 476 029c 01       		.byte	0x1
+ 477 029d 1A       		.byte	0x1a
+ 478 029e 8D000000 		.4byte	0x8d
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccto5ktg.s 			page 10
+
+
+ 479 02a2 00000000 		.4byte	.LFB64
+ 480 02a6 30000000 		.4byte	.LFE64-.LFB64
+ 481 02aa 01       		.uleb128 0x1
+ 482 02ab 9C       		.byte	0x9c
+ 483 02ac 42030000 		.4byte	0x342
+ 484 02b0 0A       		.uleb128 0xa
+ 485 02b1 EE010000 		.4byte	.LASF36
+ 486 02b5 01       		.byte	0x1
+ 487 02b6 1A       		.byte	0x1a
+ 488 02b7 99000000 		.4byte	0x99
+ 489 02bb 3F000000 		.4byte	.LLST2
+ 490 02bf 0F       		.uleb128 0xf
+ 491 02c0 E6000000 		.4byte	.LASF37
+ 492 02c4 01       		.byte	0x1
+ 493 02c5 1B       		.byte	0x1b
+ 494 02c6 8D000000 		.4byte	0x8d
+ 495 02ca 01       		.uleb128 0x1
+ 496 02cb 54       		.byte	0x54
+ 497 02cc 0B       		.uleb128 0xb
+ 498 02cd 0C000000 		.4byte	.LVL10
+ 499 02d1 E9030000 		.4byte	0x3e9
+ 500 02d5 E5020000 		.4byte	0x2e5
+ 501 02d9 0C       		.uleb128 0xc
+ 502 02da 01       		.uleb128 0x1
+ 503 02db 50       		.byte	0x50
+ 504 02dc 02       		.uleb128 0x2
+ 505 02dd 09       		.byte	0x9
+ 506 02de A0       		.byte	0xa0
+ 507 02df 0C       		.uleb128 0xc
+ 508 02e0 01       		.uleb128 0x1
+ 509 02e1 51       		.byte	0x51
+ 510 02e2 01       		.uleb128 0x1
+ 511 02e3 30       		.byte	0x30
+ 512 02e4 00       		.byte	0
+ 513 02e5 0B       		.uleb128 0xb
+ 514 02e6 12000000 		.4byte	.LVL11
+ 515 02ea F4030000 		.4byte	0x3f4
+ 516 02ee F8020000 		.4byte	0x2f8
+ 517 02f2 0C       		.uleb128 0xc
+ 518 02f3 01       		.uleb128 0x1
+ 519 02f4 50       		.byte	0x50
+ 520 02f5 01       		.uleb128 0x1
+ 521 02f6 30       		.byte	0x30
+ 522 02f7 00       		.byte	0
+ 523 02f8 0B       		.uleb128 0xb
+ 524 02f9 18000000 		.4byte	.LVL12
+ 525 02fd F4030000 		.4byte	0x3f4
+ 526 0301 0C030000 		.4byte	0x30c
+ 527 0305 0C       		.uleb128 0xc
+ 528 0306 01       		.uleb128 0x1
+ 529 0307 50       		.byte	0x50
+ 530 0308 02       		.uleb128 0x2
+ 531 0309 74       		.byte	0x74
+ 532 030a 00       		.sleb128 0
+ 533 030b 00       		.byte	0
+ 534 030c 0B       		.uleb128 0xb
+ 535 030d 20000000 		.4byte	.LVL13
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccto5ktg.s 			page 11
+
+
+ 536 0311 E9030000 		.4byte	0x3e9
+ 537 0315 25030000 		.4byte	0x325
+ 538 0319 0C       		.uleb128 0xc
+ 539 031a 01       		.uleb128 0x1
+ 540 031b 50       		.byte	0x50
+ 541 031c 02       		.uleb128 0x2
+ 542 031d 09       		.byte	0x9
+ 543 031e A0       		.byte	0xa0
+ 544 031f 0C       		.uleb128 0xc
+ 545 0320 01       		.uleb128 0x1
+ 546 0321 51       		.byte	0x51
+ 547 0322 01       		.uleb128 0x1
+ 548 0323 31       		.byte	0x31
+ 549 0324 00       		.byte	0
+ 550 0325 0B       		.uleb128 0xb
+ 551 0326 26000000 		.4byte	.LVL14
+ 552 032a 0A040000 		.4byte	0x40a
+ 553 032e 38030000 		.4byte	0x338
+ 554 0332 0C       		.uleb128 0xc
+ 555 0333 01       		.uleb128 0x1
+ 556 0334 50       		.byte	0x50
+ 557 0335 01       		.uleb128 0x1
+ 558 0336 30       		.byte	0x30
+ 559 0337 00       		.byte	0
+ 560 0338 0D       		.uleb128 0xd
+ 561 0339 2C000000 		.4byte	.LVL16
+ 562 033d FF030000 		.4byte	0x3ff
+ 563 0341 00       		.byte	0
+ 564 0342 10       		.uleb128 0x10
+ 565 0343 B3010000 		.4byte	.LASF38
+ 566 0347 06       		.byte	0x6
+ 567 0348 1207     		.2byte	0x712
+ 568 034a 4E030000 		.4byte	0x34e
+ 569 034e 11       		.uleb128 0x11
+ 570 034f 76000000 		.4byte	0x76
+ 571 0353 12       		.uleb128 0x12
+ 572 0354 19010000 		.4byte	0x119
+ 573 0358 63030000 		.4byte	0x363
+ 574 035c 13       		.uleb128 0x13
+ 575 035d C1000000 		.4byte	0xc1
+ 576 0361 13       		.byte	0x13
+ 577 0362 00       		.byte	0
+ 578 0363 14       		.uleb128 0x14
+ 579 0364 FE020000 		.4byte	.LASF39
+ 580 0368 05       		.byte	0x5
+ 581 0369 2D       		.byte	0x2d
+ 582 036a 53030000 		.4byte	0x353
+ 583 036e 05       		.uleb128 0x5
+ 584 036f 03       		.byte	0x3
+ 585 0370 00000000 		.4byte	rampas
+ 586 0374 12       		.uleb128 0x12
+ 587 0375 5D010000 		.4byte	0x15d
+ 588 0379 85030000 		.4byte	0x385
+ 589 037d 15       		.uleb128 0x15
+ 590 037e C1000000 		.4byte	0xc1
+ 591 0382 1F03     		.2byte	0x31f
+ 592 0384 00       		.byte	0
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccto5ktg.s 			page 12
+
+
+ 593 0385 14       		.uleb128 0x14
+ 594 0386 DB020000 		.4byte	.LASF40
+ 595 038a 05       		.byte	0x5
+ 596 038b 35       		.byte	0x35
+ 597 038c 74030000 		.4byte	0x374
+ 598 0390 05       		.uleb128 0x5
+ 599 0391 03       		.byte	0x3
+ 600 0392 00000000 		.4byte	graph
+ 601 0396 12       		.uleb128 0x12
+ 602 0397 FB010000 		.4byte	0x1fb
+ 603 039b A6030000 		.4byte	0x3a6
+ 604 039f 13       		.uleb128 0x13
+ 605 03a0 C1000000 		.4byte	0xc1
+ 606 03a4 02       		.byte	0x2
+ 607 03a5 00       		.byte	0
+ 608 03a6 14       		.uleb128 0x14
+ 609 03a7 B6000000 		.4byte	.LASF41
+ 610 03ab 05       		.byte	0x5
+ 611 03ac 3A       		.byte	0x3a
+ 612 03ad 96030000 		.4byte	0x396
+ 613 03b1 05       		.uleb128 0x5
+ 614 03b2 03       		.byte	0x3
+ 615 03b3 00000000 		.4byte	calib
+ 616 03b7 12       		.uleb128 0x12
+ 617 03b8 81000000 		.4byte	0x81
+ 618 03bc C7030000 		.4byte	0x3c7
+ 619 03c0 13       		.uleb128 0x13
+ 620 03c1 C1000000 		.4byte	0xc1
+ 621 03c5 01       		.byte	0x1
+ 622 03c6 00       		.byte	0
+ 623 03c7 14       		.uleb128 0x14
+ 624 03c8 D7000000 		.4byte	.LASF42
+ 625 03cc 01       		.byte	0x1
+ 626 03cd 0E       		.byte	0xe
+ 627 03ce B7030000 		.4byte	0x3b7
+ 628 03d2 05       		.uleb128 0x5
+ 629 03d3 03       		.byte	0x3
+ 630 03d4 00000000 		.4byte	I2CWriteBuffer
+ 631 03d8 14       		.uleb128 0x14
+ 632 03d9 AF000000 		.4byte	.LASF43
+ 633 03dd 01       		.byte	0x1
+ 634 03de 0F       		.byte	0xf
+ 635 03df 81000000 		.4byte	0x81
+ 636 03e3 05       		.uleb128 0x5
+ 637 03e4 03       		.byte	0x3
+ 638 03e5 00000000 		.4byte	status
+ 639 03e9 16       		.uleb128 0x16
+ 640 03ea 9F010000 		.4byte	.LASF44
+ 641 03ee 9F010000 		.4byte	.LASF44
+ 642 03f2 07       		.byte	0x7
+ 643 03f3 B1       		.byte	0xb1
+ 644 03f4 16       		.uleb128 0x16
+ 645 03f5 64000000 		.4byte	.LASF45
+ 646 03f9 64000000 		.4byte	.LASF45
+ 647 03fd 07       		.byte	0x7
+ 648 03fe B6       		.byte	0xb6
+ 649 03ff 16       		.uleb128 0x16
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccto5ktg.s 			page 13
+
+
+ 650 0400 26000000 		.4byte	.LASF46
+ 651 0404 26000000 		.4byte	.LASF46
+ 652 0408 07       		.byte	0x7
+ 653 0409 B5       		.byte	0xb5
+ 654 040a 16       		.uleb128 0x16
+ 655 040b E1020000 		.4byte	.LASF47
+ 656 040f E1020000 		.4byte	.LASF47
+ 657 0413 07       		.byte	0x7
+ 658 0414 B7       		.byte	0xb7
+ 659 0415 00       		.byte	0
+ 660              		.section	.debug_abbrev,"",%progbits
+ 661              	.Ldebug_abbrev0:
+ 662 0000 01       		.uleb128 0x1
+ 663 0001 11       		.uleb128 0x11
+ 664 0002 01       		.byte	0x1
+ 665 0003 25       		.uleb128 0x25
+ 666 0004 0E       		.uleb128 0xe
+ 667 0005 13       		.uleb128 0x13
+ 668 0006 0B       		.uleb128 0xb
+ 669 0007 03       		.uleb128 0x3
+ 670 0008 0E       		.uleb128 0xe
+ 671 0009 1B       		.uleb128 0x1b
+ 672 000a 0E       		.uleb128 0xe
+ 673 000b 55       		.uleb128 0x55
+ 674 000c 17       		.uleb128 0x17
+ 675 000d 11       		.uleb128 0x11
+ 676 000e 01       		.uleb128 0x1
+ 677 000f 10       		.uleb128 0x10
+ 678 0010 17       		.uleb128 0x17
+ 679 0011 00       		.byte	0
+ 680 0012 00       		.byte	0
+ 681 0013 02       		.uleb128 0x2
+ 682 0014 24       		.uleb128 0x24
+ 683 0015 00       		.byte	0
+ 684 0016 0B       		.uleb128 0xb
+ 685 0017 0B       		.uleb128 0xb
+ 686 0018 3E       		.uleb128 0x3e
+ 687 0019 0B       		.uleb128 0xb
+ 688 001a 03       		.uleb128 0x3
+ 689 001b 0E       		.uleb128 0xe
+ 690 001c 00       		.byte	0
+ 691 001d 00       		.byte	0
+ 692 001e 03       		.uleb128 0x3
+ 693 001f 16       		.uleb128 0x16
+ 694 0020 00       		.byte	0
+ 695 0021 03       		.uleb128 0x3
+ 696 0022 0E       		.uleb128 0xe
+ 697 0023 3A       		.uleb128 0x3a
+ 698 0024 0B       		.uleb128 0xb
+ 699 0025 3B       		.uleb128 0x3b
+ 700 0026 0B       		.uleb128 0xb
+ 701 0027 49       		.uleb128 0x49
+ 702 0028 13       		.uleb128 0x13
+ 703 0029 00       		.byte	0
+ 704 002a 00       		.byte	0
+ 705 002b 04       		.uleb128 0x4
+ 706 002c 24       		.uleb128 0x24
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccto5ktg.s 			page 14
+
+
+ 707 002d 00       		.byte	0
+ 708 002e 0B       		.uleb128 0xb
+ 709 002f 0B       		.uleb128 0xb
+ 710 0030 3E       		.uleb128 0x3e
+ 711 0031 0B       		.uleb128 0xb
+ 712 0032 03       		.uleb128 0x3
+ 713 0033 08       		.uleb128 0x8
+ 714 0034 00       		.byte	0
+ 715 0035 00       		.byte	0
+ 716 0036 05       		.uleb128 0x5
+ 717 0037 16       		.uleb128 0x16
+ 718 0038 00       		.byte	0
+ 719 0039 03       		.uleb128 0x3
+ 720 003a 0E       		.uleb128 0xe
+ 721 003b 3A       		.uleb128 0x3a
+ 722 003c 0B       		.uleb128 0xb
+ 723 003d 3B       		.uleb128 0x3b
+ 724 003e 05       		.uleb128 0x5
+ 725 003f 49       		.uleb128 0x49
+ 726 0040 13       		.uleb128 0x13
+ 727 0041 00       		.byte	0
+ 728 0042 00       		.byte	0
+ 729 0043 06       		.uleb128 0x6
+ 730 0044 13       		.uleb128 0x13
+ 731 0045 01       		.byte	0x1
+ 732 0046 0B       		.uleb128 0xb
+ 733 0047 0B       		.uleb128 0xb
+ 734 0048 3A       		.uleb128 0x3a
+ 735 0049 0B       		.uleb128 0xb
+ 736 004a 3B       		.uleb128 0x3b
+ 737 004b 0B       		.uleb128 0xb
+ 738 004c 01       		.uleb128 0x1
+ 739 004d 13       		.uleb128 0x13
+ 740 004e 00       		.byte	0
+ 741 004f 00       		.byte	0
+ 742 0050 07       		.uleb128 0x7
+ 743 0051 0D       		.uleb128 0xd
+ 744 0052 00       		.byte	0
+ 745 0053 03       		.uleb128 0x3
+ 746 0054 0E       		.uleb128 0xe
+ 747 0055 3A       		.uleb128 0x3a
+ 748 0056 0B       		.uleb128 0xb
+ 749 0057 3B       		.uleb128 0x3b
+ 750 0058 0B       		.uleb128 0xb
+ 751 0059 49       		.uleb128 0x49
+ 752 005a 13       		.uleb128 0x13
+ 753 005b 38       		.uleb128 0x38
+ 754 005c 0B       		.uleb128 0xb
+ 755 005d 00       		.byte	0
+ 756 005e 00       		.byte	0
+ 757 005f 08       		.uleb128 0x8
+ 758 0060 0D       		.uleb128 0xd
+ 759 0061 00       		.byte	0
+ 760 0062 03       		.uleb128 0x3
+ 761 0063 08       		.uleb128 0x8
+ 762 0064 3A       		.uleb128 0x3a
+ 763 0065 0B       		.uleb128 0xb
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccto5ktg.s 			page 15
+
+
+ 764 0066 3B       		.uleb128 0x3b
+ 765 0067 0B       		.uleb128 0xb
+ 766 0068 49       		.uleb128 0x49
+ 767 0069 13       		.uleb128 0x13
+ 768 006a 38       		.uleb128 0x38
+ 769 006b 0B       		.uleb128 0xb
+ 770 006c 00       		.byte	0
+ 771 006d 00       		.byte	0
+ 772 006e 09       		.uleb128 0x9
+ 773 006f 2E       		.uleb128 0x2e
+ 774 0070 01       		.byte	0x1
+ 775 0071 3F       		.uleb128 0x3f
+ 776 0072 19       		.uleb128 0x19
+ 777 0073 03       		.uleb128 0x3
+ 778 0074 0E       		.uleb128 0xe
+ 779 0075 3A       		.uleb128 0x3a
+ 780 0076 0B       		.uleb128 0xb
+ 781 0077 3B       		.uleb128 0x3b
+ 782 0078 0B       		.uleb128 0xb
+ 783 0079 27       		.uleb128 0x27
+ 784 007a 19       		.uleb128 0x19
+ 785 007b 11       		.uleb128 0x11
+ 786 007c 01       		.uleb128 0x1
+ 787 007d 12       		.uleb128 0x12
+ 788 007e 06       		.uleb128 0x6
+ 789 007f 40       		.uleb128 0x40
+ 790 0080 18       		.uleb128 0x18
+ 791 0081 9742     		.uleb128 0x2117
+ 792 0083 19       		.uleb128 0x19
+ 793 0084 01       		.uleb128 0x1
+ 794 0085 13       		.uleb128 0x13
+ 795 0086 00       		.byte	0
+ 796 0087 00       		.byte	0
+ 797 0088 0A       		.uleb128 0xa
+ 798 0089 05       		.uleb128 0x5
+ 799 008a 00       		.byte	0
+ 800 008b 03       		.uleb128 0x3
+ 801 008c 0E       		.uleb128 0xe
+ 802 008d 3A       		.uleb128 0x3a
+ 803 008e 0B       		.uleb128 0xb
+ 804 008f 3B       		.uleb128 0x3b
+ 805 0090 0B       		.uleb128 0xb
+ 806 0091 49       		.uleb128 0x49
+ 807 0092 13       		.uleb128 0x13
+ 808 0093 02       		.uleb128 0x2
+ 809 0094 17       		.uleb128 0x17
+ 810 0095 00       		.byte	0
+ 811 0096 00       		.byte	0
+ 812 0097 0B       		.uleb128 0xb
+ 813 0098 898201   		.uleb128 0x4109
+ 814 009b 01       		.byte	0x1
+ 815 009c 11       		.uleb128 0x11
+ 816 009d 01       		.uleb128 0x1
+ 817 009e 31       		.uleb128 0x31
+ 818 009f 13       		.uleb128 0x13
+ 819 00a0 01       		.uleb128 0x1
+ 820 00a1 13       		.uleb128 0x13
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccto5ktg.s 			page 16
+
+
+ 821 00a2 00       		.byte	0
+ 822 00a3 00       		.byte	0
+ 823 00a4 0C       		.uleb128 0xc
+ 824 00a5 8A8201   		.uleb128 0x410a
+ 825 00a8 00       		.byte	0
+ 826 00a9 02       		.uleb128 0x2
+ 827 00aa 18       		.uleb128 0x18
+ 828 00ab 9142     		.uleb128 0x2111
+ 829 00ad 18       		.uleb128 0x18
+ 830 00ae 00       		.byte	0
+ 831 00af 00       		.byte	0
+ 832 00b0 0D       		.uleb128 0xd
+ 833 00b1 898201   		.uleb128 0x4109
+ 834 00b4 00       		.byte	0
+ 835 00b5 11       		.uleb128 0x11
+ 836 00b6 01       		.uleb128 0x1
+ 837 00b7 31       		.uleb128 0x31
+ 838 00b8 13       		.uleb128 0x13
+ 839 00b9 00       		.byte	0
+ 840 00ba 00       		.byte	0
+ 841 00bb 0E       		.uleb128 0xe
+ 842 00bc 2E       		.uleb128 0x2e
+ 843 00bd 01       		.byte	0x1
+ 844 00be 3F       		.uleb128 0x3f
+ 845 00bf 19       		.uleb128 0x19
+ 846 00c0 03       		.uleb128 0x3
+ 847 00c1 0E       		.uleb128 0xe
+ 848 00c2 3A       		.uleb128 0x3a
+ 849 00c3 0B       		.uleb128 0xb
+ 850 00c4 3B       		.uleb128 0x3b
+ 851 00c5 0B       		.uleb128 0xb
+ 852 00c6 27       		.uleb128 0x27
+ 853 00c7 19       		.uleb128 0x19
+ 854 00c8 49       		.uleb128 0x49
+ 855 00c9 13       		.uleb128 0x13
+ 856 00ca 11       		.uleb128 0x11
+ 857 00cb 01       		.uleb128 0x1
+ 858 00cc 12       		.uleb128 0x12
+ 859 00cd 06       		.uleb128 0x6
+ 860 00ce 40       		.uleb128 0x40
+ 861 00cf 18       		.uleb128 0x18
+ 862 00d0 9742     		.uleb128 0x2117
+ 863 00d2 19       		.uleb128 0x19
+ 864 00d3 01       		.uleb128 0x1
+ 865 00d4 13       		.uleb128 0x13
+ 866 00d5 00       		.byte	0
+ 867 00d6 00       		.byte	0
+ 868 00d7 0F       		.uleb128 0xf
+ 869 00d8 34       		.uleb128 0x34
+ 870 00d9 00       		.byte	0
+ 871 00da 03       		.uleb128 0x3
+ 872 00db 0E       		.uleb128 0xe
+ 873 00dc 3A       		.uleb128 0x3a
+ 874 00dd 0B       		.uleb128 0xb
+ 875 00de 3B       		.uleb128 0x3b
+ 876 00df 0B       		.uleb128 0xb
+ 877 00e0 49       		.uleb128 0x49
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccto5ktg.s 			page 17
+
+
+ 878 00e1 13       		.uleb128 0x13
+ 879 00e2 02       		.uleb128 0x2
+ 880 00e3 18       		.uleb128 0x18
+ 881 00e4 00       		.byte	0
+ 882 00e5 00       		.byte	0
+ 883 00e6 10       		.uleb128 0x10
+ 884 00e7 34       		.uleb128 0x34
+ 885 00e8 00       		.byte	0
+ 886 00e9 03       		.uleb128 0x3
+ 887 00ea 0E       		.uleb128 0xe
+ 888 00eb 3A       		.uleb128 0x3a
+ 889 00ec 0B       		.uleb128 0xb
+ 890 00ed 3B       		.uleb128 0x3b
+ 891 00ee 05       		.uleb128 0x5
+ 892 00ef 49       		.uleb128 0x49
+ 893 00f0 13       		.uleb128 0x13
+ 894 00f1 3F       		.uleb128 0x3f
+ 895 00f2 19       		.uleb128 0x19
+ 896 00f3 3C       		.uleb128 0x3c
+ 897 00f4 19       		.uleb128 0x19
+ 898 00f5 00       		.byte	0
+ 899 00f6 00       		.byte	0
+ 900 00f7 11       		.uleb128 0x11
+ 901 00f8 35       		.uleb128 0x35
+ 902 00f9 00       		.byte	0
+ 903 00fa 49       		.uleb128 0x49
+ 904 00fb 13       		.uleb128 0x13
+ 905 00fc 00       		.byte	0
+ 906 00fd 00       		.byte	0
+ 907 00fe 12       		.uleb128 0x12
+ 908 00ff 01       		.uleb128 0x1
+ 909 0100 01       		.byte	0x1
+ 910 0101 49       		.uleb128 0x49
+ 911 0102 13       		.uleb128 0x13
+ 912 0103 01       		.uleb128 0x1
+ 913 0104 13       		.uleb128 0x13
+ 914 0105 00       		.byte	0
+ 915 0106 00       		.byte	0
+ 916 0107 13       		.uleb128 0x13
+ 917 0108 21       		.uleb128 0x21
+ 918 0109 00       		.byte	0
+ 919 010a 49       		.uleb128 0x49
+ 920 010b 13       		.uleb128 0x13
+ 921 010c 2F       		.uleb128 0x2f
+ 922 010d 0B       		.uleb128 0xb
+ 923 010e 00       		.byte	0
+ 924 010f 00       		.byte	0
+ 925 0110 14       		.uleb128 0x14
+ 926 0111 34       		.uleb128 0x34
+ 927 0112 00       		.byte	0
+ 928 0113 03       		.uleb128 0x3
+ 929 0114 0E       		.uleb128 0xe
+ 930 0115 3A       		.uleb128 0x3a
+ 931 0116 0B       		.uleb128 0xb
+ 932 0117 3B       		.uleb128 0x3b
+ 933 0118 0B       		.uleb128 0xb
+ 934 0119 49       		.uleb128 0x49
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccto5ktg.s 			page 18
+
+
+ 935 011a 13       		.uleb128 0x13
+ 936 011b 3F       		.uleb128 0x3f
+ 937 011c 19       		.uleb128 0x19
+ 938 011d 02       		.uleb128 0x2
+ 939 011e 18       		.uleb128 0x18
+ 940 011f 00       		.byte	0
+ 941 0120 00       		.byte	0
+ 942 0121 15       		.uleb128 0x15
+ 943 0122 21       		.uleb128 0x21
+ 944 0123 00       		.byte	0
+ 945 0124 49       		.uleb128 0x49
+ 946 0125 13       		.uleb128 0x13
+ 947 0126 2F       		.uleb128 0x2f
+ 948 0127 05       		.uleb128 0x5
+ 949 0128 00       		.byte	0
+ 950 0129 00       		.byte	0
+ 951 012a 16       		.uleb128 0x16
+ 952 012b 2E       		.uleb128 0x2e
+ 953 012c 00       		.byte	0
+ 954 012d 3F       		.uleb128 0x3f
+ 955 012e 19       		.uleb128 0x19
+ 956 012f 3C       		.uleb128 0x3c
+ 957 0130 19       		.uleb128 0x19
+ 958 0131 6E       		.uleb128 0x6e
+ 959 0132 0E       		.uleb128 0xe
+ 960 0133 03       		.uleb128 0x3
+ 961 0134 0E       		.uleb128 0xe
+ 962 0135 3A       		.uleb128 0x3a
+ 963 0136 0B       		.uleb128 0xb
+ 964 0137 3B       		.uleb128 0x3b
+ 965 0138 0B       		.uleb128 0xb
+ 966 0139 00       		.byte	0
+ 967 013a 00       		.byte	0
+ 968 013b 00       		.byte	0
+ 969              		.section	.debug_loc,"",%progbits
+ 970              	.Ldebug_loc0:
+ 971              	.LLST0:
+ 972 0000 00000000 		.4byte	.LVL0
+ 973 0004 0A000000 		.4byte	.LVL2
+ 974 0008 0100     		.2byte	0x1
+ 975 000a 50       		.byte	0x50
+ 976 000b 0A000000 		.4byte	.LVL2
+ 977 000f 26000000 		.4byte	.LFE63
+ 978 0013 0100     		.2byte	0x1
+ 979 0015 55       		.byte	0x55
+ 980 0016 00000000 		.4byte	0
+ 981 001a 00000000 		.4byte	0
+ 982              	.LLST1:
+ 983 001e 00000000 		.4byte	.LVL0
+ 984 0022 08000000 		.4byte	.LVL1
+ 985 0026 0100     		.2byte	0x1
+ 986 0028 51       		.byte	0x51
+ 987 0029 08000000 		.4byte	.LVL1
+ 988 002d 26000000 		.4byte	.LFE63
+ 989 0031 0400     		.2byte	0x4
+ 990 0033 F3       		.byte	0xf3
+ 991 0034 01       		.uleb128 0x1
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccto5ktg.s 			page 19
+
+
+ 992 0035 51       		.byte	0x51
+ 993 0036 9F       		.byte	0x9f
+ 994 0037 00000000 		.4byte	0
+ 995 003b 00000000 		.4byte	0
+ 996              	.LLST2:
+ 997 003f 00000000 		.4byte	.LVL8
+ 998 0043 08000000 		.4byte	.LVL9
+ 999 0047 0100     		.2byte	0x1
+ 1000 0049 50       		.byte	0x50
+ 1001 004a 08000000 		.4byte	.LVL9
+ 1002 004e 28000000 		.4byte	.LVL15
+ 1003 0052 0100     		.2byte	0x1
+ 1004 0054 54       		.byte	0x54
+ 1005 0055 28000000 		.4byte	.LVL15
+ 1006 0059 30000000 		.4byte	.LFE64
+ 1007 005d 0400     		.2byte	0x4
+ 1008 005f F3       		.byte	0xf3
+ 1009 0060 01       		.uleb128 0x1
+ 1010 0061 50       		.byte	0x50
+ 1011 0062 9F       		.byte	0x9f
+ 1012 0063 00000000 		.4byte	0
+ 1013 0067 00000000 		.4byte	0
+ 1014              		.section	.debug_aranges,"",%progbits
+ 1015 0000 24000000 		.4byte	0x24
+ 1016 0004 0200     		.2byte	0x2
+ 1017 0006 00000000 		.4byte	.Ldebug_info0
+ 1018 000a 04       		.byte	0x4
+ 1019 000b 00       		.byte	0
+ 1020 000c 0000     		.2byte	0
+ 1021 000e 0000     		.2byte	0
+ 1022 0010 00000000 		.4byte	.LFB63
+ 1023 0014 26000000 		.4byte	.LFE63-.LFB63
+ 1024 0018 00000000 		.4byte	.LFB64
+ 1025 001c 30000000 		.4byte	.LFE64-.LFB64
+ 1026 0020 00000000 		.4byte	0
+ 1027 0024 00000000 		.4byte	0
+ 1028              		.section	.debug_ranges,"",%progbits
+ 1029              	.Ldebug_ranges0:
+ 1030 0000 00000000 		.4byte	.LFB63
+ 1031 0004 26000000 		.4byte	.LFE63
+ 1032 0008 00000000 		.4byte	.LFB64
+ 1033 000c 30000000 		.4byte	.LFE64
+ 1034 0010 00000000 		.4byte	0
+ 1035 0014 00000000 		.4byte	0
+ 1036              		.section	.debug_line,"",%progbits
+ 1037              	.Ldebug_line0:
+ 1038 0000 95010000 		.section	.debug_str,"MS",%progbits,1
+ 1038      02006501 
+ 1038      00000201 
+ 1038      FB0E0D00 
+ 1038      01010101 
+ 1039              	.LASF6:
+ 1040 0000 6C6F6E67 		.ascii	"long long int\000"
+ 1040      206C6F6E 
+ 1040      6720696E 
+ 1040      7400
+ 1041              	.LASF52:
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccto5ktg.s 			page 20
+
+
+ 1042 000e 72656164 		.ascii	"read_ext_eeprom\000"
+ 1042      5F657874 
+ 1042      5F656570 
+ 1042      726F6D00 
+ 1043              	.LASF23:
+ 1044 001e 48756D65 		.ascii	"Humedad\000"
+ 1044      64616400 
+ 1045              	.LASF46:
+ 1046 0026 4932435F 		.ascii	"I2C_MasterSendStop\000"
+ 1046      4D617374 
+ 1046      65725365 
+ 1046      6E645374 
+ 1046      6F7000
+ 1047              	.LASF24:
+ 1048 0039 54656D70 		.ascii	"Temperatura\000"
+ 1048      65726174 
+ 1048      75726100 
+ 1049              	.LASF33:
+ 1050 0045 70617472 		.ascii	"patron2\000"
+ 1050      6F6E3200 
+ 1051              	.LASF14:
+ 1052 004d 666C6F61 		.ascii	"float\000"
+ 1052      7400
+ 1053              	.LASF9:
+ 1054 0053 5F5F696E 		.ascii	"__int32_t\000"
+ 1054      7433325F 
+ 1054      7400
+ 1055              	.LASF27:
+ 1056 005d 4D696E75 		.ascii	"Minuto\000"
+ 1056      746F00
+ 1057              	.LASF45:
+ 1058 0064 4932435F 		.ascii	"I2C_MasterWriteByte\000"
+ 1058      4D617374 
+ 1058      65725772 
+ 1058      69746542 
+ 1058      79746500 
+ 1059              	.LASF3:
+ 1060 0078 73686F72 		.ascii	"short unsigned int\000"
+ 1060      7420756E 
+ 1060      7369676E 
+ 1060      65642069 
+ 1060      6E7400
+ 1061              	.LASF32:
+ 1062 008b 70617472 		.ascii	"patron1\000"
+ 1062      6F6E3100 
+ 1063              	.LASF25:
+ 1064 0093 50657273 		.ascii	"Personalizado\000"
+ 1064      6F6E616C 
+ 1064      697A6164 
+ 1064      6F00
+ 1065              	.LASF34:
+ 1066 00a1 70617472 		.ascii	"patron3\000"
+ 1066      6F6E3300 
+ 1067              	.LASF11:
+ 1068 00a9 75696E74 		.ascii	"uint8\000"
+ 1068      3800
+ 1069              	.LASF43:
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccto5ktg.s 			page 21
+
+
+ 1070 00af 73746174 		.ascii	"status\000"
+ 1070      757300
+ 1071              	.LASF41:
+ 1072 00b6 63616C69 		.ascii	"calib\000"
+ 1072      6200
+ 1073              	.LASF19:
+ 1074 00bc 54656D70 		.ascii	"TemperaturaDec\000"
+ 1074      65726174 
+ 1074      75726144 
+ 1074      656300
+ 1075              	.LASF35:
+ 1076 00cb 43616C69 		.ascii	"Calibracion\000"
+ 1076      62726163 
+ 1076      696F6E00 
+ 1077              	.LASF42:
+ 1078 00d7 49324357 		.ascii	"I2CWriteBuffer\000"
+ 1078      72697465 
+ 1078      42756666 
+ 1078      657200
+ 1079              	.LASF37:
+ 1080 00e6 64617461 		.ascii	"data\000"
+ 1080      00
+ 1081              	.LASF1:
+ 1082 00eb 756E7369 		.ascii	"unsigned char\000"
+ 1082      676E6564 
+ 1082      20636861 
+ 1082      7200
+ 1083              	.LASF48:
+ 1084 00f9 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 1084      43313120 
+ 1084      352E342E 
+ 1084      31203230 
+ 1084      31363036 
+ 1085 012c 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 1085      20726576 
+ 1085      6973696F 
+ 1085      6E203233 
+ 1085      37373135 
+ 1086 015f 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ 1086      66756E63 
+ 1086      74696F6E 
+ 1086      2D736563 
+ 1086      74696F6E 
+ 1087              	.LASF5:
+ 1088 0187 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1088      20756E73 
+ 1088      69676E65 
+ 1088      6420696E 
+ 1088      7400
+ 1089              	.LASF13:
+ 1090 0199 696E7433 		.ascii	"int32\000"
+ 1090      3200
+ 1091              	.LASF44:
+ 1092 019f 4932435F 		.ascii	"I2C_MasterSendStart\000"
+ 1092      4D617374 
+ 1092      65725365 
+ 1092      6E645374 
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccto5ktg.s 			page 22
+
+
+ 1092      61727400 
+ 1093              	.LASF38:
+ 1094 01b3 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 1094      52784275 
+ 1094      66666572 
+ 1094      00
+ 1095              	.LASF28:
+ 1096 01c0 47726166 		.ascii	"Grafica\000"
+ 1096      69636100 
+ 1097              	.LASF15:
+ 1098 01c8 646F7562 		.ascii	"double\000"
+ 1098      6C6500
+ 1099              	.LASF26:
+ 1100 01cf 486F7261 		.ascii	"Hora\000"
+ 1100      00
+ 1101              	.LASF22:
+ 1102 01d4 4D696E75 		.ascii	"Minutos\000"
+ 1102      746F7300 
+ 1103              	.LASF12:
+ 1104 01dc 696E7438 		.ascii	"int8\000"
+ 1104      00
+ 1105              	.LASF8:
+ 1106 01e1 756E7369 		.ascii	"unsigned int\000"
+ 1106      676E6564 
+ 1106      20696E74 
+ 1106      00
+ 1107              	.LASF36:
+ 1108 01ee 61646472 		.ascii	"address\000"
+ 1108      65737300 
+ 1109              	.LASF7:
+ 1110 01f6 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 1110      206C6F6E 
+ 1110      6720756E 
+ 1110      7369676E 
+ 1110      65642069 
+ 1111              	.LASF21:
+ 1112 020d 486F7261 		.ascii	"Horas\000"
+ 1112      7300
+ 1113              	.LASF29:
+ 1114 0213 636F6E74 		.ascii	"control1\000"
+ 1114      726F6C31 
+ 1114      00
+ 1115              	.LASF30:
+ 1116 021c 636F6E74 		.ascii	"control2\000"
+ 1116      726F6C32 
+ 1116      00
+ 1117              	.LASF31:
+ 1118 0225 636F6E74 		.ascii	"control3\000"
+ 1118      726F6C33 
+ 1118      00
+ 1119              	.LASF10:
+ 1120 022e 696E7433 		.ascii	"int32_t\000"
+ 1120      325F7400 
+ 1121              	.LASF18:
+ 1122 0236 73697A65 		.ascii	"sizetype\000"
+ 1122      74797065 
+ 1122      00
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccto5ktg.s 			page 23
+
+
+ 1123              	.LASF16:
+ 1124 023f 63686172 		.ascii	"char\000"
+ 1124      00
+ 1125              	.LASF50:
+ 1126 0244 443A5C4C 		.ascii	"D:\\Laboratorio\\Camara Climatica\\2021\\Camara Cli"
+ 1126      61626F72 
+ 1126      61746F72 
+ 1126      696F5C43 
+ 1126      616D6172 
+ 1127 0273 6D617469 		.ascii	"matica Peltier Touch Asemp Zomac SAS 256L #0045886X"
+ 1127      63612050 
+ 1127      656C7469 
+ 1127      65722054 
+ 1127      6F756368 
+ 1128 02a6 58204F50 		.ascii	"X OP2021161\\Firmware Psoc\\LCD2\\CamaraClimatica.c"
+ 1128      32303231 
+ 1128      3136315C 
+ 1128      4669726D 
+ 1128      77617265 
+ 1129 02d6 7964736E 		.ascii	"ydsn\000"
+ 1129      00
+ 1130              	.LASF40:
+ 1131 02db 67726170 		.ascii	"graph\000"
+ 1131      6800
+ 1132              	.LASF47:
+ 1133 02e1 4932435F 		.ascii	"I2C_MasterReadByte\000"
+ 1133      4D617374 
+ 1133      65725265 
+ 1133      61644279 
+ 1133      746500
+ 1134              	.LASF2:
+ 1135 02f4 73686F72 		.ascii	"short int\000"
+ 1135      7420696E 
+ 1135      7400
+ 1136              	.LASF39:
+ 1137 02fe 72616D70 		.ascii	"rampas\000"
+ 1137      617300
+ 1138              	.LASF4:
+ 1139 0305 6C6F6E67 		.ascii	"long int\000"
+ 1139      20696E74 
+ 1139      00
+ 1140              	.LASF20:
+ 1141 030e 54656D70 		.ascii	"TemperaturaInt\000"
+ 1141      65726174 
+ 1141      75726149 
+ 1141      6E7400
+ 1142              	.LASF17:
+ 1143 031d 6C6F6E67 		.ascii	"long double\000"
+ 1143      20646F75 
+ 1143      626C6500 
+ 1144              	.LASF0:
+ 1145 0329 7369676E 		.ascii	"signed char\000"
+ 1145      65642063 
+ 1145      68617200 
+ 1146              	.LASF49:
+ 1147 0335 32343531 		.ascii	"24512.c\000"
+ 1147      322E6300 
+ARM GAS  C:\Users\USUARIO\AppData\Local\Temp\ccto5ktg.s 			page 24
+
+
+ 1148              	.LASF51:
+ 1149 033d 77726974 		.ascii	"write_ext_eeprom\000"
+ 1149      655F6578 
+ 1149      745F6565 
+ 1149      70726F6D 
+ 1149      00
+ 1150              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

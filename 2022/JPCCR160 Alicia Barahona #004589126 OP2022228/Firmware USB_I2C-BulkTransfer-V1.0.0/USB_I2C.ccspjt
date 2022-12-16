@@ -1,0 +1,19 @@
+[PROJECT]
+Target=USB_I2C.hex
+Processor_Text=PIC18F2550
+CCSVersion=5.015
+Compiler=PCH
+[Target Data]
+FileList=USB_I2C.c
+[Directories]
+Include=C:\Program Files (x86)\PICC\Devices\
+[USB_I2C.c]
+Type=4
+[mru-list]
+1=USB_I2C.c
+[Opened Files]
+1=USB_I2C.c
+2=
+[Units]
+Count=1
+1=USB_I2C (main)

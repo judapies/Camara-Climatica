@@ -1,0 +1,19 @@
+>>> Warning 201 "D:\Laboratorio\Camara Climatica\2022\JPCCR108 Avantika #0045890XX OP2022177\Firmware Servidor V1.0.0\tcpip\helpers.c" Line 188(1,1): Assignment inside relational expression
+>>> Warning 201 "D:\Laboratorio\Camara Climatica\2022\JPCCR108 Avantika #0045890XX OP2022177\Firmware Servidor V1.0.0\tcpip\helpers.c" Line 263(1,1): Assignment inside relational expression
+>>> Warning 201 "D:\Laboratorio\Camara Climatica\2022\JPCCR108 Avantika #0045890XX OP2022177\Firmware Servidor V1.0.0\tcpip\http.c" Line 174(1,1): Assignment inside relational expression
+>>> Warning 203 "D:\Laboratorio\Camara Climatica\2022\JPCCR108 Avantika #0045890XX OP2022177\Firmware Servidor V1.0.0\tcpip\http.c" Line 610(1,1): Condition always TRUE
+>>> Warning 201 "D:\Laboratorio\Camara Climatica\2022\JPCCR108 Avantika #0045890XX OP2022177\Firmware Servidor V1.0.0\tcpip\http.c" Line 701(1,1): Assignment inside relational expression
+>>> Warning 207 "D:\Laboratorio\Camara Climatica\2022\JPCCR108 Avantika #0045890XX OP2022177\Firmware Servidor V1.0.0\tcpip\stacktsk.c" Line 417(1,1): Code has no effect
+>>> Warning 207 "D:\Laboratorio\Camara Climatica\2022\JPCCR108 Avantika #0045890XX OP2022177\Firmware Servidor V1.0.0\tcpip\stacktsk.c" Line 460(1,1): Code has no effect
+>>> Warning 202 "Servidor.c" Line 24(6,9): Variable never used:   AD0
+>>> Warning 202 "Servidor.c" Line 84(46,50): Variable never used:   cont
+>>> Warning 202 "Servidor.c" Line 84(53,54): Variable never used:   n
+>>> Warning 202 "Servidor.c" Line 85(6,8): Variable never used:   IP
+>>> Warning 202 "Servidor.c" Line 86(6,13): Variable never used:   Gateway
+>>> Warning 202 "Servidor.c" Line 87(6,12): Variable never used:   Subnet
+>>> Warning 202 "Servidor.c" Line 88(6,9): Variable never used:   MAC
+>>> Warning 202 "Servidor.c" Line 204(16,24): Variable never used:   lecturas
+>>> Warning 202 "Servidor.c" Line 233(9,12): Variable never used:   RE0
+      Memory usage:   ROM=33%      RAM=24% - 30%
+      0 Errors,  16 Warnings.
+Build Successful.

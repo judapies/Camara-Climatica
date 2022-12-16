@@ -1,0 +1,65 @@
+[PROJECT]
+Target=main.hex
+Processor_Text=PIC18F4685
+CCSVerions=5.025
+Compiler=PCH
+CCSVersion=5.015
+[Target Data]
+FileList=main.c
+[Directories]
+Include=C:\Program Files (x86)\PICC\Devices\;C:\Program Files (x86)\PICC\Drivers\
+[C:\Users\JPINGLOBAL\Documents\NC\Ether2\main]
+Type=4
+[mru-list]
+1=main.c
+
+[ProjectLog]
+Days=2
+D1=05-07-2022
+D1_L=26
+D1_L1=[26525]Project Opened.
+D1_L2=[26616]Started Editing.
+D1_L3=[27252]Stopped Editing.
+D1_L4=[27580]Started Editing.
+D1_L5=[28070]Stopped Editing.
+D1_L6=[28662]Started Editing.
+D1_L7=[29285]Stopped Editing.
+D1_L8=[31060]Started Editing.
+D1_L9=[31369]Stopped Editing.
+D1_L10=[31405]Started Editing.
+D1_L11=[31709]Stopped Editing.
+D1_L12=[32170]Started Editing.
+D1_L13=[32491]Stopped Editing.
+TotalEdit=32
+TotalDebug=0
+D1_E=32
+D1_D=0
+D1_L14=[32738]Project Closed.
+D1_L15=[32936]Project Opened.
+D1_L16=[33352]Started Editing.
+D1_L17=[33682]Stopped Editing.
+D1_L18=[33819]Started Editing.
+D1_L19=[34523]Stopped Editing.
+D1_L20=[35205]Started Editing.
+D1_L21=[35623]Stopped Editing.
+D1_L22=[35655]Started Editing.
+D1_L23=[36355]Stopped Editing.
+D1_L24=[36384]Started Editing.
+D1_L25=[36727]Stopped Editing.
+D1_L26=[50634]Project Closed.
+D2=07-07-2022
+D2_L=2
+D2_L1=[29340]Project Opened.
+D2_L2=[29352]Project Closed.
+
+[Opened Files]
+1=main.c
+2=
+3=tcpip\TCPIP Stack\Compiler.h
+4=main.h
+5=
+[main.c]
+Type=4
+[Units]
+Count=1
+1=main (main)

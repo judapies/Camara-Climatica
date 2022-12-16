@@ -1,0 +1,441 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CyXmlSerializer>
+<!--This file is machine generated and read. It is not intended to be edited by hand.-->
+<!--Due to this, there is no schema for this file.-->
+<CyGuid_843a90a4-0c4b-4e44-991d-05e7fb117a21 type_name="CyDesigner.Common.ProjMgmt.Model.CyPrjMgmtWrkspcCustomData" version="4">
+<CyGuid_fdba8dfd-b15b-4469-9bbb-9e40c3e70997 type_name="CyDesigner.Common.Base.CyCustomData" version="2">
+<userData>
+<dataGuid v="1b906a0f-a7b6-4e4d-a428-82f98b53cb35">
+<CyGuid_1b906a0f-a7b6-4e4d-a428-82f98b53cb35 type_name="CyDesigner.Common.ProjMgmt.GUI.CyExplorerWindow+CyExplorerWindowState" version="3" SelectedTab="Source">
+<TreeKeys>
+<v>Source</v>
+<v>Components</v>
+<v>Output</v>
+</TreeKeys>
+<TreeStates>
+<CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="CamaraClimatica\CamaraClimatica\Source Files\main.c">
+<ExpandedNodeIds>
+<v>CamaraClimatica</v>
+<v>CamaraClimatica\CamaraClimatica</v>
+<v>CamaraClimatica\CamaraClimatica\TopDesign</v>
+<v>CamaraClimatica\CamaraClimatica\CamaraClimatica.cydwr</v>
+<v>CamaraClimatica\CamaraClimatica\CamaraClimatica.cydwr\Pins</v>
+<v>CamaraClimatica\CamaraClimatica\CamaraClimatica.cydwr\Analog</v>
+<v>CamaraClimatica\CamaraClimatica\CamaraClimatica.cydwr\Clocks</v>
+<v>CamaraClimatica\CamaraClimatica\CamaraClimatica.cydwr\Interrupts</v>
+<v>CamaraClimatica\CamaraClimatica\CamaraClimatica.cydwr\DMA</v>
+<v>CamaraClimatica\CamaraClimatica\CamaraClimatica.cydwr\System</v>
+<v>CamaraClimatica\CamaraClimatica\CamaraClimatica.cydwr\Directives</v>
+<v>CamaraClimatica\CamaraClimatica\CamaraClimatica.cydwr\Flash Security</v>
+<v>CamaraClimatica\CamaraClimatica\CamaraClimatica.cydwr\EEPROM</v>
+<v>CamaraClimatica\CamaraClimatica\Header Files</v>
+<v>CamaraClimatica\CamaraClimatica\Header Files\24512.h</v>
+<v>CamaraClimatica\CamaraClimatica\Header Files\BMP180.h</v>
+<v>CamaraClimatica\CamaraClimatica\Header Files\common.h</v>
+<v>CamaraClimatica\CamaraClimatica\Header Files\cyapicallbacks.h</v>
+<v>CamaraClimatica\CamaraClimatica\Header Files\device.h</v>
+<v>CamaraClimatica\CamaraClimatica\Header Files\DS1302.h</v>
+<v>CamaraClimatica\CamaraClimatica\Header Files\funciones.h</v>
+<v>CamaraClimatica\CamaraClimatica\Header Files\getResistance.h</v>
+<v>CamaraClimatica\CamaraClimatica\Header Files\main.h</v>
+<v>CamaraClimatica\CamaraClimatica\Header Files\MyServer.h</v>
+<v>CamaraClimatica\CamaraClimatica\Header Files\removeOffsetNoise.h</v>
+<v>CamaraClimatica\CamaraClimatica\Source Files</v>
+<v>CamaraClimatica\CamaraClimatica\Source Files\24512.c</v>
+<v>CamaraClimatica\CamaraClimatica\Source Files\BMP180.c</v>
+<v>CamaraClimatica\CamaraClimatica\Source Files\DS1302.c</v>
+<v>CamaraClimatica\CamaraClimatica\Source Files\funciones.c</v>
+<v>CamaraClimatica\CamaraClimatica\Source Files\getResistance.c</v>
+<v>CamaraClimatica\CamaraClimatica\Source Files\main.c</v>
+<v>CamaraClimatica\CamaraClimatica\Source Files\MyServer.c</v>
+<v>CamaraClimatica\CamaraClimatica\Source Files\removeOffsetNoise.c</v>
+<v>CamaraClimatica\CamaraClimatica\Generated_Source</v>
+</ExpandedNodeIds>
+<VisibleNodeIds>
+<v>CamaraClimatica</v>
+<v>CamaraClimatica\CamaraClimatica</v>
+<v>CamaraClimatica\CamaraClimatica\TopDesign</v>
+<v>CamaraClimatica\CamaraClimatica\CamaraClimatica.cydwr</v>
+<v>CamaraClimatica\CamaraClimatica\CamaraClimatica.cydwr\Pins</v>
+<v>CamaraClimatica\CamaraClimatica\CamaraClimatica.cydwr\Analog</v>
+<v>CamaraClimatica\CamaraClimatica\CamaraClimatica.cydwr\Clocks</v>
+<v>CamaraClimatica\CamaraClimatica\CamaraClimatica.cydwr\Interrupts</v>
+<v>CamaraClimatica\CamaraClimatica\CamaraClimatica.cydwr\DMA</v>
+<v>CamaraClimatica\CamaraClimatica\CamaraClimatica.cydwr\System</v>
+<v>CamaraClimatica\CamaraClimatica\CamaraClimatica.cydwr\Directives</v>
+<v>CamaraClimatica\CamaraClimatica\CamaraClimatica.cydwr\Flash Security</v>
+<v>CamaraClimatica\CamaraClimatica\CamaraClimatica.cydwr\EEPROM</v>
+<v>CamaraClimatica\CamaraClimatica\Header Files</v>
+<v>CamaraClimatica\CamaraClimatica\Header Files\24512.h</v>
+<v>CamaraClimatica\CamaraClimatica\Header Files\BMP180.h</v>
+<v>CamaraClimatica\CamaraClimatica\Header Files\common.h</v>
+<v>CamaraClimatica\CamaraClimatica\Header Files\cyapicallbacks.h</v>
+<v>CamaraClimatica\CamaraClimatica\Header Files\device.h</v>
+<v>CamaraClimatica\CamaraClimatica\Header Files\DS1302.h</v>
+<v>CamaraClimatica\CamaraClimatica\Header Files\funciones.h</v>
+<v>CamaraClimatica\CamaraClimatica\Header Files\getResistance.h</v>
+<v>CamaraClimatica\CamaraClimatica\Header Files\main.h</v>
+<v>CamaraClimatica\CamaraClimatica\Header Files\MyServer.h</v>
+<v>CamaraClimatica\CamaraClimatica\Header Files\removeOffsetNoise.h</v>
+<v>CamaraClimatica\CamaraClimatica\Source Files</v>
+<v>CamaraClimatica\CamaraClimatica\Source Files\24512.c</v>
+<v>CamaraClimatica\CamaraClimatica\Source Files\BMP180.c</v>
+<v>CamaraClimatica\CamaraClimatica\Source Files\DS1302.c</v>
+<v>CamaraClimatica\CamaraClimatica\Source Files\funciones.c</v>
+<v>CamaraClimatica\CamaraClimatica\Source Files\getResistance.c</v>
+<v>CamaraClimatica\CamaraClimatica\Source Files\main.c</v>
+<v>CamaraClimatica\CamaraClimatica\Source Files\MyServer.c</v>
+<v>CamaraClimatica\CamaraClimatica\Source Files\removeOffsetNoise.c</v>
+<v>CamaraClimatica\CamaraClimatica\Generated_Source</v>
+<v>CamaraClimatica\CamaraClimatica\Generated_Source\PSoC5</v>
+</VisibleNodeIds>
+</CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237>
+<CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="CamaraClimatica">
+<ExpandedNodeIds>
+<v>CamaraClimatica</v>
+<v>CamaraClimatica\CamaraClimatica</v>
+<v>CamaraClimatica\CamaraClimatica\TopDesign</v>
+<v>CamaraClimatica\CamaraClimatica\TopDesign\TopDesign.cysch</v>
+</ExpandedNodeIds>
+<VisibleNodeIds>
+<v>CamaraClimatica</v>
+<v>CamaraClimatica\CamaraClimatica</v>
+<v>CamaraClimatica\CamaraClimatica\TopDesign</v>
+<v>CamaraClimatica\CamaraClimatica\TopDesign\TopDesign.cysch</v>
+</VisibleNodeIds>
+</CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237>
+<CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="CamaraClimatica">
+<ExpandedNodeIds>
+<v>CamaraClimatica</v>
+<v>CamaraClimatica\CamaraClimatica</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\24512.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\ADC.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\ADC_Ext_CP_Clk.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\ADC_INT.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\ADC_IRQ.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\ADC_PM.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\ADC_SAR.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\ADC_SAR_FinalBuf_dma.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\ADC_SAR_INT.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\ADC_SAR_IntClock.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\ADC_SAR_IRQ.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\ADC_SAR_PM.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\ADC_SAR_SAR.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\ADC_SAR_SAR_INT.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\ADC_SAR_SAR_PM.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\ADC_SAR_TempBuf_dma.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\ADC_theACLK.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\ADCMux.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\BMP180.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\BUZZER.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\Cm3Start.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\CR1.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\CR2.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\CR3.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\CR4.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\CR5.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\CR6.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\CR7.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\CR8.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\CurrentMux.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\cy_em_eeprom.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\CyBootAsmGnu.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\CyDmac.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\cyfitter_cfg.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\CyFlash.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\CyLib.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\cymetadata.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\cyPm.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\CySpc.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\cyutils.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\DOOR.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\DS1302.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\DS1302_CE_PIN.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\DS1302_IO_PIN.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\DS1302_SCLK_PIN.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\EEPROM.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\ETH0.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\funciones.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\getResistance.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\HUMEDAD.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\I2C.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\I2C_BOOT.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\I2C_INT.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\I2C_MASTER.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\I2C_PM.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\I2C_SLAVE.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\IDAC.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\IDAC_PM.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\LCD1.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\LCD2.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\LEVEL.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\LM35.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\main.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\MyServer.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\NTC.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\Pin_1.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\Pin_10.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\Pin_11.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\Pin_12.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\Pin_13.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\Pin_14.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\Pin_15.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\Pin_16.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\Pin_17.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\Pin_18.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\Pin_19.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\Pin_2.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\Pin_20.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\Pin_21.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\Pin_22.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\Pin_23.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\Pin_24.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\Pin_25.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\Pin_26.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\Pin_3.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\Pin_4.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\Pin_5.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\Pin_6.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\Pin_7.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\Pin_8.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\Pin_9.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\PWM.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\PWM_PM.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\RefRes_Current.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\RefRes_Negative.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\RefRes_Positive.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\Reloj.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\RTD.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\RTD_Current.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\RTD_Current_1.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\RTD_Negative.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\RTD_Negative_1.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\RTD_Positive.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\RTD_Positive_1.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\RX1.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\RX2.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\SCL.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\SDA.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\SPI0.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\SPI0_INT.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\SPI0_IntClock.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\SPI0_PM.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\SSR_1.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\SSR_2.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\TERM.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\Timer.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\Timer_PM.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\UART_1.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\UART_1_BOOT.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\UART_1_INT.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\UART_1_IntClock.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\UART_1_PM.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\UART_2.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\UART_2_BOOT.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\UART_2_INT.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\UART_2_IntClock.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\UART_2_PM.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\USBUART.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\USBUART_audio.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\USBUART_boot.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\USBUART_cdc.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\USBUART_cls.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\USBUART_descr.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\USBUART_Dm.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\USBUART_Dp.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\USBUART_drv.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\USBUART_episr.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\USBUART_hid.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\USBUART_midi.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\USBUART_msc.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\USBUART_pm.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\USBUART_std.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\USBUART_vnd.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\CamaraClimatica.elf</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\CamaraClimatica.hex</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\CamaraClimatica.map</v>
+<v>CamaraClimatica\CamaraClimatica\CamaraClimatica.gpdsc</v>
+<v>CamaraClimatica\CamaraClimatica\CamaraClimatica.rpt</v>
+<v>CamaraClimatica\CamaraClimatica\CamaraClimatica_timing.html</v>
+</ExpandedNodeIds>
+<VisibleNodeIds>
+<v>CamaraClimatica</v>
+<v>CamaraClimatica\CamaraClimatica</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\24512.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\ADC.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\ADC_Ext_CP_Clk.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\ADC_INT.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\ADC_IRQ.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\ADC_PM.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\ADC_SAR.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\ADC_SAR_FinalBuf_dma.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\ADC_SAR_INT.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\ADC_SAR_IntClock.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\ADC_SAR_IRQ.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\ADC_SAR_PM.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\ADC_SAR_SAR.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\ADC_SAR_SAR_INT.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\ADC_SAR_SAR_PM.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\ADC_SAR_TempBuf_dma.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\ADC_theACLK.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\ADCMux.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\BMP180.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\BUZZER.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\Cm3Start.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\CR1.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\CR2.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\CR3.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\CR4.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\CR5.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\CR6.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\CR7.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\CR8.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\CurrentMux.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\cy_em_eeprom.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\CyBootAsmGnu.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\CyDmac.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\cyfitter_cfg.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\CyFlash.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\CyLib.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\cymetadata.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\cyPm.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\CySpc.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\cyutils.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\DOOR.lst</v>
+<v>CamaraClimatica\CamaraClimatica\CortexM3\ARM_GCC_541\Debug\Listing Files\DS1302.lst</v>
+</VisibleNodeIds>
+</CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237>
+</TreeStates>
+<TreeKeysV2>
+<v>Datasheet</v>
+</TreeKeysV2>
+<TreeStatesV2>
+<CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="CamaraClimatica\CamaraClimatica">
+<ExpandedNodeIds>
+<v>CamaraClimatica</v>
+<v>CamaraClimatica\CamaraClimatica</v>
+<v>CamaraClimatica\CamaraClimatica\PSoC 5LP Architecture TRM</v>
+<v>CamaraClimatica\CamaraClimatica\CY8C58LP Family Datasheet</v>
+<v>CamaraClimatica\CamaraClimatica\System Reference Guides</v>
+<v>CamaraClimatica\CamaraClimatica\System Reference Guides\cy_boot_v5_60</v>
+<v>CamaraClimatica\CamaraClimatica\Project Datasheet</v>
+<v>CamaraClimatica\CamaraClimatica\ADC_DelSig_v3_20.pdf</v>
+<v>CamaraClimatica\CamaraClimatica\ADC_SAR_SEQ_v2_10.pdf</v>
+<v>CamaraClimatica\CamaraClimatica\AMux_v1_80</v>
+<v>CamaraClimatica\CamaraClimatica\AMux_v1_80\AMux_v1_80.pdf</v>
+<v>CamaraClimatica\CamaraClimatica\cy_clock_v2_20</v>
+<v>CamaraClimatica\CamaraClimatica\cy_clock_v2_20\cy_clock_v2_20.pdf</v>
+<v>CamaraClimatica\CamaraClimatica\cy_isr_v1_70</v>
+<v>CamaraClimatica\CamaraClimatica\cy_isr_v1_70\cy_isr_v1_70.pdf</v>
+<v>CamaraClimatica\CamaraClimatica\cy_pins_v2_10</v>
+<v>CamaraClimatica\CamaraClimatica\cy_pins_v2_10\cy_pins_v2_10.pdf</v>
+<v>CamaraClimatica\CamaraClimatica\cy_pins_v2_20</v>
+<v>CamaraClimatica\CamaraClimatica\cy_pins_v2_20\cy_pins_v2_20.pdf</v>
+<v>CamaraClimatica\CamaraClimatica\E2ForLife_W5100_v1_2.pdf</v>
+<v>CamaraClimatica\CamaraClimatica\EEPROM_v3_0.pdf</v>
+<v>CamaraClimatica\CamaraClimatica\Gnd_v1_0</v>
+<v>CamaraClimatica\CamaraClimatica\Gnd_v1_0\Gnd_v1_0.pdf</v>
+<v>CamaraClimatica\CamaraClimatica\I2C_v3_50.pdf</v>
+<v>CamaraClimatica\CamaraClimatica\IDAC8_v2_0.pdf</v>
+<v>CamaraClimatica\CamaraClimatica\PWM_v3_30.pdf</v>
+<v>CamaraClimatica\CamaraClimatica\Resistor_v1_0</v>
+<v>CamaraClimatica\CamaraClimatica\Resistor_v1_0\Resistor_v1_0.pdf</v>
+<v>CamaraClimatica\CamaraClimatica\RTDCalc_v1_20.pdf</v>
+<v>CamaraClimatica\CamaraClimatica\SPI_Master_v2_50.pdf</v>
+<v>CamaraClimatica\CamaraClimatica\Thermistor_v1_0</v>
+<v>CamaraClimatica\CamaraClimatica\Thermistor_v1_0\Thermistor_v1_0.pdf</v>
+<v>CamaraClimatica\CamaraClimatica\Timer_v2_80.pdf</v>
+<v>CamaraClimatica\CamaraClimatica\UART_v2_50</v>
+<v>CamaraClimatica\CamaraClimatica\UART_v2_50\UART_v2_50.pdf</v>
+<v>CamaraClimatica\CamaraClimatica\USBFS_v3_20.pdf</v>
+<v>CamaraClimatica\CamaraClimatica\ZeroTerminal</v>
+<v>CamaraClimatica\CamaraClimatica\ZeroTerminal\ZeroTerminal.pdf</v>
+</ExpandedNodeIds>
+<VisibleNodeIds>
+<v>CamaraClimatica</v>
+<v>CamaraClimatica\CamaraClimatica</v>
+<v>CamaraClimatica\CamaraClimatica\PSoC 5LP Architecture TRM</v>
+<v>CamaraClimatica\CamaraClimatica\CY8C58LP Family Datasheet</v>
+<v>CamaraClimatica\CamaraClimatica\System Reference Guides</v>
+<v>CamaraClimatica\CamaraClimatica\System Reference Guides\cy_boot_v5_60</v>
+<v>CamaraClimatica\CamaraClimatica\Project Datasheet</v>
+<v>CamaraClimatica\CamaraClimatica\ADC_DelSig_v3_20.pdf</v>
+<v>CamaraClimatica\CamaraClimatica\ADC_SAR_SEQ_v2_10.pdf</v>
+<v>CamaraClimatica\CamaraClimatica\AMux_v1_80</v>
+<v>CamaraClimatica\CamaraClimatica\AMux_v1_80\AMux_v1_80.pdf</v>
+<v>CamaraClimatica\CamaraClimatica\cy_clock_v2_20</v>
+<v>CamaraClimatica\CamaraClimatica\cy_clock_v2_20\cy_clock_v2_20.pdf</v>
+<v>CamaraClimatica\CamaraClimatica\cy_isr_v1_70</v>
+<v>CamaraClimatica\CamaraClimatica\cy_isr_v1_70\cy_isr_v1_70.pdf</v>
+<v>CamaraClimatica\CamaraClimatica\cy_pins_v2_10</v>
+<v>CamaraClimatica\CamaraClimatica\cy_pins_v2_10\cy_pins_v2_10.pdf</v>
+<v>CamaraClimatica\CamaraClimatica\cy_pins_v2_20</v>
+<v>CamaraClimatica\CamaraClimatica\cy_pins_v2_20\cy_pins_v2_20.pdf</v>
+<v>CamaraClimatica\CamaraClimatica\E2ForLife_W5100_v1_2.pdf</v>
+<v>CamaraClimatica\CamaraClimatica\EEPROM_v3_0.pdf</v>
+<v>CamaraClimatica\CamaraClimatica\Gnd_v1_0</v>
+<v>CamaraClimatica\CamaraClimatica\Gnd_v1_0\Gnd_v1_0.pdf</v>
+<v>CamaraClimatica\CamaraClimatica\I2C_v3_50.pdf</v>
+<v>CamaraClimatica\CamaraClimatica\IDAC8_v2_0.pdf</v>
+<v>CamaraClimatica\CamaraClimatica\PWM_v3_30.pdf</v>
+<v>CamaraClimatica\CamaraClimatica\Resistor_v1_0</v>
+<v>CamaraClimatica\CamaraClimatica\Resistor_v1_0\Resistor_v1_0.pdf</v>
+<v>CamaraClimatica\CamaraClimatica\RTDCalc_v1_20.pdf</v>
+<v>CamaraClimatica\CamaraClimatica\SPI_Master_v2_50.pdf</v>
+<v>CamaraClimatica\CamaraClimatica\Thermistor_v1_0</v>
+<v>CamaraClimatica\CamaraClimatica\Thermistor_v1_0\Thermistor_v1_0.pdf</v>
+<v>CamaraClimatica\CamaraClimatica\Timer_v2_80.pdf</v>
+<v>CamaraClimatica\CamaraClimatica\UART_v2_50</v>
+<v>CamaraClimatica\CamaraClimatica\UART_v2_50\UART_v2_50.pdf</v>
+<v>CamaraClimatica\CamaraClimatica\USBFS_v3_20.pdf</v>
+<v>CamaraClimatica\CamaraClimatica\ZeroTerminal</v>
+<v>CamaraClimatica\CamaraClimatica\ZeroTerminal\ZeroTerminal.pdf</v>
+</VisibleNodeIds>
+</CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237>
+</TreeStatesV2>
+</CyGuid_1b906a0f-a7b6-4e4d-a428-82f98b53cb35>
+</dataGuid>
+<dataGuid v="5f2be1a5-0687-4501-bb8c-cf21cb8211bf">
+<CyGuid_5f2be1a5-0687-4501-bb8c-cf21cb8211bf type_name="CyDesigner.Common.ProjMgmt.GUI.CyBookmarkData" version="1">
+<indicators />
+</CyGuid_5f2be1a5-0687-4501-bb8c-cf21cb8211bf>
+</dataGuid>
+<dataGuid v="6c335137-fa19-46ce-bc2d-2fbeb6d5f2a2">
+<CyGuid_70084457-cd6a-4593-9ed0-7f6eeb432dc2 type_name="CyDesigner.Common.ProjMgmt.GUI.CyDependenciesCustomData" version="1">
+<dictName v=".\ShakerIncubadora.cydsn\ShakerIncubadora.cyprj">
+<listName />
+</dictName>
+<dictName v=".\CamaraClimatica.cydsn\CamaraClimatica.cyprj">
+<listName />
+</dictName>
+</CyGuid_70084457-cd6a-4593-9ed0-7f6eeb432dc2>
+</dataGuid>
+</userData>
+</CyGuid_fdba8dfd-b15b-4469-9bbb-9e40c3e70997>
+<Unloaded />
+<OpenDocs>
+<name v=".\CamaraClimatica.cydsn\main.c" />
+<name v=".\CamaraClimatica.cydsn\funciones.c" />
+<name v=".\CamaraClimatica.cydsn\CamaraClimatica.cydwr" />
+<name v=".\CamaraClimatica.cydsn\TopDesign\TopDesign.cysch" />
+<name v=".\CamaraClimatica.cydsn\funciones.h" />
+</OpenDocs>
+<OpenDocsLayout><![CDATA[<?xml version="1.0"?><!--
+
+  Actipro Docking/MDI for WinForms
+  Copyright (c) 2001-2016 Actipro Software LLC.  All rights reserved.
+  http://www.actiprosoftware.com
+
+--><DocumentLayout Version="1.0"><LayoutData><TabbedMdiRootContainer Orientation="Vertical"><TabbedMdiContainer Size="1392, 716" SelectedTabbedMdiWindow="c02584d9-c157-4c12-b051-b71d16128ebf"><DocumentWindow Key="D:\Laboratorio\Camara Climatica\2021\Camara Climatica Peltier Touch Asemp Zomac SAS 256L #0045886XX OP2021161\Firmware Psoc\LCD2\CamaraClimatica.cydsn\main.c" Guid="c02584d9-c157-4c12-b051-b71d16128ebf" /><DocumentWindow Key="D:\Laboratorio\Camara Climatica\2021\Camara Climatica Peltier Touch Asemp Zomac SAS 256L #0045886XX OP2021161\Firmware Psoc\LCD2\CamaraClimatica.cydsn\funciones.c" Guid="3c6f5a75-dba2-4901-b4a7-ce7152bcb9e5" /><DocumentWindow Key="D:\Laboratorio\Camara Climatica\2021\Camara Climatica Peltier Touch Asemp Zomac SAS 256L #0045886XX OP2021161\Firmware Psoc\LCD2\CamaraClimatica.cydsn\CamaraClimatica.cydwr" Guid="288706c1-909d-40ff-9d36-ca4d8643898e" /><DocumentWindow Key="D:\Laboratorio\Camara Climatica\2021\Camara Climatica Peltier Touch Asemp Zomac SAS 256L #0045886XX OP2021161\Firmware Psoc\LCD2\CamaraClimatica.cydsn\TopDesign\TopDesign.cysch" Guid="0dcd6cfe-bb1e-454f-b14e-d59d2d406c50" /><DocumentWindow Key="D:\Laboratorio\Camara Climatica\2021\Camara Climatica Peltier Touch Asemp Zomac SAS 256L #0045886XX OP2021161\Firmware Psoc\LCD2\CamaraClimatica.cydsn\funciones.h" Guid="8fa21306-2686-4ca6-80dd-3ab77e17567b" /><ToolWindow Key="Start Page:bd4649ab-da6b-4d04-a663-c722b8bf99db:Start Page" Guid="a6313802-ca36-4a15-971f-dc623d96c5d7" /></TabbedMdiContainer></TabbedMdiRootContainer><FloatingContainers /></LayoutData></DocumentLayout>]]></OpenDocsLayout>
+<config v="" />
+<AutoUpdate v="true" />
+</CyGuid_843a90a4-0c4b-4e44-991d-05e7fb117a21>
+</CyXmlSerializer>

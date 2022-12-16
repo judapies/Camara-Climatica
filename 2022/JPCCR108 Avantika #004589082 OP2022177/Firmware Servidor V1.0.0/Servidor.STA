@@ -1,0 +1,203 @@
+
+ROM used:   32890/98304 (33%)
+            32892/98304 (33%) including unused fragments
+
+            2.0 Average locations per line
+            17.9 Average locations per statement
+
+RAM used:   809/3328 (24%) at main() level
+            997/3328 (30%) worst case
+
+Stack used: 16 worst case (14 in main + 2 for interrupts)
+Stack size: 31
+
+Lines Stmts  %   Files
+----- ----- ---  -----
+  334    95   5  Servidor.c
+  843     0   0  C:\Program Files (x86)\PICC\Devices\18F4685.h
+   37     0   0  stdio.h
+  409     0   0  string.h
+   28     0   0  stddef.h
+   28     0   0  ctype.h
+ 1273     0   0  stdlib.h
+ 2229   257  14  math.h
+  550    71   4  tcpip\stacktsk.c
+  538     0   0  tcpip\stacktsk.h
+  253     0   0  tcpip\pic18.h
+  123     0   0  tcpip\hardware.h
+  279    49   3  tcpip\helpers.c
+   65     0   0  tcpip\helpers.h
+  222     0   0  tcpip\mac.h
+  538     0   0  tcpip\StackTsk.h
+  726     0   0  tcpip\ENC28J60.h
+  155    15   1  tcpip\tick.c
+  148     0   0  tcpip\tick.h
+ 2231   325  18  tcpip\enc28j60.c
+   65     0   0  tcpip\Helpers.h
+  222     0   0  tcpip\MAC.h
+   64     0   0  tcpip\http.h
+  307    39   2  tcpip\ip.c
+  258     0   0  tcpip\ip.h
+ 1933   572  31  tcpip\tcp.c
+  408     0   0  tcpip\tcp.h
+  257    31   2  tcpip\icmp.c
+  151     0   0  tcpip\icmp.h
+  213    31   2  tcpip\arptsk.c
+  118     0   0  tcpip\arp.h
+  128     0   0  tcpip\arptsk.h
+  243    52   3  tcpip\arp.c
+  882   297  16  tcpip\http.c
+  229     0   0  pages.h
+----- -----
+16487  1834 Total
+
+Page ROM  %  RAM   Vol Diff  Functions:
+---- --- --- ---   --- ----  ----------
+0     30   0    7             @READ_PROGRAM_MEMORY
+0     40   0    1             @delay_ms1
+0     24   0    0             @GETCH_BIU_1
+0    214   0   12   485  7.8  memmove
+0    126   0   10   318  6.5  strncpy
+0    120   0    5   231  6.6  strcmp
+0     68   0    8   264  6.8  memchr
+0    122   0    9   288  6.0  strpbrk
+0    144   0    9   346  7.5  strspn
+0    176   0   10   475  7.2  strtok
+0     58   0    5   129  4.6  strlen
+0    266   0    6   436  7.9  stricmp
+0     84   0    6             @MULS1616
+0    504   1   11  1817 10.4  atol
+0     94   0   14             @MUL3232
+0    876   1   52  2308 12.4  strtoul
+0    114   0    4   101  3.8  rand
+0     72   0    5             @DIV1616
+0     20   0    4    39  2.1  srand
+0     22   0    4   178  3.0  swaps
+0     34   0    8   325  3.2  swapl
+0    238   0   20   989  9.4  CalcIPChecksum
+0     22   0    0   138  2.9  TickInit
+0     26   0    2    86  2.1  TickGet
+0     32   0    0   230  1.8  Tick_Isr
+0     28   0    0    90  1.7  ENCSPIInit
+0     16   0    1    38  1.4  ENCSPIXfer
+0    462   1    2  3878 11.2  MACInit
+0     40   0    2    91  2.7  MACIsTxReady
+0     40   0    2   118  3.9  MACGetTxBuffer
+0      2   0    1    22  1.0  MACDiscardTx
+0    108   0    2   636  7.5  MACDiscardRx
+0    280   0    6  1307  9.3  MACGetFreeRxSize
+0    318   0   26  1894 10.6  MACGetHeader
+0    212   0    8   989  9.0  MACPutHeader
+0    556   1    2  2697 11.5  MACFlush
+0    124   0    6   692  7.2  MACSetRxBuffer
+0    174   0    6   576  6.5  MACSetTxBuffer
+0    264   0    8  1582  9.2  MACCalcRxChecksum
+0    216   0    8   908  8.1  MACCalcTxChecksum
+0    344   1    6  1772 10.9  CalcIPBufferChecksum
+0     44   0    1   151  2.9  MACGet
+0    100   0    8   281  5.5  MACGetArray
+0     30   0    1   110  2.1  MACPut
+0     78   0    5   187  4.4  MACPutArray
+0     20   0    0    84  2.0  SendSystemReset
+0     42   0    3   158  3.1  ReadETHReg
+0     50   0    3   183  3.0  ReadMACReg
+0    156   0    4   444  4.3  ReadPHYReg
+0     30   0    3   123  2.8  WriteReg
+0     30   0    3   123  2.8  BFCReg
+0     30   0    3   123  2.8  BFSReg
+0    148   0    6   322  4.7  WritePHYReg
+0     54   0    5   149  4.7  BankSel
+0    156   0    5   647  6.3  MACSetDuplex
+0    226   0   32   857  7.7  IPGetHeader
+0    288   0   29  1184  7.5  IPPutHeader
+0     26   0    4    33  1.7  IPSetRxBuffer
+0    224   0    6   183  1.9  SwapIPHeader
+0    324   0    5  1194  8.7  TCPInit
+0    250   0    7   761  7.6  TCPListen
+0     42   0    4    53  3.0  TCPIsConnected
+0    318   0   17   497  6.9  TCPDisconnect
+0    458   1   20   635  7.1  TCPFlush
+0    156   0    3   197  4.0  TCPIsPutReady
+0    248   0    7   414  7.3  TCPPutAvailable
+0    326   0    8   790  9.0  TCPPut
+0     78   0    5   200  5.1  TCPDiscard
+0    212   0    7   506  6.9  TCPGet
+0     44   0    3    52  2.6  TCPIsGetReady
+0   1150   2   22  3595 15.7  TCPTick
+0     66   0    0             @goto13082
+0    430   1   46  1562  9.6  TCPProcess
+0    564   1   58  3289 11.6  TransmitTCP
+0    482   1   12  1233  9.4  FindMatching_TCP_Socket
+0    550   1    8   409  2.9  SwapTCPHeader
+0    258   0    4   723  5.3  CloseSocket
+0   2608   4   36  7845 13.9  HandleTCPSeg
+0    218   0   89   711  7.5  ICMPGet
+0    278   0   87  1247  7.7  ICMPPut
+0    224   0    6   203  2.0  SwapICMPPacket
+0     30   0    0   414  2.8  ARPInit
+0    144   0   11   511  8.0  ARPProcess
+0    232   0   34   803  7.6  ARPGet
+0    384   1   36  1689  7.9  ARPPut
+0    212   0    6   180  2.1  SwapARPPacket
+0     68   0    0             @const2105
+0     74   0    0             @const2108
+0    236   0   12   626  8.4  http_escape_chars
+0    168   0   13   618  6.8  http_parse_cgi_string
+0      8   0    1    25  1.6  set_tcp_http_putc
+0     14   0    1    42  2.1  tcp_http_putc
+0    194   0   11   525  6.8  TCPPutFileVarChunk
+0    386   1   20   944  7.9  TCPPutFileParseConst
+0    198   0   12   746  7.4  TCPPutFileConstChunk
+0     44   0    5    88  2.5  TCPPutFileConstGetEscape
+0    862   1   18  2192 11.2  tcp_http_put_file
+0     14   0    0             @const2195
+0     50   0    4             @PSTRINGCN_2144
+0    200   0    9             @PRINTF_LU_2144
+0     10   0    0             @const2201
+0     40   0    3             @PSTRINGC_2144
+0     14   0    0             @const2203
+0     18   0    0             @const2204
+0     38   0    2             @PSTRINGR_2144
+0     10   0    0             @const2207
+0      6   0    0             @const2208
+0    106   0    3   386  5.1  HTTP_Init
+0   3222   5   16  7904 16.1  HTTP_Task
+0     22   0    0   162  2.2  StackInit
+0    466   1    8  2629 10.4  StackTask
+0     62   0    0             @goto14020
+0   6132   9    0             @const2273
+0    102   0    2   522  5.2  serial_rx_isr
+0     96   0    3   267  5.0  LeeDisplay
+0     26   0    0   333  2.8  MACAddrInit
+0     40   0    0   751  2.9  IPAddrInit
+0     82   0    7   213  5.0  http_get_page
+0    434   1   70  1050  7.7  http_format_char
+0     32   0    1             @SPRINTF
+0     44   0    3             @DIV88
+0    124   0    2             @PRINTF_U_2288
+0      4   0    8    40  2.0  http_exec_cgi
+0    334   1    0  1253  3.4  main
+ Inline         0             @cinit1
+
+Program metrics:
+    Functions               100
+    Statements              1834
+    Comments                8295
+    Volume (V)              155478
+    Difficulty (D)          606.8
+    Effort to implement (E) 94342221
+    Time to implement (T)   1455 hours, 54 minutes
+    Est Delivered Bugs (B)  69
+    Cyclomatic Complexity   286
+    Maintainability (MI)    135
+
+ Segment     Used  Free
+-----------  ----  ----
+00000-00002     4  0  
+00004-00006     2  2  
+00008-000B8   178  0  
+000BA-0FFFE  32706  32644  
+10000-17FFE     0  32768  
+
+
+

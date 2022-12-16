@@ -1,0 +1,2085 @@
+void leeMenus(){
+   //_--------------------------------------------------------------------------------------------------------------------------------------------------------
+        if(Menu == 120){ //Menu de Bienvenida.
+            printf("bkcmd=0");
+            SendDataDisplay();
+            CyDelay(10);
+            printf("page Clave");
+            SendDataDisplay();
+        }
+//_--------------------------------------------------------------------------------------------------------------------------------------------------------
+     
+//_-------------------------------------------------------Display 1----------------------------------------------------------------------------------------        
+//_--------------------------------------------------------------------------------------------------------------------------------------------------------
+    if(Menu==0){ //Menu de Contraseña de acceso.
+      //ApagaSalidas();
+      entro=0;
+      if(Rx_Buffer[4]==0x11){//11
+         if(TipoClave!=0){
+            printf("page Principal");
+            SendDataDisplay();
+         }
+      }
+      
+      if(TipoClave==3){
+         printf("titulo.txt=\"Clave Nueva\"");
+         SendDataDisplay();
+         printf("doevents");
+         SendDataDisplay();
+      }else if(TipoClave==2){
+         printf("titulo.txt=\"Clave Actual\"");         
+         SendDataDisplay();
+         printf("doevents");
+         SendDataDisplay();
+      }else if(TipoClave==1 || TipoClave==4 || TipoClave==5){
+         printf("titulo.txt=\"Clave Tecnico\"");         
+         SendDataDisplay();
+         printf("doevents");         
+         SendDataDisplay();
+      }else if(TipoClave==0){
+        printf("titulo.txt=\"Ingrese Clave\"");
+        SendDataDisplay();
+      }
+      
+      if(Rx_Buffer[3]==0x0f){//0f, recibe caracteres ingresados desde el Display
+         if(TipoClave==0){
+            if(Rx_Buffer[4]>=0x30 && Rx_Buffer[5]>=0x30 && Rx_Buffer[6]>=0x30 && Rx_Buffer[7]>=0x30
+            && Rx_Buffer[4]<=0x39 && Rx_Buffer[5]<=0x39 && Rx_Buffer[6]<=0x39 && Rx_Buffer[7]<=0x39){
+            if(Rx_Buffer[4]==0x33&&Rx_Buffer[5]==0x38&&Rx_Buffer[6]==0x39&&Rx_Buffer[7]==0x32){ // Si Ingresa clave para reset general del sistema.
+               EEPROM_WriteByte(0,10);CyDelay(20);EEPROM_WriteByte(0,11);CyDelay(20);// Reestablece a contraseña de Fabrica y reinicia Programa.
+               EEPROM_WriteByte(0,12);CyDelay(20);EEPROM_WriteByte(0,13);CyDelay(20);
+               reset_cpu();
+            }
+            }
+            
+            if(Rx_Buffer[4]>=0x30 && Rx_Buffer[5]>=0x30 && Rx_Buffer[6]>=0x30 && Rx_Buffer[7]>=0x30
+            && Rx_Buffer[4]<=0x39 && Rx_Buffer[5]<=0x39 && Rx_Buffer[6]<=0x39 && Rx_Buffer[7]<=0x39){
+            if((Rx_Buffer[4]==Password[0]+0x30)&&(Rx_Buffer[5]==Password[1]+0x30)&&(Rx_Buffer[6]==Password[2]+0x30)&&(Rx_Buffer[7]==Password[3]+0x30)){
+                  printf("page ClaveCorrecta");
+                  SendDataDisplay();
+                  dibujo=OFF;
+                  //RX_Buffer[3]=0x00;RX_Buffer2[3]=0x00;  
+               }else{
+                  printf("page ClaveBad");
+                  SendDataDisplay();
+                  //RX_Buffer[3]=0x00;RX_Buffer2[3]=0x00;  
+               } 
+            }
+         }else if(TipoClave==1){
+            if(Rx_Buffer[4]>=0x30 && Rx_Buffer[5]>=0x30 && Rx_Buffer[6]>=0x30 && Rx_Buffer[7]>=0x30
+            && Rx_Buffer[4]<=0x39 && Rx_Buffer[5]<=0x39 && Rx_Buffer[6]<=0x39 && Rx_Buffer[7]<=0x39){
+            if(Rx_Buffer[4]==0x34&&Rx_Buffer[5]==0x34&&Rx_Buffer[6]==0x34&&Rx_Buffer[7]==0x34){ // Si Ingresa clave de Servicio Tecnico
+               printf("page Config");
+               SendDataDisplay();
+            }else{
+               printf("page Principal");
+               SendDataDisplay();
+            }
+            }
+         }else if(TipoClave==2){
+            if(Rx_Buffer[4]>=0x30 && Rx_Buffer[5]>=0x30 && Rx_Buffer[6]>=0x30 && Rx_Buffer[7]>=0x30
+            && Rx_Buffer[4]<=0x39 && Rx_Buffer[5]<=0x39 && Rx_Buffer[6]<=0x39 && Rx_Buffer[7]<=0x39){
+            if((Rx_Buffer[4]==Password[0]+0x30)&&(Rx_Buffer[5]==Password[1]+0x30)&&(Rx_Buffer[6]==Password[2]+0x30)&&(Rx_Buffer[7]==Password[3]+0x30)){
+               printf("page Clave");
+               SendDataDisplay();
+               printf("titulo.txt=\"Clave Nueva\"");
+               SendDataDisplay();
+               TipoClave=3;
+               Rx_Buffer[3]=0x00;
+               Rx_Buffer2[3]=0x00;
+            }else{
+               printf("page Principal");
+               SendDataDisplay();
+               //RX_Buffer[3]=0x00;
+               //RX_Buffer2[3]=0x00;
+            } 
+            }
+         }else if(TipoClave==3){
+            printf("titulo.txt=\"Clave Nueva\"");
+            SendDataDisplay();
+            printf("page Principal");
+            SendDataDisplay();
+            if(!GuardaEEPROM){
+               //write_eeprom(10,Rx_Buffer[4]-0x30);delay_ms(20);write_eeprom(11,Rx_Buffer[5]-0x30);delay_ms(20);
+               EEPROM_WriteByte(Rx_Buffer[4]-0x30,10);CyDelay(20);
+               EEPROM_WriteByte(Rx_Buffer[5]-0x30,11);CyDelay(20);
+               EEPROM_WriteByte(Rx_Buffer[6]-0x30,12);CyDelay(20);
+               EEPROM_WriteByte(Rx_Buffer[7]-0x30,13);CyDelay(20);
+               GuardaEEPROM=ON;
+            }
+            Password[0]=Rx_Buffer[4]-0x30;Password[1]=Rx_Buffer[5]-0x30;Password[2]=Rx_Buffer[6]-0x30;Password[3]=Rx_Buffer[7]-0x30;
+            //RX_Buffer[3]=0x00;
+            //RX_Buffer2[3]=0x00;
+         }else if(TipoClave==4){
+            if(Rx_Buffer[4]==0x34&&Rx_Buffer[5]==0x34&&Rx_Buffer[6]==0x34&&Rx_Buffer[7]==0x34){ // Si Ingresa clave de Servicio Tecnico
+               printf("page Test");
+               SendDataDisplay();
+            }else{
+               printf("page Principal");
+               SendDataDisplay();
+            }
+            //RX_Buffer[3]=0x00;
+            //RX_Buffer2[3]=0x00;
+         }else if(TipoClave==5){
+            if(Rx_Buffer[4]>=0x30 && Rx_Buffer[5]>=0x30 && Rx_Buffer[6]>=0x30 && Rx_Buffer[7]>=0x30
+            && Rx_Buffer[4]<=0x39 && Rx_Buffer[5]<=0x39 && Rx_Buffer[6]<=0x39 && Rx_Buffer[7]<=0x39){
+            if(Rx_Buffer[4]==0x35&&Rx_Buffer[5]==0x34&&Rx_Buffer[6]==0x35&&Rx_Buffer[7]==0x34){ // Si Ingresa clave de Servicio Tecnico
+               printf("page Calib");
+               SendDataDisplay();
+            }else{
+               printf("page Principal");
+               SendDataDisplay();
+            }
+            }
+         }
+      }
+    }//Menu de Contraseña de acceso.
+//_--------------------------------------------------------------------------------------------------------------------------------------------------------       
+
+//_--------------------------------------------------------------------------------------------------------------------------------------------------------      
+    if(Menu==1){//Menu Principal
+        //ETH0_StringIP(Str);       
+        if(Rx_Buffer[4]==0x01){
+            printf("page Red");
+            SendDataDisplay();
+            flagRed=0;
+            ip1=0;ip2=0;ip3=0;ip4=0;g1=0;g2=0;g3=0;g4=0;s1=0;s2=0;s3=0;s4=0;m1=0;m2=0;m3=0;m4=0;m5=0;m6=0;
+            Rx_Buffer[4]=0x00;
+            Rx_Buffer2[4]=0x00;   
+            CyDelay(200);
+        } 
+    
+        if(Rx_Buffer[4]==0x05){
+            printf("page Fecha");
+            SendDataDisplay();
+            Rx_Buffer[4]=0x00;
+            Rx_Buffer2[4]=0x00;   
+            DiaTx=Dia;
+            MesTx=Mes;
+            YearTx=Year;
+            HoraTx=Hora;
+            MinutoTx=Minuto;
+        } 
+        
+        if(Rx_Buffer[4]==0x06){
+            printf("page Clave");
+            SendDataDisplay();
+            Rx_Buffer[4]=0x00;
+            Rx_Buffer2[4]=0x00; 
+            TipoClave=2;
+        } 
+        
+        if(Rx_Buffer[4]==0x04){
+            printf("page Test");
+            SendDataDisplay();
+            Rx_Buffer[4]=0x00;
+            Rx_Buffer2[4]=0x00;   
+            TipoClave=4;
+        } 
+        
+        if(Rx_Buffer[4]==0xa0){
+            printf("page Clave");
+            SendDataDisplay();
+            Rx_Buffer[4]=0x00;
+            Rx_Buffer2[4]=0x00;   
+            TipoClave=1;
+            Opcion2=1;
+            config=ON;
+        } 
+        
+        if(Rx_Buffer[4]==0x07){
+            printf("page Grafica");
+            SendDataDisplay();
+            Rx_Buffer[4]=0x00;
+            Rx_Buffer2[4]=0x00;   
+            entroGrafica=ON;            
+        } 
+        
+        if(Rx_Buffer[4]==0x08){
+            printf("page Calib");
+            SendDataDisplay();
+            Rx_Buffer[4]=0x00;
+            Rx_Buffer2[4]=0x00;   
+            Opcion=1;
+        } 
+        
+        if(Rx_Buffer[4]==0x09){
+            printf("page CalibHumedad");
+            SendDataDisplay();
+            Rx_Buffer[4]=0x00;
+            Rx_Buffer2[4]=0x00;   
+            Opcion=1;
+        } 
+        
+        if(Rx_Buffer[4]==0x11){
+            printf("page Principal");
+            SendDataDisplay();
+            Rx_Buffer[4]=0x00;
+            Rx_Buffer2[4]=0x00;   
+            Opcion=1;
+        } 
+    }//Menu Principal
+//_--------------------------------------------------------------------------------------------------------------------------------------------------------          
+    
+//_--------------------------------------------------------------------------------------------------------------------------------------------------------
+    if(Menu==2){ //Menu de Tiempo de Duraciòn
+        dibujo=OFF;
+        imprime=OFF;
+        printf("fecha.txt=\"Fecha:%02u/%02u/20%02u    Hora: %02u:%02u:%02u\"",Dia,Mes,Year,Hora,Minuto,Segundo);
+        SendDataDisplay();
+        
+         if(!rampa){
+            if(Rx_Buffer[4]==0x0a){//Selecciono Minutos
+               Minutos=OFF;
+               Horas=ON;
+               pulsoAumentar=OFF;
+               pulsoDisminuir=OFF;
+            }
+            
+            if(Rx_Buffer[4]==0x0b){//Selecciono Segundos
+               Minutos=ON;
+               Horas=OFF;
+               pulsoAumentar=OFF;
+               pulsoDisminuir=OFF;
+            }           
+            
+            if(Rx_Buffer[4]==0x11){//Selecciono Regresar
+               CyDelay(200);
+               if(Rx_Buffer[4]==0x11){
+                  Minutos=OFF;
+                  Horas=OFF;
+                  delay_ms(10);
+                  printf("page Principal");
+                  SendDataDisplay();
+                  if(!GuardaEEPROM){
+                     EEPROM_WriteByte(mEstp,0);
+                     CyDelay(10);
+                     EEPROM_WriteByte(hEstp,1);
+                     CyDelay(10);
+                     //mEst=mEstp;
+                     //hEst=hEstp;
+                     if((mEstp==0)&&(hEstp==0))
+                        Infinito=1;
+                     else
+                        Infinito=0;
+                     GuardaEEPROM=ON;
+                     pulsoAumentar=OFF;
+                     pulsoDisminuir=OFF;
+                  }
+               }
+            }
+                        
+            if(pulsoAumentar){//Tecla arriba Oprimida
+               if(Minutos){
+                  mEstp++;
+                  delay_ms(200);
+               }
+               if(Horas){
+                  hEstp++;
+                  delay_ms(200);
+               }  
+            }
+            
+            if(pulsoDisminuir){//Tecla abajo oprimida
+               if(Minutos && mEstp>0){
+                  mEstp--;
+                  delay_ms(200);
+               }
+               if(Horas  && hEstp>0){
+                  hEstp--;
+                  delay_ms(200);
+               }
+            }
+            
+            if(hEstp>99)hEstp=1;
+            if(mEstp>59)mEstp=0;
+               
+            printf("tminsec.txt=\"%02u\"",hEstp);
+            SendDataDisplay();
+            printf("tsecsec.txt=\"%02u\"",mEstp);
+            SendDataDisplay();
+         }else{
+            if(Rx_Buffer[4]==0x0a){//Selecciono Minutos
+               Minutos=OFF;
+               Horas=ON;
+            }
+            
+            if(Rx_Buffer[4]==0x0b){//Selecciono Segundos
+               Minutos=ON;
+               Horas=OFF;
+            }           
+            
+            if(Rx_Buffer[4]==0x11){//Selecciono Regresar
+               CyDelay(200);
+               if(Rx_Buffer[4]==0x11){
+                  Minutos=OFF;
+                  Horas=OFF;
+                  delay_ms(10);
+                  printf("page Rampas");
+                  SendDataDisplay();
+                  if(!GuardaEEPROM){
+                     write_ext_eeprom(3+((Programa-1)*264)+((CicloLibre-1)*11),rampas[CicloLibre-1].Horas);
+                     delay_ms(5);
+                     write_ext_eeprom(4+((Programa-1)*264)+((CicloLibre-1)*11),rampas[CicloLibre-1].Minutos);
+                     delay_ms(5);
+                     GuardaEEPROM=ON;
+                  }
+                  pulsoAumentar=OFF;
+                  pulsoDisminuir=OFF;
+               }
+            }
+                      
+            if(pulsoAumentar){//Tecla arriba Oprimida
+               if(Minutos){
+                  rampas[CicloLibre-1].Minutos+=1.0;
+                  delay_ms(200);
+               }
+               if(Horas){
+                  rampas[CicloLibre-1].Horas+=1.0;
+                  delay_ms(200);
+               }  
+            }
+            
+            if(pulsoDisminuir){//Tecla abajo oprimida
+               if(Minutos && rampas[CicloLibre-1].Minutos>0){
+                  rampas[CicloLibre-1].Minutos-=1.0;
+                  delay_ms(200);
+               }
+               if(Horas  && rampas[CicloLibre-1].Horas>0){
+                  rampas[CicloLibre-1].Horas-=1.0;
+                  delay_ms(200);
+               }
+            }
+            
+            if(rampas[CicloLibre-1].Horas>99)rampas[CicloLibre-1].Horas=1;
+            if(rampas[CicloLibre-1].Minutos>59)rampas[CicloLibre-1].Minutos=0;
+               
+            printf("tminsec.txt=\"%02u\"",(int8)rampas[CicloLibre-1].Horas);
+            SendDataDisplay();
+            printf("tsecsec.txt=\"%02u\"",(int8)rampas[CicloLibre-1].Minutos);
+            SendDataDisplay();
+         }
+        
+        if(Rx_Buffer[4]==0x0c || Rx_Buffer[4]==0x10){//Tecla Abajo Oprimida
+            if(Rx_Buffer[4]==0x10){
+                pulsoAumentar=OFF;
+                pulsoDisminuir=OFF; 
+                Rx_Buffer[4]=0x00;
+                Rx_Buffer2[4]=0x00;
+            }else{
+                pulsoDisminuir=ON; 
+            }
+        }
+        
+        if(Rx_Buffer[4]==0x0d || Rx_Buffer[4]==0x0e){//Tecla Abajo Oprimida
+            if(Rx_Buffer[4]==0x0e){
+                pulsoAumentar=OFF;
+                pulsoDisminuir=OFF; 
+                Rx_Buffer[4]=0x00;
+                Rx_Buffer2[4]=0x00;
+            }else{
+                pulsoAumentar=ON; 
+            }
+        }
+        
+        
+    }//Menu de Tiempo de Duraciòn
+//_--------------------------------------------------------------------------------------------------------------------------------------------------------       
+
+//_--------------------------------------------------------------------------------------------------------------------------------------------------------
+    if(Menu==3){ //Menu de Temperatura
+      dibujo=OFF;
+      imprime=OFF;
+      
+        if(Rx_Buffer[4]==0x0d){//Tecla Arriba Oprimida
+           pulsoAumentar=ON;
+           pulsoDisminuir=OFF;
+           Rx_Buffer[4]=0x00;  
+           Rx_Buffer2[4]=0x00;  
+        }else if(Rx_Buffer[4]==0x0e){//Tecla Arriba Suelta
+           pulsoAumentar=OFF;
+           pulsoDisminuir=OFF;
+           Rx_Buffer[4]=0x00;  
+           Rx_Buffer2[4]=0x00;            
+        }else if(Rx_Buffer[4]==0x0c){//Tecla Abajo Oprimida
+           pulsoDisminuir=ON;
+            pulsoAumentar=OFF;
+           Rx_Buffer[4]=0x00;
+           Rx_Buffer2[4]=0x00;                                   
+        }else if(Rx_Buffer[4]==0x0b){//Tecla Abajo Oprimida
+           pulsoAumentar=OFF;
+           pulsoDisminuir=OFF;
+           Rx_Buffer[4]=0x00;
+           Rx_Buffer2[4]=0x00;                                   
+        }else if(Rx_Buffer[4]==0x20){//Selecciono x1
+            x1=ON;
+            x10=OFF;
+            x100=OFF;
+            printf("c0.val=1");
+            SendDataDisplay();
+            printf("c1.val=0");
+            SendDataDisplay();
+            printf("c2.val=0");
+            SendDataDisplay();
+            Rx_Buffer[4]=0x00;  
+            Rx_Buffer2[4]=0x00;     
+        }else if(Rx_Buffer[4]==0x21){//Selecciono x10
+            x1=OFF;
+            x10=ON;
+            x100=OFF;
+            printf("c0.val=0");
+            SendDataDisplay();
+            printf("c1.val=1");
+            SendDataDisplay();
+            printf("c2.val=0");
+            SendDataDisplay();
+            Rx_Buffer[4]=0x00;  
+            Rx_Buffer2[4]=0x00;     
+        }else if(Rx_Buffer[4]==0x22){//Selecciono x100
+            x1=OFF;
+            x10=OFF;
+            x100=ON;
+            printf("c0.val=0");
+            SendDataDisplay();
+            printf("c1.val=0");
+            SendDataDisplay();
+            printf("c2.val=1");
+            SendDataDisplay();
+            Rx_Buffer[4]=0x00;  
+            Rx_Buffer2[4]=0x00;     
+        }else{//if(Rx_Buffer[4]!=0x00){
+           pulsoAumentar=OFF;
+           pulsoDisminuir=OFF; 
+        }
+        
+      printf("fecha.txt=\"Fecha:%02u/%02u/20%02u    Hora: %02u:%02u:%02u\"",Dia,Mes,Year,Hora,Minuto,Segundo);
+      SendDataDisplay();
+      
+      if(!rampa){
+         printf("tsettem.txt=\"%2.1f\"",Setpoint);
+         SendDataDisplay();
+         
+         if(Rx_Buffer[4]==0x11){//Selecciono Regresar
+            Horas=OFF;
+            Minutos=OFF;
+            delay_ms(10);
+            printf("page Principal");  
+            SendDataDisplay();
+            if(!GuardaEEPROM){
+               EEPROM_WriteByte((int8)Setpoint,2);
+               EEPROM_WriteByte(extraeDecimal(Setpoint),3);
+               CyDelay(10);
+               GuardaEEPROM=ON;
+            }
+            pulsoAumentar=OFF;
+            pulsoDisminuir=OFF;            
+            if(Setpoint<Temperatura){
+               Enfria=1;
+               Ganancia=GananciaR*(Setpoint/200);               
+            }else{
+               Enfria=0;
+               Ganancia=GananciaR*(Setpoint/200);
+            }
+         }
+         
+        if(pulsoAumentar){
+            if(x1)
+                Setpoint+=0.1;    
+            else if(x10)    
+                Setpoint+=1;    
+            else if(x100)    
+                Setpoint+=10;             
+        }
+        
+        if(pulsoDisminuir){
+            if(x1)
+                Setpoint-=0.1;    
+            else if(x10)    
+                Setpoint-=1;    
+            else if(x100)    
+                Setpoint-=10;            
+        }
+         
+        if(Setpoint<Tmin)
+            Setpoint=Tmax;
+         if(Setpoint>Tmax)
+            Setpoint=Tmin;
+      }else{
+         printf("tsettem.txt=\"%2.1f\"",rampas[CicloLibre-1].Temperatura);
+         SendDataDisplay();
+                    
+         if(Rx_Buffer[4]==0x11){//Selecciono Regresar
+            conteo=0;
+            Horas=OFF;
+            Minutos=OFF;
+            delay_ms(10);
+            printf("page Rampas");
+            SendDataDisplay();
+            if(!GuardaEEPROM){
+               rampas[CicloLibre-1].TemperaturaInt=(int8)rampas[CicloLibre-1].Temperatura;
+               rampas[CicloLibre-1].TemperaturaDec=extraeDecimal(rampas[CicloLibre-1].Temperatura);
+               write_ext_eeprom(((Programa-1)*264)+((CicloLibre-1)*11),rampas[CicloLibre-1].TemperaturaInt);
+               delay_ms(5);
+               write_ext_eeprom(1+((Programa-1)*264)+((CicloLibre-1)*11),rampas[CicloLibre-1].TemperaturaDec);
+               delay_ms(5);
+               GuardaEEPROM=ON;
+            }
+            pulsoAumentar=OFF;
+            pulsoDisminuir=OFF;
+            if(Setpoint<Temperatura){
+               Enfria=1;
+               Ganancia=GananciaR*(Setpoint/200);               
+            }else{
+               Enfria=0;
+               Ganancia=GananciaR*(Setpoint/200);
+            }
+         }
+        
+        if(pulsoAumentar){
+            if(x1)
+                rampas[CicloLibre-1].Temperatura+=0.1;    
+            else if(x10)    
+                rampas[CicloLibre-1].Temperatura+=1;    
+            else if(x100)    
+                rampas[CicloLibre-1].Temperatura+=10;
+                
+        }
+        
+        if(pulsoDisminuir){
+            if(x1)
+                rampas[CicloLibre-1].Temperatura-=0.1;    
+            else if(x10)    
+                rampas[CicloLibre-1].Temperatura-=1;    
+            else if(x100)    
+                rampas[CicloLibre-1].Temperatura-=10;
+                
+        }   
+        
+        if(rampas[CicloLibre-1].Temperatura<Tmin)
+            rampas[CicloLibre-1].Temperatura=Tmax;
+         if(rampas[CicloLibre-1].Temperatura>Tmax)
+            rampas[CicloLibre-1].Temperatura=Tmin;
+      }
+         
+    }//Menu de Temperatura
+//_--------------------------------------------------------------------------------------------------------------------------------------------------------       
+
+//_--------------------------------------------------------------------------------------------------------------------------------------------------------
+    if(Menu==4){ //Menu de Humedad
+      printf("fecha.txt=\"Fecha:%02u/%02u/20%02u    Hora: %02u:%02u:%02u\"",Dia,Mes,Year,Hora,Minuto,Segundo);
+      SendDataDisplay();
+      
+        if(Rx_Buffer[4]==0x0d){//Tecla Arriba Oprimida
+           pulsoAumentar=ON;
+           pulsoDisminuir=OFF;
+           Rx_Buffer[4]=0x00;  
+           Rx_Buffer2[4]=0x00;  
+        }else if(Rx_Buffer[4]==0x0e){//Tecla Arriba Suelta
+           pulsoAumentar=OFF;
+           pulsoDisminuir=OFF;
+           Rx_Buffer[4]=0x00;  
+           Rx_Buffer2[4]=0x00;                       
+        }else if(Rx_Buffer[4]==0x0c){//Tecla Abajo Oprimida
+           pulsoDisminuir=ON;
+            pulsoAumentar=OFF;
+           Rx_Buffer[4]=0x00;
+           Rx_Buffer2[4]=0x00;                        
+        }else if(Rx_Buffer[4]==0x0b){//Tecla Abajo Oprimida
+           pulsoAumentar=OFF;
+           pulsoDisminuir=OFF;
+           Rx_Buffer[4]=0x00;
+           Rx_Buffer2[4]=0x00;                                   
+        }else if(Rx_Buffer[4]==0x20){//Selecciono x1
+            x1=ON;
+            x10=OFF;
+            x100=OFF;
+            printf("c0.val=1");
+            SendDataDisplay();
+            printf("c1.val=0");
+            SendDataDisplay();
+            printf("c2.val=0");
+            SendDataDisplay();
+            Rx_Buffer[4]=0x00;  
+            Rx_Buffer2[4]=0x00;     
+        }else if(Rx_Buffer[4]==0x21){//Selecciono x10
+            x1=OFF;
+            x10=ON;
+            x100=OFF;
+            printf("c0.val=0");
+            SendDataDisplay();
+            printf("c1.val=1");
+            SendDataDisplay();
+            printf("c2.val=0");
+            SendDataDisplay();
+            Rx_Buffer[4]=0x00;  
+            Rx_Buffer2[4]=0x00;     
+        }else{// if(Rx_Buffer[4]!=0x00){
+           pulsoAumentar=OFF;
+           pulsoDisminuir=OFF; 
+        }
+        
+      if(!rampa){
+         if(Rx_Buffer[4]==0x11){//Selecciono Regresar
+            Horas=OFF;
+            Minutos=OFF;
+            printf("page Principal");
+            SendDataDisplay();
+            if(!GuardaEEPROM){
+               EEPROM_WriteByte(SetpointH,4);
+               CyDelay(10);
+               GuardaEEPROM=ON;
+            }
+            T1=(int8)(((float)T1Humedad)*((float)SetpointH/80.0));
+            T3=(int8)(((float)T3Humedad)*((float)SetpointH/80.0));
+            pulsoAumentar=OFF;
+            pulsoDisminuir=OFF;
+         }
+         
+        if(pulsoAumentar){
+            if(x1)
+                SetpointH+=1;    
+            else if(x10)    
+                SetpointH+=10;    
+        }
+        
+        if(pulsoDisminuir){
+            if(x1)
+                SetpointH-=1;    
+            else if(x10)    
+                SetpointH-=10;    
+        }
+        
+        if(SetpointH<Hmin)
+            SetpointH=Hmax;
+         if(SetpointH>Hmax)
+            SetpointH=Hmin;
+        
+         printf("tsettem.txt=\"%02u\"",SetpointH);
+         SendDataDisplay();
+      }else{
+         
+         if(Rx_Buffer[4]==0x11){//Selecciono Regresar
+            Horas=OFF;
+            Minutos=OFF;
+            printf("page Rampas");
+            SendDataDisplay();
+            if(!GuardaEEPROM){
+               write_ext_eeprom(2+((Programa-1)*264)+((CicloLibre-1)*11),rampas[CicloLibre-1].Humedad);
+               delay_ms(5);
+               CyDelay(10);
+               GuardaEEPROM=ON;
+            }
+            pulsoAumentar=OFF;
+            pulsoDisminuir=OFF;
+         }
+         
+         if(pulsoAumentar){
+            if(x1)
+                rampas[CicloLibre-1].Humedad+=1;    
+            else if(x10)    
+                rampas[CicloLibre-1].Humedad+=10;                
+        }
+        
+        if(pulsoDisminuir){
+            if(x1)
+                rampas[CicloLibre-1].Humedad-=1;    
+            else if(x10)    
+                rampas[CicloLibre-1].Humedad-=10;                
+        }
+        
+        if(rampas[CicloLibre-1].Humedad<Hmin)
+            rampas[CicloLibre-1].Humedad=Hmax;
+         if(rampas[CicloLibre-1].Humedad>Hmax)
+            rampas[CicloLibre-1].Humedad=Hmin;
+            
+         printf("tsettem.txt=\"%02u\"",rampas[CicloLibre-1].Humedad);
+         SendDataDisplay();
+      }
+    }//Menu de Humedad
+//_--------------------------------------------------------------------------------------------------------------------------------------------------------       
+
+//_--------------------------------------------------------------------------------------------------------------------------------------------------------
+    if(Menu==6){//Menu de Test
+        Test=ON;
+        Control=0;
+        inicioControlL=0;
+        
+        if(Rx_Buffer[4]==0x08){
+            SSR_1_Write(!SSR_1_Read());
+            Rx_Buffer[4]=0x00;
+            Rx_Buffer2[4]=0x00;   
+        }
+        
+        if(Rx_Buffer[4]==0x06){
+            //SSR_2_Write(!SSR_2_Read());
+            Rx_Buffer[4]=0x00;
+            Rx_Buffer2[4]=0x00;   
+        }
+        
+        if(Rx_Buffer[4]==0x13){
+            BUZZER_Write(!BUZZER_Read());
+            Rx_Buffer[4]=0x00;
+            Rx_Buffer2[4]=0x00;   
+        }
+        
+        if(Rx_Buffer[4]==0x01){
+            CR1_Write(!CR1_Read());
+            Rx_Buffer[4]=0x00;
+            Rx_Buffer2[4]=0x00;   
+        }
+        
+        if(Rx_Buffer[4]==0x02){
+            CR2_Write(!CR2_Read());
+            Rx_Buffer[4]=0x00;
+            Rx_Buffer2[4]=0x00;   
+        }
+        
+        if(Rx_Buffer[4]==0x03){
+            CR3_Write(!CR3_Read());
+            Rx_Buffer[4]=0x00;
+            Rx_Buffer2[4]=0x00;   
+        }
+        
+        if(Rx_Buffer[4]==0x12){
+            BOMBA_Write(!BOMBA_Read());
+            Rx_Buffer[4]=0x00;
+            Rx_Buffer2[4]=0x00;   
+        }
+        
+        if(Rx_Buffer[4]==0x07){
+            estadoVentilador=!estadoVentilador;
+            Rx_Buffer[4]=0x00;
+            Rx_Buffer2[4]=0x00;   
+        }
+        
+        if(Rx_Buffer[4]==0x04){
+            VAL1_Write(!VAL1_Read());
+            Rx_Buffer[4]=0x00;
+            Rx_Buffer2[4]=0x00;   
+        }
+        
+        if(Rx_Buffer[4]==0x05){
+            VAL2_Write(!VAL2_Read());
+            Rx_Buffer[4]=0x00;
+            Rx_Buffer2[4]=0x00;   
+        }
+        
+        if(Rx_Buffer[4]==0x1f){
+            Setpoint1=(float)Rx_Buffer[5];
+            pwm1=(int16)(Setpoint1/100.0)*1023.0;
+            Rx_Buffer[4]=0x00;
+            Rx_Buffer2[4]=0x00;   
+        }        
+        
+        if(Rx_Buffer[4]==0x2f){
+            Setpoint1=(float)Rx_Buffer[5];
+            pwm2=(int16)(Setpoint1/100.0)*1023.0;
+            Rx_Buffer[4]=0x00;
+            Rx_Buffer2[4]=0x00;   
+        }        
+        
+        if(Rx_Buffer[4]==0x3f){
+            Setpoint1=(float)Rx_Buffer[5];
+            pwm3=(int16)(Setpoint1/100.0)*1023.0;
+            Rx_Buffer[4]=0x00;
+            Rx_Buffer2[4]=0x00;   
+        } 
+        
+        if(SSR_1_Read()==1){
+            printf("b7.bco=1024");
+            SendDataDisplay();
+        }else{
+            printf("b7.bco=63488");
+            SendDataDisplay();
+        }
+        /*
+        if(SSR_2_Read()==1){
+            printf("b22.bco=1024");
+            SendDataDisplay();
+        }else{
+            printf("b22.bco=63488");
+            SendDataDisplay();
+        }
+        */
+        if(BUZZER_Read()==1){
+            printf("b12.bco=1024");
+            SendDataDisplay();
+        }else{
+            printf("b12.bco=63488");
+            SendDataDisplay();
+        }
+        
+        if(CR1_Read()==1){
+            printf("b0.bco=1024");
+            SendDataDisplay();
+        }else{
+            printf("b0.bco=63488");
+            SendDataDisplay();
+        }
+        
+        if(CR2_Read()==1){
+            printf("b1.bco=1024");
+            SendDataDisplay();
+        }else{            
+            printf("b1.bco=63488");
+            SendDataDisplay();
+        }
+        
+        if(CR3_Read()==1){            
+            printf("b2.bco=1024");
+            SendDataDisplay();
+        }else{            
+            printf("b2.bco=63488");
+            SendDataDisplay();
+        }
+        
+        if(BOMBA_Read()==1){            
+            printf("b11.bco=1024");
+            SendDataDisplay();
+        }else{            
+            printf("b11.bco=63488");
+            SendDataDisplay();
+        }
+        
+        if(VAL1_Read()==1){            
+            printf("b3.bco=1024");
+            SendDataDisplay();
+        }else{            
+            printf("b3.bco=63488");
+            SendDataDisplay();
+        }
+        
+        if(VAL2_Read()==1){            
+            printf("b4.bco=1024");
+            SendDataDisplay();
+        }else{            
+            printf("b4.bco=63488");
+            SendDataDisplay();
+        }
+        
+        if(estadoVentilador){
+            printf("b6.bco=1024");
+            SendDataDisplay();
+            VelMotor=10;
+        }else{            
+            printf("b6.bco=63488");
+            SendDataDisplay();
+            VelMotor=0;
+        }
+        
+        if(DOOR){
+            printf("b8.bco=1024");
+            SendDataDisplay();
+        }else{
+            printf("b8.bco=63488");
+            SendDataDisplay();
+        }
+  /*      
+        if(TERM){
+            printf("b9.bco=1024");
+            SendDataDisplay();
+        }else{
+            printf("b9.bco=63488");    
+            SendDataDisplay();
+        }
+    */    
+        if(LEVEL){
+            printf("b10.bco=1024");
+            SendDataDisplay();
+        }else{
+            printf("b10.bco=63488");        
+            SendDataDisplay();
+        }
+            
+      printf("b16.txt=\"C1:%05Lu %1.2f\"",cuantico1,(float)cuantico1/5.0);
+      SendDataDisplay();
+      printf("b17.txt=\"C2:%05Lu %1.2f\"",cuantico2,(float)cuantico2/5.0);
+      SendDataDisplay();
+      printf("b21.txt=\"C3:%05Lu %1.2f\"",cuantico3,(float)cuantico3/5.0);
+      SendDataDisplay();
+      printf("b13.txt=\"RTD0:%1.0f %Lu\"",sensores(1),pwm1);
+      SendDataDisplay();
+      printf("b14.txt=\"RTD1:%1.0f \"",sensores(2));
+      SendDataDisplay();
+      printf("b15.txt=\"T1:%1.2f \"",Temperatura);
+      SendDataDisplay();
+      printf("b5.txt=\"T35:%ld\"",leeLM35(10));
+      SendDataDisplay();
+      printf("b18.txt=\"T2:%1.2f\"",Temperatura2);
+      SendDataDisplay();
+      printf("b20.txt=\"Thum:%1.2f\"",Tam);
+      SendDataDisplay();
+      printf("b19.txt=\"Hum:%1.2f%%\"",Humedad);
+      SendDataDisplay();
+      
+      if(Rx_Buffer[4]==0x21){
+            printf("page Ajustes");
+            SendDataDisplay();
+            Test=OFF;
+            pwm1=0;
+            pwm2=0;
+            pwm3=0;
+            Rx_Buffer[4]=0x00;
+            Rx_Buffer2[4]=0x00;   
+        }
+      
+   }//Menu de Test
+//_--------------------------------------------------------------------------------------------------------------------------------------------------------          
+   
+//_--------------------------------------------------------------------------------------------------------------------------------------------------------      
+    if(Menu==7){ //Menu de Configuración de Fecha y Hora
+         if(Rx_Buffer[4]==0x0a){//Selecciono Hora
+            Opcion=4;
+         }
+         
+         if(Rx_Buffer[4]==0x0b){//Selecciono Minuto
+            Opcion=5;
+         }
+         
+         if(Rx_Buffer[4]==0x0c){//Selecciono Dia
+            Opcion=1;
+         }
+         
+         if(Rx_Buffer[4]==0x0d){//Selecciono Hora
+            Opcion=2;
+         }
+         
+         if(Rx_Buffer[4]==0x0e){//Selecciono Year
+            Opcion=3;
+         }
+         
+         if(Opcion>5)
+            Opcion=1;
+         if(Opcion<1)
+            Opcion=5;
+            
+         if(Rx_Buffer[4]==0x11){//Selecciono Regresar
+            printf("page Ajustes");
+            SendDataDisplay();
+            
+            if(esBisiesto(YearTx))
+               Modulo=Bisiesto[MesTx];
+            else
+               Modulo=Regular[MesTx];
+         
+            dowTx=((YearTx-1)%7+((YearTx-1)/4-3*((YearTx-1)/100+1)/4)%7+Modulo+DiaTx%7)%7;
+            rtc_set_datetime(DiaTx,MesTx,YearTx,dowTx,HoraTx,MinutoTx);
+         }
+         
+         if(Rx_Buffer[4]==0x2a){//Tecla Arriba Oprimida
+               if(Opcion==1){
+                  if(MesTx==2){
+                     if(esBisiesto(YearTx)){
+                        if(DiaTx<29)
+                           DiaTx++;
+                        else
+                           DiaTx=1;   
+                     }else{
+                        if(DiaTx<28)
+                           DiaTx++;
+                        else
+                           DiaTx=1;   
+                     }
+                  }else{
+                     if(MesTx<=7){
+                        if(MesTx % 2 ==0){
+                           if(DiaTx<30)
+                              DiaTx++;    
+                           else
+                              DiaTx=1;   
+                        }else{
+                           if(DiaTx<31)
+                              DiaTx++;    
+                           else
+                              DiaTx=1;   
+                        }    
+                     }else{
+                        if(MesTx % 2 ==0){
+                           if(DiaTx<31)
+                              DiaTx++;  
+                           else
+                              DiaTx=1;
+                        }else{
+                           if(DiaTx<30)
+                              DiaTx++;    
+                           else
+                              DiaTx=1;
+                        }    
+                     }
+                  }
+               }else if(Opcion==2){
+                  if(MesTx<12)
+                     MesTx++;
+                  else
+                     MesTx=1;
+               }else if(Opcion==3){
+                  if(YearTx<99)
+                     YearTx++;
+                  else 
+                     YearTx=0;
+               }else if(Opcion==4){
+                  if(HoraTx<24)
+                     HoraTx++;
+                  else
+                     HoraTx=0;
+               }else if(Opcion==5){
+                  if(MinutoTx<59)
+                     MinutoTx++;
+                  else
+                     MinutoTx=0;
+               }
+               Rx_Buffer[4]=0x00;
+               Rx_Buffer2[4]=0x00;
+            
+         }
+         
+         if(Rx_Buffer[4]==0x2b){//Tecla Abajo Oprimida
+               if(Opcion==1){
+                  if(DiaTx>1)
+                     DiaTx--;
+                  else{
+                    DiaTx=31;
+                    LimitaDia();
+                  }
+               }else if(Opcion==2){
+                  if(MesTx>1)
+                     MesTx--;
+                  else
+                     MesTx=12;
+               }else if(Opcion==3){
+                  if(YearTx>0)
+                     YearTx--;
+                  else
+                     YearTx=99;
+               }else if(Opcion==4){
+                  if(HoraTx>0)
+                     HoraTx--;
+                  else
+                     HoraTx=23;
+               }else if(Opcion==5){
+                  if(MinutoTx>0)
+                     MinutoTx--;
+                  else
+                     MinutoTx=59;
+               }
+               Rx_Buffer[4]=0x00;
+               Rx_Buffer2[4]=0x00;
+         }
+      LimitaDia(); 
+      printf("thora.txt=\"%02u\"",HoraTx);
+      SendDataDisplay();
+      printf("tminutos.txt=\"%02u\"",MinutoTx);
+      SendDataDisplay();
+      printf("tdia.txt=\"%02u\"",DiaTx);
+      SendDataDisplay();
+      printf("tmes.txt=\"%02u\"",MesTx);
+      SendDataDisplay();
+      printf("tyear.txt=\"%02u\"",YearTx);
+      SendDataDisplay();
+    }//Menu de Configuración de Fecha y Hora
+//_--------------------------------------------------------------------------------------------------------------------------------------------------------       
+
+//_--------------------------------------------------------------------------------------------------------------------------------------------------------
+    if(Menu==8){ //Menu de Programas
+      flagBorrado=OFF;
+      printf("fecha.txt=\"Fecha:%02u/%02u/20%02u Hora: %02u:%02u:%02u\"",Dia,Mes,Year,Hora,Minuto,Segundo);
+      SendDataDisplay();
+      x1=ON;x10=OFF;x100=OFF;
+    
+      GuardaEEPROM=OFF;
+      
+      
+      if(Rx_Buffer[4]>0x00 && Rx_Buffer[4]<0x21){
+         printf("page Rampas");
+         SendDataDisplay();
+         Programa=Rx_Buffer[4];
+         n=Programa-1;
+         //for(n=0;n<32;n++){
+            for(i=0;i<24;i++){
+                  rampas[i].TemperaturaInt=read_ext_eeprom((n*264)+(i*11));
+                  rampas[i].TemperaturaDec=read_ext_eeprom(1+(n*264)+(i*11));
+                  rampas[i].Humedad=read_ext_eeprom(2+(n*264)+(i*11));
+                  rampas[i].Horas=read_ext_eeprom(3+(n*264)+(i*11));
+                  rampas[i].Minutos=read_ext_eeprom(4+(n*264)+(i*11));
+                  rampas[i].Luz1l=read_ext_eeprom(5+(n*264)+(i*11));
+                  rampas[i].Luz1h=read_ext_eeprom(6+(n*264)+(i*11));
+                  rampas[i].Luz2l=read_ext_eeprom(7+(n*264)+(i*11));
+                  rampas[i].Luz2h=read_ext_eeprom(8+(n*264)+(i*11));
+                  rampas[i].Luz3l=read_ext_eeprom(9+(n*264)+(i*11));
+                  rampas[i].Luz3h=read_ext_eeprom(10+(n*264)+(i*11));
+                     
+                  rampas[i].Temperatura=(inttofloat(rampas[i].TemperaturaDec)+(float)rampas[i].TemperaturaInt);
+                  rampas[i].Luz1=convert16(rampas[i].Luz1h,rampas[i].Luz1l);
+                  rampas[i].Luz2=convert16(rampas[i].Luz2h,rampas[i].Luz2l);
+                  rampas[i].Luz3=convert16(rampas[i].Luz3h,rampas[i].Luz3l);
+                  if(rampas[i].Temperatura>45)rampas[i].Temperatura=10;
+                  if(rampas[i].Horas>99)rampas[i].Horas=0;
+                  if(rampas[i].Minutos>59)rampas[i].Minutos=0;
+                  if(rampas[i].Humedad>100.0)rampas[i].Humedad=50.0;
+                  if(rampas[i].Luz1>3000.0)rampas[i].Luz1=1000.0;
+                  if(rampas[i].Luz2>3000.0)rampas[i].Luz2=1000.0;
+                  if(rampas[i].Luz3>3000.0)rampas[i].Luz3=1000.0;
+            }
+         //}
+         Rx_Buffer[4]=0x00;
+         Rx_Buffer2[4]=0x00;
+      }
+      
+      if(Rx_Buffer[4]==0x30){//30, Humedad
+         printf("page Principal");        
+         SendDataDisplay();
+      }
+      
+   }//Menu de Programas
+//_--------------------------------------------------------------------------------------------------------------------------------------------------------      
+
+//_--------------------------------------------------------------------------------------------------------------------------------------------------------      
+    if(Menu==9){//Menu de Grafica
+        if(Rx_Buffer[4]==0x11){
+            printf("page Principal");
+            SendDataDisplay();
+            Rx_Buffer[4]=0x00;
+            Rx_Buffer2[4]=0x00; 
+            entroGrafica=OFF;
+        }
+        
+        if(tmuestreoUSB!=tmuestreoUSB_ant){
+            borraVector();
+            tmuestreoUSB_ant=tmuestreoUSB;
+        }
+        
+        if(actualizaNumeracion){
+            actualizaEjeX();
+            actualizaNumeracion=OFF;
+        }
+        
+        if(entroGrafica){//Si entro al menu de grafica
+            actualizaEjeX();
+            for(data2=0;data2<data;data2++){//for dedicado a actualizar la grafica 
+                printf("add 1,0,%u",graph[data2].Temperatura*2); 
+                SendDataDisplay();
+                printf("add 1,1,%u",graph[data2].Humedad*2); 
+                SendDataDisplay();
+            }   
+            entroGrafica=OFF;
+        }
+        
+        if(flagControlT && !flagControlH && !flagRampa){
+            printf("t0.txt=\"Control de Temperatura Activado\"");
+            SendDataDisplay();
+        }else if(!flagControlT && flagControlH && !flagRampa){
+            printf("t0.txt=\"Control de Humedad Activado\"");
+            SendDataDisplay();
+        }else if(flagControlT && flagControlH && !flagRampa){
+            printf("t0.txt=\"Control de Temperatura y Humedad Activado\"");
+            SendDataDisplay();
+        }else if(flagRampa){
+            printf("t0.txt=\"Control por Rampas Activado\"");
+            SendDataDisplay();
+        }else{
+            printf("t0.txt=\"Controles Desactivados\"");
+            SendDataDisplay();
+        }
+        
+        if(graficaa){
+            graficaa=OFF;
+            printf("add 1,0,%1.0f",Temperatura*2); 
+            SendDataDisplay();
+            //sprintf(displayStr,"add 1,1,%1.0f",Humedad*2); 
+            printf("add 1,1,%1.0f",humedadDisplay*2); 
+            SendDataDisplay();
+        }
+         
+    }//Menu de Grafica
+//_--------------------------------------------------------------------------------------------------------------------------------------------------------          
+/*
+//_--------------------------------------------------------------------------------------------------------------------------------------------------------      
+    if(Menu==11){ //Menu de Calibracion de Temperatura
+         if(Rx_Buffer[4]==0x01){// Sensor 1
+            Opcion=1;            
+         }else if(Rx_Buffer[4]==0x02){//Patron 1
+            Opcion=2;
+         }else if(Rx_Buffer[4]==0x03){//Sensor 2
+            Opcion=3;
+         }else if(Rx_Buffer[4]==0x04){//Patron 2
+            Opcion=4;
+         }else if(Rx_Buffer[4]==0x05){//Sensor 3
+            Opcion=5;
+         }else if(Rx_Buffer[4]==0x06){//Patron 3
+            Opcion=6;
+         }else if(Rx_Buffer[4]==0x07){//Sensor 1, Temperatura 2
+            Opcion=7;
+         }else if(Rx_Buffer[4]==0x08){//Patron 1, Temperatura 2
+            Opcion=8;
+         }else if(Rx_Buffer[4]==0x09){//Sensor 2, Temperatura 2
+            Opcion=9;
+         }else if(Rx_Buffer[4]==0x0a){//Patron 2, Temperatura 2
+            Opcion=10;
+         }else if(Rx_Buffer[4]==0x0b){//Sensor 3, Temperatura 2
+            Opcion=11;
+         }else if(Rx_Buffer[4]==0x0c){//Patron 3, Temperatura 2
+            Opcion=12;
+         }
+         
+         if(Opcion>12)
+            Opcion=1;
+         if(Opcion<1)
+            Opcion=12;
+         
+         for(i=0;i<12;i++){
+            if(i==Opcion-1){
+                 printf("t%Lu.bco=27501",i);
+                 SendDataDisplay();
+                 printf("t%Lu.pco=65535",i);
+                 SendDataDisplay();
+             }else{
+                 printf("t%Lu.bco=65535",i);
+                 SendDataDisplay();
+                 printf("t%Lu.pco=0",i);
+                 SendDataDisplay();
+             }
+         }
+        
+         if(Rx_Buffer[4]==0x11){//Selecciono Regresar
+            printf("page Principal");
+            SendDataDisplay();
+            EEPROM_WriteByte((int8)calib[0].patron1,64);CyDelay(20);
+            EEPROM_WriteByte(extraeDecimal(calib[0].patron1),65);CyDelay(20);
+            EEPROM_WriteByte((int8)calib[0].patron2,66);CyDelay(20);
+            EEPROM_WriteByte(extraeDecimal(calib[0].patron2),67);CyDelay(20);
+            EEPROM_WriteByte((int8)calib[0].patron3,68);CyDelay(20);
+            EEPROM_WriteByte(extraeDecimal(calib[0].patron3),69);CyDelay(20);
+            EEPROM_WriteByte((int8)calib[0].control1,70);CyDelay(20);
+            EEPROM_WriteByte(extraeDecimal(calib[0].control1),71);CyDelay(20);
+            EEPROM_WriteByte((int8)calib[0].control2,72);CyDelay(20);
+            EEPROM_WriteByte(extraeDecimal(calib[0].control2),73);CyDelay(20);
+            EEPROM_WriteByte((int8)calib[0].control3,74);CyDelay(20);
+            EEPROM_WriteByte(extraeDecimal(calib[0].control3),75);CyDelay(20);
+            
+            EEPROM_WriteByte((int8)calib[1].patron1,76);CyDelay(20);
+            EEPROM_WriteByte(extraeDecimal(calib[1].patron1),77);CyDelay(20);
+            EEPROM_WriteByte((int8)calib[1].patron2,78);CyDelay(20);
+            EEPROM_WriteByte(extraeDecimal(calib[1].patron2),79);CyDelay(20);
+            EEPROM_WriteByte((int8)calib[1].patron3,80);CyDelay(20);
+            EEPROM_WriteByte(extraeDecimal(calib[1].patron3),81);CyDelay(20);
+            EEPROM_WriteByte((int8)calib[1].control1,82);CyDelay(20);
+            EEPROM_WriteByte(extraeDecimal(calib[1].control1),83);CyDelay(20);
+            EEPROM_WriteByte((int8)calib[1].control2,84);CyDelay(20);
+            EEPROM_WriteByte(extraeDecimal(calib[1].control2),85);CyDelay(20);
+            EEPROM_WriteByte((int8)calib[1].control3,86);CyDelay(20);
+            EEPROM_WriteByte(extraeDecimal(calib[1].control3),87);CyDelay(20);
+         }
+        
+        for(i=0;i<2;i++){
+            calib[i].m1=(calib[i].control2-calib[i].control1)/(calib[i].patron2-calib[i].patron1);
+            calib[i].b1=calib[i].control2-(calib[i].m1*calib[i].patron2);
+            calib[i].m2=(calib[i].control3-calib[i].control2)/(calib[i].patron3-calib[i].patron2);
+            calib[i].b2=calib[i].control3-(calib[i].m2*calib[i].patron3);
+            printf("t%Lu.txt=\"m1:%2.2f b1:%2.2f m2:%2.2f b2:%2.2f\"",i+20,calib[i].m1,calib[i].b1,calib[i].m2,calib[i].b2);
+            SendDataDisplay();
+        }
+        
+         if(Rx_Buffer[4]==0x2a || Rx_Buffer[4]==0x2c){//Tecla Arriba Oprimida
+            if(Opcion==1){
+               calib[0].control1+=0.1;
+            }else if(Opcion==2){
+               calib[0].patron1+=0.1; 
+            }else if(Opcion==3){
+               calib[0].control2+=0.1; 
+            }else if(Opcion==4){
+               calib[0].patron2+=0.1;  
+            }else if(Opcion==5){
+                calib[0].control3+=0.1;
+            }else if(Opcion==6){
+                calib[0].patron3+=0.1; 
+            }else if(Opcion==7){
+                calib[1].control1+=0.1;
+            }else if(Opcion==8){
+                calib[1].patron1+=0.1; 
+            }else if(Opcion==9){
+                calib[1].control2+=0.1;
+            }else if(Opcion==10){
+                calib[1].patron2+=0.1; 
+            }else if(Opcion==11){
+                calib[1].control3+=0.1;
+            }else if(Opcion==12){
+                calib[1].patron3+=0.1; 
+            }
+            if(Rx_Buffer[4]==0x2c){
+                Rx_Buffer[4]=0x00;
+                Rx_Buffer2[4]=0x00;  
+                CyDelay(100);
+            }
+         }
+         
+         if(Rx_Buffer[4]==0x2b || Rx_Buffer[4]==0x2d){//Tecla Abajo Oprimida
+            if(Opcion==1){
+               calib[0].control1-=0.1;
+            }else if(Opcion==2){
+               calib[0].patron1-=0.1; 
+            }else if(Opcion==3){
+               calib[0].control2-=0.1; 
+            }else if(Opcion==4){
+               calib[0].patron2-=0.1;  
+            }else if(Opcion==5){
+                calib[0].control3-=0.1;
+            }else if(Opcion==6){
+                calib[0].patron3-=0.1; 
+            }else if(Opcion==7){
+                calib[1].control1-=0.1;
+            }else if(Opcion==8){
+                calib[1].patron1-=0.1; 
+            }else if(Opcion==9){
+                calib[1].control2-=0.1;
+            }else if(Opcion==10){
+                calib[1].patron2-=0.1; 
+            }else if(Opcion==11){
+                calib[1].control3-=0.1;
+            }else if(Opcion==12){
+                calib[1].patron3-=0.1; 
+            }
+            if(Rx_Buffer[4]==0x2d){
+                Rx_Buffer[4]=0x00;
+                Rx_Buffer2[4]=0x00;
+                CyDelay(100);
+            }
+         }
+        
+        printf("t0.txt=\"%2.1f°C\"",calib[0].control1);
+        SendDataDisplay();
+        printf("t1.txt=\"%2.1f°C\"",calib[0].patron1);
+        SendDataDisplay();
+        printf("t2.txt=\"%2.1f°C\"",calib[0].control2);
+        SendDataDisplay();
+        printf("t3.txt=\"%2.1f°C\"",calib[0].patron2);
+        SendDataDisplay();
+        printf("t4.txt=\"%2.1f°C\"",calib[0].control3);
+        SendDataDisplay();
+        printf("t5.txt=\"%2.1f°C\"",calib[0].patron3);
+        SendDataDisplay();
+        printf("t6.txt=\"%2.1f°C\"",calib[1].control1);
+        SendDataDisplay();
+        printf("t7.txt=\"%2.1f°C\"",calib[1].patron1);
+        SendDataDisplay();
+        printf("t8.txt=\"%2.1f°C\"",calib[1].control2);
+        SendDataDisplay();
+        printf("t9.txt=\"%2.1f°C\"",calib[1].patron2);
+        SendDataDisplay();
+        printf("t10.txt=\"%2.1f°C\"",calib[1].control3);
+        SendDataDisplay();
+        printf("t11.txt=\"%2.1f°C\"",calib[1].patron3);
+        SendDataDisplay();
+      
+    }//Menu de Calibracion de Temperatura
+//_--------------------------------------------------------------------------------------------------------------------------------------------------------       
+
+//_--------------------------------------------------------------------------------------------------------------------------------------------------------      
+    if(Menu==12){ //Menu de Calibracion de Humedad
+         if(Rx_Buffer[4]==0x01){// Sensor 1
+            Opcion=1;            
+         }else if(Rx_Buffer[4]==0x02){//Patron 1
+            Opcion=2;
+         }else if(Rx_Buffer[4]==0x03){//Sensor 2
+            Opcion=3;
+         }else if(Rx_Buffer[4]==0x04){//Patron 2
+            Opcion=4;
+         }else if(Rx_Buffer[4]==0x05){//Sensor 3
+            Opcion=5;
+         }else if(Rx_Buffer[4]==0x06){//Patron 3
+            Opcion=6;
+         }else if(Rx_Buffer[4]==0x07){//Sensor 1, Temperatura 2
+            Opcion=7;
+         }else if(Rx_Buffer[4]==0x08){//Patron 1, Temperatura 2
+            Opcion=8;
+         }else if(Rx_Buffer[4]==0x09){//Sensor 2, Temperatura 2
+            Opcion=9;
+         }else if(Rx_Buffer[4]==0x0a){//Patron 2, Temperatura 2
+            Opcion=10;
+         }else if(Rx_Buffer[4]==0x0b){//Sensor 3, Temperatura 2
+            Opcion=11;
+         }else if(Rx_Buffer[4]==0x0c){//Patron 3, Temperatura 2
+            Opcion=12;
+         }
+         
+         if(Opcion>12)
+            Opcion=1;
+         if(Opcion<1)
+            Opcion=12;
+         
+         for(i=0;i<12;i++){
+            if(i==Opcion-1){
+                 printf("t%Lu.bco=27501",i);
+                 SendDataDisplay();
+                 printf("t%Lu.pco=65535",i);
+                 SendDataDisplay();
+             }else{
+                 printf("t%Lu.bco=65535",i);
+                 SendDataDisplay();
+                 printf("t%Lu.pco=0",i);
+                 SendDataDisplay();
+             }
+         }
+        
+         if(Rx_Buffer[4]==0x11){//Selecciono Regresar
+            printf("page Ajustes");            
+            SendDataDisplay();
+            EEPROM_WriteByte((int8)calib[2].patron1,88);CyDelay(20);
+            EEPROM_WriteByte(extraeDecimal(calib[2].patron1),89);CyDelay(20);
+            EEPROM_WriteByte((int8)calib[2].patron2,90);CyDelay(20);
+            EEPROM_WriteByte(extraeDecimal(calib[2].patron2),91);CyDelay(20);
+            EEPROM_WriteByte((int8)calib[2].patron3,92);CyDelay(20);
+            EEPROM_WriteByte(extraeDecimal(calib[2].patron3),93);CyDelay(20);
+            EEPROM_WriteByte((int8)calib[2].control1,94);CyDelay(20);
+            EEPROM_WriteByte(extraeDecimal(calib[2].control1),95);CyDelay(20);
+            EEPROM_WriteByte((int8)calib[2].control2,96);CyDelay(20);
+            EEPROM_WriteByte(extraeDecimal(calib[2].control2),97);CyDelay(20);
+            EEPROM_WriteByte((int8)calib[2].control3,98);CyDelay(20);
+            EEPROM_WriteByte(extraeDecimal(calib[2].control3),99);CyDelay(20);
+         }
+        
+        //for(i=0;i<2;i++){
+            calib[2].m1=(calib[2].control2-calib[2].control1)/(calib[2].patron2-calib[2].patron1);
+            calib[2].b1=calib[2].control2-(calib[2].m1*calib[2].patron2);
+            calib[2].m2=(calib[2].control3-calib[2].control2)/(calib[2].patron3-calib[2].patron2);
+            calib[2].b2=calib[2].control3-(calib[2].m2*calib[2].patron3);
+            printf("t20.txt=\"m1:%2.2f b1:%2.2f m2:%2.2f b2:%2.2f\"",calib[2].m1,calib[2].b1,calib[2].m2,calib[2].b2);
+            SendDataDisplay();
+        //}
+        
+         if(Rx_Buffer[4]==0x2a || Rx_Buffer[4]==0x2c){//Tecla Arriba Oprimida
+            if(Opcion==1){
+               calib[2].control1+=0.1;
+            }else if(Opcion==2){
+               calib[2].patron1+=0.1; 
+            }else if(Opcion==3){
+               calib[2].control2+=0.1; 
+            }else if(Opcion==4){
+               calib[2].patron2+=0.1;  
+            }else if(Opcion==5){
+                calib[2].control3+=0.1;
+            }else if(Opcion==6){
+                calib[2].patron3+=0.1; 
+            }
+            if(Rx_Buffer[4]==0x2c){
+                Rx_Buffer[4]=0x00;
+                Rx_Buffer2[4]=0x00;  
+                CyDelay(100);
+            }
+         }
+         
+         if(Rx_Buffer[4]==0x2b || Rx_Buffer[4]==0x2d){//Tecla Abajo Oprimida
+            if(Opcion==1){
+               calib[2].control1-=0.1;
+            }else if(Opcion==2){
+               calib[2].patron1-=0.1; 
+            }else if(Opcion==3){
+               calib[2].control2-=0.1; 
+            }else if(Opcion==4){
+               calib[2].patron2-=0.1;  
+            }else if(Opcion==5){
+                calib[2].control3-=0.1;
+            }else if(Opcion==6){
+                calib[2].patron3-=0.1; 
+            }
+            if(Rx_Buffer[4]==0x2d){
+                Rx_Buffer[4]=0x00;
+                Rx_Buffer2[4]=0x00;
+                CyDelay(100);
+            }
+         }
+        
+        printf("t0.txt=\"%2.1f°C\"",calib[2].control1);
+        SendDataDisplay();
+        printf("t1.txt=\"%2.1f°C\"",calib[2].patron1);
+        SendDataDisplay();
+        printf("t2.txt=\"%2.1f°C\"",calib[2].control2);
+        SendDataDisplay();
+        printf("t3.txt=\"%2.1f°C\"",calib[2].patron2);
+        SendDataDisplay();
+        printf("t4.txt=\"%2.1f°C\"",calib[2].control3);
+        SendDataDisplay();
+        printf("t5.txt=\"%2.1f°C\"",calib[2].patron3);
+        SendDataDisplay();
+        
+      
+    }//Menu de Calibracion de Humedad
+//_--------------------------------------------------------------------------------------------------------------------------------------------------------          
+*/
+//_--------------------------------------------------------------------------------------------------------------------------------------------------------
+    if(Menu==13){ //Menu de luz
+      printf("fecha.txt=\"Fecha:%02u/%02u/20%02u    Hora: %02u:%02u:%02u\"",Dia,Mes,Year,Hora,Minuto,Segundo);
+      SendDataDisplay();
+      
+        if(Rx_Buffer[4]==0x0d){//Tecla Arriba Oprimida
+           pulsoAumentar=ON;
+           pulsoDisminuir=OFF;
+           Rx_Buffer[4]=0x00;  
+           Rx_Buffer2[4]=0x00;  
+        }else if(Rx_Buffer[4]==0x0e){//Tecla Arriba Suelta
+           pulsoAumentar=OFF;
+           pulsoDisminuir=OFF;
+           Rx_Buffer[4]=0x00;  
+           Rx_Buffer2[4]=0x00;                       
+        }else if(Rx_Buffer[4]==0x0c){//Tecla Abajo Oprimida
+           pulsoDisminuir=ON;
+            pulsoAumentar=OFF;
+           Rx_Buffer[4]=0x00;
+           Rx_Buffer2[4]=0x00;                        
+        }else if(Rx_Buffer[4]==0x0b){//Tecla Abajo Oprimida
+           pulsoAumentar=OFF;
+           pulsoDisminuir=OFF;
+           Rx_Buffer[4]=0x00;
+           Rx_Buffer2[4]=0x00;                                   
+        }else if(Rx_Buffer[4]==0x20){//Selecciono x1
+            x1=ON;
+            x10=OFF;
+            x100=OFF;
+            printf("c0.val=1");
+            SendDataDisplay();
+            printf("c1.val=0");
+            SendDataDisplay();
+            printf("c2.val=0");
+            SendDataDisplay();
+            Rx_Buffer[4]=0x00;  
+            Rx_Buffer2[4]=0x00;     
+        }else if(Rx_Buffer[4]==0x21){//Selecciono x10
+            x1=OFF;
+            x10=ON;
+            x100=OFF;
+            printf("c0.val=0");
+            SendDataDisplay();
+            printf("c1.val=1");
+            SendDataDisplay();
+            printf("c2.val=0");
+            SendDataDisplay();
+            Rx_Buffer[4]=0x00;  
+            Rx_Buffer2[4]=0x00;     
+        }else if(Rx_Buffer[4]==0x01){//Selecciono Luz1
+            flagL1=ON;
+            flagL2=OFF;
+            flagL3=OFF;
+            printf("tluz1.pco=65535");
+            SendDataDisplay();
+            printf("tluz2.pco=0");
+            SendDataDisplay();
+            printf("tluz3.pco=0");
+            SendDataDisplay();
+            Rx_Buffer[4]=0x00;  
+            Rx_Buffer2[4]=0x00;     
+        }else if(Rx_Buffer[4]==0x02){//Selecciono Luz2
+            flagL2=ON;
+            flagL1=OFF;
+            flagL3=OFF;
+            printf("tluz2.pco=65535");
+            SendDataDisplay();
+            printf("tluz1.pco=0");
+            SendDataDisplay();
+            printf("tluz3.pco=0");
+            SendDataDisplay();
+            Rx_Buffer[4]=0x00;  
+            Rx_Buffer2[4]=0x00;     
+        }else if(Rx_Buffer[4]==0x03){//Selecciono Luz3
+            flagL3=ON;
+            flagL2=OFF;
+            flagL1=OFF;
+            printf("tluz3.pco=65535");
+            SendDataDisplay();
+            printf("tluz2.pco=0");
+            SendDataDisplay();
+            printf("tluz1.pco=0");
+            SendDataDisplay();
+            Rx_Buffer[4]=0x00;  
+            Rx_Buffer2[4]=0x00;     
+        }else{// if(Rx_Buffer[4]!=0x00){
+           pulsoAumentar=OFF;
+           pulsoDisminuir=OFF; 
+        }
+        
+      if(!rampa){
+         if(Rx_Buffer[4]==0x11){//Selecciono Regresar
+            Horas=OFF;
+            Minutos=OFF;
+            printf("page Principal");
+            SendDataDisplay();
+            if(!GuardaEEPROM){
+               EEPROM_WriteByte(convert8(SetpointL1,0),14);
+               CyDelay(10);
+               EEPROM_WriteByte(convert8(SetpointL1,1),15);
+               CyDelay(10);
+               EEPROM_WriteByte(convert8(SetpointL2,0),16);
+               CyDelay(10);
+               EEPROM_WriteByte(convert8(SetpointL2,1),17);
+               CyDelay(10);
+               EEPROM_WriteByte(convert8(SetpointL3,0),18);
+               CyDelay(10);
+               EEPROM_WriteByte(convert8(SetpointL3,1),19);
+               CyDelay(10);
+               GuardaEEPROM=ON;
+            }
+            pulsoAumentar=OFF;
+            pulsoDisminuir=OFF;
+         }
+         
+        if(pulsoAumentar){
+            if(x1){
+                if(flagL1)
+                    SetpointL1+=10;    
+                if(flagL2)
+                    SetpointL2+=10;    
+                if(flagL3)
+                    SetpointL3+=10;    
+            }else if(x10){
+                if(flagL1)
+                    SetpointL1+=100;    
+                if(flagL2)
+                    SetpointL2+=100;    
+                if(flagL3)
+                    SetpointL3+=100;  
+            }
+        }
+        
+        if(pulsoDisminuir){
+            if(x1){
+                if(flagL1)
+                    SetpointL1-=10;    
+                if(flagL2)
+                    SetpointL2-=10;    
+                if(flagL3)
+                    SetpointL3-=10;    
+            }else if(x10){
+                if(flagL1)
+                    SetpointL1-=100;    
+                if(flagL2)
+                    SetpointL2-=100;    
+                if(flagL3)
+                    SetpointL3-=100;  
+            }
+        }
+        
+        if(SetpointL1<100)
+           SetpointL1=4000;
+        if(SetpointL1>4000)
+           SetpointL1=100;
+        
+        if(SetpointL2<100)
+            SetpointL2=4000;
+        if(SetpointL2>4000)
+            SetpointL2=100;
+        
+        if(SetpointL3<100)
+            SetpointL3=4000;
+        if(SetpointL3>4000)
+            SetpointL3=100;
+        
+         printf("tluz1.txt=\"%05Lu\"",SetpointL1);
+         SendDataDisplay();
+         printf("tluz2.txt=\"%05Lu\"",SetpointL2);
+         SendDataDisplay();
+         printf("tluz3.txt=\"%05Lu\"",SetpointL3);
+         SendDataDisplay();
+      }else{
+         
+         if(Rx_Buffer[4]==0x11){//Selecciono Regresar
+            Horas=OFF;
+            Minutos=OFF;
+            printf("page Rampas");
+            SendDataDisplay();
+            if(!GuardaEEPROM){
+               EEPROM_WriteByte(rampas[CicloLibre-1].Humedad,102+((CicloLibre-1)*5));
+               CyDelay(10);
+               GuardaEEPROM=ON;
+            }
+            pulsoAumentar=OFF;
+            pulsoDisminuir=OFF;
+         }
+         
+         if(pulsoAumentar){
+            if(x1)
+                rampas[CicloLibre-1].Humedad+=1;    
+            else if(x10)    
+                rampas[CicloLibre-1].Humedad+=10;                
+        }
+        
+        if(pulsoDisminuir){
+            if(x1)
+                rampas[CicloLibre-1].Humedad-=1;    
+            else if(x10)    
+                rampas[CicloLibre-1].Humedad-=10;                
+        }
+        
+        if(rampas[CicloLibre-1].Humedad<10)
+            rampas[CicloLibre-1].Humedad=95;
+         if(rampas[CicloLibre-1].Humedad>95)
+            rampas[CicloLibre-1].Humedad=10;
+            
+         printf("tsettem.txt=\"%02u\"",rampas[CicloLibre-1].Humedad);
+         SendDataDisplay();
+      }
+    }//Menu de Luz
+//_--------------------------------------------------------------------------------------------------------------------------------------------------------       
+
+//_--------------------------------------------------------------------------------------------------------------------------------------------------------
+    if(Menu==17){ //Menu de Velocidad de Ventilador
+      printf("fecha.txt=\"Fecha:%02u/%02u/20%02u    Hora: %02u:%02u:%02u\"",Dia,Mes,Year,Hora,Minuto,Segundo);
+      SendDataDisplay();
+      
+        if(Rx_Buffer[4]==0x0d){//Tecla Arriba Oprimida
+           pulsoAumentar=ON;
+           pulsoDisminuir=OFF;
+           Rx_Buffer[4]=0x00;  
+           Rx_Buffer2[4]=0x00;             
+        }else if(Rx_Buffer[4]==0x0e){//Tecla Arriba Suelta
+           pulsoAumentar=OFF;
+           pulsoDisminuir=OFF;
+           Rx_Buffer[4]=0x00;  
+           Rx_Buffer2[4]=0x00;                       
+        }else if(Rx_Buffer[4]==0x0c){//Tecla Abajo Oprimida
+           pulsoDisminuir=ON;
+            pulsoAumentar=OFF;
+           Rx_Buffer[4]=0x00;
+           Rx_Buffer2[4]=0x00;                                   
+        }else if(Rx_Buffer[4]==0x0b){//Tecla Abajo Oprimida
+           pulsoAumentar=OFF;
+           pulsoDisminuir=OFF;
+           Rx_Buffer[4]=0x00;
+           Rx_Buffer2[4]=0x00;                        
+        }else{// if(Rx_Buffer[4]!=0x00){
+           pulsoAumentar=OFF;
+           pulsoDisminuir=OFF; 
+        }
+        
+        if(Rx_Buffer[4]==0x11){//Selecciono Regresar
+            Horas=OFF;
+            Minutos=OFF;
+            printf("page Principal");
+            SendDataDisplay();
+            if(!GuardaEEPROM){
+               EEPROM_WriteByte(Vel1,21);
+               CyDelay(10);
+               GuardaEEPROM=ON;
+            }
+            pulsoAumentar=OFF;
+            pulsoDisminuir=OFF;
+         }
+         
+        if(pulsoAumentar){
+             Vel1+=1;    
+        }
+        
+        if(pulsoDisminuir){
+            Vel1-=1;                
+        }
+        
+        if(Vel1<4)
+            Vel1=10;
+         if(Vel1>10)
+            Vel1=4;
+         VelMotor=Vel1;   
+        
+         printf("tgr.txt=\"%03u\"",Vel1*10);
+         SendDataDisplay();
+    }
+//_--------------------------------------------------------------------------------------------------------------------------------------------------------           
+
+//_--------------------------------------------------------------------------------------------------------------------------------------------------------
+    if(Menu==18){ //Menu de Rampas
+        flagBorrado=OFF;
+        x1=ON;x10=OFF;x100=OFF;
+    
+        for(i=0;i<24;i++){
+            if(rampas[i].Horas==0 && rampas[i].Minutos==0){
+                Segmentos=i;  
+                break;
+            }else{
+                Segmentos=i+1;  
+            }
+        }
+        if(!flagRampa){
+            printf("b61.txt=\"INICIO\"");
+            SendDataDisplay();
+            printf("b61.bco=1024");
+            SendDataDisplay();
+        }else{
+            printf("b61.txt=\"DETENER\"");
+            SendDataDisplay();
+            printf("b61.bco=63488");   
+            SendDataDisplay();
+        }
+        printf("titrampas.txt=\"Programa %02Lu, Pasos Programados %02u, Paso seleccionado: %02Lu\"",Programa,Segmentos,CicloLibre);
+        SendDataDisplay();
+        GuardaEEPROM=OFF;
+      
+        if(Rx_Buffer[4]>0x00 && Rx_Buffer[4]<0x19){//Personalizados
+            if(CicloLibre>1){
+                printf("temp.txt=\"Temperatura:TA:%2.1fC  T:%2.1fC\"",rampas[CicloLibre-2].Temperatura,rampas[Rx_Buffer[4]-1].Temperatura);
+                SendDataDisplay();
+            }else{
+                printf("temp.txt=\"Temperatura:TA:---  T:%2.1fC\"",rampas[Rx_Buffer[4]-1].Temperatura);
+                SendDataDisplay();
+            }
+            printf("tiempo.txt=\"Tiempo:%02u:%02u (HH:MM)\"",rampas[Rx_Buffer[4]-1].Horas,rampas[Rx_Buffer[4]-1].Minutos);
+            SendDataDisplay();
+            printf("hum.txt=\"Humedad:%03u %% \"",rampas[Rx_Buffer[4]-1].Humedad);
+            SendDataDisplay();
+            printf("luz.txt=\"Luz:%05Lu umol\"",rampas[Rx_Buffer[4]-1].Luz1);
+            SendDataDisplay();
+            CicloLibre=Rx_Buffer[4];
+        }else if(CicloLibre==0x00){
+            printf("temp.txt=\"Temperatura: --\"");
+            SendDataDisplay();
+            printf("tiempo.txt=\"Tiempo:--:--\"");
+            SendDataDisplay();
+            printf("hum.txt=\"Humedad: --\"");
+            SendDataDisplay();
+            printf("luz.txt=\"Luz: --\"");
+            SendDataDisplay();
+        }else if(CicloLibre>0 && CicloLibre<0x19){
+            if(CicloLibre>1){
+                printf("temp.txt=\"Temperatura:TA:%2.1fC  T:%2.1fC\"",rampas[CicloLibre-2].Temperatura,rampas[CicloLibre-1].Temperatura);
+                SendDataDisplay();
+            }else{
+                printf("temp.txt=\"Temperatura:TA:---  T:%2.1fC\"",rampas[CicloLibre-1].Temperatura);
+                SendDataDisplay();
+            }
+            printf("tiempo.txt=\"Tiempo:%02u:%02u (HH:MM)\"",rampas[CicloLibre-1].Horas,rampas[CicloLibre-1].Minutos);
+            SendDataDisplay();
+            printf("hum.txt=\"Humedad:%03u %% \"",rampas[CicloLibre-1].Humedad);
+            SendDataDisplay();
+            printf("luz.txt=\"Luz:%05Lu umol\"",rampas[CicloLibre-1].Luz1);
+            SendDataDisplay();
+        }
+          
+        if(Rx_Buffer[4]==0x20 && CicloLibre>0){//20, Temperatura
+            printf("page Temperatura");
+            SendDataDisplay();
+            rampa=ON;
+        }
+        
+          if(Rx_Buffer[4]==0x30 && CicloLibre>0){//30, Humedad
+            printf("page Humedad");
+            SendDataDisplay();
+            rampa=ON;
+        }
+          
+          if(Rx_Buffer[4]==0x40 && CicloLibre>0){//40, Tiempo
+            printf("page Tiempo");
+            SendDataDisplay();
+            rampa=ON;
+        }
+          
+        if(Rx_Buffer[4]==0x50 && CicloLibre>0){//50, Luz
+            printf("page Luces");
+            SendDataDisplay();
+            rampa=ON;
+        }
+        
+        if(Rx_Buffer[4]==0x70){//70, Regresar
+            printf("page Programas");
+            SendDataDisplay();
+            rampa=OFF;
+        }
+    
+        if(Rx_Buffer[4]==0x80){//80, Iniciar
+            if(!flagRampa){
+                if(Segmentos>0 && !inicioControlH && !inicioControlT && !inicioControlL){
+                    rampa=OFF;
+                    flagRampa=ON;
+                    // Configura parametros para inicio de rampa  
+                    SetpointAnt=Setpoint;
+                    SetpointHAnt=SetpointH;
+                    hEstpAnt=hEstp;
+                    mEstpAnt=mEstp;
+                    TempeInicial=Temperatura;
+                    Tiempo=((float)rampas[Segmento].Horas*3600.0)+((float)rampas[Segmento].Minutos*60.0);         
+                    Setpoint=rampas[Segmento].Temperatura;
+                    SetpointH=rampas[Segmento].Humedad;
+                    SetpointL1=rampas[Segmento].Luz1;
+                    SetpointL2=rampas[Segmento].Luz1;
+                    SetpointL3=rampas[Segmento].Luz1;
+                    Pendiente=((Setpoint-TempeInicial)/Tiempo);
+                    hEstp=rampas[Segmento].Horas;
+                    mEstp=rampas[Segmento].Minutos;
+                    flagControlH=ON;
+                    flagControlT=ON;
+                    flagControlL=ON;
+                    flagFinalizo=OFF;
+                    printf("page Iniciado");
+                    SendDataDisplay();
+                    Rx_Buffer[4]=0x00;  
+                    Rx_Buffer2[4]=0x00; 
+                }else{
+                    printf("titrampas.txt=\"!Programa Vacio, programe al menos 1 segmento!\"");
+                    SendDataDisplay();
+                    BUZZER_Write(1);
+                    CyDelay(1000);
+                    BUZZER_Write(0);
+                    Rx_Buffer[4]=0x00;  
+                    Rx_Buffer2[4]=0x00;    
+                }
+            }else{
+                flagRampa=OFF;
+                Setpoint=SetpointAnt;
+                SetpointH=SetpointHAnt;
+                hEstp=hEstpAnt;
+                mEstp=mEstpAnt;
+                mEst=0;
+                hEst=0;
+                flagControlH=OFF;
+                flagControlT=OFF;
+                flagControlL=OFF;
+                Rx_Buffer[4]=0x00;  
+                Rx_Buffer2[4]=0x00; 
+                printf("page Iniciado");
+                SendDataDisplay();
+            }
+        }
+        
+        if(Rx_Buffer[4]==0x90){//90, Borrar  
+            rampa=OFF;
+            for(i=0;i<24;i++){
+                BUZZER_Write(1);
+                CyDelay(50);
+                BUZZER_Write(0);
+                CyDelay(50);
+                //FALTA COLOCAR PARA QUE BORRE LA EEPROM EXTERNA//*******************************************
+                rampas[i].Horas=0;
+                rampas[i].Minutos=0;
+                //EEPROM_WriteByte(0,103+((Programa-1)*50)+((i)*5));
+                //EEPROM_WriteByte(0,104+((Programa-1)*50)+((i)*5));
+                rampas[i].Temperatura=0;
+                rampas[i].Humedad=0;
+                rampas[i].Luz1=0;
+                //EEPROM_WriteByte(10,100+((Programa-1)*50)+((i)*5));
+                //EEPROM_WriteByte(10,101+((Programa-1)*50)+((i)*5));
+            }
+            printf("page Eliminado");
+            SendDataDisplay();
+        }
+   }//Menu de Rampas
+//_--------------------------------------------------------------------------------------------------------------------------------------------------------       
+
+//_--------------------------------------------------------------------------------------------------------------------------------------------------------
+    if(Menu==19){ //Menu de luces
+      printf("fecha.txt=\"Fecha:%02u/%02u/20%02u    Hora: %02u:%02u:%02u\"",Dia,Mes,Year,Hora,Minuto,Segundo);
+      SendDataDisplay();
+      
+        if(Rx_Buffer[4]==0x0d){//Tecla Arriba Oprimida
+           pulsoAumentar=ON;
+           pulsoDisminuir=OFF;
+           Rx_Buffer[4]=0x00;  
+           Rx_Buffer2[4]=0x00;  
+        }else if(Rx_Buffer[4]==0x0e){//Tecla Arriba Suelta
+           pulsoAumentar=OFF;
+           pulsoDisminuir=OFF;
+           Rx_Buffer[4]=0x00;  
+           Rx_Buffer2[4]=0x00;                       
+        }else if(Rx_Buffer[4]==0x0c){//Tecla Abajo Oprimida
+           pulsoDisminuir=ON;
+            pulsoAumentar=OFF;
+           Rx_Buffer[4]=0x00;
+           Rx_Buffer2[4]=0x00;                        
+        }else if(Rx_Buffer[4]==0x0b){//Tecla Abajo Oprimida
+           pulsoAumentar=OFF;
+           pulsoDisminuir=OFF;
+           Rx_Buffer[4]=0x00;
+           Rx_Buffer2[4]=0x00;                                   
+        }else if(Rx_Buffer[4]==0x20){//Selecciono x1
+            x1=ON;
+            x10=OFF;
+            x100=OFF;
+            printf("c0.val=1");
+            SendDataDisplay();
+            printf("c1.val=0");
+            SendDataDisplay();
+            printf("c2.val=0");
+            SendDataDisplay();
+            Rx_Buffer[4]=0x00;  
+            Rx_Buffer2[4]=0x00;     
+        }else if(Rx_Buffer[4]==0x21){//Selecciono x10
+            x1=OFF;
+            x10=ON;
+            x100=OFF;
+            printf("c0.val=0");
+            SendDataDisplay();
+            printf("c1.val=1");
+            SendDataDisplay();
+            printf("c2.val=0");
+            SendDataDisplay();
+            Rx_Buffer[4]=0x00;  
+            Rx_Buffer2[4]=0x00;     
+        }else{// if(Rx_Buffer[4]!=0x00){
+           pulsoAumentar=OFF;
+           pulsoDisminuir=OFF; 
+        }
+        
+      
+         if(Rx_Buffer[4]==0x11){//Selecciono Regresar
+            Horas=OFF;
+            Minutos=OFF;
+            printf("page Rampas");
+            SendDataDisplay();
+            if(!GuardaEEPROM){
+                rampas[CicloLibre-1].Luz1l=convert8(rampas[CicloLibre-1].Luz1,0);
+                rampas[CicloLibre-1].Luz1h=convert8(rampas[CicloLibre-1].Luz1,1);
+                write_ext_eeprom(5+((Programa-1)*264)+((CicloLibre-1)*11),rampas[CicloLibre-1].Luz1l);
+                CyDelay(10);
+                write_ext_eeprom(6+((Programa-1)*264)+((CicloLibre-1)*11),rampas[CicloLibre-1].Luz1h);
+                CyDelay(10);
+                GuardaEEPROM=ON;
+            }
+            pulsoAumentar=OFF;
+            pulsoDisminuir=OFF;
+         }
+         
+         if(pulsoAumentar){
+            if(x1)
+                rampas[CicloLibre-1].Luz1+=10;    
+            else if(x10)    
+                rampas[CicloLibre-1].Luz1+=100;                
+        }
+        
+        if(pulsoDisminuir){
+            if(x1)
+                rampas[CicloLibre-1].Luz1-=10;    
+            else if(x10)    
+                rampas[CicloLibre-1].Luz1-=100;                
+        }
+        
+        if(rampas[CicloLibre-1].Luz1<Lmin)
+            rampas[CicloLibre-1].Luz1=Lmax;
+         if(rampas[CicloLibre-1].Luz1>Lmax)
+            rampas[CicloLibre-1].Luz1=Lmin;
+            
+         printf("tluces.txt=\"%05Lu\"",rampas[CicloLibre-1].Luz1);
+         SendDataDisplay();
+      
+    }//Menu de Luces
+//_--------------------------------------------------------------------------------------------------------------------------------------------------------           
+ 
+//_--------------------------------------------------------------------------------------------------------------------------------------------------------      
+    if(Menu==21){//Menu de programa eliminado
+      CyDelay(800);         
+      entro=ON;      
+      printf("page Programas");
+      SendDataDisplay();
+   }//Menu de programa eliminado
+//_--------------------------------------------------------------------------------------------------------------------------------------------------------      
+
+//_--------------------------------------------------------------------------------------------------------------------------------------------------------      
+    if(Menu==22){//Menu de programa iniciado
+      if(flagRampa){
+        printf("trampa.txt=\"Programa %02Lu Iniciado\"",Programa);
+        SendDataDisplay();
+      }else{
+        printf("trampa.txt=\"Programa Detenido\"");
+        SendDataDisplay();
+      }
+      CyDelay(800);         
+      printf("page Principal");
+      SendDataDisplay();
+   }//Menu de programa iniciado
+//_--------------------------------------------------------------------------------------------------------------------------------------------------------          
+ 
+
+}
+

@@ -1,0 +1,133 @@
+#include <main.h>
+
+/* TODO: Web server enabled. Server files are added to the /pages
+directory. You can modify the contents of the dynamic display fields
+at the end of the index.htm file. By default, headings are in the left
+column and the dynamic display elements are in the right. The text on
+the input buttons can be set by changing the 'value' strings in the
+form section. Dynamic display elements can be added or removed from
+index.htm and index.xml */
+/* TODO: Server files must be built into an MPFS image prior to 
+compiling and runing the web server. Running makempfsimg.bat in the
+/mpfs directory will create an MPFS image of the files in /pages.
+A new MPFS image has to be compiled and re-loaded if a file in
+/pages needs to be changed. */
+
+unsigned int8 http_format_char(char* file, char id, char *str, unsigned int8 max_ret)
+{
+   /* TODO: This is a callback function to the HTTP stack.
+   'id' is the char for the dynamic element to be updated.
+   For each dynamic element you create, you need to parse
+   and save a result to 'str'. *str is where the callback
+   function must save the formatting result, and it should
+   not store more than max_ret characters to this pointer
+   (buffer-overrun protection).
+   Example:
+   switch(id) {
+      case 0x00:
+         set_adc_channel(0);
+         delay_us(100);
+         i=read_adc();
+         sprintf(new_str,"0x%X", i);
+   .....
+   strncpy(str, new_str, max_ret);
+   */
+   char new_str[20],new_str2[20];
+   int8 len=0,len2=0;
+   int8 AD0;
+   
+   if (id == 0)
+   {
+         //TODO: Handle dyn0 field and save result to str
+         set_adc_channel(0);
+         delay_us(100);
+         AD0=read_adc();
+         sprintf(new_str,"0x%X",AD0);
+         len=strlen(new_str);
+         strncpy(str, new_str, max_ret);
+   }
+   if (id == 1){
+         set_adc_channel(0);
+         delay_us(100);
+         AD0=read_adc();
+         sprintf(new_str,"0x%X",AD0);
+         len=strlen(new_str);
+         strncpy(str, new_str, max_ret);
+      
+   }
+
+}
+
+void http_exec_cgi(char* file, char *key, char *val)
+{
+   /* TODO: This is a callback function to the HTTP stack.
+   This function is called with each key/value pair read in
+   the GET/POST request before any web data is sent to the
+   web browser. 'key' matches the name of the field and
+   'val' is the value it was changed to.
+   Example:
+   int8 v = atoi(val);
+   if (stricmp(key,led1_key)==0)
+      LedSet(0, v);
+   */
+   if (strcmp(key, "button00") == 0)
+   {
+         //TODO: Handle button00
+         output_toggle(PIN_C7);
+         delay_ms(100);
+   }
+
+}
+
+void IPAddressInit(void)
+{
+   //MAC address of this unit
+   MY_MAC_BYTE1=MY_DEFAULT_MAC_BYTE1;
+   MY_MAC_BYTE2=MY_DEFAULT_MAC_BYTE2;
+   MY_MAC_BYTE3=MY_DEFAULT_MAC_BYTE3;
+   MY_MAC_BYTE4=MY_DEFAULT_MAC_BYTE4;
+   MY_MAC_BYTE5=MY_DEFAULT_MAC_BYTE5;
+   MY_MAC_BYTE6=MY_DEFAULT_MAC_BYTE6;
+
+   //IP address of this unit
+   MY_IP_BYTE1=192;
+   MY_IP_BYTE2=168;
+   MY_IP_BYTE3=0;
+   MY_IP_BYTE4=118;
+
+   //network gateway
+   MY_GATE_BYTE1=192;
+   MY_GATE_BYTE2=168;
+   MY_GATE_BYTE3=0;
+   MY_GATE_BYTE4=1;
+
+   //subnet mask
+   MY_MASK_BYTE1=MY_DEFAULT_MASK_BYTE1;
+   MY_MASK_BYTE2=MY_DEFAULT_MASK_BYTE2;
+   MY_MASK_BYTE3=MY_DEFAULT_MASK_BYTE3;
+   MY_MASK_BYTE4=MY_DEFAULT_MASK_BYTE4;
+}
+
+void main()
+{
+   setup_adc_ports(AN0);
+   setup_adc(ADC_CLOCK_DIV_2|ADC_TAD_MUL_0);
+
+   IPAddressInit();
+   TickInit();
+   enable_interrupts(GLOBAL);
+   StackInit();
+
+
+   while(TRUE)
+   {
+
+      StackTask();
+
+      StackApplications();
+      output_toggle(PIN_B1);
+      delay_ms(100);
+      //TODO: User Code
+   }
+
+}

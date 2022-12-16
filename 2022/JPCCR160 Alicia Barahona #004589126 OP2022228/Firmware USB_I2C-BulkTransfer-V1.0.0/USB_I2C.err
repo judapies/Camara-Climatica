@@ -1,0 +1,3 @@
+>>> Warning 203 "D:\Laboratorio\Camara Climatica\2022\JPCCR160 Alicia Barahona #004589126 OP2022228\Firmware USB_I2C-BulkTransfer-V1.0.0\pic18_usb.c" Line 530(1,1): Condition always TRUE
+*** Error 79 "USB_I2C.c" Line 290(1,2): Expect }
+*** Error 79 "USB_I2C.c" Line 290(1,2): Expect }

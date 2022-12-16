@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CyXmlSerializer>
+<!--This file is machine generated and read. It is not intended to be edited by hand.-->
+<!--Due to this, there is no schema for this file.-->
+<CyGuid_843a90a4-0c4b-4e44-991d-05e7fb117a21 type_name="CyDesigner.Common.ProjMgmt.Model.CyPrjMgmtWrkspcCustomData" version="4">
+<CyGuid_fdba8dfd-b15b-4469-9bbb-9e40c3e70997 type_name="CyDesigner.Common.Base.CyCustomData" version="2">
+<userData>
+<dataGuid v="1b906a0f-a7b6-4e4d-a428-82f98b53cb35">
+<CyGuid_1b906a0f-a7b6-4e4d-a428-82f98b53cb35 type_name="CyDesigner.Common.ProjMgmt.GUI.CyExplorerWindow+CyExplorerWindowState" version="3" SelectedTab="Source">
+<TreeKeys>
+<v>Source</v>
+<v>Components</v>
+<v>Output</v>
+</TreeKeys>
+<TreeStates>
+<CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="">
+<ExpandedNodeIds>
+<v>LCD</v>
+<v>LCD\LCD</v>
+<v>LCD\LCD\TopDesign</v>
+<v>LCD\LCD\LCD.cydwr</v>
+<v>LCD\LCD\LCD.cydwr\Pins</v>
+<v>LCD\LCD\LCD.cydwr\Analog</v>
+<v>LCD\LCD\LCD.cydwr\Clocks</v>
+<v>LCD\LCD\LCD.cydwr\Interrupts</v>
+<v>LCD\LCD\LCD.cydwr\DMA</v>
+<v>LCD\LCD\LCD.cydwr\System</v>
+<v>LCD\LCD\LCD.cydwr\Directives</v>
+<v>LCD\LCD\LCD.cydwr\Flash Security</v>
+<v>LCD\LCD\LCD.cydwr\EEPROM</v>
+<v>LCD\LCD\Header Files</v>
+<v>LCD\LCD\Header Files\cyapicallbacks.h</v>
+<v>LCD\LCD\Header Files\main.h</v>
+<v>LCD\LCD\Source Files</v>
+<v>LCD\LCD\Source Files\coldJnTemp.c</v>
+<v>LCD\LCD\Source Files\main.c</v>
+<v>LCD\LCD\Source Files\removeoffsetnoise.c</v>
+<v>LCD\LCD\Generated_Source</v>
+<v>LCD\LCD\Generated_Source\PSoC5</v>
+</ExpandedNodeIds>
+<VisibleNodeIds>
+<v>LCD\LCD\LCD.cydwr\Clocks</v>
+<v>LCD\LCD\LCD.cydwr\Interrupts</v>
+<v>LCD\LCD\LCD.cydwr\DMA</v>
+<v>LCD\LCD\LCD.cydwr\System</v>
+<v>LCD\LCD\LCD.cydwr\Directives</v>
+<v>LCD\LCD\LCD.cydwr\Flash Security</v>
+<v>LCD\LCD\LCD.cydwr\EEPROM</v>
+<v>LCD\LCD\Header Files</v>
+<v>LCD\LCD\Header Files\cyapicallbacks.h</v>
+<v>LCD\LCD\Header Files\main.h</v>
+<v>LCD\LCD\Source Files</v>
+<v>LCD\LCD\Source Files\coldJnTemp.c</v>
+<v>LCD\LCD\Source Files\main.c</v>
+<v>LCD\LCD\Source Files\removeoffsetnoise.c</v>
+<v>LCD\LCD\Generated_Source</v>
+<v>LCD\LCD\Generated_Source\PSoC5</v>
+<v>LCD\LCD\Generated_Source\PSoC5\ADC</v>
+<v>LCD\LCD\Generated_Source\PSoC5\ADC_Ext_CP_Clk</v>
+<v>LCD\LCD\Generated_Source\PSoC5\ADC_IRQ</v>
+</VisibleNodeIds>
+</CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237>
+<CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="">
+<ExpandedNodeIds>
+<v>LCD</v>
+<v>LCD\LCD</v>
+<v>LCD\LCD\TopDesign</v>
+<v>LCD\LCD\TopDesign\TopDesign.cysch</v>
+</ExpandedNodeIds>
+<VisibleNodeIds>
+<v>LCD</v>
+<v>LCD\LCD</v>
+<v>LCD\LCD\TopDesign</v>
+<v>LCD\LCD\TopDesign\TopDesign.cysch</v>
+</VisibleNodeIds>
+</CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237>
+<CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="">
+<ExpandedNodeIds>
+<v>LCD</v>
+<v>LCD\LCD</v>
+<v>LCD\LCD\CortexM3</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\ADC.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\ADC_Ext_CP_Clk.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\ADC_INT.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\ADC_IRQ.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\ADC_PM.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\ADC_theACLK.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\CapSense.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\CapSense_AMuxCH0.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\CapSense_CompCH0.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\CapSense_CompCH0_PM.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\CapSense_CSHL.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\CapSense_IdacCH0.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\CapSense_IdacCH0_PM.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\CapSense_INT.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\CapSense_IntClock.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\CapSense_Pins.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\CapSense_PM.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\CapSense_SMS_Wrapper.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\CapSense_TunerHelper.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\Clock2.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\Cm3Start.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\coldJnTemp.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\cy_em_eeprom.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\CyBootAsmGnu.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\CyDmac.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\cyfitter_cfg.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\CyFlash.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\CyLib.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\cymetadata.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\cyPm.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\CySpc.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\cyutils.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\EEPROM.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\LCD_Char_1.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\LCD_Char_1_BarGraph.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\LCD_Char_1_LCDPort.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\LCD_Char_1_PM.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\LED.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\Luz.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\main.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\PWM.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\PWM_PM.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\pwm1.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\pwm2.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\Reloj.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\removeoffsetnoise.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\RX2.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\Thermocouple_1.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\Timer.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\Timer_PM.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\Tneg.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\Tpos.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\UART_2.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\UART_2_BOOT.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\UART_2_INT.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\UART_2_IntClock.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\UART_2_PM.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\USBUART.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\USBUART_audio.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\USBUART_boot.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\USBUART_cdc.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\USBUART_cls.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\USBUART_descr.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\USBUART_Dm.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\USBUART_Dp.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\USBUART_drv.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\USBUART_episr.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\USBUART_hid.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\USBUART_midi.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\USBUART_msc.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\USBUART_pm.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\USBUART_std.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\USBUART_vnd.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\VDAC8_1.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\VDAC8_1_PM.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\Vout.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\LCD.elf</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\LCD.hex</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\LCD.map</v>
+<v>LCD\LCD\LCD.gpdsc</v>
+<v>LCD\LCD\LCD.rpt</v>
+<v>LCD\LCD\LCD_timing.html</v>
+</ExpandedNodeIds>
+<VisibleNodeIds>
+<v>LCD</v>
+<v>LCD\LCD</v>
+<v>LCD\LCD\CortexM3</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\ADC.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\ADC_Ext_CP_Clk.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\ADC_INT.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\ADC_IRQ.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\ADC_PM.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\ADC_theACLK.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\CapSense.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\CapSense_AMuxCH0.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\CapSense_CompCH0.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\CapSense_CompCH0_PM.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\CapSense_CSHL.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\CapSense_IdacCH0.lst</v>
+<v>LCD\LCD\CortexM3\ARM_GCC_541\Debug\Listing Files\CapSense_IdacCH0_PM.lst</v>
+</VisibleNodeIds>
+</CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237>
+</TreeStates>
+<TreeKeysV2>
+<v>Datasheet</v>
+</TreeKeysV2>
+<TreeStatesV2>
+<CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237 type_name="CyDesigner.Common.Base.Controls.CyTreeViewState" version="1" SelectedNodeId="">
+<ExpandedNodeIds>
+<v>LCD</v>
+<v>LCD\LCD</v>
+<v>LCD\LCD\PSoC 5LP Architecture TRM</v>
+<v>LCD\LCD\CY8C58LP Family Datasheet</v>
+<v>LCD\LCD\System Reference Guides</v>
+<v>LCD\LCD\System Reference Guides\cy_boot_v5_60</v>
+<v>LCD\LCD\ADC_DelSig_v3_20.pdf</v>
+<v>LCD\LCD\CapSense_CSD_v3_50.pdf</v>
+<v>LCD\LCD\CharLCD_v2_20.pdf</v>
+<v>LCD\LCD\cy_clock_v2_20</v>
+<v>LCD\LCD\cy_clock_v2_20\cy_clock_v2_20.pdf</v>
+<v>LCD\LCD\cy_isr_v1_70</v>
+<v>LCD\LCD\cy_isr_v1_70\cy_isr_v1_70.pdf</v>
+<v>LCD\LCD\cy_pins_v2_20</v>
+<v>LCD\LCD\cy_pins_v2_20\cy_pins_v2_20.pdf</v>
+<v>LCD\LCD\EEPROM_v3_0.pdf</v>
+<v>LCD\LCD\PWM_v3_30.pdf</v>
+<v>LCD\LCD\ThermocoupleCalc_v1_20.pdf</v>
+<v>LCD\LCD\Timer_v2_80.pdf</v>
+<v>LCD\LCD\UART_v2_50.pdf</v>
+<v>LCD\LCD\USBFS_v3_20.pdf</v>
+<v>LCD\LCD\VDAC8_v1_90.pdf</v>
+<v>LCD\LCD\ZeroTerminal.pdf</v>
+</ExpandedNodeIds>
+<VisibleNodeIds>
+<v>LCD</v>
+<v>LCD\LCD</v>
+<v>LCD\LCD\PSoC 5LP Architecture TRM</v>
+<v>LCD\LCD\CY8C58LP Family Datasheet</v>
+<v>LCD\LCD\System Reference Guides</v>
+<v>LCD\LCD\System Reference Guides\cy_boot_v5_60</v>
+<v>LCD\LCD\ADC_DelSig_v3_20.pdf</v>
+<v>LCD\LCD\CapSense_CSD_v3_50.pdf</v>
+<v>LCD\LCD\CharLCD_v2_20.pdf</v>
+<v>LCD\LCD\cy_clock_v2_20</v>
+<v>LCD\LCD\cy_clock_v2_20\cy_clock_v2_20.pdf</v>
+<v>LCD\LCD\cy_isr_v1_70</v>
+<v>LCD\LCD\cy_isr_v1_70\cy_isr_v1_70.pdf</v>
+<v>LCD\LCD\cy_pins_v2_20</v>
+<v>LCD\LCD\cy_pins_v2_20\cy_pins_v2_20.pdf</v>
+<v>LCD\LCD\EEPROM_v3_0.pdf</v>
+<v>LCD\LCD\PWM_v3_30.pdf</v>
+<v>LCD\LCD\ThermocoupleCalc_v1_20.pdf</v>
+<v>LCD\LCD\Timer_v2_80.pdf</v>
+</VisibleNodeIds>
+</CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237>
+</TreeStatesV2>
+</CyGuid_1b906a0f-a7b6-4e4d-a428-82f98b53cb35>
+</dataGuid>
+</userData>
+</CyGuid_fdba8dfd-b15b-4469-9bbb-9e40c3e70997>
+<Unloaded />
+<OpenDocs>
+<name v=".\LCD.cydsn\LCD.cydwr" />
+<name v=".\LCD.cydsn\TopDesign\TopDesign.cysch" />
+<name v=".\LCD.cydsn\main.c" />
+<name v=".\LCD.cydsn\cyapicallbacks.h" />
+<name v=".\LCD.cydsn\main.h" />
+<name v=".\LCD.cydsn\coldJnTemp.c" />
+</OpenDocs>
+<OpenDocsLayout><![CDATA[<?xml version="1.0"?><!--
+
+  Actipro Docking/MDI for WinForms
+  Copyright (c) 2001-2016 Actipro Software LLC.  All rights reserved.
+  http://www.actiprosoftware.com
+
+--><DocumentLayout Version="1.0"><LayoutData><TabbedMdiRootContainer Orientation="Horizontal"><TabbedMdiContainer Size="914, 399" SelectedTabbedMdiWindow="910d402d-fed5-4e8b-8312-55adf3fbd192"><ToolWindow Key="Start Page:bd4649ab-da6b-4d04-a663-c722b8bf99db:Start Page" Guid="ba6c7cf0-aae7-4ed0-9e0d-edbc5de9e801" /><DocumentWindow Key="G:\JP Cuarentena\Mufla Doble Display\Firmware Psoc\LCD2\LCD.cydsn\LCD.cydwr" Guid="a4ffe1a2-98b5-4b2f-8f17-ab5fc707c0bc" /><DocumentWindow Key="G:\JP Cuarentena\Mufla Doble Display\Firmware Psoc\LCD2\LCD.cydsn\TopDesign\TopDesign.cysch" Guid="fee4c487-ffa7-4e4f-a802-bbd3f1602693" /><DocumentWindow Key="G:\JP Cuarentena\Mufla Doble Display\Firmware Psoc\LCD2\LCD.cydsn\main.c" Guid="910d402d-fed5-4e8b-8312-55adf3fbd192" /><DocumentWindow Key="G:\JP Cuarentena\Mufla Doble Display\Firmware Psoc\LCD2\LCD.cydsn\cyapicallbacks.h" Guid="93454c1b-048e-4d65-b61c-b4a4818a6c46" /><DocumentWindow Key="G:\JP Cuarentena\Mufla Doble Display\Firmware Psoc\LCD2\LCD.cydsn\main.h" Guid="2aa65bd6-0ab0-4ab8-8278-311d26768c44" /><DocumentWindow Key="G:\JP Cuarentena\Mufla Doble Display\Firmware Psoc\LCD2\LCD.cydsn\coldJnTemp.c" Guid="3c5efc9b-d595-4c5d-84d0-1df5cb4166b5" /></TabbedMdiContainer></TabbedMdiRootContainer><FloatingContainers /></LayoutData></DocumentLayout>]]></OpenDocsLayout>
+<config v="" />
+<AutoUpdate v="true" />
+</CyGuid_843a90a4-0c4b-4e44-991d-05e7fb117a21>
+</CyXmlSerializer>

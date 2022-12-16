@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch4jConfig>
+  <dontWrapJar>false</dontWrapJar>
+  <headerType>gui</headerType>
+  <jar>D:\Laboratorio\Autoclave\Autoclaves Vertical\Sin Precamara\2021\Autoclave 85L Grupo Milligram #004588568 OP202162\Software JAVA\DAQ Autoclave\dist\DAQ_Autoclave.jar</jar>
+  <outfile>D:\Laboratorio\Autoclave\Autoclaves Vertical\Sin Precamara\2021\Autoclave 85L Grupo Milligram #004588568 OP202162\Software JAVA\DAQ Autoclave\Exe\DAQ-Autoclave.exe</outfile>
+  <errTitle></errTitle>
+  <cmdLine></cmdLine>
+  <chdir>.</chdir>
+  <priority>normal</priority>
+  <downloadUrl>http://java.com/download</downloadUrl>
+  <supportUrl></supportUrl>
+  <stayAlive>false</stayAlive>
+  <restartOnCrash>false</restartOnCrash>
+  <manifest></manifest>
+  <icon>D:\Laboratorio\Autoclave\Autoclaves Vertical\Sin Precamara\2021\Autoclave 85L Grupo Milligram #004588568 OP202162\Software JAVA\DAQ Autoclave\Exe\Splash.ico</icon>
+  <jre>
+    <path></path>
+    <bundledJre64Bit>false</bundledJre64Bit>
+    <bundledJreAsFallback>false</bundledJreAsFallback>
+    <minVersion>1.5.0</minVersion>
+    <maxVersion>1.9.0</maxVersion>
+    <jdkPreference>preferJre</jdkPreference>
+    <runtimeBits>32/64</runtimeBits>
+  </jre>
+</launch4jConfig>

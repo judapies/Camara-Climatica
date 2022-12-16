@@ -1,0 +1,9 @@
+>>> Warning 203 "D:\Laboratorio\Camara Climatica\2022\JPCCR108 Avantika #0045890XX OP2022177\Firmware USB_I2C-BulkTransfer-V1.0.0\pic18_usb.c" Line 530(1,1): Condition always TRUE
+>>> Warning 216 "USB_I2C.c" Line 303(1,2): Interrupts disabled during call to prevent re-entrancy:  (usb_token_reset)
+>>> Warning 216 "USB_I2C.c" Line 303(1,2): Interrupts disabled during call to prevent re-entrancy:  (usb_flush_out)
+>>> Warning 216 "USB_I2C.c" Line 303(1,2): Interrupts disabled during call to prevent re-entrancy:  (usb_tbe)
+>>> Warning 216 "USB_I2C.c" Line 303(1,2): Interrupts disabled during call to prevent re-entrancy:  (usb_flush_in)
+>>> Warning 202 "USB_I2C.c" Line 50(6,13): Variable never used:   Gateway
+      Memory usage:   ROM=24%      RAM=23% - 25%
+      0 Errors,  6 Warnings.
+Build Successful.

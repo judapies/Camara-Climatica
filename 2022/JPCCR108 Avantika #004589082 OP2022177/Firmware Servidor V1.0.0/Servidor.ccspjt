@@ -1,0 +1,22 @@
+[PROJECT]
+Target=Servidor.hex
+Processor_Text=PIC18F4685
+CCSVersion=5.015
+Compiler=PCH
+[Target Data]
+FileList=Servidor.c
+[Directories]
+Include=C:\Program Files (x86)\PICC\Devices\
+[Servidor.c]
+Type=4
+[mru-list]
+1=Servidor.c
+[Opened Files]
+1=Servidor.c
+2=pages.h
+3=
+4=
+5=
+[Units]
+Count=1
+1=Servidor (main)

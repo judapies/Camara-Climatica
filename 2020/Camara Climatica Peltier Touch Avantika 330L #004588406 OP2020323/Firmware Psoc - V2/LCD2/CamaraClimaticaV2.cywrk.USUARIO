@@ -273,36 +273,7 @@
 <v>CamaraClimaticaV2\CamaraClimaticaV2\PSoC 5LP Architecture TRM</v>
 <v>CamaraClimaticaV2\CamaraClimaticaV2\CY8C58LP Family Datasheet</v>
 <v>CamaraClimaticaV2\CamaraClimaticaV2\System Reference Guides</v>
-<v>CamaraClimaticaV2\CamaraClimaticaV2\System Reference Guides\cy_boot_v5_60</v>
 <v>CamaraClimaticaV2\CamaraClimaticaV2\Project Datasheet</v>
-<v>CamaraClimaticaV2\CamaraClimaticaV2\ADC_DelSig_v3_20.pdf</v>
-<v>CamaraClimaticaV2\CamaraClimaticaV2\ADC_SAR_SEQ_v2_10.pdf</v>
-<v>CamaraClimaticaV2\CamaraClimaticaV2\AMux_v1_80</v>
-<v>CamaraClimaticaV2\CamaraClimaticaV2\AMux_v1_80\AMux_v1_80.pdf</v>
-<v>CamaraClimaticaV2\CamaraClimaticaV2\cy_clock_v2_20</v>
-<v>CamaraClimaticaV2\CamaraClimaticaV2\cy_clock_v2_20\cy_clock_v2_20.pdf</v>
-<v>CamaraClimaticaV2\CamaraClimaticaV2\cy_isr_v1_70</v>
-<v>CamaraClimaticaV2\CamaraClimaticaV2\cy_isr_v1_70\cy_isr_v1_70.pdf</v>
-<v>CamaraClimaticaV2\CamaraClimaticaV2\cy_pins_v2_10</v>
-<v>CamaraClimaticaV2\CamaraClimaticaV2\cy_pins_v2_10\cy_pins_v2_10.pdf</v>
-<v>CamaraClimaticaV2\CamaraClimaticaV2\cy_pins_v2_20</v>
-<v>CamaraClimaticaV2\CamaraClimaticaV2\cy_pins_v2_20\cy_pins_v2_20.pdf</v>
-<v>CamaraClimaticaV2\CamaraClimaticaV2\EEPROM_v3_0.pdf</v>
-<v>CamaraClimaticaV2\CamaraClimaticaV2\Gnd_v1_0</v>
-<v>CamaraClimaticaV2\CamaraClimaticaV2\Gnd_v1_0\Gnd_v1_0.pdf</v>
-<v>CamaraClimaticaV2\CamaraClimaticaV2\I2C_v3_50.pdf</v>
-<v>CamaraClimaticaV2\CamaraClimaticaV2\IDAC8_v2_0.pdf</v>
-<v>CamaraClimaticaV2\CamaraClimaticaV2\Resistor_v1_0</v>
-<v>CamaraClimaticaV2\CamaraClimaticaV2\Resistor_v1_0\Resistor_v1_0.pdf</v>
-<v>CamaraClimaticaV2\CamaraClimaticaV2\RTDCalc_v1_20.pdf</v>
-<v>CamaraClimaticaV2\CamaraClimaticaV2\Thermistor_v1_0</v>
-<v>CamaraClimaticaV2\CamaraClimaticaV2\Thermistor_v1_0\Thermistor_v1_0.pdf</v>
-<v>CamaraClimaticaV2\CamaraClimaticaV2\Timer_v2_80</v>
-<v>CamaraClimaticaV2\CamaraClimaticaV2\Timer_v2_80\Timer_v2_80.pdf</v>
-<v>CamaraClimaticaV2\CamaraClimaticaV2\UART_v2_50.pdf</v>
-<v>CamaraClimaticaV2\CamaraClimaticaV2\USBFS_v3_20.pdf</v>
-<v>CamaraClimaticaV2\CamaraClimaticaV2\ZeroTerminal</v>
-<v>CamaraClimaticaV2\CamaraClimaticaV2\ZeroTerminal\ZeroTerminal.pdf</v>
 </ExpandedNodeIds>
 <VisibleNodeIds>
 <v>CamaraClimaticaV2</v>
@@ -310,36 +281,7 @@
 <v>CamaraClimaticaV2\CamaraClimaticaV2\PSoC 5LP Architecture TRM</v>
 <v>CamaraClimaticaV2\CamaraClimaticaV2\CY8C58LP Family Datasheet</v>
 <v>CamaraClimaticaV2\CamaraClimaticaV2\System Reference Guides</v>
-<v>CamaraClimaticaV2\CamaraClimaticaV2\System Reference Guides\cy_boot_v5_60</v>
 <v>CamaraClimaticaV2\CamaraClimaticaV2\Project Datasheet</v>
-<v>CamaraClimaticaV2\CamaraClimaticaV2\ADC_DelSig_v3_20.pdf</v>
-<v>CamaraClimaticaV2\CamaraClimaticaV2\ADC_SAR_SEQ_v2_10.pdf</v>
-<v>CamaraClimaticaV2\CamaraClimaticaV2\AMux_v1_80</v>
-<v>CamaraClimaticaV2\CamaraClimaticaV2\AMux_v1_80\AMux_v1_80.pdf</v>
-<v>CamaraClimaticaV2\CamaraClimaticaV2\cy_clock_v2_20</v>
-<v>CamaraClimaticaV2\CamaraClimaticaV2\cy_clock_v2_20\cy_clock_v2_20.pdf</v>
-<v>CamaraClimaticaV2\CamaraClimaticaV2\cy_isr_v1_70</v>
-<v>CamaraClimaticaV2\CamaraClimaticaV2\cy_isr_v1_70\cy_isr_v1_70.pdf</v>
-<v>CamaraClimaticaV2\CamaraClimaticaV2\cy_pins_v2_10</v>
-<v>CamaraClimaticaV2\CamaraClimaticaV2\cy_pins_v2_10\cy_pins_v2_10.pdf</v>
-<v>CamaraClimaticaV2\CamaraClimaticaV2\cy_pins_v2_20</v>
-<v>CamaraClimaticaV2\CamaraClimaticaV2\cy_pins_v2_20\cy_pins_v2_20.pdf</v>
-<v>CamaraClimaticaV2\CamaraClimaticaV2\EEPROM_v3_0.pdf</v>
-<v>CamaraClimaticaV2\CamaraClimaticaV2\Gnd_v1_0</v>
-<v>CamaraClimaticaV2\CamaraClimaticaV2\Gnd_v1_0\Gnd_v1_0.pdf</v>
-<v>CamaraClimaticaV2\CamaraClimaticaV2\I2C_v3_50.pdf</v>
-<v>CamaraClimaticaV2\CamaraClimaticaV2\IDAC8_v2_0.pdf</v>
-<v>CamaraClimaticaV2\CamaraClimaticaV2\Resistor_v1_0</v>
-<v>CamaraClimaticaV2\CamaraClimaticaV2\Resistor_v1_0\Resistor_v1_0.pdf</v>
-<v>CamaraClimaticaV2\CamaraClimaticaV2\RTDCalc_v1_20.pdf</v>
-<v>CamaraClimaticaV2\CamaraClimaticaV2\Thermistor_v1_0</v>
-<v>CamaraClimaticaV2\CamaraClimaticaV2\Thermistor_v1_0\Thermistor_v1_0.pdf</v>
-<v>CamaraClimaticaV2\CamaraClimaticaV2\Timer_v2_80</v>
-<v>CamaraClimaticaV2\CamaraClimaticaV2\Timer_v2_80\Timer_v2_80.pdf</v>
-<v>CamaraClimaticaV2\CamaraClimaticaV2\UART_v2_50.pdf</v>
-<v>CamaraClimaticaV2\CamaraClimaticaV2\USBFS_v3_20.pdf</v>
-<v>CamaraClimaticaV2\CamaraClimaticaV2\ZeroTerminal</v>
-<v>CamaraClimaticaV2\CamaraClimaticaV2\ZeroTerminal\ZeroTerminal.pdf</v>
 </VisibleNodeIds>
 </CyGuid_2a325b3b-c96a-4e9f-b7a0-2c44ecb5f237>
 </TreeStatesV2>
@@ -371,7 +313,7 @@
   Copyright (c) 2001-2016 Actipro Software LLC.  All rights reserved.
   http://www.actiprosoftware.com
 
---><DocumentLayout Version="1.0"><LayoutData><TabbedMdiRootContainer Orientation="Vertical"><TabbedMdiContainer Size="1392, 716" SelectedTabbedMdiWindow="201d9959-7fde-489f-936e-bb399f88cc26"><ToolWindow Key="Start Page:bd4649ab-da6b-4d04-a663-c722b8bf99db:Start Page" Guid="a6313802-ca36-4a15-971f-dc623d96c5d7" /><DocumentWindow Key="D:\Laboratorio\Camara Climatica\2020\Camara Climatica Peltier Touch Avantika 330L #004588406 OP2020323\Firmware Psoc - V2\LCD2\CamaraClimaticaV2.cydsn\main.c" Guid="201d9959-7fde-489f-936e-bb399f88cc26" /><DocumentWindow Key="D:\Laboratorio\Camara Climatica\2020\Camara Climatica Peltier Touch Avantika 330L #004588406 OP2020323\Firmware Psoc - V2\LCD2\CamaraClimaticaV2.cydsn\TopDesign\TopDesign.cysch" Guid="e64a1e3a-9785-4769-a229-15430465f84c" /><DocumentWindow Key="D:\Laboratorio\Camara Climatica\2020\Camara Climatica Peltier Touch Avantika 330L #004588406 OP2020323\Firmware Psoc - V2\LCD2\CamaraClimaticaV2.cydsn\main.h" Guid="5fbd7ba0-ec09-4cd4-89e3-c7a62679bc87" /></TabbedMdiContainer></TabbedMdiRootContainer><FloatingContainers /></LayoutData></DocumentLayout>]]></OpenDocsLayout>
+--><DocumentLayout Version="1.0"><LayoutData><TabbedMdiRootContainer Orientation="Vertical"><TabbedMdiContainer Size="1646, 716" SelectedTabbedMdiWindow="a6313802-ca36-4a15-971f-dc623d96c5d7"><ToolWindow Key="Start Page:bd4649ab-da6b-4d04-a663-c722b8bf99db:Start Page" Guid="a6313802-ca36-4a15-971f-dc623d96c5d7" /><DocumentWindow Key="D:\Laboratorio\Camara Climatica\2020\Camara Climatica Peltier Touch Avantika 330L #004588406 OP2020323\Firmware Psoc - V2\LCD2\CamaraClimaticaV2.cydsn\main.c" Guid="201d9959-7fde-489f-936e-bb399f88cc26" /><DocumentWindow Key="D:\Laboratorio\Camara Climatica\2020\Camara Climatica Peltier Touch Avantika 330L #004588406 OP2020323\Firmware Psoc - V2\LCD2\CamaraClimaticaV2.cydsn\TopDesign\TopDesign.cysch" Guid="e64a1e3a-9785-4769-a229-15430465f84c" /><DocumentWindow Key="D:\Laboratorio\Camara Climatica\2020\Camara Climatica Peltier Touch Avantika 330L #004588406 OP2020323\Firmware Psoc - V2\LCD2\CamaraClimaticaV2.cydsn\main.h" Guid="5fbd7ba0-ec09-4cd4-89e3-c7a62679bc87" /></TabbedMdiContainer></TabbedMdiRootContainer><FloatingContainers /></LayoutData></DocumentLayout>]]></OpenDocsLayout>
 <config v="" />
 <AutoUpdate v="true" />
 </CyGuid_843a90a4-0c4b-4e44-991d-05e7fb117a21>

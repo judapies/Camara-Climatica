@@ -1,0 +1,10 @@
+D:/Laboratorio/Camara\ Climatica/2021/Camara\ Climatica\ Peltier\ Touch\ Asemp\ Zomac\ SAS\ 256L\ #0045886XX\ OP2021161/Firmware\ Psoc/LCD2/CamaraClimatica.cydsn/CortexM3/ARM_GCC_541/Debug/CyBootAsmGnu.o : D:/Laboratorio/Camara\ Climatica/2021/Camara\ Climatica\ Peltier\ Touch\ Asemp\ Zomac\ SAS\ 256L\ #0045886XX\ OP2021161/Firmware\ Psoc/LCD2/CamaraClimatica.cydsn/Generated_Source/PSoC5/CyBootAsmGnu.s D:/Laboratorio/Camara\ Climatica/2021/Camara\ Climatica\ Peltier\ Touch\ Asemp\ Zomac\ SAS\ 256L\ #0045886XX\ OP2021161/Firmware\ Psoc/LCD2/CamaraClimatica.cydsn/Generated_Source/PSoC5/cydevicegnu.inc D:/Laboratorio/Camara\ Climatica/2021/Camara\ Climatica\ Peltier\ Touch\ Asemp\ Zomac\ SAS\ 256L\ #0045886XX\ OP2021161/Firmware\ Psoc/LCD2/CamaraClimatica.cydsn/Generated_Source/PSoC5/cydevicegnu_trm.inc D:/Laboratorio/Camara\ Climatica/2021/Camara\ Climatica\ Peltier\ Touch\ Asemp\ Zomac\ SAS\ 256L\ #0045886XX\ OP2021161/Firmware\ Psoc/LCD2/CamaraClimatica.cydsn/Generated_Source/PSoC5/cyfittergnu.inc 
+
+D:/Laboratorio/Camara\ Climatica/2021/Camara\ Climatica\ Peltier\ Touch\ Asemp\ Zomac\ SAS\ 256L\ #0045886XX\ OP2021161/Firmware\ Psoc/LCD2/CamaraClimatica.cydsn/Generated_Source/PSoC5/CyBootAsmGnu.s : 
+
+D:/Laboratorio/Camara\ Climatica/2021/Camara\ Climatica\ Peltier\ Touch\ Asemp\ Zomac\ SAS\ 256L\ #0045886XX\ OP2021161/Firmware\ Psoc/LCD2/CamaraClimatica.cydsn/Generated_Source/PSoC5/cydevicegnu.inc : 
+
+D:/Laboratorio/Camara\ Climatica/2021/Camara\ Climatica\ Peltier\ Touch\ Asemp\ Zomac\ SAS\ 256L\ #0045886XX\ OP2021161/Firmware\ Psoc/LCD2/CamaraClimatica.cydsn/Generated_Source/PSoC5/cydevicegnu_trm.inc : 
+
+D:/Laboratorio/Camara\ Climatica/2021/Camara\ Climatica\ Peltier\ Touch\ Asemp\ Zomac\ SAS\ 256L\ #0045886XX\ OP2021161/Firmware\ Psoc/LCD2/CamaraClimatica.cydsn/Generated_Source/PSoC5/cyfittergnu.inc : 
+
